@@ -1,0 +1,13 @@
+# Artifact configuration and preferences
+_artifact-preferences.md
+
+# Video production runbooks and drafts
+*-video-runbook.md
+
+# All Markdown source files (only deploy finished HTML & PDF)
+*.md
+
+# OS and editor metadata
+.DS_Store
+Thumbs.db
+.vscode/

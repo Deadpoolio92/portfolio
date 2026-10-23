@@ -1,0 +1,1747 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zero-Trust Autonomous Agent Architecture | Karol Jasztal</title>
+  <style>
+    /* --- CSS Variables & Theme Foundations --- */
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-subtle: #f1f5f9;
+      --surface-elevated: #ffffff;
+      --border: #e2e8f0;
+      --border-subtle: #cbd5e1;
+      --ink: #0f172a;
+      --ink-muted: #475569;
+      --ink-faint: #64748b;
+      --accent: #0284c7;
+      --accent-subtle: #e0f2fe;
+      --accent-hover: #0369a1;
+      --success: #059669;
+      --success-bg: #ecfdf5;
+      --success-border: #a7f3d0;
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --danger-border: #fecaca;
+      --warning: #d97706;
+      --warning-bg: #fffbeb;
+      --warning-border: #fde68a;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Dark Mode Theme */
+    html.dark {
+      --bg: #090d16;
+      --surface: #111827;
+      --surface-subtle: #1f2937;
+      --surface-elevated: #1e293b;
+      --border: #243248;
+      --border-subtle: #334155;
+      --ink: #f8fafc;
+      --ink-muted: #94a3b8;
+      --ink-faint: #64748b;
+      --accent: #38bdf8;
+      --accent-subtle: rgba(56, 189, 248, 0.12);
+      --accent-hover: #7dd3fc;
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.1);
+      --success-border: rgba(16, 185, 129, 0.3);
+      --danger: #f87171;
+      --danger-bg: rgba(239, 68, 68, 0.1);
+      --danger-border: rgba(239, 68, 68, 0.3);
+      --warning: #fbbf24;
+      --warning-bg: rgba(245, 158, 11, 0.1);
+      --warning-border: rgba(245, 158, 11, 0.3);
+      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* --- Sticky Top Header Container --- */
+    .sticky-header-container {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--surface);
+      background-color: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    html.dark .sticky-header-container {
+      background-color: rgba(17, 24, 39, 0.96);
+    }
+
+    .top-nav {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .nav-breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.85rem;
+    }
+    .nav-back-link {
+      color: var(--ink);
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.15s ease;
+    }
+    .nav-back-link:hover { color: var(--accent); }
+    .nav-divider { color: var(--ink-faint); }
+    .nav-context { color: var(--ink-muted); font-weight: 500; }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      padding: 0.45rem 0.95rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-nav:hover {
+      background: var(--border);
+      border-color: var(--border-subtle);
+    }
+    .theme-toggle-btn {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .theme-toggle-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Wrap Anchors with Zero Horizontal Scrollbar */
+    .chapter-bar {
+      border-top: 1px solid var(--border);
+      padding: 0.65rem 1.5rem;
+    }
+    .chapter-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .chapter-pill {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 5px;
+      background: var(--surface-subtle);
+      color: var(--ink-muted);
+      text-decoration: none;
+      font-weight: 600;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+    .chapter-pill:hover {
+      color: var(--ink);
+      border-color: var(--border-subtle);
+      background: var(--surface);
+    }
+
+    /* --- Container & Main Spacings --- */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 7rem;
+    }
+
+    header.dossier-header {
+      margin-bottom: 3rem;
+      padding-bottom: 2.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .meta-tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 0.85rem;
+    }
+    .dossier-title {
+      font-size: clamp(1.8rem, 3.4vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1.22;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 1.1rem;
+    }
+    .dossier-subtitle {
+      font-size: 1.1rem;
+      color: var(--ink-muted);
+      max-width: 960px;
+      line-height: 1.65;
+    }
+
+    /* Top 6 Metrics Grid */
+    .top-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.15rem;
+      margin-bottom: 3.5rem;
+    }
+    @media (min-width: 1024px) {
+      .top-metrics-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem 1.2rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .metric-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-faint);
+      margin-bottom: 0.5rem;
+    }
+    .metric-val {
+      font-size: 2.15rem;
+      font-family: var(--mono);
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
+    }
+    .metric-desc {
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .metric-desc.success { color: var(--success); }
+    .metric-desc.accent { color: var(--accent); }
+    .metric-desc.warning { color: var(--warning); }
+    .metric-desc.danger { color: var(--danger); }
+
+    /* Section Styling */
+    section.doc-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2.75rem 2.25rem;
+      margin-bottom: 3.5rem;
+      box-shadow: var(--shadow-sm);
+      scroll-margin-top: 7.5rem;
+    }
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    @media (min-width: 640px) {
+      .section-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+    }
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--ink);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+    .badge-index {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+    }
+    .section-meta {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+    }
+    .prose-block {
+      font-size: 0.98rem;
+      color: var(--ink-muted);
+      line-height: 1.75;
+      max-width: 80ch;
+      margin-bottom: 1.75rem;
+    }
+    .prose-block strong { color: var(--ink); }
+
+    /* Subsection Headlines */
+    .subheading-h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--ink);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-top: 2rem;
+      margin-bottom: 0.85rem;
+    }
+    .subheading-prefix {
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+
+    /* Sub-card Row Flex Layouts */
+    .row-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      margin: 1.25rem 0 2rem;
+    }
+    .sub-card {
+      flex: 1 1 260px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Sticky icon to first line: align-items: flex-start */
+    .sub-card h4 {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 0.65rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      line-height: 1.4;
+    }
+    .sub-card h4 svg {
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+    .sub-card p {
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+    .sub-card code {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--ink);
+    }
+
+    /* 3-Column Radar Layout */
+    .radar-grid-3col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.15rem;
+      margin: 1.25rem 0 2rem;
+    }
+    @media (min-width: 900px) {
+      .radar-grid-3col {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .radar-step-card {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .radar-step-card h5 {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 0.45rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .radar-badge-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-subtle);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-weight: 800;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .radar-step-card p {
+      font-size: 0.84rem;
+      color: var(--ink-muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    /* Tables */
+    .table-frame {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      margin: 1.25rem 0 2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+    th {
+      background: var(--surface-subtle);
+      color: var(--ink);
+      font-weight: 700;
+      padding: 0.9rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    td {
+      padding: 0.9rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--ink-muted);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface-subtle); }
+    .mono-cell { font-family: var(--mono); }
+
+    /* Code Box Component */
+    .code-container {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem;
+      margin: 1.25rem 0 2rem;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      gap: 1rem;
+    }
+    .code-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .btn-copy {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-copy:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .code-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.15rem;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--ink);
+      line-height: 1.65;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* Symmetrical Side-by-Side Audit */
+    .audit-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin: 1.25rem 0 2rem;
+    }
+    .audit-entry {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .audit-entry-header {
+      font-size: 0.8rem;
+      font-family: var(--mono);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-faint);
+      margin-bottom: 1rem;
+    }
+    .audit-columns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+    .audit-col {
+      flex: 1 1 340px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+    .audit-col.rejected {
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+    }
+    .audit-col.approved {
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+    }
+    .audit-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.85rem;
+    }
+    .audit-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-family: var(--mono);
+    }
+    .audit-badge.bad { background: var(--danger); color: #fff; }
+    .audit-badge.good { background: var(--success); color: #fff; }
+    .audit-quote-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.85rem;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      margin-bottom: 0.85rem;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+    .audit-col.rejected .audit-quote-box { color: var(--danger); }
+    .audit-col.approved .audit-quote-box { color: var(--ink); }
+    .audit-notes {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+
+    /* Print Overrides */
+    @media print {
+      .sticky-header-container, .btn-copy { display: none !important; }
+      body { background: #fff !important; color: #000 !important; font-size: 8pt !important; }
+      section.doc-section { border: 1px solid #ccc !important; background: #fff !important; break-inside: avoid; padding: 1rem !important; }
+      th { background: #f2f2f2 !important; color: #000 !important; }
+      td { color: #111 !important; }
+      .code-box, .code-container, .sub-card, .audit-entry { background: #fafafa !important; border-color: #ddd !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Top Navigation & Chapter Anchors -->
+  <div class="sticky-header-container">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio Overview
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Zero-Trust Autonomous Agent Architecture</span>
+      </div>
+      <div class="nav-actions">
+        <a href="zero-trust-agent-architecture.pdf" download class="btn-nav">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Download PDF
+        </a>
+        <button id="themeToggle" class="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+    <div class="chapter-bar">
+      <div class="chapter-bar-inner">
+        <a href="#threat-blueprint" class="chapter-pill">1. Threat Blueprint</a>
+        <a href="#ingestion-gate" class="chapter-pill">2. Ingestion &amp; Static Linter Gate</a>
+        <a href="#runtime-hooks" class="chapter-pill">3. Runtime PreToolUse Hooks</a>
+        <a href="#subagent-isolation" class="chapter-pill">4. Subagent Boundary Matrix</a>
+        <a href="#provenance-radar" class="chapter-pill">5. Supply-Chain Provenance (Radar v2)</a>
+        <a href="#vetting-dossier" class="chapter-pill">6. Vetting Registry &amp; ROI Scorecard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- Dossier Header -->
+    <header class="dossier-header">
+      <div class="meta-tagline">
+        <span>Autonomous Systems &bull; Enterprise AI Governance Dossier</span>
+        <span>&bull;</span>
+        <span>Karol Jasztal</span>
+      </div>
+      <h1 class="dossier-title">Zero-Trust Autonomous Agent Architecture: Vetting &amp; Governing 11,000+ Candidate Files</h1>
+      <p class="dossier-subtitle">
+        Deterministic defense-in-depth, multi-dialect PreToolUse lifecycle intercepts, and multi-mode autonomous subsystems across 180 curated skills and 33 Model Context Protocol (MCP) servers with zero security compromises.
+      </p>
+    </header>
+
+    <!-- Top 6 Big KPI Metric Cards -->
+    <div class="top-metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Candidate Files Audited</div>
+        <div class="metric-val">11,000+</div>
+        <div class="metric-desc success">Intake Filter Volume</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Files Rejected</div>
+        <div class="metric-val" style="color: var(--danger);">5,363</div>
+        <div class="metric-desc danger">~49% Rejection Rate</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Managed Vault Files</div>
+        <div class="metric-val" style="color: var(--accent);">50,787</div>
+        <div class="metric-desc accent">Curated Assets</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Lines of System Code</div>
+        <div class="metric-val" style="color: var(--success);">33,108</div>
+        <div class="metric-desc success">Zero Boilerplate</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Curated Primitives</div>
+        <div class="metric-val">241</div>
+        <div class="metric-desc accent">Skills, MCPs, Agents</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Parallel Harnesses</div>
+        <div class="metric-val" style="color: var(--warning);">4</div>
+        <div class="metric-desc warning">Full Production Parity</div>
+      </div>
+    </div>
+
+    <!-- Section 1: Threat Landscape & Blueprint -->
+    <section id="threat-blueprint" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="badge-index">1.0</span> Threat Landscape, Enterprise Vulnerabilities &amp; Defense Blueprint</h2>
+        <span class="section-meta">Security Blueprint &bull; Out-of-Band Interception</span>
+      </div>
+      <p class="prose-block">
+        Empirical threat breakdown: Moving from probabilistic model self-policing to deterministic, out-of-band execution gates.
+      </p>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 1.1</span> Executive Threat Analysis: The Enterprise Autonomous Agent Dilemma</h3>
+      <p class="prose-block">
+        Enterprise adoption of autonomous coding agents and workflow orchestrators has reached an inflection point. While autonomous systems yield massive productivity gains, default tool installations expose internal infrastructure to severe security risks. When probabilistic models control shell execution or filesystem access without deterministic gates, traditional application security fails.
+      </p>
+
+      <div class="row-cards">
+        <div class="sub-card">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></svg>
+            <span>1. Arbitrary Shell Execution (Remote Code Execution)</span>
+          </h4>
+          <p>
+            Hallucinated or poisoned model decisions execute destructive shell commands (<code>rm -rf</code>, <code>git push --force</code>, <code>DROP TABLE</code>), wiping uncommitted work or corrupting remote repositories.
+          </p>
+        </div>
+        <div class="sub-card">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>2. Credential &amp; Secret Exfiltration</span>
+          </h4>
+          <p>
+            Autonomous agents reading project directories inadvertently ingest sensitive files (<code>.env</code>, <code>.ssh/id_rsa</code>, cloud provider tokens) and leak them into external LLM provider logs or prompt context.
+          </p>
+        </div>
+        <div class="sub-card">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/><path d="M12 20v2"/><path d="M12 2v2"/><path d="M20 12h2"/><path d="M2 12h2"/></svg>
+            <span>3. Indirect Prompt Injection &amp; Context Poisoning</span>
+          </h4>
+          <p>
+            Malicious payloads embedded in untrusted web pages, dependency readmes, or Git commit logs hijack model reasoning loops, triggering unauthorized secondary actions under the agent's elevated permissions.
+          </p>
+        </div>
+        <div class="sub-card">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>4. Supply-Chain Poisoning &amp; MCP Tool Drift</span>
+          </h4>
+          <p>
+            Third-party Model Context Protocol (MCP) servers and external skills receive silent upstream updates, injecting unauthorized background network daemons, telemetry beacons, or compromised tool definitions.
+          </p>
+        </div>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 1.2</span> The Governance Paradigm: Probabilistic vs. Deterministic Security</h3>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Security Dimension</th>
+              <th style="width: 37.5%; color: var(--danger);">Conventional "Prompt-Guarded" Agents</th>
+              <th style="width: 37.5%; color: var(--success);">Karol's Zero-Trust Architecture</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Enforcement Layer</td>
+              <td>System prompt instructions (<em>"Please do not delete files"</em>)</td>
+              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Out-of-band PreToolUse hooks compiled in PowerShell / OS</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Failure Mode</td>
+              <td style="color: var(--danger);">Non-deterministic; fails under jailbreaks or long context</td>
+              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Deterministic; hard-blocked at exit code 2 before shell invocation</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Secret Protection</td>
+              <td>Agent asked to ignore secrets; files remain readable</td>
+              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Filesystem regex deny interceptor blocks all <code>.env*</code>, <code>.ssh/</code> access</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Subagent Boundaries</td>
+              <td>Monolithic context with all tools available to every agent</td>
+              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Strict Role-Based Access Control (RBAC); read-only agents have no bash tools</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Supply-Chain Updates</td>
+              <td>Direct auto-updates from external git repositories</td>
+              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Radar v2: 3-way merge review, immutable snapshot diffing &amp; human sign-off</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 1.3</span> Four Concentric Rings of Defense: End-to-End Operational Topology</h3>
+      <div class="row-cards">
+        <div class="sub-card">
+          <h4 style="margin-bottom: 0.35rem;">Static Linter Gate</h4>
+          <p>
+            Pre-commit AST inspection, regex scanning for subprocess spawns, YAML frontmatter validation &amp; mojibake encoding audits.
+          </p>
+        </div>
+        <div class="sub-card">
+          <h4 style="margin-bottom: 0.35rem;">Canonical Library</h4>
+          <p>
+            Harness-neutral package layout (<code>SKILL.md</code> + <code>_arsenal.yml</code>), deploy renderers, and zero vendor lock-in.
+          </p>
+        </div>
+        <div class="sub-card">
+          <h4 style="margin-bottom: 0.35rem;">PreToolUse Hooks</h4>
+          <p>
+            Multi-dialect interception: <code>security-gate</code> regex denylists, <code>secrets-guard</code>, and least-privilege permission filters.
+          </p>
+        </div>
+        <div class="sub-card">
+          <h4 style="margin-bottom: 0.35rem;">Radar v2 Engine</h4>
+          <p>
+            Continuous watch-universe monitoring, snapshot materialization in <code>raw/radar/</code> &amp; mandatory human 3-way merge reviews.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Ingestion & Static Analysis Gate -->
+    <section id="ingestion-gate" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="badge-index">2.0</span> Ingestion, Static Analysis Gate &amp; Multi-Mode Subsystem Anatomy</h2>
+        <span class="section-meta">Intake Pipeline &bull; Automated AST Validation</span>
+      </div>
+      <p class="prose-block">
+        Automated intake pipeline: Vetting 11,000+ candidate files, enforcing ~49% security rejection, and architecting multi-mode operational engines.
+      </p>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 2.1</span> The Ingestion Protocol &amp; Harness-Neutral Packaging Contract</h3>
+      <p class="prose-block">
+        External skills and Model Context Protocol (MCP) servers collected from upstream ecosystems (including Anthropic's Knowledge Work Plugins repository, community repositories, and open MCP directories) never enter production uncurated. Every candidate is normalized into Arsenal's canonical package standard:
+      </p>
+
+      <div class="row-cards">
+        <div class="sub-card" style="flex: 1 1 340px;">
+          <h4>Canonical Package Layout</h4>
+          <div class="code-box">library/skills/&lt;item-name&gt;/
+├── SKILL.md       # Harness-neutral markdown instructions
+├── _arsenal.yml   # Provenance, semver, deploy targets
+├── changelog.md   # Reverse-chronological modification log
+└── references/    # Offline schemas &amp; specialist checklists</div>
+        </div>
+        <div class="sub-card" style="flex: 1 1 340px;">
+          <h4>Mandatory Frontmatter Schema</h4>
+          <div class="code-box">---
+name: database-design
+description: "Production Postgres optimization and schema modeling."
+harness: universal
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+triggers:
+  - database design
+  - schema review
+---</div>
+        </div>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 2.2</span> Deterministic Static Linters &amp; Encoding Audits (audit-arsenal.ps1)</h3>
+      <p class="prose-block">
+        Arsenal’s automated gate utility (<code>audit-arsenal.ps1</code>) executes pre-commit static audits across all library assets, enforcing harness-neutrality and byte-exact encoding health:
+      </p>
+      <div class="code-container">
+        <div class="code-header">
+          <div class="code-title">scripts/audit-arsenal.ps1 (Universal Harness-Neutrality Gate &amp; Mojibake Check)</div>
+          <button class="btn-copy" onclick="copySnippet('codeAuditArsenal', this)">Copy Snippet</button>
+        </div>
+        <div class="code-box" id="codeAuditArsenal"># Extract from scripts/audit-arsenal.ps1 (Universal Harness-Neutrality Gate &amp; Mojibake Check)
+$Script:CcTokens = @('Read','Edit','NotebookEdit','Write','Glob','Grep','Bash','Agent','Task','WebSearch','WebFetch')
+$Script:DshTokens = @('read_image','subagent_fork','str_replace_editor','subagent_type','tools.skill')
+$Script:PathTokens = @('.claude/','.claude\','~/.claude','$HOME/.claude','.dsh/','.dsh\','$DSH_HOME','.agents/','~/.agents')
+$Script:HarnessAllowed = @('universal','claude-code','dsh','antigravity','gemini','openai')
+
+# Gate mode: Exit 1 blocks commit if any non-neutral tool tokens or character corruptions exist
+if ($Gate -and ($FmErrors -gt 0 -or $ScriptErrors -gt 0 -or $MojibakeHits -gt 0)) {
+    Write-Error "PRE-COMMIT GATE FAILED: Found $FmErrors frontmatter defects and $MojibakeHits encoding hits."
+    exit 1
+}</div>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 2.3</span> The Vetting &amp; Rejection Taxonomy: Empirical Funnel Analysis</h3>
+      <p class="prose-block">
+        To ensure zero contamination, rejected candidates are archived in <code>rejected/</code> alongside an immutable record of failure reasons. Nearly 50% of external candidate files fail security or architectural criteria:
+      </p>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 16%;">Category</th>
+              <th style="width: 24%;">Identified Threat Vector</th>
+              <th style="width: 25%;">Real Upstream Candidate</th>
+              <th style="width: 35%;">Vetting Rationale &amp; Operational Defense</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">
+                Category A
+                <div style="font-size: 0.72rem; color: var(--ink-faint); font-weight: 500;">Orphaned Platform Dependencies</div>
+              </td>
+              <td>Implicit dependency on external enterprise SaaS or proprietary SDKs.</td>
+              <td class="mono-cell">account-research (Common Room SDK)</td>
+              <td><strong style="color: var(--danger);">REJECTED:</strong> Requires active third-party SaaS credentials; cannot execute without Zoom SDK or Common Room. Replaced by local CRM database query tools.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">
+                Category B
+                <div style="font-size: 0.72rem; color: var(--ink-faint); font-weight: 500;">Arbitrary Subprocess Spawning</div>
+              </td>
+              <td>Scripts attempting un-intercepted OS execution bypassing PreToolUse hooks.</td>
+              <td class="mono-cell">community-shell-helper</td>
+              <td><strong style="color: var(--danger);">REJECTED:</strong> Contained Python subprocess invocations (<code>subprocess.Popen(shell=True)</code>) capable of executing unmonitored bash strings.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">
+                Category C
+                <div style="font-size: 0.72rem; color: var(--ink-faint); font-weight: 500;">Unsandboxed Network Exfiltration</div>
+              </td>
+              <td>Hardcoded outbound HTTP requests without proxy or loopback isolation.</td>
+              <td class="mono-cell">web-enrichment-crawler</td>
+              <td><strong style="color: var(--danger);">REJECTED:</strong> Attempted outbound telemetry beacons to unauthenticated endpoints. Exposes sensitive codebase snippets to third-party logs.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">
+                Category D
+                <div style="font-size: 0.72rem; color: var(--ink-faint); font-weight: 500;">Monolithic Harness Lock-in</div>
+              </td>
+              <td>Proprietary harness syntax violating cross-platform portability.</td>
+              <td class="mono-cell">claude-only-task-runner</td>
+              <td><strong style="color: var(--danger);">REJECTED:</strong> Employed non-standard macros incompatible with Google Antigravity and DeepSeek Harness. Re-architected as canonical skill or discarded.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">
+                Category E
+                <div style="font-size: 0.72rem; color: var(--ink-faint); font-weight: 500;">Excessive Token Surface (Bloat)</div>
+              </td>
+              <td>Uncurated documentation dumping 50,000+ tokens into context on every call.</td>
+              <td class="mono-cell">full-aws-sdk-reference</td>
+              <td><strong style="color: var(--warning);">CONVERTED:</strong> Excluded from static prompt context. Re-indexed as an on-demand Model Context Protocol (MCP) semantic lookup tool.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 2.4</span> Production Subsystem Anatomy: Naive Prompts vs. Multi-Mode Engines</h3>
+      <p class="prose-block">
+        A common industry misconception assumes AI agent "skills" are merely 20-line prompt markdown templates. In Karol's architecture, production skills are <strong>fully orchestrated multi-file operational subsystems</strong> featuring state-machine entry modes, embedded scripts, specialist checklists, and regression gates.
+      </p>
+
+      <!-- Side-by-side: Naive Red vs. Karol's Complete Green Subsystem containing all components -->
+      <div class="audit-grid">
+        <div class="audit-entry">
+          <div class="audit-entry-header">Structural Audit: The Naive 20-Line Prompt vs. Karol's Multi-Mode Subsystem</div>
+          <div class="audit-columns">
+            
+            <!-- Red Card: Naive Industry Approach -->
+            <div class="audit-col rejected">
+              <div class="audit-badge-row">
+                <span style="font-size: 0.85rem; font-weight: 800; color: var(--danger);">Naive Industry Approach: The Fragile 20-Line Prompt</span>
+                <span class="audit-badge bad">Single Flat File</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.55;">
+                A flat markdown file containing instructions like <em>"Please review this code for bugs"</em>. Lacks state tracking, diagnostic heuristics, specialized review checklists, and test fixtures. It fails silently under complex multi-file engineering tasks and cannot verify its own findings.
+              </p>
+              <div class="audit-quote-box"># Generic Toy Skill (Single File: prompts/code-reviewer.md)
+name: code-reviewer
+description: "Reviews code for bugs"
+---
+You are an expert programmer.
+Review the following code and list any bugs:
+1. Check syntax errors
+2. Check logic errors
+3. Give suggestions</div>
+              <div class="audit-notes" style="color: var(--danger); font-weight: 600;">
+                <div style="margin-bottom: 0.25rem;">✗ Zero verification gates</div>
+                <div style="margin-bottom: 0.25rem;">✗ No state tracking</div>
+                <div style="margin-bottom: 0.25rem;">✗ No specialized domain checklists</div>
+                <div style="margin-bottom: 0.25rem;">✗ Single-turn fragility</div>
+                <div>✗ Non-reproducible outputs</div>
+              </div>
+            </div>
+
+            <!-- Green Card: Karol's Complete 46-File Architecture -->
+            <div class="audit-col approved">
+              <div class="audit-badge-row">
+                <span style="font-size: 0.85rem; font-weight: 800; color: var(--success);">Representative Exemplar: How Production Skills are Architected</span>
+                <span class="audit-badge good">46 Files &bull; 6 Operational Modes</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.55;">
+                Concrete dissection of <strong>one single skill</strong> from Karol's 180-skill production library (<code>review-fix-technical-code</code>). Rather than a text prompt, each production skill is an entire codified engineering department complete with state-machine routing, domain checklists, automated verification scripts, and replay harnesses:
+              </p>
+
+              <!-- Nested Part A: 6 Operational Modes -->
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.15rem; margin-bottom: 1.25rem;">
+                <div style="font-size: 0.85rem; font-weight: 800; color: var(--ink); margin-bottom: 0.35rem;">
+                  Part A: 6 State-Machine Operational Modes (Execution Routing)
+                </div>
+                <div style="font-size: 0.75rem; color: var(--ink-faint); font-family: var(--mono); margin-bottom: 0.85rem;">
+                  SKILL.md Orchestrator (634 lines)
+                </div>
+                <p style="font-size: 0.82rem; color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.55;">
+                  The skill orchestrator routes invocations through deterministic execution modes with strict entry criteria, preventing open-ended or hallucinated agent loops:
+                </p>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 0.65rem;">
+                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
+                    <strong style="color: var(--success); font-family: var(--mono);">Mode 1: Pre-Merge PR Review</strong>
+                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">AST diff analysis, regression baselines, parallel specialist checklists, independent cold-reviewer consensus.</div>
+                  </div>
+                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
+                    <strong style="color: var(--success); font-family: var(--mono);">Mode 2: Fix Reviewer Findings</strong>
+                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">Root-cause hypothesis &rarr; minimal surgical diff &rarr; real terminal evidence output &rarr; cold recheck verification.</div>
+                  </div>
+                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
+                    <strong style="color: var(--success); font-family: var(--mono);">Mode 3: Live Crash / Root-Cause Triage</strong>
+                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">Exception frame demangling, 5-Whys systematic failure isolation, and reproduction fixture before touching code.</div>
+                  </div>
+                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
+                    <strong style="color: var(--success); font-family: var(--mono);">Mode 4: App-Level QA (Browser / CLI)</strong>
+                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">Full-stack exploratory verification, headless Playwright browser automation, console errors and network audits.</div>
+                  </div>
+                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
+                    <strong style="color: var(--success); font-family: var(--mono);">Mode 5: Ticket Pickup &amp; Execution</strong>
+                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">Durable tracker integration (Questimus/Jira), acceptance criteria parsing, and red-green-refactor TDD test cycles.</div>
+                  </div>
+                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
+                    <strong style="color: var(--success); font-family: var(--mono);">Mode 6: Pattern Backlog Audit</strong>
+                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">Cross-issue retrospective scanning, systemic defect clustering, and architectural pattern library harvesting.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Nested Part B: Unabridged 46-File Tree -->
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.15rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                  <div style="font-size: 0.85rem; font-weight: 800; color: var(--ink);">
+                    Part B: The Complete 46-File Architecture of this Exemplar Subsystem
+                  </div>
+                  <span style="font-size: 0.72rem; font-family: var(--mono); color: var(--success); font-weight: 700;">Zero Ellipses</span>
+                </div>
+                <p style="font-size: 0.82rem; color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.55;">
+                  Every file in this production subsystem serves an explicit operational purpose across root analysis, language patterns, reproducible test replays, automated lint scripts, and 11 domain specialist review checklists:
+                </p>
+                <div class="code-box" style="font-size: 0.76rem; max-height: 380px; overflow-y: auto;">review-fix-technical-code/ (Unabridged 46-File Production Subsystem Tree)
+├── SKILL.md                              # 634-line core engine: 6 operational modes &amp; state machine orchestrator
+├── _arsenal.yml                          # Package metadata, semver, provenance &amp; multi-harness target mappings
+├── changelog.md                          # Immutable audit ledger of subsystem modifications across releases
+├── hitl-loop.template.ps1                # Human-in-the-loop checkpoint runner (PowerShell / Windows environment)
+├── hitl-loop.template.sh                 # Human-in-the-loop checkpoint runner (POSIX Bash / Unix fallback)
+├── analysis/                             # Deterministic Diagnostics &amp; Fault Isolation Engines (2 files):
+│   ├── root-cause.md                     # 5-Whys systematic failure hypothesis builder and diagnostic matrix
+│   └── stack-trace.md                    # Exception frame demangling &amp; source line correlation analyzer
+├── patterns/                             # Technology-Specific Audit &amp; Fix Playbooks (9 files):
+│   ├── database.md                       # Connection pooling, transaction boundaries &amp; query deadlock recovery
+│   ├── docker.md                         # Multi-stage cache invalidation, signal traps (SIGTERM) &amp; hygiene
+│   ├── git.md                            # Merge conflicts, rebase branch drift &amp; detached HEAD state recovery
+│   ├── go.md                             # Goroutine leaks, channel deadlocks &amp; memory profiling playbooks
+│   ├── network.md                        # DNS resolution timeouts, TLS handshake drops &amp; socket exhaustion
+│   ├── nodejs.md                         # Event-loop lag, unhandled promise rejections &amp; stream backpressure
+│   ├── python.md                         # GIL bottlenecks, async event-loop blocking &amp; type drift mitigations
+│   ├── react.md                          # Hook dependency cycles, hydration mismatches &amp; re-render churn
+│   └── rust.md                           # Lifetime bounds, borrow checker conflicts &amp; unsafe block audits
+├── replay/                               # Regression Prevention &amp; Solution Harvesting (2 files):
+│   ├── README.md                         # Replay engine contract &amp; fixture reproduction execution guide
+│   └── solution-template.yaml            # Declarative failure replay &amp; regression test specification fixture
+├── scripts/                              # Automated Verification &amp; Static Metric Tooling (2 files):
+│   ├── lint_runner.py                    # Multi-linter execution pipeline with unified exit code aggregation
+│   └── type_coverage.py                  # Strict TypeScript / MyPy type coverage metric enforcement gate
+├── sections/                             # Modular Operational Procedures &amp; Triage Gates (14 files):
+│   ├── app-qa.md                         # Full-stack manual &amp; automated verification runbooks
+│   ├── checklist.md                      # Universal pre-fix diagnostic and post-fix validation gate
+│   ├── ci-failure-playbook.md            # Deterministic CI runner log triage &amp; failure isolation procedure
+│   ├── cold-recheck-prompts.md           # Zero-context adversarial prompts for cold audit reviewer agents
+│   ├── design-checklist.md               # UI visual regression, WCAG accessibility &amp; token fidelity checks
+│   ├── detect-base-branch.md             # Git branch topology detection &amp; merge-base identification
+│   ├── diff-analysis.md                  # AST-aware diff inspection for unintended side effects
+│   ├── greptile-triage.md                # External AI code-review comment parsing &amp; normalization
+│   ├── live-bug.md                       # Emergency production defect stabilization &amp; hotfix protocol
+│   ├── pre-merge-gate.md                 # 4-stage blocking gate before branch merge authorization
+│   ├── qa-health-score.md                # Quantitative code health &amp; risk scoring algorithm
+│   ├── regression-test-procedure.md      # Regression suite execution &amp; boundary assertion runbook
+│   ├── test-bootstrap.md                 # Test harness environment initialization &amp; container orchestration
+│   └── ticket-format.md                  # Standardized durable issue schema for issue trackers
+├── sections/specialists/                 # Deep Technical Domain Audit Checklists (11 files):
+│   ├── api-contract.md                   # OpenAPI schema drift, backward compatibility &amp; breaking change guard
+│   ├── comments.md                       # Documentation integrity, stale docstrings &amp; comment drift
+│   ├── data-migration.md                 # Zero-downtime database migrations, rollbacks &amp; lock safety
+│   ├── error-handling.md                 # Exhaustive error propagation, typed errors &amp; fault isolation
+│   ├── maintainability.md                # Cyclomatic complexity, code duplication &amp; modular separation
+│   ├── performance.md                    # N+1 query detection, memory allocation &amp; hot-path optimization
+│   ├── red-team.md                       # Adversarial injection, privilege escalation &amp; attack vectors
+│   ├── security.md                       # Secret leaks, OWASP Top 10, CORS &amp; input sanitization
+│   ├── test-coverage.md                  # Strict branch &amp; condition coverage verification
+│   ├── testing.md                        # Flaky test mitigation, mock boundaries &amp; assertion quality
+│   └── type-design.md                    # Sound typing, discriminated unions &amp; any/unknown defense
+└── templates/                            # Audit Documentation &amp; Evidence Output Schemas (1 file):
+    └── qa-report-template.md             # Formal cryptographic evidence &amp; sign-off audit report</div>
+              </div>
+
+              <div class="audit-notes" style="color: var(--success); font-weight: 600; margin-top: 1rem;">
+                <div style="margin-bottom: 0.25rem;">&check; 1 of 180 curated skills in library</div>
+                <div style="margin-bottom: 0.25rem;">&check; Deterministic root-cause triage</div>
+                <div style="margin-bottom: 0.25rem;">&check; 11 domain specialist checklists</div>
+                <div style="margin-bottom: 0.25rem;">&check; Evidence-backed verification loop</div>
+                <div>&check; Universal across all 4 harnesses</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Runtime PreToolUse Hooks -->
+    <section id="runtime-hooks" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="badge-index">3.0</span> Runtime PreToolUse Interception &amp; Deterministic Hook Architecture</h2>
+        <span class="section-meta">Execution Firewall &bull; Cross-Platform Enforcement</span>
+      </div>
+      <p class="prose-block">
+        Multi-dialect PreToolUse lifecycle hooks enforcing cross-platform denylists (PowerShell + Unix), credential sandboxing &amp; mutation telemetry.
+      </p>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 3.1</span> Multi-Dialect PreToolUse Intercept Architecture</h3>
+      <p class="prose-block">
+        Because Karol operates autonomous agents across four distinct runtime harnesses (Google Antigravity, Claude Code, DeepSeek Harness, and Gemini CLI), hooks must not depend on vendor-specific intercept formats. His hooks implement a universal adapter pattern emitting decisions to all three major JSON schemas simultaneously:
+      </p>
+
+      <div class="code-container">
+        <div class="code-header">
+          <div class="code-title">Multi-Dialect Hook Output Adapter Function (library/hooks/secrets-guard/secrets-guard.ps1)</div>
+          <button class="btn-copy" onclick="copySnippet('codeHookAdapter', this)">Copy Snippet</button>
+        </div>
+        <div class="code-box" id="codeHookAdapter"># Multi-Dialect Hook Output Adapter Function (Production Code: library/hooks/secrets-guard/secrets-guard.ps1)
+function Write-Decision {
+    param([string]$Decision, [string]$Reason)
+    $hookEventName = if ($payload.hook_event_name) { $payload.hook_event_name } else { "PreToolUse" }
+    @{
+        # Dialect 1: Google Antigravity Format
+        decision = $Decision
+        reason = $Reason
+        # Dialect 2: Claude Code Standard Format
+        permissionDecision = $Decision
+        permissionDecisionReason = $Reason
+        # Dialect 3: DeepSeek Harness Codec Format
+        hookSpecificOutput = @{
+            hookEventName = $hookEventName
+            permissionDecision = $Decision
+            permissionDecisionReason = $Reason
+        }
+    } | ConvertTo-Json -Compress -Depth 5
+}</div>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 3.2</span> The Execution Gate (security-gate.ps1): Dual-OS Regex Denylist</h3>
+      <p class="prose-block">
+        The <code>security-gate.ps1</code> hook intercepts proposed commands in the PreToolUse event. To guarantee security in Windows PowerShell and cross-platform container environments, it evaluates commands against a dual-OS audited denylist before shell invocation:
+      </p>
+
+      <div class="row-cards">
+        <div class="sub-card" style="border-color: var(--danger-border); background: var(--danger-bg); flex: 1 1 340px;">
+          <h4 style="color: var(--danger);">Windows &amp; Unix Destructive Patterns Blocked</h4>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; font-family: var(--mono); font-size: 0.76rem; color: var(--danger); margin-top: 0.5rem;">
+            <div>&bull; rm -rf / rm -fr</div>
+            <div>&bull; Remove-Item -Recurse</div>
+            <div>&bull; sudo rm / chmod 777</div>
+            <div>&bull; ri -r -fo / rd /s /q</div>
+            <div>&bull; git push .*(\+|--force)</div>
+            <div>&bull; git push --force-with-lease</div>
+            <div>&bull; git reset --hard</div>
+            <div>&bull; git clean -fd / -f</div>
+            <div>&bull; git branch -D</div>
+            <div>&bull; git checkout . / restore .</div>
+            <div>&bull; DROP TABLE / DATABASE</div>
+            <div>&bull; TRUNCATE TABLE</div>
+            <div>&bull; DELETE WHERE 1=1</div>
+            <div>&bull; Clear-Disk / Format-Vol</div>
+            <div>&bull; mkfs / dd if=</div>
+            <div>&bull; :(){ :|:&amp; };: (Fork bomb)</div>
+          </div>
+        </div>
+        <div class="sub-card" style="flex: 1 1 340px;">
+          <h4>Dual-OS Interception Logic</h4>
+          <div class="code-box">$patterns = @(
+    'rm -rf', 'Remove-Item\s+(-Recurse|-Force)',
+    'ri\s+.*(-r|-fo)', 'rd\s+/s\s+/q',
+    'git push .*(\+|--force|-f\b|--force-with-lease)',
+    'git reset --hard', 'DROP TABLE', 'TRUNCATE'
+)
+foreach ($pat in $patterns) {
+    if ($cmd -match "(?i)$pat") {
+        $msg = "BLOCKED by security-gate: pattern ($pat)"
+        [Console]::Error.WriteLine($msg)
+        if (-not $isAntigravity) { exit 2 }
+        exit 0
+    }
+}</div>
+        </div>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 3.3</span> The Credential Boundary (secrets-guard.ps1): Tiered Secret Isolation</h3>
+      <p class="prose-block">
+        To prevent credential leaks into model contexts or web logs, <code>secrets-guard.ps1</code> intercepts file access tools (<code>Read</code>, <code>Edit</code>, <code>view_file</code>) and enforces a strict three-tier authorization policy:
+      </p>
+      <div class="code-container">
+        <div class="code-header">
+          <div class="code-title">Production Code: library/hooks/secrets-guard/secrets-guard.ps1</div>
+          <button class="btn-copy" onclick="copySnippet('codeSecretsGuard', this)">Copy Snippet</button>
+        </div>
+        <div class="code-box" id="codeSecretsGuard"># Production Code: library/hooks/secrets-guard/secrets-guard.ps1
+$envExclusions = @(".env.example", ".env.sample", ".env.template")
+
+if (-not ($envExclusions -contains $basenameFull)) {
+    # Tier 1 Hard Deny: Environment files with active secrets
+    if ($basenameFull -imatch "^\.env(\..+)?$") {
+        Write-Decision -Decision "deny" -Reason "Blocked by secrets-guard: credential file pattern (.env)."
+        return
+    }
+
+    # Tier 1 Hard Deny: SSH directory and private keys
+    if ($norm -imatch "(^|/)\.ssh/" -or $basenameNoExt -imatch "^(id_rsa|id_ed25519|id_ecdsa)$") {
+        Write-Decision -Decision "deny" -Reason "Blocked by secrets-guard: SSH private key store."
+        return
+    }
+
+    # Tier 1 Hard Deny: Cloud credentials, session tokens, and cryptographic certificates
+    if ($norm -imatch "(^|/)\.aws/" -or $basenameFull -ieq ".claude.json" -or $ext -imatch "^\.(pem|key|pfx)$") {
+        Write-Decision -Decision "deny" -Reason "Blocked by secrets-guard: token store / certificate."
+        return
+    }
+}
+
+# Tier 2 Confirmation: Heuristic keyword inspection for non-standard files
+if ($basenameFull -imatch "credentials" -or $basenameFull -imatch "secrets") {
+    Write-Decision -Decision "ask" -Reason "secrets-guard: filename matches heuristic credential pattern. Confirm before proceeding."
+    return
+}</div>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 3.4</span> Least-Privilege Tool Filter (smart-permission-filter.ps1)</h3>
+      <p class="prose-block">
+        Balances security with developer velocity. Safe, idempotent read operations (<code>Read</code>, <code>Glob</code>, <code>Grep</code>, <code>LS</code>, <code>read_file</code>, <code>list_dir</code>, <code>search_files</code>, <code>view_file</code>) are silently auto-approved, while file mutations are written to an immutable local audit log (<code>.agents/hook-log.txt</code>):
+      </p>
+      <div class="code-container">
+        <div class="code-header">
+          <div class="code-title">Production Code: library/hooks/smart-permission-filter/smart-permission-filter.ps1</div>
+          <button class="btn-copy" onclick="copySnippet('codePermissionFilter', this)">Copy Snippet</button>
+        </div>
+        <div class="code-box" id="codePermissionFilter"># Production Code: library/hooks/smart-permission-filter/smart-permission-filter.ps1
+$readonlyTools = @('Read', 'Glob', 'Grep', 'LS', 'read_file', 'list_dir', 'search_files', 'view_file', 'search_web', 'TodoRead', 'TaskGet', 'TaskList')
+$writeTools = @('Write', 'Edit', 'MultiEdit', 'NotebookEdit', 'write_to_file', 'replace_file_content')
+
+if ($readonlyTools -contains $tool) {
+    Write-Allow # Auto-approve safe read operations with zero latency
+}
+
+if ($writeTools -contains $tool) {
+    # Record mutation telemetry with UTC timestamp, target tool, and caller context
+    $timestamp = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
+    Add-Content -Path '.agents/hook-log.txt' -Value "$timestamp WRITE $tool"
+    Write-Allow
+}</div>
+      </div>
+    </section>
+
+    <!-- Section 4: Subagent Boundary Matrix -->
+    <section id="subagent-isolation" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="badge-index">4.0</span> Subagent Boundary Isolation &amp; Least-Privilege Execution Matrix</h2>
+        <span class="section-meta">Role-Based Access Control &bull; Ephemeral Sandboxing</span>
+      </div>
+      <p class="prose-block">
+        Role-Based Access Control (RBAC): Architectural tool strip-down, ephemeral git worktrees &amp; isolated throwaway databases.
+      </p>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 4.1</span> Principle of Least Privilege in Multi-Agent Systems</h3>
+      <p class="prose-block">
+        In standard agent deployments, a single model session holds all available tools (bash execution, file writes, web fetching, and database connections). Under adversarial injection or model drift, compromising any aspect of the session yields full system control.
+      </p>
+      <p class="prose-block">
+        Karol solves this by decomposing work across specialized subagents with <strong>physically restricted toolsets</strong>. A research agent analyzing untrusted public documentation is physically incapable of running shell commands or modifying files, neutralizing remote code execution (RCE) vectors by design.
+      </p>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 4.2</span> Comprehensive Subagent Tool Boundary Matrix</h3>
+      <p class="prose-block">
+        Every declared subagent role in Karol’s production system is mapped to an explicit tool grant. No subagent possesses tools outside its verified operational envelope:
+      </p>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 20%;">Subagent Role</th>
+              <th style="width: 8%; text-align: center;">Read Tools</th>
+              <th style="width: 8%; text-align: center;">Write Tools</th>
+              <th style="width: 8%; text-align: center;">Execution</th>
+              <th style="width: 8%; text-align: center;">Web Tools</th>
+              <th style="width: 8%; text-align: center;">Spawn</th>
+              <th style="width: 40%;">Sandbox &amp; Workspace Isolation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">researcher</div>
+                <div style="font-size: 0.72rem; color: var(--ink-faint);">Codebase discovery &amp; web analysis</div>
+              </td>
+              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td>Read-only workspace view. Strictly barred from writing or spawning processes.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">librarian</div>
+                <div style="font-size: 0.72rem; color: var(--ink-faint);">Asset taxonomy &amp; schema verification</div>
+              </td>
+              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td>Curated vault view. Enforces canonical naming and frontmatter contracts.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">code-builder</div>
+                <div style="font-size: 0.72rem; color: var(--ink-faint);">Single task TDD implementation</div>
+              </td>
+              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td>Fresh context per task. Execution strictly gated by <code>security-gate.ps1</code>.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">code-reviewer</div>
+                <div style="font-size: 0.72rem; color: var(--ink-faint);">Independent cold code review</div>
+              </td>
+              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td>Zero mutation tools. Spawns read-only specialist subagents (security, perf).</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">security-code-reviewer</div>
+                <div style="font-size: 0.72rem; color: var(--ink-faint);">Vulnerability &amp; secret scanning</div>
+              </td>
+              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td>Audits PR diffs for injection vectors and secret exposures; never writes files.</td>
+            </tr>
+            <tr>
+              <td>
+                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">design-reviewer</div>
+                <div style="font-size: 0.72rem; color: var(--ink-faint);">UI/UX token &amp; accessibility audit</div>
+              </td>
+              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td>WCAG 2.1 AA / 2.2 audits via headless browser; output restricted to <code>design/reviews/</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="prose-block" style="margin-top: 1rem;">
+        <strong>Full 17-Subagent Governance Fleet:</strong> The remaining 11 specialized subagents (including <code>test-writer</code>, <code>docker-hygiene</code>, <code>plugin-validator</code>, <code>legacy-analyst</code>, <code>version-delta-analyst</code>, and <code>german-compliance-reviewer</code>) operate under identical deterministic tool grants. Read-only audit agents are physically barred from mutating state or invoking unmonitored child processes.
+      </p>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 4.3</span> Workspace Boundary Isolation: Worktrees, Ephemeral Schemas &amp; Ports</h3>
+      <div class="row-cards">
+        <div class="sub-card">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6a9 9 0 0 0-9 9V3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/></svg>
+            <span>Ephemeral Git Worktrees</span>
+          </h4>
+          <p>
+            Implementation tasks execute in separate git worktrees (<code>git worktree add</code>). Incomplete edits or unexpected file creation cannot contaminate main branch state.
+          </p>
+        </div>
+        <div class="sub-card">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+            <span>Throwaway Schemas</span>
+          </h4>
+          <p>
+            Database integration tests run against isolated PostgreSQL schemas provisioned dynamically per test run and dropped immediately upon completion, preventing test-state leakage.
+          </p>
+        </div>
+        <div class="sub-card">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+            <span>Loopback Port Slots</span>
+          </h4>
+          <p>
+            Services bind exclusively to loopback addresses (<code>127.0.0.1:7030–7039</code>). Agents are physically blocked from publishing ports to external 0.0.0.0 interfaces.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Provenance & Radar v2 -->
+    <section id="provenance-radar" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="badge-index">5.0</span> Supply-Chain Provenance &amp; Radar v2 Automated Drift Detection</h2>
+        <span class="section-meta">Supply-Chain Defense &bull; Upstream Drift Engine</span>
+      </div>
+      <p class="prose-block">
+        Eliminating upstream poisoning: Immutable snapshot materialization, 3-way delta briefs &amp; human-directed merge verification.
+      </p>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 5.1</span> The Upstream Dependency Attack Surface</h3>
+      <p class="prose-block">
+        External skills and Model Context Protocol (MCP) packages are living software dependencies. Open-source repositories regularly update prompts, tool definitions, or dependencies. Without cryptographic pinning and drift detection, an upstream maintainer can:
+      </p>
+      <div class="row-cards">
+        <div class="sub-card">
+          <strong style="color: var(--ink); margin-bottom: 0.35rem; font-size: 0.9rem;">1. Silent Prompt Poisoning</strong>
+          <p>Upstream authors modify system prompt instructions to alter agent behavior or inject hidden instructions.</p>
+        </div>
+        <div class="sub-card">
+          <strong style="color: var(--ink); margin-bottom: 0.35rem; font-size: 0.9rem;">2. Telemetry Infiltration</strong>
+          <p>New updates quietly add network pings or telemetry trackers that leak local file paths or environment variables.</p>
+        </div>
+        <div class="sub-card">
+          <strong style="color: var(--ink); margin-bottom: 0.35rem; font-size: 0.9rem;">3. Breaking Schema Drift</strong>
+          <p>Uncoordinated tool argument renames cause downstream autonomous agents to fail mid-execution during production runs.</p>
+        </div>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 5.2</span> Radar v2: 5-Stage Human-Directed Drift &amp; Absorption Protocol</h3>
+      <p class="prose-block">
+        Karol engineered Radar v2 to monitor the entire monitored repository watch-universe. External updates are never automatically pulled into production; they pass through an immutable snapshot staging pipeline:
+      </p>
+
+      <!-- 3-Column Layout: Row 1 = 3 cards, Row 2 = 2 cards (Symmetrical, Equal Width & Height) -->
+      <div class="radar-grid-3col">
+        <div class="radar-step-card">
+          <h5><span class="radar-badge-num">1</span> SCAN</h5>
+          <p>Fetches upstream commit tree hash &amp; diff.</p>
+        </div>
+        <div class="radar-step-card">
+          <h5><span class="radar-badge-num">2</span> SNAPSHOT</h5>
+          <p>Materializes exact snapshot in <code>raw/radar/</code>.</p>
+        </div>
+        <div class="radar-step-card">
+          <h5><span class="radar-badge-num">3</span> BRIEF</h5>
+          <p>Generates 3-way AST &amp; token delta brief.</p>
+        </div>
+        <div class="radar-step-card">
+          <h5><span class="radar-badge-num">4</span> DECIDE</h5>
+          <p>Human signs off: <code>clean | absorb | skip</code>.</p>
+        </div>
+        <div class="radar-step-card">
+          <h5><span class="radar-badge-num">5</span> ABSORB</h5>
+          <p>Promotes to library &amp; bumps semver.</p>
+        </div>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 5.3</span> Radar v2 CLI Command Contract &amp; Audit Trail</h3>
+      <p class="prose-block">
+        The CLI ensures every update carries full traceability back to upstream commit hashes and records human review justification in <code>_arsenal.yml</code>:
+      </p>
+      <div class="code-container">
+        <div class="code-header">
+          <div class="code-title">Radar v2 CLI Commands (scripts/radar.ps1)</div>
+          <button class="btn-copy" onclick="copySnippet('codeRadarCli', this)">Copy Snippet</button>
+        </div>
+        <div class="code-box" id="codeRadarCli"># 1. Scan monitored upstream repository watch-universe for drift
+.\scripts\radar.ps1 scan -Repo "https://github.com/DietrichGebert/ponytail"
+
+# 2. View generated delta brief and AST changes for a modified skill
+.\scripts\radar.ps1 brief -Item "javascript-testing-patterns"
+
+# 3. Record human verdict following security review
+.\scripts\radar.ps1 decide -Item "javascript-testing-patterns" -Verdict absorb -Reason "Security audited: upstream added Vitest 4.0 type definitions"
+
+# 4. Verify staged content against static linters and test suites
+.\scripts\radar.ps1 verify -Item "javascript-testing-patterns"
+
+# 5. Finalize promotion, update changelog.md, and bump semver in _arsenal.yml
+.\scripts\radar.ps1 absorb -Item "javascript-testing-patterns"</div>
+      </div>
+    </section>
+
+    <!-- Section 6: Vetting Dossier & Scorecard -->
+    <section id="vetting-dossier" class="doc-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="badge-index">6.0</span> Empirical Vetting Registry, Primary Case Studies &amp; ROI Scorecard</h2>
+        <span class="section-meta">Audited Registry &bull; 241 Active Primitives</span>
+      </div>
+      <p class="prose-block">
+        Audited inventory of 241 active primitives, real-world CVE/exfiltration case studies &amp; executive risk scorecard.
+      </p>
+
+<h3 class="subheading-h3"><span class="subheading-prefix">§ 6.1</span> The Complete Arsenal Control Plane: 241 Primitives &amp; 33,100+ Lines of Code</h3>
+      <p class="prose-block">
+        Every production item is maintained as an audited canonical package in <code>library/</code>, verified across 4 major commercial harnesses, and tracked with strict semver.
+      </p>
+
+      <!-- Repository Scale Anchors (Symmetrical 2-Column Row) -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
+        <div class="metric-card">
+          <div class="metric-label">Managed Vault Repository</div>
+          <div class="metric-val" style="color: var(--success);">50,787 Files</div>
+          <div class="metric-desc success">Audited local directory assets across all submodules &amp; reference libraries</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">System Implementation Footprint</div>
+          <div class="metric-val" style="color: var(--success);">33,108 Lines</div>
+          <div class="metric-desc success">Zero-bloat deterministic PowerShell hooks, orchestrators, and schema models</div>
+        </div>
+      </div>
+
+      <!-- The 4 Core Architecture Primitives (Balanced 4-Column Grid) -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
+        <div class="metric-card">
+          <div class="metric-label">Production Skills</div>
+          <div class="metric-val" style="color: var(--accent);">180</div>
+          <div class="metric-desc accent">6 Domain Sectors &bull; 46-File Subsystems</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Curated MCP Servers</div>
+          <div class="metric-val">33</div>
+          <div class="metric-desc">Filesystem, Postgres, Git, Puppeteer</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Autonomous Subagents</div>
+          <div class="metric-val">17</div>
+          <div class="metric-desc">Least-Privilege RBAC Tool Scoping</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Lifecycle Hooks</div>
+          <div class="metric-val">11</div>
+          <div class="metric-desc">PreToolUse, security-gate, secrets</div>
+        </div>
+      </div>
+
+      <!-- Integrated 180-Skill Domain Breakdown Deck -->
+      <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem;">
+          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
+            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">Engineering</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">54 Skills</div>
+            <div style="font-size: 0.72rem; color: var(--ink-muted);">TS, Python, TDD</div>
+          </div>
+          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
+            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">Governance</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">38 Skills</div>
+            <div style="font-size: 0.72rem; color: var(--ink-muted);">Multi-agent loops</div>
+          </div>
+          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
+            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">Security</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">24 Skills</div>
+            <div style="font-size: 0.72rem; color: var(--ink-muted);">GDPR, GoBD, hash</div>
+          </div>
+          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
+            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">Databases</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">18 Skills</div>
+            <div style="font-size: 0.72rem; color: var(--ink-muted);">Postgres, SQLite</div>
+          </div>
+          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
+            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">UI Systems</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">28 Skills</div>
+            <div style="font-size: 0.72rem; color: var(--ink-muted);">Tailwind, WCAG 2.2</div>
+          </div>
+          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
+            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">Performance</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">18 Skills</div>
+            <div style="font-size: 0.72rem; color: var(--ink-muted);">Ads API, GA4</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 6.2</span> Primary Vetting Case Studies: Real Operational Defect Interceptions</h3>
+      <div class="audit-grid">
+        <div class="audit-entry">
+          <div class="audit-entry-header">Case 1: Anthropic Common Room Plugin (Exfiltration Vector)</div>
+          <div class="audit-columns">
+            <div class="audit-col rejected">
+              <div class="audit-badge-row">
+                <span style="font-size: 0.8rem; font-weight: 700; color: var(--danger);">partner-built/common-room/skills/account-research</span>
+                <span class="audit-badge bad">REJECTED</span>
+              </div>
+              <div class="audit-quote-box">Source: partner-built/common-room/skills/account-research</div>
+              <div class="audit-notes">
+                <strong>Audit Finding:</strong> The skill declared an innocent research trigger but contained hard dependencies on external SaaS APIs and unauthenticated network transmission. It routed user company queries through external SaaS proxies without encryption guarantees.
+              </div>
+            </div>
+            <div class="audit-col approved">
+              <div class="audit-badge-row">
+                <span style="font-size: 0.8rem; font-weight: 700; color: var(--success);">Operational Remediation</span>
+                <span class="audit-badge good">RESOLVED</span>
+              </div>
+              <div class="audit-quote-box">Permanently logged in rejected/2026-06-30-account-research-skill/CANDIDATE.md</div>
+              <div class="audit-notes">
+                <strong>Action Taken:</strong> Rejected outright and permanently logged in <code>rejected/2026-06-30-account-research-skill/CANDIDATE.md</code>. Replaced with local CRM SQL tooling executing entirely within private loopback containers.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-entry">
+          <div class="audit-entry-header">Case 2: Community Web Scraper MCP Server (Local File Protocol Exploit)</div>
+          <div class="audit-columns">
+            <div class="audit-col rejected">
+              <div class="audit-badge-row">
+                <span style="font-size: 0.8rem; font-weight: 700; color: var(--danger);">Open-source Puppeteer MCP Server</span>
+                <span class="audit-badge bad">REMEDIATED</span>
+              </div>
+              <div class="audit-quote-box">Default flags passed: --no-sandbox --allow-file-access-from-files</div>
+              <div class="audit-notes">
+                <strong>Audit Finding:</strong> Server configuration passed default flags <code>--no-sandbox --allow-file-access-from-files</code> to headless Chromium. An indirect prompt injection in scraped web content could instruct the browser to navigate to <code>file:///C:/Users/...</code> and exfiltrate local files via image pingbacks.
+              </div>
+            </div>
+            <div class="audit-col approved">
+              <div class="audit-badge-row">
+                <span style="font-size: 0.8rem; font-weight: 700; color: var(--success);">Operational Remediation</span>
+                <span class="audit-badge good">RESOLVED</span>
+              </div>
+              <div class="audit-quote-box">Loopback container sandbox + ui-ux-reviewer-agent-browser</div>
+              <div class="audit-notes">
+                <strong>Action Taken:</strong> Stripped hazardous flags, sandboxed browser execution to loopback-only requests, and deployed dedicated <code>ui-ux-reviewer-agent-browser</code> subagent with strict URL scheme linters.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 6.3</span> Executive ROI &amp; Risk Reduction Scorecard</h3>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Risk / Governance Dimension</th>
+              <th style="width: 25%; color: var(--danger);">Unconstrained Deployment</th>
+              <th style="width: 25%; color: var(--success);">Karol's Zero-Trust Architecture</th>
+              <th style="width: 25%;">Audited Operational Outcome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Rogue Destructive Commands</td>
+              <td style="color: var(--danger);">High (LLMs hallucinate destructive shell commands)</td>
+              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Deterministic Multi-Layer Containment (PreToolUse denylist + Worktrees)</td>
+              <td style="font-weight: 700; color: var(--ink);">0 Destructive Incidents (100% Intercepted)</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Credential &amp; Token Leaks</td>
+              <td style="color: var(--danger);">High (Agents freely read .env and .ssh folders)</td>
+              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Air-Gapped Two-Tier Secrets Guard (Filesystem block at tool boundary)</td>
+              <td style="font-weight: 700; color: var(--ink);">0 Credentials Leaked across all sessions</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Supply-Chain Silent Poisoning</td>
+              <td style="color: var(--danger);">High (Unmonitored external package drift)</td>
+              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Radar v2 Upstream Drift Engine (3-way merge briefs &amp; human sign-off)</td>
+              <td style="font-weight: 700; color: var(--ink);">100% Traceability across 11,000+ files</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Cross-Harness Interoperability</td>
+              <td style="color: var(--danger);">Zero (Vendor lock-in to single commercial harness)</td>
+              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Canonical Packaging &amp; Multi-Dialect Hooks (Universal portability)</td>
+              <td style="font-weight: 700; color: var(--ink);">100% Parity (Claude Code, DeepSeek Harness, Google Antigravity, Gemini CLI)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Copy Snippet Helper
+    function copySnippet(id, btn) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerText;
+        btn.innerText = "Copied!";
+        btn.style.color = "var(--success)";
+        btn.style.borderColor = "var(--success)";
+        setTimeout(() => {
+          btn.innerText = orig;
+          btn.style.color = "";
+          btn.style.borderColor = "";
+        }, 2000);
+      });
+    }
+
+    // Theme Switcher & Persistence
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme");
+      const isDark = savedTheme === "dark";
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      updateThemeIcon(isDark);
+
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        const willBeDark = !document.documentElement.classList.contains("dark");
+        if (willBeDark) {
+          document.documentElement.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        }
+        updateThemeIcon(willBeDark);
+      });
+    });
+
+    function updateThemeIcon(isDark) {
+      const icon = document.getElementById("themeIcon");
+      if (isDark) {
+        icon.innerHTML = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>';
+      } else {
+        icon.innerHTML = '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>';
+      }
+    }
+  </script>
+</body>
+</html>
