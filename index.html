@@ -180,67 +180,7 @@
       line-height: 1.65;
     }
 
-    /* KPI Highlights */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 3.5rem;
-    }
-    .metric-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.4rem 1.2rem;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .metric-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--ink-faint);
-      margin-bottom: 0.5rem;
-    }
-    .metric-val {
-      font-size: 2.15rem;
-      font-family: var(--mono);
-      font-weight: 800;
-      color: var(--ink);
-      line-height: 1.1;
-      margin-bottom: 0.4rem;
-    }
-    .metric-desc {
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-    .metric-desc.success { color: var(--success); }
-    .metric-desc.accent { color: var(--accent); }
-    .metric-desc.warning { color: var(--warning); }
-
     /* Case Study Grid */
-    .section-headline {
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: var(--ink);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-    }
-    .section-headline-tag {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-    }
-
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
@@ -280,29 +220,6 @@
       font-weight: 800;
       color: var(--ink);
       line-height: 1.35;
-    }
-
-    .badge {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 0.25rem 0.65rem;
-      border-radius: 4px;
-      white-space: nowrap;
-      margin-top: 0.15rem;
-      flex-shrink: 0;
-    }
-    .badge.ready {
-      background: var(--success-bg);
-      color: var(--success);
-      border: 1px solid var(--success-border);
-    }
-    .badge.wip {
-      background: var(--warning-bg);
-      color: var(--warning);
-      border: 1px solid var(--warning-border);
     }
 
     .card-prose {
@@ -486,7 +403,7 @@
         </div>
       </article>
 
-      <!-- Case Study 3 (In Development) -->
+      <!-- Case Study 3 -->
       <article class="card wip">
         <div>
           <div class="card-top">
@@ -499,6 +416,167 @@
             <span class="tag-pill">Distributed Orchestration</span>
             <span class="tag-pill">State Machines</span>
             <span class="tag-pill">Telemetry Stream</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <span class="btn btn-disabled">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Coming Soon
+          </span>
+        </div>
+      </article>
+
+      <!-- Case Study 4 -->
+      <article class="card wip">
+        <div>
+          <div class="card-top">
+            <h2 class="card-title">HubSpot Two-Pipeline Revenue Engine</h2>
+          </div>
+          <p class="card-prose">
+            Unified dual-pipeline revenue model syncing qualification, closed-won stage transitions, attribution schemas, and cross-team lifecycle states.
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill">HubSpot Ops</span>
+            <span class="tag-pill">Dual-Pipeline Architecture</span>
+            <span class="tag-pill">RevOps Telemetry</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <span class="btn btn-disabled">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Coming Soon
+          </span>
+        </div>
+      </article>
+
+      <!-- Case Study 5 -->
+      <article class="card wip">
+        <div>
+          <div class="card-top">
+            <h2 class="card-title">500,000-Record CRM Data Cleanup &amp; Governance</h2>
+          </div>
+          <p class="card-prose">
+            Deterministic deduping routines, enrichment cascades, and automated validation gates deployed across half a million legacy records with audit trails.
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill">Data Governance</span>
+            <span class="tag-pill">CRM Hygiene</span>
+            <span class="tag-pill">Schema Normalization</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <span class="btn btn-disabled">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Coming Soon
+          </span>
+        </div>
+      </article>
+
+      <!-- Case Study 6 -->
+      <article class="card wip">
+        <div>
+          <div class="card-top">
+            <h2 class="card-title">High-Velocity Marketing Ops &amp; Zero-Defect QA Pipeline</h2>
+          </div>
+          <p class="card-prose">
+            Automated regression suites, linting rules, and link/tracking validation engines preventing broken attribution and production defects at deployment time.
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill">Marketing Operations</span>
+            <span class="tag-pill">Automated QA</span>
+            <span class="tag-pill">CI/CD Integration</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <span class="btn btn-disabled">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Coming Soon
+          </span>
+        </div>
+      </article>
+
+      <!-- Case Study 7 -->
+      <article class="card wip">
+        <div>
+          <div class="card-top">
+            <h2 class="card-title">Systems Architecture &amp; Pipeline State Machine</h2>
+          </div>
+          <p class="card-prose">
+            Strictly typed finite-state machine governing asynchronous cross-platform webhooks, failure reconciliation, and idempotent transaction boundaries.
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill">FSM Design</span>
+            <span class="tag-pill">Distributed Systems</span>
+            <span class="tag-pill">Idempotency Gates</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <span class="btn btn-disabled">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Coming Soon
+          </span>
+        </div>
+      </article>
+
+      <!-- Case Study 8 -->
+      <article class="card wip">
+        <div>
+          <div class="card-top">
+            <h2 class="card-title">Async-First Operating System &amp; Meeting Elimination Protocol</h2>
+          </div>
+          <p class="card-prose">
+            Structured decision documentation protocols, silent review cycles, and signal-to-noise communication policies reducing recurring meeting hours across teams.
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill">Async Workflow</span>
+            <span class="tag-pill">Operational Cadence</span>
+            <span class="tag-pill">Knowledge Architecture</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <span class="btn btn-disabled">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Coming Soon
+          </span>
+        </div>
+      </article>
+
+      <!-- Case Study 9 -->
+      <article class="card wip">
+        <div>
+          <div class="card-top">
+            <h2 class="card-title">Scalable SOP Library &amp; Zero-Touch Onboarding Framework</h2>
+          </div>
+          <p class="card-prose">
+            Modular, executable operating procedures mapped directly to automated role-based provisioning pipelines for day-one operational autonomy.
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill">SOP Systems</span>
+            <span class="tag-pill">Zero-Touch IT</span>
+            <span class="tag-pill">Self-Serve Knowledge</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <span class="btn btn-disabled">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Coming Soon
+          </span>
+        </div>
+      </article>
+
+      <!-- Case Study 10 -->
+      <article class="card wip">
+        <div>
+          <div class="card-top">
+            <h2 class="card-title">German Regulatory Bookkeeping &amp; Immutable Hash-Chain Ledger</h2>
+          </div>
+          <p class="card-prose">
+            GoBD-compliant automated bookkeeping engine implementing cryptographic hash verification, verifiable audit logging, and automated reconciliation.
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill">GoBD Compliance</span>
+            <span class="tag-pill">Cryptographic Ledgers</span>
+            <span class="tag-pill">Audit Trail Integrity</span>
           </div>
         </div>
         <div class="card-actions">
