@@ -481,6 +481,47 @@
     tr:hover td { background: var(--surface-subtle); }
     .mono-cell { font-family: var(--mono); }
 
+    /* Subagent Isolation & Scope Badges */
+    .subheading-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+      margin-bottom: 0.85rem;
+    }
+    .subheading-row .subheading-h3 {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .isolation-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: var(--mono);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      margin-right: 0.45rem;
+      vertical-align: baseline;
+      border: 1px solid var(--border);
+      background: var(--surface-subtle);
+      color: var(--ink-muted);
+      white-space: nowrap;
+    }
+    .isolation-badge.warning {
+      background: var(--warning-bg);
+      color: var(--warning);
+      border-color: var(--warning-border);
+    }
+    .isolation-badge.fleet {
+      background: #faf5ff;
+      color: #7e22ce;
+      border-color: #e9d5ff;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+    }
+
     /* Code Box Component */
     .code-container {
       background: var(--surface-subtle);
@@ -667,11 +708,9 @@
     <!-- Dossier Header -->
     <header class="dossier-header">
       <div class="meta-tagline">
-        <span>Autonomous Systems &bull; Enterprise AI Governance Dossier</span>
-        <span>&bull;</span>
-        <span>Karol Jasztal</span>
+        <span>Karol Jasztal &bull; Head of Operations & AI Systems Leader</span>
       </div>
-      <h1 class="dossier-title">Zero-Trust Autonomous Agent Architecture: Vetting &amp; Governing 11,000+ Candidate Files</h1>
+      <h1 class="dossier-title">Zero-Trust Autonomous Agent Architecture: Vetting &amp; Governing 11,000+ Multi-Harness Files</h1>
       <p class="dossier-subtitle">
         Deterministic defense-in-depth, multi-dialect PreToolUse lifecycle intercepts, and multi-mode autonomous subsystems across 180 curated skills and 33 Model Context Protocol (MCP) servers with zero security compromises.
       </p>
@@ -963,7 +1002,7 @@ if ($Gate -and ($FmErrors -gt 0 -or $ScriptErrors -gt 0 -or $MojibakeHits -gt 0)
 
       <h3 class="subheading-h3"><span class="subheading-prefix">§ 2.4</span> Production Subsystem Anatomy: Naive Prompts vs. Multi-Mode Engines</h3>
       <p class="prose-block">
-        A common industry misconception assumes AI agent "skills" are merely 20-line prompt markdown templates. In Karol's architecture, production skills are <strong>fully orchestrated multi-file operational subsystems</strong> featuring state-machine entry modes, embedded scripts, specialist checklists, and regression gates.
+        A common industry misconception assumes AI agent "skills" are merely 20-line prompt markdown templates. In Karol's architecture, production skills are <strong>fully orchestrated multi-file operational subsystems</strong> featuring state-machine entry modes, embedded scripts, specialist checklists, and regression gates - like in the following example skill which he uses daily (1 of 180 skills).
       </p>
 
       <!-- Side-by-side: Naive Red vs. Karol's Complete Green Subsystem containing all components -->
@@ -1139,7 +1178,7 @@ Review the following code and list any bugs:
         Multi-dialect PreToolUse lifecycle hooks enforcing cross-platform denylists (PowerShell + Unix), credential sandboxing &amp; mutation telemetry.
       </p>
 
-      <h3 class="subheading-h3"><span class="subheading-prefix">§ 3.1</span> Multi-Dialect PreToolUse Intercept Architecture</h3>
+      <h3 class="subheading-h3"><span class="subheading-prefix">§ 3.1</span> Multi-Dialect PreToolUse Intercept Architecture (Universal Harness Protocol)</h3>
       <p class="prose-block">
         Because Karol operates autonomous agents across four distinct runtime harnesses (Google Antigravity, Claude Code, DeepSeek Harness, and Gemini CLI), hooks must not depend on vendor-specific intercept formats. His hooks implement a universal adapter pattern emitting decisions to all three major JSON schemas simultaneously:
       </p>
@@ -1299,7 +1338,10 @@ if ($writeTools -contains $tool) {
         Karol solves this by decomposing work across specialized subagents with <strong>physically restricted toolsets</strong>. A research agent analyzing untrusted public documentation is physically incapable of running shell commands or modifying files, neutralizing remote code execution (RCE) vectors by design.
       </p>
 
-      <h3 class="subheading-h3"><span class="subheading-prefix">§ 4.2</span> Comprehensive Subagent Tool Boundary Matrix</h3>
+      <div class="subheading-row">
+        <h3 class="subheading-h3"><span class="subheading-prefix">§ 4.2</span> Comprehensive Subagent Tool Boundary Matrix</h3>
+        <span class="isolation-badge fleet">Core Fleet Sample (17 Active Roles)</span>
+      </div>
       <p class="prose-block">
         Every declared subagent role in Karol’s production system is mapped to an explicit tool grant. No subagent possesses tools outside its verified operational envelope:
       </p>
@@ -1327,7 +1369,7 @@ if ($writeTools -contains $tool) {
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
               <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td>Read-only workspace view. Strictly barred from writing or spawning processes.</td>
+              <td><span class="isolation-badge">Inherited</span>Read-only workspace view. Strictly barred from writing or spawning processes.</td>
             </tr>
             <tr>
               <td>
@@ -1339,7 +1381,7 @@ if ($writeTools -contains $tool) {
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td>Curated vault view. Enforces canonical naming and frontmatter contracts.</td>
+              <td><span class="isolation-badge">Read-Only</span>Curated vault view. Enforces canonical naming and frontmatter contracts.</td>
             </tr>
             <tr>
               <td>
@@ -1351,7 +1393,7 @@ if ($writeTools -contains $tool) {
               <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td>Fresh context per task. Execution strictly gated by <code>security-gate.ps1</code>.</td>
+              <td><span class="isolation-badge warning">Git Worktree</span>Fresh context per task. Execution strictly gated by <code>security-gate.ps1</code>.</td>
             </tr>
             <tr>
               <td>
@@ -1363,7 +1405,7 @@ if ($writeTools -contains $tool) {
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
               <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
-              <td>Zero mutation tools. Spawns read-only specialist subagents (security, perf).</td>
+              <td><span class="isolation-badge">Read-Only</span>Zero mutation tools. Spawns read-only specialist subagents (security, perf).</td>
             </tr>
             <tr>
               <td>
@@ -1375,7 +1417,7 @@ if ($writeTools -contains $tool) {
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td>Audits PR diffs for injection vectors and secret exposures; never writes files.</td>
+              <td><span class="isolation-badge">Audit Sink</span>Audits PR diffs for injection vectors and secret exposures; never writes files.</td>
             </tr>
             <tr>
               <td>
@@ -1387,7 +1429,7 @@ if ($writeTools -contains $tool) {
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
               <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
               <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td>WCAG 2.1 AA / 2.2 audits via headless browser; output restricted to <code>design/reviews/</code>.</td>
+              <td><span class="isolation-badge">Playwright View</span>WCAG 2.1 AA / 2.2 audits via headless browser; output restricted to <code>design/reviews/</code>.</td>
             </tr>
           </tbody>
         </table>
