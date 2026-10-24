@@ -4,669 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zero-Trust Autonomous Agent Architecture | Karol Jasztal</title>
-  <style>
-    /* --- CSS Variables & Theme Foundations --- */
-    :root {
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --surface-subtle: #f1f5f9;
-      --surface-elevated: #ffffff;
-      --border: #e2e8f0;
-      --border-subtle: #cbd5e1;
-      --ink: #0f172a;
-      --ink-muted: #475569;
-      --ink-faint: #64748b;
-      --accent: #0284c7;
-      --accent-subtle: #e0f2fe;
-      --accent-hover: #0369a1;
-      --success: #059669;
-      --success-bg: #ecfdf5;
-      --success-border: #a7f3d0;
-      --danger: #dc2626;
-      --danger-bg: #fef2f2;
-      --danger-border: #fecaca;
-      --warning: #d97706;
-      --warning-bg: #fffbeb;
-      --warning-border: #fde68a;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    }
-
-    /* Dark Mode Theme */
-    html.dark {
-      --bg: #090d16;
-      --surface: #111827;
-      --surface-subtle: #1f2937;
-      --surface-elevated: #1e293b;
-      --border: #243248;
-      --border-subtle: #334155;
-      --ink: #f8fafc;
-      --ink-muted: #94a3b8;
-      --ink-faint: #64748b;
-      --accent: #38bdf8;
-      --accent-subtle: rgba(56, 189, 248, 0.12);
-      --accent-hover: #7dd3fc;
-      --success: #10b981;
-      --success-bg: rgba(16, 185, 129, 0.1);
-      --success-border: rgba(16, 185, 129, 0.3);
-      --danger: #f87171;
-      --danger-bg: rgba(239, 68, 68, 0.1);
-      --danger-border: rgba(239, 68, 68, 0.3);
-      --warning: #fbbf24;
-      --warning-bg: rgba(245, 158, 11, 0.1);
-      --warning-border: rgba(245, 158, 11, 0.3);
-      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background-color: var(--bg);
-      color: var(--ink);
-      font-family: var(--sans);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
-
-    /* --- Sticky Top Header Container --- */
-    .sticky-header-container {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--surface);
-      background-color: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      transition: background-color 0.2s ease, border-color 0.2s ease;
-    }
-    html.dark .sticky-header-container {
-      background-color: rgba(17, 24, 39, 0.96);
-    }
-
-    .top-nav {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0.85rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-    }
-    .nav-breadcrumbs {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      font-size: 0.85rem;
-    }
-    .nav-back-link {
-      color: var(--ink);
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      transition: color 0.15s ease;
-    }
-    .nav-back-link:hover { color: var(--accent); }
-    .nav-divider { color: var(--ink-faint); }
-    .nav-context { color: var(--ink-muted); font-weight: 500; }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-    .btn-nav {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      color: var(--ink);
-      padding: 0.45rem 0.95rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .btn-nav:hover {
-      background: var(--border);
-      border-color: var(--border-subtle);
-    }
-    .theme-toggle-btn {
-      width: 36px;
-      height: 36px;
-      padding: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      color: var(--ink);
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .theme-toggle-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* Wrap Anchors with Zero Horizontal Scrollbar */
-    .chapter-bar {
-      border-top: 1px solid var(--border);
-      padding: 0.65rem 1.5rem;
-    }
-    .chapter-bar-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-    }
-    .chapter-pill {
-      font-size: 0.75rem;
-      padding: 0.3rem 0.7rem;
-      border-radius: 5px;
-      background: var(--surface-subtle);
-      color: var(--ink-muted);
-      text-decoration: none;
-      font-weight: 600;
-      border: 1px solid transparent;
-      transition: all 0.15s ease;
-    }
-    .chapter-pill:hover {
-      color: var(--ink);
-      border-color: var(--border-subtle);
-      background: var(--surface);
-    }
-
-    /* --- Container & Main Spacings --- */
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 3.5rem 1.5rem 7rem;
-    }
-
-    header.dossier-header {
-      margin-bottom: 3rem;
-      padding-bottom: 2.25rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .meta-tagline {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--accent);
-      margin-bottom: 0.85rem;
-    }
-    .dossier-title {
-      font-size: clamp(1.8rem, 3.4vw, 2.5rem);
-      font-weight: 800;
-      line-height: 1.22;
-      letter-spacing: -0.025em;
-      color: var(--ink);
-      margin-bottom: 1.1rem;
-    }
-    .dossier-subtitle {
-      font-size: 1.1rem;
-      color: var(--ink-muted);
-      max-width: 960px;
-      line-height: 1.65;
-    }
-
-    /* Top 6 Metrics Grid */
-    .top-metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.15rem;
-      margin-bottom: 3.5rem;
-    }
-    @media (min-width: 1024px) {
-      .top-metrics-grid {
-        grid-template-columns: repeat(6, 1fr);
-      }
-    }
-    .metric-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.4rem 1.2rem;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .metric-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--ink-faint);
-      margin-bottom: 0.5rem;
-    }
-    .metric-val {
-      font-size: 2.15rem;
-      font-family: var(--mono);
-      font-weight: 800;
-      color: var(--ink);
-      line-height: 1.1;
-      margin-bottom: 0.4rem;
-    }
-    .metric-desc {
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-    .metric-desc.success { color: var(--success); }
-    .metric-desc.accent { color: var(--accent); }
-    .metric-desc.warning { color: var(--warning); }
-    .metric-desc.danger { color: var(--danger); }
-
-    /* Section Styling */
-    section.doc-section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 2.75rem 2.25rem;
-      margin-bottom: 3.5rem;
-      box-shadow: var(--shadow-sm);
-      scroll-margin-top: 7.5rem;
-    }
-    .section-header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1.25rem;
-      margin-bottom: 2rem;
-    }
-    @media (min-width: 640px) {
-      .section-header {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: baseline;
-      }
-    }
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--ink);
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-    .badge-index {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      color: var(--accent);
-      padding: 0.2rem 0.55rem;
-      border-radius: 4px;
-      margin-top: 0.15rem;
-      flex-shrink: 0;
-    }
-    .section-meta {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--ink-faint);
-    }
-    .prose-block {
-      font-size: 0.98rem;
-      color: var(--ink-muted);
-      line-height: 1.75;
-      max-width: 80ch;
-      margin-bottom: 1.75rem;
-    }
-    .prose-block strong { color: var(--ink); }
-
-    /* Subsection Headlines */
-    .subheading-h3 {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--ink);
-      display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
-      margin-top: 2rem;
-      margin-bottom: 0.85rem;
-    }
-    .subheading-prefix {
-      color: var(--accent);
-      font-family: var(--mono);
-    }
-
-    /* Sub-card Row Flex Layouts */
-    .row-cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.25rem;
-      margin: 1.25rem 0 2rem;
-    }
-    .sub-card {
-      flex: 1 1 260px;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.4rem;
-      display: flex;
-      flex-direction: column;
-    }
-    /* Sticky icon to first line: align-items: flex-start */
-    .sub-card h4 {
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: var(--ink);
-      margin-bottom: 0.65rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.55rem;
-      line-height: 1.4;
-    }
-    .sub-card h4 svg {
-      flex-shrink: 0;
-      margin-top: 0.15rem;
-    }
-    .sub-card p {
-      font-size: 0.85rem;
-      color: var(--ink-muted);
-      line-height: 1.65;
-      flex: 1;
-    }
-    .sub-card code {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 0.15rem 0.35rem;
-      border-radius: 4px;
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: var(--ink);
-    }
-
-    /* 3-Column Radar Layout */
-    .radar-grid-3col {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.15rem;
-      margin: 1.25rem 0 2rem;
-    }
-    @media (min-width: 900px) {
-      .radar-grid-3col {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-    .radar-step-card {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.4rem;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-    .radar-step-card h5 {
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: var(--ink);
-      margin-bottom: 0.45rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .radar-badge-num {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: var(--accent-subtle);
-      color: var(--accent);
-      font-family: var(--mono);
-      font-weight: 800;
-      font-size: 0.78rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .radar-step-card p {
-      font-size: 0.84rem;
-      color: var(--ink-muted);
-      line-height: 1.55;
-      flex: 1;
-    }
-
-    /* Tables */
-    .table-frame {
-      width: 100%;
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--surface);
-      margin: 1.25rem 0 2rem;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      text-align: left;
-    }
-    th {
-      background: var(--surface-subtle);
-      color: var(--ink);
-      font-weight: 700;
-      padding: 0.9rem 1.1rem;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    td {
-      padding: 0.9rem 1.1rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--ink-muted);
-      vertical-align: top;
-    }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: var(--surface-subtle); }
-    .mono-cell { font-family: var(--mono); }
-
-    /* Subagent Isolation & Scope Badges */
-    .subheading-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 2rem;
-      margin-bottom: 0.85rem;
-    }
-    .subheading-row .subheading-h3 {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-    .isolation-badge {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      font-family: var(--mono);
-      padding: 0.15rem 0.45rem;
-      border-radius: 4px;
-      margin-right: 0.45rem;
-      vertical-align: baseline;
-      border: 1px solid var(--border);
-      background: var(--surface-subtle);
-      color: var(--ink-muted);
-      white-space: nowrap;
-    }
-    .isolation-badge.warning {
-      background: var(--warning-bg);
-      color: var(--warning);
-      border-color: var(--warning-border);
-    }
-    .isolation-badge.fleet {
-      background: #faf5ff;
-      color: #7e22ce;
-      border-color: #e9d5ff;
-      font-size: 0.75rem;
-      padding: 0.2rem 0.6rem;
-    }
-
-    /* Code Box Component */
-    .code-container {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.4rem;
-      margin: 1.25rem 0 2rem;
-    }
-    .code-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
-      gap: 1rem;
-    }
-    .code-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-    .btn-copy {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--ink);
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.35rem 0.75rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      white-space: nowrap;
-    }
-    .btn-copy:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .code-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.15rem;
-      font-family: var(--mono);
-      font-size: 0.82rem;
-      color: var(--ink);
-      line-height: 1.65;
-      white-space: pre;
-      overflow-x: auto;
-    }
-
-    /* Symmetrical Side-by-Side Audit */
-    .audit-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      margin: 1.25rem 0 2rem;
-    }
-    .audit-entry {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-    }
-    .audit-entry-header {
-      font-size: 0.8rem;
-      font-family: var(--mono);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--ink-faint);
-      margin-bottom: 1rem;
-    }
-    .audit-columns {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.25rem;
-    }
-    .audit-col {
-      flex: 1 1 340px;
-      display: flex;
-      flex-direction: column;
-      border-radius: 10px;
-      padding: 1.25rem;
-    }
-    .audit-col.rejected {
-      background: var(--danger-bg);
-      border: 1px solid var(--danger-border);
-    }
-    .audit-col.approved {
-      background: var(--success-bg);
-      border: 1px solid var(--success-border);
-    }
-    .audit-badge-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.85rem;
-    }
-    .audit-badge {
-      font-size: 0.7rem;
-      font-weight: 800;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      font-family: var(--mono);
-    }
-    .audit-badge.bad { background: var(--danger); color: #fff; }
-    .audit-badge.good { background: var(--success); color: #fff; }
-    .audit-quote-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.85rem;
-      font-family: var(--mono);
-      font-size: 0.82rem;
-      margin-bottom: 0.85rem;
-      white-space: pre-wrap;
-      overflow-x: auto;
-      line-height: 1.5;
-    }
-    .audit-col.rejected .audit-quote-box { color: var(--danger); }
-    .audit-col.approved .audit-quote-box { color: var(--ink); }
-    .audit-notes {
-      font-size: 0.8rem;
-      line-height: 1.5;
-      color: var(--ink);
-    }
-
-    /* Print Overrides */
-    @media print {
-      .sticky-header-container, .btn-copy { display: none !important; }
-      body { background: #fff !important; color: #000 !important; font-size: 8pt !important; }
-      section.doc-section { border: 1px solid #ccc !important; background: #fff !important; break-inside: avoid; padding: 1rem !important; }
-      th { background: #f2f2f2 !important; color: #000 !important; }
-      td { color: #111 !important; }
-      .code-box, .code-container, .sub-card, .audit-entry { background: #fafafa !important; border-color: #ddd !important; }
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding-top: 2.5rem;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--ink-faint);
-      font-family: var(--mono);
-    }
-  </style>
+  <link rel="stylesheet" href="shared.css" />
+  <script src="shared.js"></script>
 </head>
 <body>
 
@@ -725,17 +64,17 @@
       </div>
       <div class="metric-card">
         <div class="metric-label">Files Rejected</div>
-        <div class="metric-val" style="color: var(--danger);">5,363</div>
+        <div class="metric-val text-danger">5,363</div>
         <div class="metric-desc danger">~49% Rejection Rate</div>
       </div>
       <div class="metric-card">
         <div class="metric-label">Managed Vault Files</div>
-        <div class="metric-val" style="color: var(--accent);">50,787</div>
+        <div class="metric-val text-accent">50,787</div>
         <div class="metric-desc accent">Curated Assets</div>
       </div>
       <div class="metric-card">
         <div class="metric-label">Lines of System Code</div>
-        <div class="metric-val" style="color: var(--success);">33,108</div>
+        <div class="metric-val text-success">33,108</div>
         <div class="metric-desc success">Zero Boilerplate</div>
       </div>
       <div class="metric-card">
@@ -745,7 +84,7 @@
       </div>
       <div class="metric-card">
         <div class="metric-label">Parallel Harnesses</div>
-        <div class="metric-val" style="color: var(--warning);">4</div>
+        <div class="metric-val text-warning">4</div>
         <div class="metric-desc warning">Full Production Parity</div>
       </div>
     </div>
@@ -809,36 +148,36 @@
         <table>
           <thead>
             <tr>
-              <th style="width: 25%;">Security Dimension</th>
-              <th style="width: 37.5%; color: var(--danger);">Conventional "Prompt-Guarded" Agents</th>
-              <th style="width: 37.5%; color: var(--success);">Karol's Zero-Trust Architecture</th>
+              <th class="w-pct-25">Security Dimension</th>
+              <th class="w-pct-37 text-danger">Conventional "Prompt-Guarded" Agents</th>
+              <th class="w-pct-37 text-success">Karol's Zero-Trust Architecture</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">Enforcement Layer</td>
+              <td class="font-bold text-ink">Enforcement Layer</td>
               <td>System prompt instructions (<em>"Please do not delete files"</em>)</td>
-              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Out-of-band PreToolUse hooks compiled in PowerShell / OS</td>
+              <td class="cell-success-bg">Out-of-band PreToolUse hooks compiled in PowerShell / OS</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">Failure Mode</td>
-              <td style="color: var(--danger);">Non-deterministic; fails under jailbreaks or long context</td>
-              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Deterministic; hard-blocked at exit code 2 before shell invocation</td>
+              <td class="font-bold text-ink">Failure Mode</td>
+              <td class="text-danger">Non-deterministic; fails under jailbreaks or long context</td>
+              <td class="cell-success-bg">Deterministic; hard-blocked at exit code 2 before shell invocation</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">Secret Protection</td>
+              <td class="font-bold text-ink">Secret Protection</td>
               <td>Agent asked to ignore secrets; files remain readable</td>
-              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Filesystem regex deny interceptor blocks all <code>.env*</code>, <code>.ssh/</code> access</td>
+              <td class="cell-success-bg">Filesystem regex deny interceptor blocks all <code>.env*</code>, <code>.ssh/</code> access</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">Subagent Boundaries</td>
+              <td class="font-bold text-ink">Subagent Boundaries</td>
               <td>Monolithic context with all tools available to every agent</td>
-              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Strict Role-Based Access Control (RBAC); read-only agents have no bash tools</td>
+              <td class="cell-success-bg">Strict Role-Based Access Control (RBAC); read-only agents have no bash tools</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">Supply-Chain Updates</td>
+              <td class="font-bold text-ink">Supply-Chain Updates</td>
               <td>Direct auto-updates from external git repositories</td>
-              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Radar v2: 3-way merge review, immutable snapshot diffing &amp; human sign-off</td>
+              <td class="cell-success-bg">Radar v2: 3-way merge review, immutable snapshot diffing &amp; human sign-off</td>
             </tr>
           </tbody>
         </table>
@@ -847,25 +186,25 @@
       <h3 class="subheading-h3"><span class="subheading-prefix">§ 1.3</span> Four Concentric Rings of Defense: End-to-End Operational Topology</h3>
       <div class="row-cards">
         <div class="sub-card">
-          <h4 style="margin-bottom: 0.35rem;">Static Linter Gate</h4>
+          <h4 class="mb-1">Static Linter Gate</h4>
           <p>
             Pre-commit AST inspection, regex scanning for subprocess spawns, YAML frontmatter validation &amp; mojibake encoding audits.
           </p>
         </div>
         <div class="sub-card">
-          <h4 style="margin-bottom: 0.35rem;">Canonical Library</h4>
+          <h4 class="mb-1">Canonical Library</h4>
           <p>
             Harness-neutral package layout (<code>SKILL.md</code> + <code>_arsenal.yml</code>), deploy renderers, and zero vendor lock-in.
           </p>
         </div>
         <div class="sub-card">
-          <h4 style="margin-bottom: 0.35rem;">PreToolUse Hooks</h4>
+          <h4 class="mb-1">PreToolUse Hooks</h4>
           <p>
             Multi-dialect interception: <code>security-gate</code> regex denylists, <code>secrets-guard</code>, and least-privilege permission filters.
           </p>
         </div>
         <div class="sub-card">
-          <h4 style="margin-bottom: 0.35rem;">Radar v2 Engine</h4>
+          <h4 class="mb-1">Radar v2 Engine</h4>
           <p>
             Continuous watch-universe monitoring, snapshot materialization in <code>raw/radar/</code> &amp; mandatory human 3-way merge reviews.
           </p>
@@ -889,17 +228,17 @@
       </p>
 
       <div class="row-cards">
-        <div class="sub-card" style="flex: 1 1 340px;">
+        <div class="sub-card flex-wide">
           <h4>Canonical Package Layout</h4>
-          <div class="code-box">library/skills/&lt;item-name&gt;/
+          <div class="code-box pre-formatted">library/skills/&lt;item-name&gt;/
 ├── SKILL.md       # Harness-neutral markdown instructions
 ├── _arsenal.yml   # Provenance, semver, deploy targets
 ├── changelog.md   # Reverse-chronological modification log
 └── references/    # Offline schemas &amp; specialist checklists</div>
         </div>
-        <div class="sub-card" style="flex: 1 1 340px;">
+        <div class="sub-card flex-wide">
           <h4>Mandatory Frontmatter Schema</h4>
-          <div class="code-box">---
+          <div class="code-box pre-formatted">---
 name: database-design
 description: "Production Postgres optimization and schema modeling."
 harness: universal
@@ -923,7 +262,7 @@ triggers:
           <div class="code-title">scripts/audit-arsenal.ps1 (Universal Harness-Neutrality Gate &amp; Mojibake Check)</div>
           <button class="btn-copy" onclick="copySnippet('codeAuditArsenal', this)">Copy Snippet</button>
         </div>
-        <div class="code-box" id="codeAuditArsenal"># Extract from scripts/audit-arsenal.ps1 (Universal Harness-Neutrality Gate &amp; Mojibake Check)
+        <div class="code-box pre-formatted" id="codeAuditArsenal"># Extract from scripts/audit-arsenal.ps1 (Universal Harness-Neutrality Gate &amp; Mojibake Check)
 $Script:CcTokens = @('Read','Edit','NotebookEdit','Write','Glob','Grep','Bash','Agent','Task','WebSearch','WebFetch')
 $Script:DshTokens = @('read_image','subagent_fork','str_replace_editor','subagent_type','tools.skill')
 $Script:PathTokens = @('.claude/','.claude\','~/.claude','$HOME/.claude','.dsh/','.dsh\','$DSH_HOME','.agents/','~/.agents')
@@ -944,57 +283,57 @@ if ($Gate -and ($FmErrors -gt 0 -or $ScriptErrors -gt 0 -or $MojibakeHits -gt 0)
         <table>
           <thead>
             <tr>
-              <th style="width: 16%;">Category</th>
-              <th style="width: 24%;">Identified Threat Vector</th>
-              <th style="width: 25%;">Real Upstream Candidate</th>
-              <th style="width: 35%;">Vetting Rationale &amp; Operational Defense</th>
+              <th class="w-pct-16">Category</th>
+              <th class="w-pct-24">Identified Threat Vector</th>
+              <th class="w-pct-25">Real Upstream Candidate</th>
+              <th class="w-pct-35">Vetting Rationale &amp; Operational Defense</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">
+              <td class="font-bold text-ink">
                 Category A
-                <div style="font-size: 0.72rem; color: var(--ink-faint); font-weight: 500;">Orphaned Platform Dependencies</div>
+                <div class="text-xs text-faint font-medium">Orphaned Platform Dependencies</div>
               </td>
               <td>Implicit dependency on external enterprise SaaS or proprietary SDKs.</td>
               <td class="mono-cell">account-research (Common Room SDK)</td>
-              <td><strong style="color: var(--danger);">REJECTED:</strong> Requires active third-party SaaS credentials; cannot execute without Zoom SDK or Common Room. Replaced by local CRM database query tools.</td>
+              <td><strong class="text-danger">REJECTED:</strong> Requires active third-party SaaS credentials; cannot execute without Zoom SDK or Common Room. Replaced by local CRM database query tools.</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">
+              <td class="font-bold text-ink">
                 Category B
-                <div style="font-size: 0.72rem; color: var(--ink-faint); font-weight: 500;">Arbitrary Subprocess Spawning</div>
+                <div class="text-xs text-faint font-medium">Arbitrary Subprocess Spawning</div>
               </td>
               <td>Scripts attempting un-intercepted OS execution bypassing PreToolUse hooks.</td>
               <td class="mono-cell">community-shell-helper</td>
-              <td><strong style="color: var(--danger);">REJECTED:</strong> Contained Python subprocess invocations (<code>subprocess.Popen(shell=True)</code>) capable of executing unmonitored bash strings.</td>
+              <td><strong class="text-danger">REJECTED:</strong> Contained Python subprocess invocations (<code>subprocess.Popen(shell=True)</code>) capable of executing unmonitored bash strings.</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">
+              <td class="font-bold text-ink">
                 Category C
-                <div style="font-size: 0.72rem; color: var(--ink-faint); font-weight: 500;">Unsandboxed Network Exfiltration</div>
+                <div class="text-xs text-faint font-medium">Unsandboxed Network Exfiltration</div>
               </td>
               <td>Hardcoded outbound HTTP requests without proxy or loopback isolation.</td>
               <td class="mono-cell">web-enrichment-crawler</td>
-              <td><strong style="color: var(--danger);">REJECTED:</strong> Attempted outbound telemetry beacons to unauthenticated endpoints. Exposes sensitive codebase snippets to third-party logs.</td>
+              <td><strong class="text-danger">REJECTED:</strong> Attempted outbound telemetry beacons to unauthenticated endpoints. Exposes sensitive codebase snippets to third-party logs.</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">
+              <td class="font-bold text-ink">
                 Category D
-                <div style="font-size: 0.72rem; color: var(--ink-faint); font-weight: 500;">Monolithic Harness Lock-in</div>
+                <div class="text-xs text-faint font-medium">Monolithic Harness Lock-in</div>
               </td>
               <td>Proprietary harness syntax violating cross-platform portability.</td>
               <td class="mono-cell">claude-only-task-runner</td>
-              <td><strong style="color: var(--danger);">REJECTED:</strong> Employed non-standard macros incompatible with Google Antigravity and DeepSeek Harness. Re-architected as canonical skill or discarded.</td>
+              <td><strong class="text-danger">REJECTED:</strong> Employed non-standard macros incompatible with Google Antigravity and DeepSeek Harness. Re-architected as canonical skill or discarded.</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">
+              <td class="font-bold text-ink">
                 Category E
-                <div style="font-size: 0.72rem; color: var(--ink-faint); font-weight: 500;">Excessive Token Surface (Bloat)</div>
+                <div class="text-xs text-faint font-medium">Excessive Token Surface (Bloat)</div>
               </td>
               <td>Uncurated documentation dumping 50,000+ tokens into context on every call.</td>
               <td class="mono-cell">full-aws-sdk-reference</td>
-              <td><strong style="color: var(--warning);">CONVERTED:</strong> Excluded from static prompt context. Re-indexed as an on-demand Model Context Protocol (MCP) semantic lookup tool.</td>
+              <td><strong class="text-warning">CONVERTED:</strong> Excluded from static prompt context. Re-indexed as an on-demand Model Context Protocol (MCP) semantic lookup tool.</td>
             </tr>
           </tbody>
         </table>
@@ -1014,10 +353,10 @@ if ($Gate -and ($FmErrors -gt 0 -or $ScriptErrors -gt 0 -or $MojibakeHits -gt 0)
             <!-- Red Card: Naive Industry Approach -->
             <div class="audit-col rejected">
               <div class="audit-badge-row">
-                <span style="font-size: 0.85rem; font-weight: 800; color: var(--danger);">Naive Industry Approach: The Fragile 20-Line Prompt</span>
+                <span class="text-sm font-extrabold text-danger">Naive Industry Approach: The Fragile 20-Line Prompt</span>
                 <span class="audit-badge bad">Single Flat File</span>
               </div>
-              <p style="font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.55;">
+              <p class="text-sm text-muted mb-3 leading-normal">
                 A flat markdown file containing instructions like <em>"Please review this code for bugs"</em>. Lacks state tracking, diagnostic heuristics, specialized review checklists, and test fixtures. It fails silently under complex multi-file engineering tasks and cannot verify its own findings.
               </p>
               <div class="audit-quote-box"># Generic Toy Skill (Single File: prompts/code-reviewer.md)
@@ -1029,11 +368,11 @@ Review the following code and list any bugs:
 1. Check syntax errors
 2. Check logic errors
 3. Give suggestions</div>
-              <div class="audit-notes" style="color: var(--danger); font-weight: 600;">
-                <div style="margin-bottom: 0.25rem;">✗ Zero verification gates</div>
-                <div style="margin-bottom: 0.25rem;">✗ No state tracking</div>
-                <div style="margin-bottom: 0.25rem;">✗ No specialized domain checklists</div>
-                <div style="margin-bottom: 0.25rem;">✗ Single-turn fragility</div>
+              <div class="audit-notes text-danger font-semibold">
+                <div class="mb-1">✗ Zero verification gates</div>
+                <div class="mb-1">✗ No state tracking</div>
+                <div class="mb-1">✗ No specialized domain checklists</div>
+                <div class="mb-1">✗ Single-turn fragility</div>
                 <div>✗ Non-reproducible outputs</div>
               </div>
             </div>
@@ -1041,64 +380,64 @@ Review the following code and list any bugs:
             <!-- Green Card: Karol's Complete 46-File Architecture -->
             <div class="audit-col approved">
               <div class="audit-badge-row">
-                <span style="font-size: 0.85rem; font-weight: 800; color: var(--success);">Representative Exemplar: How Production Skills are Architected</span>
+                <span class="text-sm font-extrabold text-success">Representative Exemplar: How Production Skills are Architected</span>
                 <span class="audit-badge good">46 Files &bull; 6 Operational Modes</span>
               </div>
-              <p style="font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.55;">
+              <p class="text-sm text-muted mb-3 leading-normal">
                 Concrete dissection of <strong>one single skill</strong> from Karol's 180-skill production library (<code>review-fix-technical-code</code>). Rather than a text prompt, each production skill is an entire codified engineering department complete with state-machine routing, domain checklists, automated verification scripts, and replay harnesses:
               </p>
 
               <!-- Nested Part A: 6 Operational Modes -->
-              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.15rem; margin-bottom: 1.25rem;">
-                <div style="font-size: 0.85rem; font-weight: 800; color: var(--ink); margin-bottom: 0.35rem;">
+              <div class="card-box-framed mb-4">
+                <div class="text-sm font-extrabold text-ink mb-1">
                   Part A: 6 State-Machine Operational Modes (Execution Routing)
                 </div>
-                <div style="font-size: 0.75rem; color: var(--ink-faint); font-family: var(--mono); margin-bottom: 0.85rem;">
+                <div class="text-xs text-faint font-mono mb-3">
                   SKILL.md Orchestrator (634 lines)
                 </div>
-                <p style="font-size: 0.82rem; color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.55;">
+                <p class="text-sm text-muted mb-3 leading-normal">
                   The skill orchestrator routes invocations through deterministic execution modes with strict entry criteria, preventing open-ended or hallucinated agent loops:
                 </p>
-                <div style="display: grid; grid-template-columns: 1fr; gap: 0.65rem;">
-                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
-                    <strong style="color: var(--success); font-family: var(--mono);">Mode 1: Pre-Merge PR Review</strong>
-                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">AST diff analysis, regression baselines, parallel specialist checklists, independent cold-reviewer consensus.</div>
+                <div class="grid-1col-gap">
+                  <div class="spec-box">
+                    <strong class="text-success font-mono">Mode 1: Pre-Merge PR Review</strong>
+                    <div class="text-muted mt-1">AST diff analysis, regression baselines, parallel specialist checklists, independent cold-reviewer consensus.</div>
                   </div>
-                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
-                    <strong style="color: var(--success); font-family: var(--mono);">Mode 2: Fix Reviewer Findings</strong>
-                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">Root-cause hypothesis &rarr; minimal surgical diff &rarr; real terminal evidence output &rarr; cold recheck verification.</div>
+                  <div class="spec-box">
+                    <strong class="text-success font-mono">Mode 2: Fix Reviewer Findings</strong>
+                    <div class="text-muted mt-1">Root-cause hypothesis &rarr; minimal surgical diff &rarr; real terminal evidence output &rarr; cold recheck verification.</div>
                   </div>
-                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
-                    <strong style="color: var(--success); font-family: var(--mono);">Mode 3: Live Crash / Root-Cause Triage</strong>
-                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">Exception frame demangling, 5-Whys systematic failure isolation, and reproduction fixture before touching code.</div>
+                  <div class="spec-box">
+                    <strong class="text-success font-mono">Mode 3: Live Crash / Root-Cause Triage</strong>
+                    <div class="text-muted mt-1">Exception frame demangling, 5-Whys systematic failure isolation, and reproduction fixture before touching code.</div>
                   </div>
-                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
-                    <strong style="color: var(--success); font-family: var(--mono);">Mode 4: App-Level QA (Browser / CLI)</strong>
-                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">Full-stack exploratory verification, headless Playwright browser automation, console errors and network audits.</div>
+                  <div class="spec-box">
+                    <strong class="text-success font-mono">Mode 4: App-Level QA (Browser / CLI)</strong>
+                    <div class="text-muted mt-1">Full-stack exploratory verification, headless Playwright browser automation, console errors and network audits.</div>
                   </div>
-                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
-                    <strong style="color: var(--success); font-family: var(--mono);">Mode 5: Ticket Pickup &amp; Execution</strong>
-                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">Durable tracker integration (Questimus/Jira), acceptance criteria parsing, and red-green-refactor TDD test cycles.</div>
+                  <div class="spec-box">
+                    <strong class="text-success font-mono">Mode 5: Ticket Pickup &amp; Execution</strong>
+                    <div class="text-muted mt-1">Durable tracker integration (Questimus/Jira), acceptance criteria parsing, and red-green-refactor TDD test cycles.</div>
                   </div>
-                  <div style="padding: 0.65rem; background: var(--surface-subtle); border-radius: 6px; font-size: 0.8rem;">
-                    <strong style="color: var(--success); font-family: var(--mono);">Mode 6: Pattern Backlog Audit</strong>
-                    <div style="color: var(--ink-muted); margin-top: 0.15rem;">Cross-issue retrospective scanning, systemic defect clustering, and architectural pattern library harvesting.</div>
+                  <div class="spec-box">
+                    <strong class="text-success font-mono">Mode 6: Pattern Backlog Audit</strong>
+                    <div class="text-muted mt-1">Cross-issue retrospective scanning, systemic defect clustering, and architectural pattern library harvesting.</div>
                   </div>
                 </div>
               </div>
 
               <!-- Nested Part B: Unabridged 46-File Tree -->
-              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.15rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <div style="font-size: 0.85rem; font-weight: 800; color: var(--ink);">
+              <div class="card-box-framed">
+                <div class="flex-between-center mb-1">
+                  <div class="text-sm font-extrabold text-ink">
                     Part B: The Complete 46-File Architecture of this Exemplar Subsystem
                   </div>
-                  <span style="font-size: 0.72rem; font-family: var(--mono); color: var(--success); font-weight: 700;">Zero Ellipses</span>
+                  <span class="text-xs font-mono text-success font-bold">Zero Ellipses</span>
                 </div>
-                <p style="font-size: 0.82rem; color: var(--ink-muted); margin-bottom: 0.85rem; line-height: 1.55;">
+                <p class="text-sm text-muted mb-3 leading-normal">
                   Every file in this production subsystem serves an explicit operational purpose across root analysis, language patterns, reproducible test replays, automated lint scripts, and 11 domain specialist review checklists:
                 </p>
-                <div class="code-box" style="font-size: 0.76rem; max-height: 380px; overflow-y: auto;">review-fix-technical-code/ (Unabridged 46-File Production Subsystem Tree)
+                <div class="code-box pre-formatted code-box-scroll-sm">review-fix-technical-code/ (Unabridged 46-File Production Subsystem Tree)
 ├── SKILL.md                              # 634-line core engine: 6 operational modes &amp; state machine orchestrator
 ├── _arsenal.yml                          # Package metadata, semver, provenance &amp; multi-harness target mappings
 ├── changelog.md                          # Immutable audit ledger of subsystem modifications across releases
@@ -1154,11 +493,11 @@ Review the following code and list any bugs:
     └── qa-report-template.md             # Formal cryptographic evidence &amp; sign-off audit report</div>
               </div>
 
-              <div class="audit-notes" style="color: var(--success); font-weight: 600; margin-top: 1rem;">
-                <div style="margin-bottom: 0.25rem;">&check; 1 of 180 curated skills in library</div>
-                <div style="margin-bottom: 0.25rem;">&check; Deterministic root-cause triage</div>
-                <div style="margin-bottom: 0.25rem;">&check; 11 domain specialist checklists</div>
-                <div style="margin-bottom: 0.25rem;">&check; Evidence-backed verification loop</div>
+              <div class="audit-notes text-success font-semibold mt-4">
+                <div class="mb-1">&check; 1 of 180 curated skills in library</div>
+                <div class="mb-1">&check; Deterministic root-cause triage</div>
+                <div class="mb-1">&check; 11 domain specialist checklists</div>
+                <div class="mb-1">&check; Evidence-backed verification loop</div>
                 <div>&check; Universal across all 4 harnesses</div>
               </div>
             </div>
@@ -1188,7 +527,7 @@ Review the following code and list any bugs:
           <div class="code-title">Multi-Dialect Hook Output Adapter Function (library/hooks/secrets-guard/secrets-guard.ps1)</div>
           <button class="btn-copy" onclick="copySnippet('codeHookAdapter', this)">Copy Snippet</button>
         </div>
-        <div class="code-box" id="codeHookAdapter"># Multi-Dialect Hook Output Adapter Function (Production Code: library/hooks/secrets-guard/secrets-guard.ps1)
+        <div class="code-box pre-formatted" id="codeHookAdapter"># Multi-Dialect Hook Output Adapter Function (Production Code: library/hooks/secrets-guard/secrets-guard.ps1)
 function Write-Decision {
     param([string]$Decision, [string]$Reason)
     $hookEventName = if ($payload.hook_event_name) { $payload.hook_event_name } else { "PreToolUse" }
@@ -1215,9 +554,9 @@ function Write-Decision {
       </p>
 
       <div class="row-cards">
-        <div class="sub-card" style="border-color: var(--danger-border); background: var(--danger-bg); flex: 1 1 340px;">
-          <h4 style="color: var(--danger);">Windows &amp; Unix Destructive Patterns Blocked</h4>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; font-family: var(--mono); font-size: 0.76rem; color: var(--danger); margin-top: 0.5rem;">
+        <div class="sub-card card-danger flex-wide">
+          <h4 class="text-danger">Windows &amp; Unix Destructive Patterns Blocked</h4>
+          <div class="grid-2col-danger mt-2">
             <div>&bull; rm -rf / rm -fr</div>
             <div>&bull; Remove-Item -Recurse</div>
             <div>&bull; sudo rm / chmod 777</div>
@@ -1236,9 +575,9 @@ function Write-Decision {
             <div>&bull; :(){ :|:&amp; };: (Fork bomb)</div>
           </div>
         </div>
-        <div class="sub-card" style="flex: 1 1 340px;">
+        <div class="sub-card flex-wide">
           <h4>Dual-OS Interception Logic</h4>
-          <div class="code-box">$patterns = @(
+          <div class="code-box pre-formatted">$patterns = @(
     'rm -rf', 'Remove-Item\s+(-Recurse|-Force)',
     'ri\s+.*(-r|-fo)', 'rd\s+/s\s+/q',
     'git push .*(\+|--force|-f\b|--force-with-lease)',
@@ -1264,7 +603,7 @@ foreach ($pat in $patterns) {
           <div class="code-title">Production Code: library/hooks/secrets-guard/secrets-guard.ps1</div>
           <button class="btn-copy" onclick="copySnippet('codeSecretsGuard', this)">Copy Snippet</button>
         </div>
-        <div class="code-box" id="codeSecretsGuard"># Production Code: library/hooks/secrets-guard/secrets-guard.ps1
+        <div class="code-box pre-formatted" id="codeSecretsGuard"># Production Code: library/hooks/secrets-guard/secrets-guard.ps1
 $envExclusions = @(".env.example", ".env.sample", ".env.template")
 
 if (-not ($envExclusions -contains $basenameFull)) {
@@ -1303,7 +642,7 @@ if ($basenameFull -imatch "credentials" -or $basenameFull -imatch "secrets") {
           <div class="code-title">Production Code: library/hooks/smart-permission-filter/smart-permission-filter.ps1</div>
           <button class="btn-copy" onclick="copySnippet('codePermissionFilter', this)">Copy Snippet</button>
         </div>
-        <div class="code-box" id="codePermissionFilter"># Production Code: library/hooks/smart-permission-filter/smart-permission-filter.ps1
+        <div class="code-box pre-formatted" id="codePermissionFilter"># Production Code: library/hooks/smart-permission-filter/smart-permission-filter.ps1
 $readonlyTools = @('Read', 'Glob', 'Grep', 'LS', 'read_file', 'list_dir', 'search_files', 'view_file', 'search_web', 'TodoRead', 'TaskGet', 'TaskList')
 $writeTools = @('Write', 'Edit', 'MultiEdit', 'NotebookEdit', 'write_to_file', 'replace_file_content')
 
@@ -1349,93 +688,93 @@ if ($writeTools -contains $tool) {
         <table>
           <thead>
             <tr>
-              <th style="width: 20%;">Subagent Role</th>
-              <th style="width: 8%; text-align: center;">Read Tools</th>
-              <th style="width: 8%; text-align: center;">Write Tools</th>
-              <th style="width: 8%; text-align: center;">Execution</th>
-              <th style="width: 8%; text-align: center;">Web Tools</th>
-              <th style="width: 8%; text-align: center;">Spawn</th>
-              <th style="width: 40%;">Sandbox &amp; Workspace Isolation</th>
+              <th class="w-pct-20">Subagent Role</th>
+              <th class="w-pct-8 text-center">Read Tools</th>
+              <th class="w-pct-8 text-center">Write Tools</th>
+              <th class="w-pct-8 text-center">Execution</th>
+              <th class="w-pct-8 text-center">Web Tools</th>
+              <th class="w-pct-8 text-center">Spawn</th>
+              <th class="w-pct-40">Sandbox &amp; Workspace Isolation</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
-                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">researcher</div>
-                <div style="font-size: 0.72rem; color: var(--ink-faint);">Codebase discovery &amp; web analysis</div>
+                <div class="table-title-mono">researcher</div>
+                <div class="text-xs text-faint">Codebase discovery &amp; web analysis</div>
               </td>
-              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td class="text-center text-success font-bold">&check;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="text-center text-success font-bold">&check;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
               <td><span class="isolation-badge">Inherited</span>Read-only workspace view. Strictly barred from writing or spawning processes.</td>
             </tr>
             <tr>
               <td>
-                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">librarian</div>
-                <div style="font-size: 0.72rem; color: var(--ink-faint);">Asset taxonomy &amp; schema verification</div>
+                <div class="table-title-mono">librarian</div>
+                <div class="text-xs text-faint">Asset taxonomy &amp; schema verification</div>
               </td>
-              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td class="text-center text-success font-bold">&check;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
               <td><span class="isolation-badge">Read-Only</span>Curated vault view. Enforces canonical naming and frontmatter contracts.</td>
             </tr>
             <tr>
               <td>
-                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">code-builder</div>
-                <div style="font-size: 0.72rem; color: var(--ink-faint);">Single task TDD implementation</div>
+                <div class="table-title-mono">code-builder</div>
+                <div class="text-xs text-faint">Single task TDD implementation</div>
               </td>
-              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
-              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
-              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td class="text-center text-success font-bold">&check;</td>
+              <td class="text-center text-success font-bold">&check;</td>
+              <td class="text-center text-success font-bold">&check;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
               <td><span class="isolation-badge warning">Git Worktree</span>Fresh context per task. Execution strictly gated by <code>security-gate.ps1</code>.</td>
             </tr>
             <tr>
               <td>
-                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">code-reviewer</div>
-                <div style="font-size: 0.72rem; color: var(--ink-faint);">Independent cold code review</div>
+                <div class="table-title-mono">code-reviewer</div>
+                <div class="text-xs text-faint">Independent cold code review</div>
               </td>
-              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
+              <td class="text-center text-success font-bold">&check;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="text-center text-success font-bold">&check;</td>
               <td><span class="isolation-badge">Read-Only</span>Zero mutation tools. Spawns read-only specialist subagents (security, perf).</td>
             </tr>
             <tr>
               <td>
-                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">security-code-reviewer</div>
-                <div style="font-size: 0.72rem; color: var(--ink-faint);">Vulnerability &amp; secret scanning</div>
+                <div class="table-title-mono">security-code-reviewer</div>
+                <div class="text-xs text-faint">Vulnerability &amp; secret scanning</div>
               </td>
-              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td class="text-center text-success font-bold">&check;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
               <td><span class="isolation-badge">Audit Sink</span>Audits PR diffs for injection vectors and secret exposures; never writes files.</td>
             </tr>
             <tr>
               <td>
-                <div style="font-weight: 700; color: var(--ink); font-family: var(--mono); font-size: 0.85rem;">design-reviewer</div>
-                <div style="font-size: 0.72rem; color: var(--ink-faint);">UI/UX token &amp; accessibility audit</div>
+                <div class="table-title-mono">design-reviewer</div>
+                <div class="text-xs text-faint">UI/UX token &amp; accessibility audit</div>
               </td>
-              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
-              <td style="text-align: center; color: var(--success); font-weight: 700;">&check;</td>
-              <td style="text-align: center; color: var(--border-subtle);">&mdash;</td>
+              <td class="text-center text-success font-bold">&check;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
+              <td class="text-center text-success font-bold">&check;</td>
+              <td class="cell-subtle-dim">&mdash;</td>
               <td><span class="isolation-badge">Playwright View</span>WCAG 2.1 AA / 2.2 audits via headless browser; output restricted to <code>design/reviews/</code>.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <p class="prose-block" style="margin-top: 1rem;">
+      <p class="prose-block mt-4">
         <strong>Full 17-Subagent Governance Fleet:</strong> The remaining 11 specialized subagents (including <code>test-writer</code>, <code>docker-hygiene</code>, <code>plugin-validator</code>, <code>legacy-analyst</code>, <code>version-delta-analyst</code>, and <code>german-compliance-reviewer</code>) operate under identical deterministic tool grants. Read-only audit agents are physically barred from mutating state or invoking unmonitored child processes.
       </p>
 
@@ -1487,15 +826,15 @@ if ($writeTools -contains $tool) {
       </p>
       <div class="row-cards">
         <div class="sub-card">
-          <strong style="color: var(--ink); margin-bottom: 0.35rem; font-size: 0.9rem;">1. Silent Prompt Poisoning</strong>
+          <strong class="text-ink mb-1 text-sm font-semibold">1. Silent Prompt Poisoning</strong>
           <p>Upstream authors modify system prompt instructions to alter agent behavior or inject hidden instructions.</p>
         </div>
         <div class="sub-card">
-          <strong style="color: var(--ink); margin-bottom: 0.35rem; font-size: 0.9rem;">2. Telemetry Infiltration</strong>
+          <strong class="text-ink mb-1 text-sm font-semibold">2. Telemetry Infiltration</strong>
           <p>New updates quietly add network pings or telemetry trackers that leak local file paths or environment variables.</p>
         </div>
         <div class="sub-card">
-          <strong style="color: var(--ink); margin-bottom: 0.35rem; font-size: 0.9rem;">3. Breaking Schema Drift</strong>
+          <strong class="text-ink mb-1 text-sm font-semibold">3. Breaking Schema Drift</strong>
           <p>Uncoordinated tool argument renames cause downstream autonomous agents to fail mid-execution during production runs.</p>
         </div>
       </div>
@@ -1538,7 +877,7 @@ if ($writeTools -contains $tool) {
           <div class="code-title">Radar v2 CLI Commands (scripts/radar.ps1)</div>
           <button class="btn-copy" onclick="copySnippet('codeRadarCli', this)">Copy Snippet</button>
         </div>
-        <div class="code-box" id="codeRadarCli"># 1. Scan monitored upstream repository watch-universe for drift
+        <div class="code-box pre-formatted" id="codeRadarCli"># 1. Scan monitored upstream repository watch-universe for drift
 .\scripts\radar.ps1 scan -Repo "https://github.com/DietrichGebert/ponytail"
 
 # 2. View generated delta brief and AST changes for a modified skill
@@ -1571,24 +910,24 @@ if ($writeTools -contains $tool) {
       </p>
 
       <!-- Repository Scale Anchors (Symmetrical 2-Column Row) -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
+      <div class="grid-autofit-320 mb-4">
         <div class="metric-card">
           <div class="metric-label">Managed Vault Repository</div>
-          <div class="metric-val" style="color: var(--success);">50,787 Files</div>
+          <div class="metric-val text-success">50,787 Files</div>
           <div class="metric-desc success">Audited local directory assets across all submodules &amp; reference libraries</div>
         </div>
         <div class="metric-card">
           <div class="metric-label">System Implementation Footprint</div>
-          <div class="metric-val" style="color: var(--success);">33,108 Lines</div>
+          <div class="metric-val text-success">33,108 Lines</div>
           <div class="metric-desc success">Zero-bloat deterministic PowerShell hooks, orchestrators, and schema models</div>
         </div>
       </div>
 
       <!-- The 4 Core Architecture Primitives (Balanced 4-Column Grid) -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
+      <div class="grid-autofit-220 mb-4">
         <div class="metric-card">
           <div class="metric-label">Production Skills</div>
-          <div class="metric-val" style="color: var(--accent);">180</div>
+          <div class="metric-val text-accent">180</div>
           <div class="metric-desc accent">6 Domain Sectors &bull; 46-File Subsystems</div>
         </div>
         <div class="metric-card">
@@ -1609,39 +948,39 @@ if ($writeTools -contains $tool) {
       </div>
 
       <!-- Integrated 180-Skill Domain Breakdown Deck -->
-      <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div class="fleet-summary-box mb-4">
+        <div class="flex-between-center">
         </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem;">
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
-            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">Engineering</div>
-            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">54 Skills</div>
-            <div style="font-size: 0.72rem; color: var(--ink-muted);">TS, Python, TDD</div>
+        <div class="stat-mini-grid">
+          <div class="stat-mini-card">
+            <div class="stat-mini-title">Engineering</div>
+            <div class="stat-mini-val">54 Skills</div>
+            <div class="stat-mini-sub">TS, Python, TDD</div>
           </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
-            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">Governance</div>
-            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">38 Skills</div>
-            <div style="font-size: 0.72rem; color: var(--ink-muted);">Multi-agent loops</div>
+          <div class="stat-mini-card">
+            <div class="stat-mini-title">Governance</div>
+            <div class="stat-mini-val">38 Skills</div>
+            <div class="stat-mini-sub">Multi-agent loops</div>
           </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
-            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">Security</div>
-            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">24 Skills</div>
-            <div style="font-size: 0.72rem; color: var(--ink-muted);">GDPR, GoBD, hash</div>
+          <div class="stat-mini-card">
+            <div class="stat-mini-title">Security</div>
+            <div class="stat-mini-val">24 Skills</div>
+            <div class="stat-mini-sub">GDPR, GoBD, hash</div>
           </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
-            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">Databases</div>
-            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">18 Skills</div>
-            <div style="font-size: 0.72rem; color: var(--ink-muted);">Postgres, SQLite</div>
+          <div class="stat-mini-card">
+            <div class="stat-mini-title">Databases</div>
+            <div class="stat-mini-val">18 Skills</div>
+            <div class="stat-mini-sub">Postgres, SQLite</div>
           </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
-            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">UI Systems</div>
-            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">28 Skills</div>
-            <div style="font-size: 0.72rem; color: var(--ink-muted);">Tailwind, WCAG 2.2</div>
+          <div class="stat-mini-card">
+            <div class="stat-mini-title">UI Systems</div>
+            <div class="stat-mini-val">28 Skills</div>
+            <div class="stat-mini-sub">Tailwind, WCAG 2.2</div>
           </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem;">
-            <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--ink-faint);">Performance</div>
-            <div style="font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">18 Skills</div>
-            <div style="font-size: 0.72rem; color: var(--ink-muted);">Ads API, GA4</div>
+          <div class="stat-mini-card">
+            <div class="stat-mini-title">Performance</div>
+            <div class="stat-mini-val">18 Skills</div>
+            <div class="stat-mini-sub">Ads API, GA4</div>
           </div>
         </div>
       </div>
@@ -1653,7 +992,7 @@ if ($writeTools -contains $tool) {
           <div class="audit-columns">
             <div class="audit-col rejected">
               <div class="audit-badge-row">
-                <span style="font-size: 0.8rem; font-weight: 700; color: var(--danger);">partner-built/common-room/skills/account-research</span>
+                <span class="text-danger font-bold text-sm">partner-built/common-room/skills/account-research</span>
                 <span class="audit-badge bad">REJECTED</span>
               </div>
               <div class="audit-quote-box">Source: partner-built/common-room/skills/account-research</div>
@@ -1663,7 +1002,7 @@ if ($writeTools -contains $tool) {
             </div>
             <div class="audit-col approved">
               <div class="audit-badge-row">
-                <span style="font-size: 0.8rem; font-weight: 700; color: var(--success);">Operational Remediation</span>
+                <span class="text-success font-bold text-sm">Operational Remediation</span>
                 <span class="audit-badge good">RESOLVED</span>
               </div>
               <div class="audit-quote-box">Permanently logged in rejected/2026-06-30-account-research-skill/CANDIDATE.md</div>
@@ -1679,7 +1018,7 @@ if ($writeTools -contains $tool) {
           <div class="audit-columns">
             <div class="audit-col rejected">
               <div class="audit-badge-row">
-                <span style="font-size: 0.8rem; font-weight: 700; color: var(--danger);">Open-source Puppeteer MCP Server</span>
+                <span class="text-danger font-bold text-sm">Open-source Puppeteer MCP Server</span>
                 <span class="audit-badge bad">REMEDIATED</span>
               </div>
               <div class="audit-quote-box">Default flags passed: --no-sandbox --allow-file-access-from-files</div>
@@ -1689,7 +1028,7 @@ if ($writeTools -contains $tool) {
             </div>
             <div class="audit-col approved">
               <div class="audit-badge-row">
-                <span style="font-size: 0.8rem; font-weight: 700; color: var(--success);">Operational Remediation</span>
+                <span class="text-success font-bold text-sm">Operational Remediation</span>
                 <span class="audit-badge good">RESOLVED</span>
               </div>
               <div class="audit-quote-box">Loopback container sandbox + ui-ux-reviewer-agent-browser</div>
@@ -1706,95 +1045,43 @@ if ($writeTools -contains $tool) {
         <table>
           <thead>
             <tr>
-              <th style="width: 25%;">Risk / Governance Dimension</th>
-              <th style="width: 25%; color: var(--danger);">Unconstrained Deployment</th>
-              <th style="width: 25%; color: var(--success);">Karol's Zero-Trust Architecture</th>
-              <th style="width: 25%;">Audited Operational Outcome</th>
+              <th class="w-pct-25">Risk / Governance Dimension</th>
+              <th class="w-pct-25 text-danger">Unconstrained Deployment</th>
+              <th class="w-pct-25 text-success">Karol's Zero-Trust Architecture</th>
+              <th class="w-pct-25">Audited Operational Outcome</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">Rogue Destructive Commands</td>
-              <td style="color: var(--danger);">High (LLMs hallucinate destructive shell commands)</td>
-              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Deterministic Multi-Layer Containment (PreToolUse denylist + Worktrees)</td>
-              <td style="font-weight: 700; color: var(--ink);">0 Destructive Incidents (100% Intercepted)</td>
+              <td class="font-bold text-ink">Rogue Destructive Commands</td>
+              <td class="text-danger">High (LLMs hallucinate destructive shell commands)</td>
+              <td class="cell-success-bg">Deterministic Multi-Layer Containment (PreToolUse denylist + Worktrees)</td>
+              <td class="font-bold text-ink">0 Destructive Incidents (100% Intercepted)</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">Credential &amp; Token Leaks</td>
-              <td style="color: var(--danger);">High (Agents freely read .env and .ssh folders)</td>
-              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Air-Gapped Two-Tier Secrets Guard (Filesystem block at tool boundary)</td>
-              <td style="font-weight: 700; color: var(--ink);">0 Credentials Leaked across all sessions</td>
+              <td class="font-bold text-ink">Credential &amp; Token Leaks</td>
+              <td class="text-danger">High (Agents freely read .env and .ssh folders)</td>
+              <td class="cell-success-bg">Air-Gapped Two-Tier Secrets Guard (Filesystem block at tool boundary)</td>
+              <td class="font-bold text-ink">0 Credentials Leaked across all sessions</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">Supply-Chain Silent Poisoning</td>
-              <td style="color: var(--danger);">High (Unmonitored external package drift)</td>
-              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Radar v2 Upstream Drift Engine (3-way merge briefs &amp; human sign-off)</td>
-              <td style="font-weight: 700; color: var(--ink);">100% Traceability across 11,000+ files</td>
+              <td class="font-bold text-ink">Supply-Chain Silent Poisoning</td>
+              <td class="text-danger">High (Unmonitored external package drift)</td>
+              <td class="cell-success-bg">Radar v2 Upstream Drift Engine (3-way merge briefs &amp; human sign-off)</td>
+              <td class="font-bold text-ink">100% Traceability across 11,000+ files</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: var(--ink);">Cross-Harness Interoperability</td>
-              <td style="color: var(--danger);">Zero (Vendor lock-in to single commercial harness)</td>
-              <td style="background: var(--success-bg); color: var(--ink); font-weight: 600;">Canonical Packaging &amp; Multi-Dialect Hooks (Universal portability)</td>
-              <td style="font-weight: 700; color: var(--ink);">100% Parity (Claude Code, DeepSeek Harness, Google Antigravity, Gemini CLI)</td>
+              <td class="font-bold text-ink">Cross-Harness Interoperability</td>
+              <td class="text-danger">Zero (Vendor lock-in to single commercial harness)</td>
+              <td class="cell-success-bg">Canonical Packaging &amp; Multi-Dialect Hooks (Universal portability)</td>
+              <td class="font-bold text-ink">100% Parity (Claude Code, DeepSeek Harness, Google Antigravity, Gemini CLI)</td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
-    <footer>
-      <p>&copy; 2026 Karol Jasztal &bull; Hosted on GitHub Pages &bull; All Rights Reserved</p>
-    </footer>
+    <footer id="site-footer"></footer>
   </div>
 
-  <script>
-    // Copy Snippet Helper
-    function copySnippet(id, btn) {
-      const text = document.getElementById(id).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        const orig = btn.innerText;
-        btn.innerText = "Copied!";
-        btn.style.color = "var(--success)";
-        btn.style.borderColor = "var(--success)";
-        setTimeout(() => {
-          btn.innerText = orig;
-          btn.style.color = "";
-          btn.style.borderColor = "";
-        }, 2000);
-      });
-    }
-
-    // Theme Switcher & Persistence
-    document.addEventListener("DOMContentLoaded", () => {
-      const savedTheme = localStorage.getItem("theme");
-      const isDark = savedTheme === "dark";
-      if (isDark) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-      updateThemeIcon(isDark);
-
-      document.getElementById("themeToggle").addEventListener("click", () => {
-        const willBeDark = !document.documentElement.classList.contains("dark");
-        if (willBeDark) {
-          document.documentElement.classList.add("dark");
-          localStorage.setItem("theme", "dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-          localStorage.setItem("theme", "light");
-        }
-        updateThemeIcon(willBeDark);
-      });
-    });
-
-    function updateThemeIcon(isDark) {
-      const icon = document.getElementById("themeIcon");
-      if (isDark) {
-        icon.innerHTML = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>';
-      } else {
-        icon.innerHTML = '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>';
-      }
-    }
-  </script>
 </body>
 </html>

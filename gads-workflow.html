@@ -4,696 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Production LLM Pipeline: Engineering a 82% Campaign Setup Time Reduction | Karol Jasztal</title>
-  <style>
-    /* --- CSS Variables & Theme Foundations --- */
-    :root {
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --surface-subtle: #f1f5f9;
-      --surface-elevated: #ffffff;
-      --border: #e2e8f0;
-      --border-subtle: #cbd5e1;
-      --ink: #0f172a;
-      --ink-muted: #475569;
-      --ink-faint: #64748b;
-      --accent: #0284c7;
-      --accent-subtle: #e0f2fe;
-      --accent-hover: #0369a1;
-      --success: #059669;
-      --success-bg: #ecfdf5;
-      --success-border: #a7f3d0;
-      --danger: #dc2626;
-      --danger-bg: #fef2f2;
-      --danger-border: #fecaca;
-      --warning: #d97706;
-      --warning-bg: #fffbeb;
-      --warning-border: #fde68a;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    }
-
-    /* Dark Mode Theme */
-    html.dark {
-      --bg: #090d16;
-      --surface: #111827;
-      --surface-subtle: #1f2937;
-      --surface-elevated: #1e293b;
-      --border: #243248;
-      --border-subtle: #334155;
-      --ink: #f8fafc;
-      --ink-muted: #94a3b8;
-      --ink-faint: #64748b;
-      --accent: #38bdf8;
-      --accent-subtle: rgba(56, 189, 248, 0.12);
-      --accent-hover: #7dd3fc;
-      --success: #10b981;
-      --success-bg: rgba(16, 185, 129, 0.1);
-      --success-border: rgba(16, 185, 129, 0.3);
-      --danger: #f87171;
-      --danger-bg: rgba(239, 68, 68, 0.1);
-      --danger-border: rgba(239, 68, 68, 0.3);
-      --warning: #fbbf24;
-      --warning-bg: rgba(245, 158, 11, 0.1);
-      --warning-border: rgba(245, 158, 11, 0.3);
-      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background-color: var(--bg);
-      color: var(--ink);
-      font-family: var(--sans);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
-
-    /* --- Sticky Top Header Container --- */
-    .sticky-header-container {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--surface);
-      background-color: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      transition: background-color 0.2s ease, border-color 0.2s ease;
-    }
-    html.dark .sticky-header-container {
-      background-color: rgba(17, 24, 39, 0.96);
-    }
-
-    .top-nav {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0.85rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-    }
-    .nav-breadcrumbs {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      font-size: 0.85rem;
-    }
-    .nav-back-link {
-      color: var(--ink);
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      transition: color 0.15s ease;
-    }
-    .nav-back-link:hover { color: var(--accent); }
-    .nav-divider { color: var(--ink-faint); }
-    .nav-context { color: var(--ink-muted); font-weight: 500; }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-    .btn-nav {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      color: var(--ink);
-      padding: 0.45rem 0.95rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .btn-nav:hover {
-      background: var(--border);
-      border-color: var(--border-subtle);
-    }
-    .theme-toggle-btn {
-      width: 36px;
-      height: 36px;
-      padding: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      color: var(--ink);
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .theme-toggle-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* Wrap Anchors with Zero Horizontal Scrollbar */
-    .chapter-bar {
-      border-top: 1px solid var(--border);
-      padding: 0.65rem 1.5rem;
-    }
-    .chapter-bar-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-    }
-    .chapter-pill {
-      font-size: 0.75rem;
-      padding: 0.3rem 0.7rem;
-      border-radius: 5px;
-      background: var(--surface-subtle);
-      color: var(--ink-muted);
-      text-decoration: none;
-      font-weight: 600;
-      border: 1px solid transparent;
-      transition: all 0.15s ease;
-    }
-    .chapter-pill:hover {
-      color: var(--ink);
-      border-color: var(--border-subtle);
-      background: var(--surface);
-    }
-
-    /* --- Container & Main Spacings --- */
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 3.5rem 1.5rem 7rem;
-    }
-
-    header.dossier-header {
-      margin-bottom: 3.5rem;
-      padding-bottom: 2.25rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .meta-tagline {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--accent);
-      margin-bottom: 0.85rem;
-    }
-    .dossier-title {
-      font-size: clamp(1.8rem, 3.4vw, 2.5rem);
-      font-weight: 800;
-      line-height: 1.22;
-      letter-spacing: -0.025em;
-      color: var(--ink);
-      margin-bottom: 1.1rem;
-    }
-    .dossier-subtitle {
-      font-size: 1.1rem;
-      color: var(--ink-muted);
-      max-width: 860px;
-      line-height: 1.65;
-    }
-
-    /* Metrics Grid */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 3.5rem;
-    }
-    .metric-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: var(--shadow-sm);
-    }
-    .metric-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--ink-faint);
-      margin-bottom: 0.5rem;
-    }
-    .metric-val {
-      font-size: 2.15rem;
-      font-family: var(--mono);
-      font-weight: 800;
-      color: var(--ink);
-      line-height: 1.1;
-      margin-bottom: 0.4rem;
-    }
-    .metric-desc {
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-    .metric-desc.success { color: var(--success); }
-    .metric-desc.accent { color: var(--accent); }
-
-    /* Section Styling */
-    section.doc-section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 2.75rem 2.25rem;
-      margin-bottom: 3.5rem;
-      box-shadow: var(--shadow-sm);
-      scroll-margin-top: 7.5rem;
-    }
-    .section-header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1.25rem;
-      margin-bottom: 2rem;
-    }
-    @media (min-width: 640px) {
-      .section-header {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: baseline;
-      }
-    }
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--ink);
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-    .badge-index {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      color: var(--accent);
-      padding: 0.2rem 0.55rem;
-      border-radius: 4px;
-      margin-top: 0.15rem;
-      flex-shrink: 0;
-    }
-    .section-meta {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--ink-faint);
-    }
-    .prose-block {
-      font-size: 0.98rem;
-      color: var(--ink-muted);
-      line-height: 1.75;
-      max-width: 78ch;
-      margin-bottom: 2rem;
-    }
-    .prose-block strong { color: var(--ink); }
-
-    /* Tables */
-    .table-frame {
-      width: 100%;
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--surface);
-      margin-top: 1.25rem;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-      text-align: left;
-    }
-    th {
-      background: var(--surface-subtle);
-      color: var(--ink);
-      font-weight: 700;
-      padding: 0.9rem 1.1rem;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    td {
-      padding: 0.9rem 1.1rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--ink-muted);
-    }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: var(--surface-subtle); }
-    .mono-cell { font-family: var(--mono); }
-
-    /* Callout Boxes */
-    .grid-callouts {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      margin: 2rem 0;
-    }
-    @media (min-width: 768px) {
-      .grid-callouts { grid-template-columns: 1fr 1fr; }
-    }
-    .box-danger {
-      border: 1px solid var(--danger-border);
-      background: var(--danger-bg);
-      border-radius: 10px;
-      padding: 1.5rem;
-    }
-    .box-danger h4 {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--danger);
-      margin-bottom: 0.65rem;
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-    }
-    .box-danger ul {
-      list-style-type: disc;
-      padding-left: 1.35rem;
-      font-size: 0.85rem;
-      color: var(--ink);
-      line-height: 1.65;
-    }
-    .box-success {
-      border: 1px solid var(--success-border);
-      background: var(--success-bg);
-      border-radius: 10px;
-      padding: 1.5rem;
-    }
-    .box-success h4 {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--success);
-      margin-bottom: 0.65rem;
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-    }
-    .box-success ul {
-      list-style-type: disc;
-      padding-left: 1.35rem;
-      font-size: 0.85rem;
-      color: var(--ink);
-      line-height: 1.65;
-    }
-
-    /* Prompt Cards & Code */
-    .prompt-card {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.5rem;
-      margin-bottom: 1.75rem;
-    }
-    .prompt-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
-      gap: 1rem;
-    }
-    .prompt-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-    .btn-copy {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--ink);
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.35rem 0.75rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      white-space: nowrap;
-    }
-    .btn-copy:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .prompt-instructions {
-      font-size: 0.85rem;
-      color: var(--ink-faint);
-      margin-bottom: 0.9rem;
-      font-style: italic;
-    }
-    .code-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.15rem;
-      font-family: var(--mono);
-      font-size: 0.82rem;
-      color: var(--ink);
-      line-height: 1.65;
-      white-space: pre-wrap;
-      overflow-x: auto;
-    }
-
-    /* Linters & Diagnostics */
-    .linters-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
-      margin: 2rem 0;
-    }
-    .linter-box {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .linter-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-    .linter-q {
-      font-size: 0.85rem;
-      font-style: italic;
-      color: var(--ink-muted);
-      margin-bottom: 1rem;
-    }
-    .linter-def {
-      background: var(--danger-bg);
-      border-left: 3px solid var(--danger);
-      padding: 0.65rem 0.85rem;
-      font-size: 0.8rem;
-      color: var(--ink);
-      border-radius: 0 5px 5px 0;
-    }
-
-    .diagnostic-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.25rem;
-      margin-top: 1.5rem;
-    }
-    .diag-card {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.5rem;
-    }
-    .diag-card h4 {
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: var(--ink);
-      letter-spacing: -0.01em;
-      margin-bottom: 0.65rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
-      line-height: 1.4;
-    }
-    .diag-card h4 .dot-indicator {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      display: inline-block;
-      margin-top: 0.35rem;
-      flex-shrink: 0;
-    }
-    .diag-card p {
-      font-size: 0.85rem;
-      color: var(--ink-muted);
-      line-height: 1.65;
-    }
-
-    /* Equal Height Stage Execution Cards */
-    .stage-card {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.75rem;
-      margin-bottom: 1.5rem;
-    }
-    .stage-card.gate-card {
-      background: var(--warning-bg);
-      border-color: var(--warning-border);
-    }
-    .stage-header {
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.85rem;
-      margin-bottom: 1.25rem;
-    }
-    .stage-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--ink);
-    }
-    .stage-cols {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.15rem;
-    }
-    .stage-col {
-      flex: 1 1 240px;
-      display: flex;
-      flex-direction: column;
-    }
-    .stage-col h5 {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      font-weight: 700;
-      color: var(--ink-faint);
-      margin-bottom: 0.45rem;
-    }
-    .stage-col p {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.85rem 1rem;
-      color: var(--ink-muted);
-      line-height: 1.55;
-      font-size: 0.82rem;
-      flex: 1;
-    }
-    .stage-col.prevented h5 {
-      color: var(--success);
-    }
-    .stage-col.prevented p {
-      background: var(--success-bg);
-      border-color: var(--success-border);
-      color: var(--ink);
-    }
-
-    /* Symmetrical Side-by-Side Audit */
-    .audit-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-    .audit-entry {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-    }
-    .audit-entry-header {
-      font-size: 0.8rem;
-      font-family: var(--mono);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--ink-faint);
-      margin-bottom: 1rem;
-    }
-    .audit-columns {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.25rem;
-    }
-    .audit-col {
-      flex: 1 1 340px;
-      display: flex;
-      flex-direction: column;
-      border-radius: 10px;
-      padding: 1.25rem;
-    }
-    .audit-col.rejected {
-      background: var(--danger-bg);
-      border: 1px solid var(--danger-border);
-    }
-    .audit-col.approved {
-      background: var(--success-bg);
-      border: 1px solid var(--success-border);
-    }
-    .audit-badge-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.85rem;
-    }
-    .audit-badge {
-      font-size: 0.7rem;
-      font-weight: 800;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      font-family: var(--mono);
-    }
-    .audit-badge.bad { background: var(--danger); color: #fff; }
-    .audit-badge.good { background: var(--success); color: #fff; }
-    .audit-quote-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.85rem;
-      font-family: var(--mono);
-      font-size: 0.82rem;
-      margin-bottom: 0.85rem;
-      min-height: 56px;
-      display: flex;
-      align-items: center;
-    }
-    .audit-col.rejected .audit-quote-box { color: var(--danger); }
-    .audit-col.approved .audit-quote-box { color: var(--success); font-weight: 700; }
-    .audit-notes {
-      font-size: 0.8rem;
-      line-height: 1.5;
-      color: var(--ink);
-    }
-
-    @media print {
-      .sticky-header-container, .btn-copy { display: none !important; }
-      body { background: #fff !important; color: #000 !important; font-size: 8pt !important; }
-      section.doc-section { border: 1px solid #ccc !important; background: #fff !important; break-inside: avoid; padding: 1rem !important; }
-      th { background: #f2f2f2 !important; color: #000 !important; }
-      td { color: #111 !important; }
-      .code-box, .prompt-card, .stage-card, .audit-entry { background: #fafafa !important; border-color: #ddd !important; }
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding-top: 2.5rem;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--ink-faint);
-      font-family: var(--mono);
-    }
-  </style>
+  <link rel="stylesheet" href="shared.css" />
+  <script src="shared.js"></script>
 </head>
 <body>
 
@@ -809,76 +121,76 @@
       </div>
 
       <!-- Time Study Table -->
-      <h3 style="font-size: 1rem; font-weight: 800; color: var(--ink); margin-top: 2rem; margin-bottom: 0.65rem;">Quantitative Task-by-Task Time Study (Empirical Data)</h3>
+      <h3 class="subheading-h3 mt-6 mb-3">Quantitative Task-by-Task Time Study (Empirical Data)</h3>
       <div class="table-frame">
         <table>
           <thead>
             <tr>
               <th>Workflow Task</th>
-              <th style="text-align: right;">Manual Baseline</th>
-              <th style="text-align: right;">AI-HITL Pipeline</th>
-              <th style="text-align: right;">Time Saved</th>
-              <th style="text-align: right;">Efficiency Delta</th>
+              <th class="text-right">Manual Baseline</th>
+              <th class="text-right">AI-HITL Pipeline</th>
+              <th class="text-right">Time Saved</th>
+              <th class="text-right">Efficiency Delta</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>1. Client Ingestion &amp; Schema Normalization</td>
-              <td style="text-align: right;" class="mono-cell">5.0 hrs</td>
-              <td style="text-align: right;" class="mono-cell" style="font-weight: 700; color: var(--accent);">0.5 hrs</td>
-              <td style="text-align: right;" class="mono-cell">-4.5 hrs</td>
-              <td style="text-align: right; color: var(--success); font-weight: 700;" class="mono-cell">-90%</td>
+              <td class="mono-cell text-right">5.0 hrs</td>
+              <td class="mono-cell text-right text-accent font-bold">0.5 hrs</td>
+              <td class="mono-cell text-right">-4.5 hrs</td>
+              <td class="mono-cell text-right text-success font-bold">-90%</td>
             </tr>
             <tr>
               <td>2. Market Research &amp; Forum Data Mining (&ge;150 quotes)</td>
-              <td style="text-align: right;" class="mono-cell">8.0 hrs</td>
-              <td style="text-align: right;" class="mono-cell" style="font-weight: 700; color: var(--accent);">1.0 hr</td>
-              <td style="text-align: right;" class="mono-cell">-7.0 hrs</td>
-              <td style="text-align: right; color: var(--success); font-weight: 700;" class="mono-cell">-87%</td>
+              <td class="mono-cell text-right">8.0 hrs</td>
+              <td class="mono-cell text-right text-accent font-bold">1.0 hr</td>
+              <td class="mono-cell text-right">-7.0 hrs</td>
+              <td class="mono-cell text-right text-success font-bold">-87%</td>
             </tr>
             <tr>
               <td>3. Ad Copy Matrix &amp; Negative Curation (20 Titles, 10 Descriptions)</td>
-              <td style="text-align: right;" class="mono-cell">10.0 hrs</td>
-              <td style="text-align: right;" class="mono-cell" style="font-weight: 700; color: var(--accent);">1.5 hrs</td>
-              <td style="text-align: right;" class="mono-cell">-8.5 hrs</td>
-              <td style="text-align: right; color: var(--success); font-weight: 700;" class="mono-cell">-85%</td>
+              <td class="mono-cell text-right">10.0 hrs</td>
+              <td class="mono-cell text-right text-accent font-bold">1.5 hrs</td>
+              <td class="mono-cell text-right">-8.5 hrs</td>
+              <td class="mono-cell text-right text-success font-bold">-85%</td>
             </tr>
             <tr>
               <td>4. 15-Section Direct-Response Landing Page Copy</td>
-              <td style="text-align: right;" class="mono-cell">10.0 hrs</td>
-              <td style="text-align: right;" class="mono-cell" style="font-weight: 700; color: var(--accent);">1.5 hrs</td>
-              <td style="text-align: right;" class="mono-cell">-8.5 hrs</td>
-              <td style="text-align: right; color: var(--success); font-weight: 700;" class="mono-cell">-85%</td>
+              <td class="mono-cell text-right">10.0 hrs</td>
+              <td class="mono-cell text-right text-accent font-bold">1.5 hrs</td>
+              <td class="mono-cell text-right">-8.5 hrs</td>
+              <td class="mono-cell text-right text-success font-bold">-85%</td>
             </tr>
             <tr>
               <td>5. Mandatory Human QA Gate, Conflict Audit &amp; Policy</td>
-              <td style="text-align: right;" class="mono-cell">2.0 hrs</td>
-              <td style="text-align: right;" class="mono-cell" style="font-weight: 700; color: var(--accent);">1.5 hrs</td>
-              <td style="text-align: right;" class="mono-cell">-0.5 hrs</td>
-              <td style="text-align: right; color: var(--warning); font-weight: 700;" class="mono-cell">-25%</td>
+              <td class="mono-cell text-right">2.0 hrs</td>
+              <td class="mono-cell text-right text-accent font-bold">1.5 hrs</td>
+              <td class="mono-cell text-right">-0.5 hrs</td>
+              <td class="mono-cell text-right text-warning font-bold">-25%</td>
             </tr>
             <tr>
               <td>6. Google Tag Manager (GTM) Tagging, GA4 Events &amp; Ad Platform Deployment</td>
-              <td style="text-align: right;" class="mono-cell">5.0 hrs</td>
-              <td style="text-align: right;" class="mono-cell" style="font-weight: 700; color: var(--accent);">1.0 hr</td>
-              <td style="text-align: right;" class="mono-cell">-4.0 hrs</td>
-              <td style="text-align: right; color: var(--success); font-weight: 700;" class="mono-cell">-80%</td>
+              <td class="mono-cell text-right">5.0 hrs</td>
+              <td class="mono-cell text-right text-accent font-bold">1.0 hr</td>
+              <td class="mono-cell text-right">-4.0 hrs</td>
+              <td class="mono-cell text-right text-success font-bold">-80%</td>
             </tr>
-            <tr style="background: var(--surface-subtle); font-weight: 700;">
+            <tr class="table-row-total">
               <td>TOTAL END-TO-END CYCLE TIME</td>
-              <td style="text-align: right;" class="mono-cell">40.0 hrs</td>
-              <td style="text-align: right; color: var(--accent);" class="mono-cell">7.0 hrs</td>
-              <td style="text-align: right;" class="mono-cell">-33.0 hrs</td>
-              <td style="text-align: right; color: var(--success); font-size: 0.95rem;" class="mono-cell">-82.5%</td>
+              <td class="mono-cell text-right">40.0 hrs</td>
+              <td class="mono-cell text-right text-accent">7.0 hrs</td>
+              <td class="mono-cell text-right">-33.0 hrs</td>
+              <td class="mono-cell text-right text-success text-base">-82.5%</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <!-- Architecture SVG -->
-      <h3 style="font-size: 1rem; font-weight: 800; color: var(--ink); margin-top: 2.5rem; margin-bottom: 0.65rem;">End-to-End System Architecture &amp; Data Flow Schematic</h3>
-      <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; margin-bottom: 2.5rem;">
-        <svg viewBox="0 0 740 145" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; display: block;">
+      <h3 class="subheading-h3 mt-8 mb-3">End-to-End System Architecture &amp; Data Flow Schematic</h3>
+      <div class="schematic-frame">
+        <svg viewBox="0 0 740 145" class="schematic-svg" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="arr-m" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b"></path>
@@ -945,7 +257,7 @@
       </div>
 
       <!-- Stage Execution Contract Cards -->
-      <h3 style="font-size: 1rem; font-weight: 800; color: var(--ink); margin-bottom: 1rem;">Stage-by-Stage Operational Contract (5 Execution Boundaries)</h3>
+      <h3 class="subheading-h3 mb-4">Stage-by-Stage Operational Contract (5 Execution Boundaries)</h3>
       <div id="stagesContainer">
         <!-- Rendered by JS -->
       </div>
@@ -961,14 +273,14 @@
         The pipeline's effectiveness begins with rigid input standardization. Rather than relying on vague kickoff conversations, this 50-field schema extracts operational facts, deep psychographic pain points, and negative boundary guardrails before any prompt is executed.
       </p>
 
-      <div class="table-frame" style="max-height: 650px; overflow-y: auto;">
+      <div class="table-frame table-scroll-lg">
         <table>
           <thead>
             <tr>
-              <th style="width: 45px; text-align: center;">#</th>
-              <th style="width: 140px;">Category</th>
-              <th style="width: 260px;">Standardized Intake Field</th>
-              <th style="width: 220px;">Internal Schema Key</th>
+              <th class="w-col-idx text-center">#</th>
+              <th class="w-col-sm">Category</th>
+              <th class="w-col-xl">Standardized Intake Field</th>
+              <th class="w-col-md">Internal Schema Key</th>
               <th>Operational Purpose in Pipeline</th>
             </tr>
           </thead>
@@ -993,8 +305,8 @@
         <table>
           <thead>
             <tr>
-              <th style="width: 220px;">System / Platform</th>
-              <th style="width: 250px;">Standardized Task</th>
+              <th class="w-col-md">System / Platform</th>
+              <th class="w-col-lg">Standardized Task</th>
               <th>Operational Implementation Specification</th>
             </tr>
           </thead>
@@ -1049,7 +361,7 @@
         <table>
           <thead>
             <tr>
-              <th style="width: 220px;">Landing Page Section</th>
+              <th class="w-col-md">Landing Page Section</th>
               <th>Direct-Response Prompt Rule &amp; Structural Architecture</th>
             </tr>
           </thead>
@@ -1089,10 +401,10 @@
         <!-- Rendered by JS -->
       </div>
 
-      <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--ink); margin-top: 2.5rem; margin-bottom: 0.5rem;">
+      <h3 class="subheading-h3 mt-8 mb-2">
         Side-by-Side Audit: Raw LLM Output vs. Human-Gated Reality
       </h3>
-      <p class="prose-block" style="margin-bottom: 1.25rem;">
+      <p class="prose-block mb-4">
         Empirical comparison demonstrating why deterministic linters and human review are necessary to protect client ad budgets and policy compliance.
       </p>
 
@@ -1100,9 +412,7 @@
         <!-- Rendered by JS -->
       </div>
     </section>
-    <footer>
-      <p>&copy; 2026 Karol Jasztal &bull; Hosted on GitHub Pages &bull; All Rights Reserved</p>
-    </footer>
+    <footer id="site-footer"></footer>
   </div>
 
   <script>
@@ -1358,15 +668,15 @@ Workflow:
           <div class="stage-header">
             <div>
               <div class="stage-title">${st.name}</div>
-              <div style="font-size: 0.75rem; color: var(--ink-faint); margin-top: 3px;">
-                Primary Artifact: <strong style="color: var(--ink);">${st.primaryArtifact}</strong>
+              <div class="artifact-meta">
+                Primary Artifact: <strong class="text-ink">${st.primaryArtifact}</strong>
               </div>
             </div>
           </div>
           <div class="stage-cols">
             <div class="stage-col">
               <h5>Upstream Data Input:</h5>
-              <p class="mono-cell" style="font-size: 0.75rem;">${st.inputs}</p>
+              <p class="mono-cell text-xs">${st.inputs}</p>
             </div>
             <div class="stage-col">
               <h5>Machine / Model Execution:</h5>
@@ -1390,11 +700,11 @@ Workflow:
       schemaAttributes.forEach(f => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td style="text-align: center; color: var(--ink-faint); font-weight: 700;" class="mono-cell">${f.id}</td>
-          <td><span style="background: var(--surface-subtle); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 600;">${f.cat}</span></td>
-          <td style="font-weight: 700; color: var(--ink);">${f.name}</td>
-          <td class="mono-cell" style="color: var(--accent); font-size: 0.78rem;">${f.key}</td>
-          <td style="line-height: 1.55;">${f.role}</td>
+          <td class="mono-cell text-center text-faint font-bold">${f.id}</td>
+          <td><span class="badge-subtle">${f.cat}</span></td>
+          <td class="font-bold text-ink">${f.name}</td>
+          <td class="mono-cell text-accent text-xs">${f.key}</td>
+          <td class="leading-normal">${f.role}</td>
         `;
         schemaTbody.appendChild(tr);
       });
@@ -1404,9 +714,9 @@ Workflow:
       sopTasks.forEach(item => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td style="font-weight: 700; color: var(--ink);">${item.area}</td>
-          <td style="font-weight: 600;">${item.task}</td>
-          <td style="line-height: 1.55;">${item.detail}</td>
+          <td class="font-bold text-ink">${item.area}</td>
+          <td class="font-semibold">${item.task}</td>
+          <td class="leading-normal">${item.detail}</td>
         `;
         sopTbody.appendChild(tr);
       });
@@ -1420,8 +730,8 @@ Workflow:
           <div class="prompt-header">
             <div>
               <div class="prompt-title">${p.title}</div>
-              <div style="font-size: 0.75rem; color: var(--ink-faint); margin-top: 2px;">
-                Persona / Role: <strong style="color: var(--ink);">${p.role}</strong>
+              <div class="artifact-meta">
+                Persona / Role: <strong class="text-ink">${p.role}</strong>
               </div>
             </div>
             <button class="btn-copy" onclick="copySnippet('resPrompt_${idx}', this)">Copy Prompt</button>
@@ -1441,7 +751,7 @@ Workflow:
           <div class="prompt-header">
             <div>
               <div class="prompt-title">${kw.title}</div>
-              <div style="font-size: 0.75rem; color: var(--ink-faint); margin-top: 2px;">${kw.detail}</div>
+              <div class="artifact-meta">${kw.detail}</div>
             </div>
             <button class="btn-copy" onclick="copySnippet('kwSnippet_${idx}', this)">Copy Snippet</button>
           </div>
@@ -1455,8 +765,8 @@ Workflow:
       lpRules.forEach(r => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td style="font-weight: 700; color: var(--ink);" class="mono-cell">${r.section}</td>
-          <td style="line-height: 1.55;">${r.rule}</td>
+          <td class="mono-cell font-bold text-ink">${r.section}</td>
+          <td class="leading-normal">${r.rule}</td>
         `;
         lpTbody.appendChild(tr);
       });
@@ -1503,7 +813,7 @@ Workflow:
           <div class="audit-columns">
             <div class="audit-col rejected">
               <div class="audit-badge-row">
-                <span style="font-size: 0.8rem; font-weight: 700; color: var(--danger); display: flex; align-items: center; gap: 0.35rem;">
+                <span class="text-danger flex-center-sm">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
                   Raw LLM Output
                 </span>
@@ -1514,13 +824,13 @@ Workflow:
             </div>
             <div class="audit-col approved">
               <div class="audit-badge-row">
-                <span style="font-size: 0.8rem; font-weight: 700; color: var(--success); display: flex; align-items: center; gap: 0.35rem;">
+                <span class="text-success flex-center-sm">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   Human-Gated Output
                 </span>
                 <span class="audit-badge good">APPROVED</span>
               </div>
-              <div class="audit-quote-box">"${c.humanGated}"</div>
+              <div class="audit-quote-box text-success font-bold">"${c.humanGated}"</div>
               <div class="audit-notes"><strong>Calibration Fix:</strong> ${c.gatedFix}</div>
             </div>
           </div>
@@ -1528,68 +838,7 @@ Workflow:
         auditGrid.appendChild(div);
       });
 
-      // Initialize Theme Switcher
-      initTheme();
     });
-
-    // Helper: Escape HTML in prompts
-    function escapeHtml(string) {
-      return String(string)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    // Helper: Copy Snippets to Clipboard
-    function copySnippet(id, btn) {
-      const text = document.getElementById(id).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        const orig = btn.innerText;
-        btn.innerText = "Copied!";
-        btn.style.color = "var(--success)";
-        btn.style.borderColor = "var(--success)";
-        setTimeout(() => {
-          btn.innerText = orig;
-          btn.style.color = "";
-          btn.style.borderColor = "";
-        }, 2000);
-      });
-    }
-
-    // Theme Management (Default Light)
-    function initTheme() {
-      const savedTheme = localStorage.getItem("theme");
-      const isDark = savedTheme === "dark";
-      if (isDark) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-      updateThemeIcon(isDark);
-
-      document.getElementById("themeToggle").addEventListener("click", () => {
-        const willBeDark = !document.documentElement.classList.contains("dark");
-        if (willBeDark) {
-          document.documentElement.classList.add("dark");
-          localStorage.setItem("theme", "dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-          localStorage.setItem("theme", "light");
-        }
-        updateThemeIcon(willBeDark);
-      });
-    }
-
-    function updateThemeIcon(isDark) {
-      const icon = document.getElementById("themeIcon");
-      if (isDark) {
-        icon.innerHTML = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>';
-      } else {
-        icon.innerHTML = '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>';
-      }
-    }
   </script>
 </body>
 </html>
