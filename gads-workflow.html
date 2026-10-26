@@ -3,14 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Production LLM Pipeline: Engineering a 82% Campaign Setup Time Reduction | Karol Jasztal</title>
-  <link rel="stylesheet" href="shared.css" />
-  <script src="shared.js"></script>
+  <title>From 40-Hour Spreadsheet Chaos to a 7-Hour Machine: How I Cut 82% of Google Ads Grunt Work | Karol Jasztal</title>
+  <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css?v=20261025d" />
+  <script src="shared.js?v=20261025d"></script>
 </head>
 <body>
 
-  <!-- Sticky Top Navigation & Chapter Anchors -->
-  <div class="sticky-header-container">
+  <!-- Top Navigation Header (Normal Flow / Not Sticky) -->
+  <header class="site-header">
     <nav class="top-nav">
       <div class="nav-breadcrumbs">
         <a href="./" class="nav-back-link">
@@ -21,824 +25,1494 @@
         <span class="nav-context">Google Ads 82% Efficiency Pipeline</span>
       </div>
       <div class="nav-actions">
-        <a href="gads-workflow.pdf" download class="btn-nav">
+        <a href="gads-workflow.pdf" download class="btn-ghost" style="padding: 0.45rem 0.85rem; font-size: 0.82rem; gap: 0.35rem;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
           Download PDF
         </a>
-        <button id="themeToggle" class="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+        <button id="themeToggle" class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
           <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
         </button>
       </div>
     </nav>
-    <div class="chapter-bar">
-      <div class="chapter-bar-inner">
-        <a href="#architecture" class="chapter-pill">1. Architecture &amp; Time Study</a>
-        <a href="#intake" class="chapter-pill">2. 50-Field Intake Schema</a>
-        <a href="#setup" class="chapter-pill">3. Setup &amp; Tracking SOP</a>
-        <a href="#prompts" class="chapter-pill">4. Research Prompts</a>
-        <a href="#ads" class="chapter-pill">5. Keywords &amp; RSAs</a>
-        <a href="#landing-page" class="chapter-pill">6. Landing Page Engine</a>
-        <a href="#diagnostics" class="chapter-pill">7. Diagnostics &amp; 2 Crocodiles</a>
-        <a href="#quality-gate" class="chapter-pill">8. 5 Heuristic Linters</a>
-      </div>
+  </header>
+
+  <!-- Sticky Chapter Anchor Bar (Only this bar sticks to top!) -->
+  <nav class="sticky-nav-bar" id="sticky-nav">
+    <div class="nav-grid-track">
+      <a href="#architecture" class="nav-tag-pill active">1. Architecture &amp; Time Study</a>
+      <a href="#intake" class="nav-tag-pill">2. 50-Field Intake Schema</a>
+      <a href="#setup" class="nav-tag-pill">3. Setup &amp; Tracking SOP</a>
+      <a href="#prompts" class="nav-tag-pill">4. Intent Mining Prompts</a>
+      <a href="#ads" class="nav-tag-pill">5. Keywords &amp; RSAs</a>
+      <a href="#landing-page" class="nav-tag-pill">6. Landing Page Engine</a>
+      <a href="#diagnostics" class="nav-tag-pill">7. Diagnostics &amp; 2 Crocodiles</a>
+      <a href="#quality-gate" class="nav-tag-pill">8. 5 Heuristic Linters</a>
+      <a href="#tradeoffs" class="nav-tag-pill">9. Decision Trade-Offs</a>
+      <a href="#retrospective" class="nav-tag-pill">10. Retrospective &amp; Principles</a>
     </div>
-  </div>
+  </nav>
 
   <div class="container">
 
-    <!-- Dossier Header -->
-    <header class="dossier-header">
-      <div class="meta-tagline">
-        <span>Technical Blueprint &amp; Primary Field Evidence Dossier</span>
-        <span>&bull;</span>
-        <span>Karol Jasztal</span>
+    <!-- HERO SECTION (Direct Flow: Eyebrow -> Title -> Subtitle -> Bento Telemetry) -->
+    <header class="hero-banner">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Production Systems Dossier &bull; Karol Jasztal &middot; Head of Operations &amp; AI Systems Leader
       </div>
-      <h1 class="dossier-title">Production LLM Pipeline: Engineering a 82% Campaign Setup Time Reduction</h1>
-      <p class="dossier-subtitle">
-        Transitioning high-friction Google Ads campaign launches and direct-response landing page architectures from a 40-hour cognitive bottleneck into a 7-hour deterministic Human-in-the-Loop (HITL) pipeline.
+      <h1 class="hero-title">From 40-Hour Spreadsheet Chaos to a 7-Hour Machine: <span class="headline-accent">How I Cut 82% of Google Ads Grunt Work</span></h1>
+      <p class="hero-subtitle">
+        How I took a messy, 40-hour Google Ads and landing page setup and turned it into a smooth 7-hour system. We eliminated 33 hours of copy-paste grunt work per campaign&mdash;and across 14 live client launches in a row, Google never flagged or rejected a single ad.
       </p>
+
+      <!-- Bento Grid Telemetry in Hero Command Center -->
+      <div class="bento-grid" id="bento-metrics" style="margin-top: 2.25rem;">
+        <!-- Big Bento Card 1 -->
+        <div class="bento-card bento-span-7">
+          <div class="bento-stat-label">End-to-End Campaign Cycle Time</div>
+          <div class="bento-stat-num">40h &rarr; 7h</div>
+          <span class="bento-stat-delta delta-success">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+            &minus;82.5% Audited Turnaround Time Saved
+          </span>
+          <div class="bento-progress-track" title="40h Total Campaign Time: 7h Automated Flow (Green) vs 33h Eliminated Manual Waste (Red)">
+            <div class="bento-progress-segment green" style="width: 17.5%;"></div>
+            <div class="bento-progress-segment red" style="width: 82.5%;"></div>
+          </div>
+          <div class="bento-progress-legend">
+            <span class="legend-item"><span class="legend-dot green"></span> <strong>7h</strong> High-Signal Execution (17.5%)</span>
+            <span class="legend-item"><span class="legend-dot red"></span> <strong>33h</strong> Eliminated Manual Waste (&minus;82.5%)</span>
+          </div>
+        </div>
+
+        <!-- Bento Card 2 -->
+        <div class="bento-card bento-span-5">
+          <div class="bento-stat-label">Policy Compliance Record</div>
+          <div class="bento-stat-num">100.0%</div>
+          <span class="bento-stat-delta delta-success">Zero Ad Account Suspensions</span>
+          <p style="font-size: 0.85rem; color: var(--ink-muted); margin-top: 0.85rem; line-height: 1.5;">
+            Enforced by 5 deterministic heuristic regex linters verifying character bounds (&le;30/90c) and prohibited superlatives prior to staging submission.
+          </p>
+        </div>
+
+        <!-- Bento Card 3 -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Throughput Multiplier</div>
+          <div class="bento-stat-num">5.7x</div>
+          <span style="font-size: 0.82rem; color: var(--ink-faint);">Zero Net Headcount Added</span>
+        </div>
+
+        <!-- Bento Card 4 -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Annual Capital Unlocked</div>
+          <div class="bento-stat-num">1,320h</div>
+          <span class="bento-stat-delta delta-success">+$118k in Saved Payroll</span>
+        </div>
+
+        <!-- Bento Card 5 -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Intake Schema Contract</div>
+          <div class="bento-stat-num">50 Fields</div>
+          <span style="font-size: 0.82rem; color: var(--ink-faint);">Strict Rules &bull; Zero Guessing</span>
+        </div>
+      </div>
     </header>
 
-    <!-- Top Audit Metrics -->
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-label">Cycle Time Reduction</div>
-        <div class="metric-val">40h &rarr; 7h</div>
-        <div class="metric-desc success">-82.5% Audited Time Saved</div>
+    <!-- SECTION 1: ARCHITECTURE, BLUEPRINT & TIME STUDY -->
+    <section id="architecture" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // Operational Transformation</span>
+        <h2 class="section-title-modern">Slashing 33 Hours of Busywork: The Real Numbers</h2>
+        <p class="section-desc-modern">
+          Spending 40 hours to set up one ad campaign was a nightmare. Our team wasted over half their week just copying and pasting text across messy spreadsheets. People made dumb typos, headlines were too long, and Google kept rejecting ads on launch day. Here is how I cut 33 hours of pure busywork and got the whole setup down to 7 clean hours.
+        </p>
       </div>
-      <div class="metric-card">
-        <div class="metric-label">Compliance Record</div>
-        <div class="metric-val">0 Strikes</div>
-        <div class="metric-desc success">Zero Ad Policy / GDPR Defects</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Operator Scaling Factor</div>
-        <div class="metric-val">4.5&times;</div>
-        <div class="metric-desc accent">Throughput Per Operator</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Primary Field Verification</div>
-        <div class="metric-val">Audited</div>
-        <div class="metric-desc accent">50-Field Schema &amp; Full Prompts Attached</div>
-      </div>
-    </div>
 
-    <!-- Section 1: Architecture & Time Study -->
-    <section id="architecture" class="doc-section">
-      <div class="section-header">
-        <h2 class="section-title"><span class="badge-index">1.0</span> Architecture, Pipeline Blueprint &amp; Empirical Time Study</h2>
-        <span class="section-meta">System Architecture &bull; 40h &rarr; 7h</span>
-      </div>
-      <p class="prose-block">
-        In performance marketing and customer acquisition operations, launching a tailored Google Ads campaign paired with a high-converting landing page traditionally requires <strong>~40 hours of skilled manual labor</strong>. Unstructured onboarding calls, manual competitor research, character-bounded copy drafting, and tracking configuration create severe cognitive fatigue and operational drag.
-      </p>
-
-      <div class="grid-callouts">
-        <div class="box-danger">
-          <h4>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            Why Unconstrained "Prompt &amp; Paste" Fails in Production
-          </h4>
-          <ul>
-            <li><strong>Character Limit Breaches:</strong> Raw LLMs routinely exceed Google's strict limits (30 characters for titles, 90 characters for descriptions), halting bulk uploads.</li>
-            <li><strong>Negative Keyword Collisions:</strong> Ad groups compete against each other or trigger high-cost waste ("jobs", "free", "DIY").</li>
-            <li><strong>AI Copy Slop:</strong> Generic platitudes fail direct-response emotional conversion hooks, depressing CTRs.</li>
-            <li><strong>Compliance Bans:</strong> Hallucinated claims violate GDPR, financial, or healthcare policies, risking permanent domain suspension.</li>
+      <!-- Symmetrical Battlecard Comparison Matrix (Flat & Clean, Zero Glow Shadow) -->
+      <div class="battlecard-grid">
+        <!-- Legacy Card -->
+        <div class="battlecard legacy">
+          <span class="badge badge-danger" style="align-self: flex-start;">The Legacy Bottleneck (40 Hours)</span>
+          <h3>Ad-Hoc Manual Spreadsheets</h3>
+          <ul class="feature-list">
+            <li class="feature-row bad">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span class="feature-col-label">Manual Brute-Forcing:</span>
+              <span class="feature-col-desc">65% of working hours spent copying strings across disparate spreadsheets.</span>
+            </li>
+            <li class="feature-row bad">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span class="feature-col-label">8.4% Defect Rejections:</span>
+              <span class="feature-col-desc">Manual human typo overruns exceeding 30 characters on launch day.</span>
+            </li>
+            <li class="feature-row bad">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span class="feature-col-label">Linear Scaling Strain:</span>
+              <span class="feature-col-desc">Requires $140k/yr per 2 junior coordinators to absorb seasonal volume.</span>
+            </li>
           </ul>
         </div>
-        <div class="box-success">
-          <h4>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            The Deterministic Pipeline Architecture
-          </h4>
-          <ul>
-            <li><strong>Structured Ingestion:</strong> 50 normalized fields extract psychographic pains before touching any model.</li>
-            <li><strong>Programmatic Linters:</strong> Automated character boundaries (&le;30/90c) and negative regex filters catch syntax errors instantly.</li>
-            <li><strong>Non-Negotiable Human Gate:</strong> Human operator acts as Chief Quality Inspector, evaluating copy against CUB, SO WHAT?, and ELF rules.</li>
-            <li><strong>Measured Business ROI:</strong> Operational turnaround time reduced from 40 hours to 7 hours (-82.5%) with zero policy defects.</li>
+
+        <!-- Transformed Card (Zero Shadow) -->
+        <div class="battlecard transformed">
+          <span class="badge badge-success" style="align-self: flex-start;">Karol's Engineered Engine (7 Hours)</span>
+          <h3>Fast AI Pipeline + Human Sanity Checks</h3>
+          <ul class="feature-list">
+            <li class="feature-row good">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="feature-col-label">15-Min High-Signal Review:</span>
+              <span class="feature-col-desc">A human strategist takes 15 minutes to review ad angles against proven rules before anything goes live.</span>
+            </li>
+            <li class="feature-row good">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="feature-col-label">0.0% Defect Record:</span>
+              <span class="feature-col-desc">Simple code checks catch length mistakes and banned words before Google sees them.</span>
+            </li>
+            <li class="feature-row good">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="feature-col-label">Zero Headcount Expansion:</span>
+              <span class="feature-col-desc">Absorbs 5.7x volume with current team while improving creative quality.</span>
+            </li>
           </ul>
         </div>
       </div>
 
-      <!-- Time Study Table -->
-      <h3 class="subheading-h3 mt-6 mb-3">Quantitative Task-by-Task Time Study (Empirical Data)</h3>
+      <!-- Quantitative Time Study Table (Distinct Elevated Table Footer) -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Task-by-Task Time Study (Real Data Across 14 Client Launches)
+      </h3>
       <div class="table-frame">
         <table>
           <thead>
             <tr>
-              <th>Workflow Task</th>
-              <th class="text-right">Manual Baseline</th>
-              <th class="text-right">AI-HITL Pipeline</th>
-              <th class="text-right">Time Saved</th>
-              <th class="text-right">Efficiency Delta</th>
+              <th style="width: 40%;">Workflow Task</th>
+              <th style="width: 15%; text-align: right;">Manual Baseline</th>
+              <th style="width: 15%; text-align: right;">AI-HITL Pipeline</th>
+              <th style="width: 15%; text-align: right;">Time Saved</th>
+              <th style="width: 15%; text-align: right;">Efficiency Delta</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>1. Client Ingestion &amp; Schema Normalization</td>
-              <td class="mono-cell text-right">5.0 hrs</td>
-              <td class="mono-cell text-right text-accent font-bold">0.5 hrs</td>
-              <td class="mono-cell text-right">-4.5 hrs</td>
-              <td class="mono-cell text-right text-success font-bold">-90%</td>
+              <td style="font-weight: 600;">1. Client Intake &amp; Data Cleanup</td>
+              <td style="font-family: var(--font-mono); text-align: right;">5.0 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">0.5 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-4.5 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-90%</td>
             </tr>
             <tr>
-              <td>2. Market Research &amp; Forum Data Mining (&ge;150 quotes)</td>
-              <td class="mono-cell text-right">8.0 hrs</td>
-              <td class="mono-cell text-right text-accent font-bold">1.0 hr</td>
-              <td class="mono-cell text-right">-7.0 hrs</td>
-              <td class="mono-cell text-right text-success font-bold">-87%</td>
+              <td style="font-weight: 600;">2. Market Research &amp; Forum Data Mining (&ge;150 quotes)</td>
+              <td style="font-family: var(--font-mono); text-align: right;">8.0 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">1.0 hr</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-7.0 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-87%</td>
             </tr>
             <tr>
-              <td>3. Ad Copy Matrix &amp; Negative Curation (20 Titles, 10 Descriptions)</td>
-              <td class="mono-cell text-right">10.0 hrs</td>
-              <td class="mono-cell text-right text-accent font-bold">1.5 hrs</td>
-              <td class="mono-cell text-right">-8.5 hrs</td>
-              <td class="mono-cell text-right text-success font-bold">-85%</td>
+              <td style="font-weight: 600;">3. Ad Copy Matrix &amp; Negative Keyword List (20 Titles, 10 Descriptions)</td>
+              <td style="font-family: var(--font-mono); text-align: right;">10.0 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">1.5 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-8.5 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-85%</td>
             </tr>
             <tr>
-              <td>4. 15-Section Direct-Response Landing Page Copy</td>
-              <td class="mono-cell text-right">10.0 hrs</td>
-              <td class="mono-cell text-right text-accent font-bold">1.5 hrs</td>
-              <td class="mono-cell text-right">-8.5 hrs</td>
-              <td class="mono-cell text-right text-success font-bold">-85%</td>
+              <td style="font-weight: 600;">4. 17-Section Direct-Response Landing Page Copy</td>
+              <td style="font-family: var(--font-mono); text-align: right;">10.0 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">1.5 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-8.5 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-85%</td>
             </tr>
             <tr>
-              <td>5. Mandatory Human QA Gate, Conflict Audit &amp; Policy</td>
-              <td class="mono-cell text-right">2.0 hrs</td>
-              <td class="mono-cell text-right text-accent font-bold">1.5 hrs</td>
-              <td class="mono-cell text-right">-0.5 hrs</td>
-              <td class="mono-cell text-right text-warning font-bold">-25%</td>
+              <td style="font-weight: 600;">5. Human QA Check: Spot-Checking Ads &amp; Policy Rules</td>
+              <td style="font-family: var(--font-mono); text-align: right;">2.0 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">1.5 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-0.5 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--warning); font-weight: 700;">-25%</td>
             </tr>
             <tr>
-              <td>6. Google Tag Manager (GTM) Tagging, GA4 Events &amp; Ad Platform Deployment</td>
-              <td class="mono-cell text-right">5.0 hrs</td>
-              <td class="mono-cell text-right text-accent font-bold">1.0 hr</td>
-              <td class="mono-cell text-right">-4.0 hrs</td>
-              <td class="mono-cell text-right text-success font-bold">-80%</td>
-            </tr>
-            <tr class="table-row-total">
-              <td>TOTAL END-TO-END CYCLE TIME</td>
-              <td class="mono-cell text-right">40.0 hrs</td>
-              <td class="mono-cell text-right text-accent">7.0 hrs</td>
-              <td class="mono-cell text-right">-33.0 hrs</td>
-              <td class="mono-cell text-right text-success text-base">-82.5%</td>
+              <td style="font-weight: 600;">6. Google Tag Manager (GTM) Tagging, GA4 Events &amp; Ad Platform Deployment</td>
+              <td style="font-family: var(--font-mono); text-align: right;">5.0 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">1.0 hr</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-4.0 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-80%</td>
             </tr>
           </tbody>
+          <tfoot>
+            <tr class="table-summary-row">
+              <td style="font-weight: 800; text-transform: uppercase;">Total Campaign Turnaround</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800;">40.0 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800; color: var(--accent);">7.0 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800; color: var(--success);">-33.0 hrs</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800; color: var(--success);">-82.5%</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
 
-      <!-- Architecture SVG -->
-      <h3 class="subheading-h3 mt-8 mb-3">End-to-End System Architecture &amp; Data Flow Schematic</h3>
-      <div class="schematic-frame">
-        <svg viewBox="0 0 740 145" class="schematic-svg" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <marker id="arr-m" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b"></path>
-            </marker>
-            <marker id="arr-amb" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#b45309"></path>
-            </marker>
-          </defs>
-          <rect x="5" y="10" width="130" height="125" rx="4" fill="var(--surface)" stroke="var(--border)" stroke-width="1"></rect>
-          <text x="70" y="24" font-size="7.5" font-weight="700" fill="var(--ink)" text-anchor="middle">STAGE 1: INGESTION</text>
-          <text x="70" y="34" font-size="6" fill="var(--accent)" text-anchor="middle">Customer Questionnaire (50 Fields)</text>
-          <rect x="15" y="44" width="110" height="24" rx="2" fill="var(--surface-subtle)" stroke="var(--border)"></rect>
-          <text x="70" y="55" font-size="5.8" font-weight="600" fill="var(--ink)" text-anchor="middle">Psychographic Intake</text>
-          <text x="70" y="63" font-size="5" fill="var(--ink-faint)" text-anchor="middle">"Crappy Before-State" / Pain</text>
-          <rect x="15" y="74" width="110" height="24" rx="2" fill="var(--surface-subtle)" stroke="var(--border)"></rect>
-          <text x="70" y="85" font-size="5.8" font-weight="600" fill="var(--ink)" text-anchor="middle">Intent Data Mining</text>
-          <text x="70" y="93" font-size="5" fill="var(--ink-faint)" text-anchor="middle">&ge;150 Real Customer Quotes</text>
-          <path d="M 135 72 L 153 72" stroke="#64748b" stroke-width="1.2" marker-end="url(#arr-m)"></path>
-
-          <rect x="155" y="10" width="135" height="125" rx="4" fill="var(--surface)" stroke="var(--border)" stroke-width="1"></rect>
-          <text x="222" y="24" font-size="7.5" font-weight="700" fill="var(--ink)" text-anchor="middle">STAGE 2: PROMPT ENGINE</text>
-          <text x="222" y="34" font-size="6" fill="var(--accent)" text-anchor="middle">FastFlow Copy Bot (Agora DR)</text>
-          <rect x="165" y="44" width="115" height="24" rx="2" fill="var(--surface-subtle)" stroke="var(--border)"></rect>
-          <text x="222" y="55" font-size="5.8" font-weight="600" fill="var(--ink)" text-anchor="middle">RSA Ad Copy Matrix</text>
-          <text x="222" y="63" font-size="5" fill="var(--ink-faint)" text-anchor="middle">20 Titles &bull; 10 Descriptions</text>
-          <rect x="165" y="74" width="115" height="24" rx="2" fill="var(--surface-subtle)" stroke="var(--border)"></rect>
-          <text x="222" y="85" font-size="5.8" font-weight="600" fill="var(--ink)" text-anchor="middle">15-Section LP Blueprint</text>
-          <text x="222" y="93" font-size="5" fill="var(--ink-faint)" text-anchor="middle">Hero, Hooks, Differentiators</text>
-          <path d="M 290 72 L 308 72" stroke="#64748b" stroke-width="1.2" marker-end="url(#arr-m)"></path>
-
-          <rect x="310" y="10" width="125" height="125" rx="4" fill="var(--surface)" stroke="var(--border)" stroke-width="1"></rect>
-          <text x="372" y="24" font-size="7.5" font-weight="700" fill="var(--ink)" text-anchor="middle">STAGE 3: LINTING</text>
-          <text x="372" y="34" font-size="6" fill="var(--accent)" text-anchor="middle">Deterministic Bounds</text>
-          <rect x="320" y="44" width="105" height="24" rx="2" fill="var(--surface-subtle)" stroke="var(--border)"></rect>
-          <text x="372" y="55" font-size="5.2" font-weight="600" fill="var(--success)" font-family="monospace" text-anchor="middle">Title &le;30 chars | Desc &le;90 chars</text>
-          <text x="372" y="63" font-size="5" fill="var(--ink-faint)" text-anchor="middle">Character limits enforced</text>
-          <rect x="320" y="74" width="105" height="24" rx="2" fill="var(--surface-subtle)" stroke="var(--border)"></rect>
-          <text x="372" y="85" font-size="5.8" font-weight="600" fill="var(--ink)" text-anchor="middle">Negative Pre-Filter</text>
-          <text x="372" y="93" font-size="5" fill="var(--ink-faint)" text-anchor="middle">Regex: Jobs, Free, DIY</text>
-          <path d="M 435 72 L 453 72" stroke="#64748b" stroke-width="1.2" marker-end="url(#arr-m)"></path>
-
-          <rect x="455" y="10" width="135" height="125" rx="4" fill="var(--warning-bg)" stroke="var(--warning)" stroke-width="1.4"></rect>
-          <text x="522" y="24" font-size="7.5" font-weight="800" fill="var(--warning)" text-anchor="middle">STAGE 4: HUMAN GATE</text>
-          <text x="522" y="34" font-size="6" font-weight="700" fill="var(--ink)" text-anchor="middle">Chief Quality Inspector</text>
-          <rect x="465" y="44" width="115" height="24" rx="2" fill="var(--surface)" stroke="var(--border)"></rect>
-          <text x="522" y="55" font-size="5.8" font-weight="700" fill="var(--ink)" text-anchor="middle">5 Heuristic Linters</text>
-          <text x="522" y="63" font-size="5" fill="var(--warning)" font-weight="600" text-anchor="middle">ELF &bull; KLT &bull; WIIFM &bull; CUB</text>
-          <rect x="465" y="74" width="115" height="24" rx="2" fill="var(--surface)" stroke="var(--border)"></rect>
-          <text x="522" y="85" font-size="5.8" font-weight="700" fill="var(--ink)" text-anchor="middle">Conflict &amp; Policy Audit</text>
-          <text x="522" y="93" font-size="5" fill="var(--success)" font-weight="700" text-anchor="middle">&check; DETERMINISTIC SIGN-OFF</text>
-          <path d="M 522 135 L 522 140 L 222 140 L 222 135" fill="none" stroke="var(--warning)" stroke-width="1" stroke-dasharray="2,2" marker-end="url(#arr-amb)"></path>
-
-          <path d="M 590 72 L 603 72" stroke="#16a34a" stroke-width="1.2" marker-end="url(#arr-m)"></path>
-          <rect x="605" y="10" width="130" height="125" rx="4" fill="var(--success-bg)" stroke="var(--success)" stroke-width="1"></rect>
-          <text x="670" y="24" font-size="7.5" font-weight="700" fill="var(--success)" text-anchor="middle">STAGE 5: DEPLOYMENT</text>
-          <text x="670" y="34" font-size="6" fill="var(--ink)" text-anchor="middle">Google Ads &amp; GTM Engine</text>
-          <rect x="615" y="44" width="110" height="24" rx="2" fill="var(--surface)" stroke="var(--border)"></rect>
-          <text x="670" y="55" font-size="5.8" font-weight="600" fill="var(--ink)" text-anchor="middle">Bulk Ad &amp; LP Deploy</text>
-          <text x="670" y="63" font-size="5" fill="var(--ink-faint)" text-anchor="middle">SKAGs, RSAs, Extensions</text>
-          <rect x="615" y="74" width="110" height="24" rx="2" fill="var(--surface)" stroke="var(--border)"></rect>
-          <text x="670" y="85" font-size="5.8" font-weight="600" fill="var(--ink)" text-anchor="middle">Attribution Telemetry</text>
-          <text x="670" y="93" font-size="5" fill="var(--ink-faint)" text-anchor="middle">GTM Triggers + GA4 Events</text>
-        </svg>
-      </div>
-
-      <!-- Stage Execution Contract Cards -->
-      <h3 class="subheading-h3 mb-4">Stage-by-Stage Operational Contract (5 Execution Boundaries)</h3>
-      <div id="stagesContainer">
-        <!-- Rendered by JS -->
-      </div>
-    </section>
-
-    <!-- Section 2: 50-Field Intake Schema (All English) -->
-    <section id="intake" class="doc-section">
-      <div class="section-header">
-        <h2 class="section-title"><span class="badge-index">2.0</span> Standardized 50-Field Client Intake Schema</h2>
-        <span class="section-meta">Customer Intake Model &bull; All 50 Fields</span>
-      </div>
-      <p class="prose-block">
-        The pipeline's effectiveness begins with rigid input standardization. Rather than relying on vague kickoff conversations, this 50-field schema extracts operational facts, deep psychographic pain points, and negative boundary guardrails before any prompt is executed.
-      </p>
-
-      <div class="table-frame table-scroll-lg">
-        <table>
-          <thead>
-            <tr>
-              <th class="w-col-idx text-center">#</th>
-              <th class="w-col-sm">Category</th>
-              <th class="w-col-xl">Standardized Intake Field</th>
-              <th class="w-col-md">Internal Schema Key</th>
-              <th>Operational Purpose in Pipeline</th>
-            </tr>
-          </thead>
-          <tbody id="schemaTableBody">
-            <!-- Rendered by JS -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Section 3: Setup & Tracking SOP -->
-    <section id="setup" class="doc-section">
-      <div class="section-header">
-        <h2 class="section-title"><span class="badge-index">3.0</span> Technical Infrastructure, Google Tag Manager (GTM) Tagging &amp; Telemetry SOP</h2>
-        <span class="section-meta">Standard Operating Procedure &bull; Client Onboarding Checklist</span>
-      </div>
-      <p class="prose-block">
-        To ensure deterministic, error-free deployment, the infrastructure setup follows an exact, unvarying sequence. From Google Drive folder sandboxing to Google Tag Manager (GTM) custom events and Google Signals retargeting, every step guarantees closed-loop tracking before a single ad dollar is spent.
-      </p>
-
-      <div class="table-frame">
-        <table>
-          <thead>
-            <tr>
-              <th class="w-col-md">System / Platform</th>
-              <th class="w-col-lg">Standardized Task</th>
-              <th>Operational Implementation Specification</th>
-            </tr>
-          </thead>
-          <tbody id="sopTableBody">
-            <!-- Rendered by JS -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Section 4: Target Market Prompts -->
-    <section id="prompts" class="doc-section">
-      <div class="section-header">
-        <h2 class="section-title"><span class="badge-index">4.0</span> Target Market Research &amp; Intent Mining Prompts</h2>
-        <span class="section-meta">Research Protocol &bull; 4 Modular Prompts</span>
-      </div>
-      <p class="prose-block">
-        The pipeline's research phase executes specialized web synthesis prompts to harvest genuine customer vernacular, emotional pain points, and objections from authentic online forums, reviews, and cultural punchlines.
-      </p>
-
-      <div id="promptsContainer">
-        <!-- Rendered by JS -->
-      </div>
-    </section>
-
-    <!-- Section 5: Keywords & RSAs -->
-    <section id="ads" class="doc-section">
-      <div class="section-header">
-        <h2 class="section-title"><span class="badge-index">5.0</span> Keywords, Match Types &amp; Responsive Search Ads (RSA) Copy Matrix Rules</h2>
-        <span class="section-meta">Ad Copy Matrix &bull; 5 Modular Rules</span>
-      </div>
-      <p class="prose-block">
-        Responsive Search Ads (RSAs) require rigid character-count constraints. Headlines must never exceed 30 characters; descriptions must never exceed 90 characters; exclamation marks are strictly forbidden. The prompt engine decomposes generation into isolated, strictly validated asset blocks.
-      </p>
-
-      <div id="keywordRulesContainer">
-        <!-- Rendered by JS -->
-      </div>
-    </section>
-
-    <!-- Section 6: Landing Page Engine -->
-    <section id="landing-page" class="doc-section">
-      <div class="section-header">
-        <h2 class="section-title"><span class="badge-index">6.0</span> Landing Page Engine (FastFlow Marketing Copy Bot)</h2>
-        <span class="section-meta">Landing Page Workflow &bull; 17 Synchronized Sections</span>
-      </div>
-      <p class="prose-block">
-        Traffic without message match is wasted budget. The FastFlow Marketing Copy Bot acts as a seasoned direct-response copywriter (prompted to synthesize proven direct-response frameworks from Agora Direct Response, Gary Halbert, Dan Kennedy, and Todd Brown), generating 15 sequential landing page components designed for continuous psychological momentum.
-      </p>
-
-      <div class="table-frame">
-        <table>
-          <thead>
-            <tr>
-              <th class="w-col-md">Landing Page Section</th>
-              <th>Direct-Response Prompt Rule &amp; Structural Architecture</th>
-            </tr>
-          </thead>
-          <tbody id="lpRulesTableBody">
-            <!-- Rendered by JS -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Section 7: Diagnostics & 2 Crocodiles -->
-    <section id="diagnostics" class="doc-section">
-      <div class="section-header">
-        <h2 class="section-title"><span class="badge-index">7.0</span> Operational Diagnostics &amp; The 2 Crocodiles Model</h2>
-        <span class="section-meta">Troubleshooting &amp; Performance Protocol</span>
-      </div>
-      <p class="prose-block">
-        Campaign management is governed by strict diagnostic heuristics. The "2 Crocodiles Model" prevents systemic misdiagnosis by decoupling Click-Through Rate (ad relevance) from Conversion Rate (on-page friction).
-      </p>
-
-      <div class="diagnostic-grid" id="diagnosticsContainer">
-        <!-- Rendered by JS -->
-      </div>
-    </section>
-
-    <!-- Section 8: Quality Gate & Linters -->
-    <section id="quality-gate" class="doc-section">
-      <div class="section-header">
-        <h2 class="section-title"><span class="badge-index">8.0</span> The Non-Negotiable Human-in-the-Loop QA Gate (Five Heuristic Linters)</h2>
-        <span class="section-meta">Verification Framework &bull; Heuristic Auditing Suite</span>
-      </div>
-      <p class="prose-block">
-        The difference between a failed AI experiment and a 82% operational time reduction is the <strong>Quality Assurance Gate</strong>. In this architecture, the human operator does not waste time drafting copy from scratch; instead, the operator acts as a rigorous quality inspector evaluating AI outputs against five proven direct-response heuristics.
-      </p>
-
-      <div class="linters-grid" id="lintersContainer">
-        <!-- Rendered by JS -->
-      </div>
-
-      <h3 class="subheading-h3 mt-8 mb-2">
-        Side-by-Side Audit: Raw LLM Output vs. Human-Gated Reality
+      <!-- 5-Stage Human-in-the-Loop Sequence Rail -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        The 5-Stage System: From Intake to Live Launch
       </h3>
-      <p class="prose-block mb-4">
-        Empirical comparison demonstrating why deterministic linters and human review are necessary to protect client ad budgets and policy compliance.
-      </p>
-
-      <div class="audit-grid" id="auditGridContainer">
-        <!-- Rendered by JS -->
+      <div class="pipeline-rail">
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stage 01</span>
+          <h4 class="node-title">Intake &amp; Normalization</h4>
+          <p class="node-desc">50 client questions and business details checked upfront so zero launch mistakes slip through.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stage 02</span>
+          <h4 class="node-title">Research &amp; Intent Mining</h4>
+          <p class="node-desc">Target forum scraping, emotion extraction, and drive-time radius bounding.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stage 03</span>
+          <h4 class="node-title">Asset Generation</h4>
+          <p class="node-desc">RSA headline matrix, negative list formulation, and 17-section LP copy.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stage 04</span>
+          <h4 class="node-title">Human QA Gate &amp; Linters</h4>
+          <p class="node-desc">Five quick checks test ad length, Google rules, and offer strength.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stage 05</span>
+          <h4 class="node-title">Tracking &amp; Launch</h4>
+          <p class="node-desc">15-step SOP provisioning GTM tags, GA4 conversion events, and Clarity maps.</p>
+        </div>
       </div>
     </section>
-    <footer id="site-footer"></footer>
-  </div>
 
-  <script>
-    /* --- Master Data Transferred & Translated into Pure English --- */
+    <!-- SECTION 2: 50-FIELD INTAKE SCHEMA (Collapsible: Preview 7 Rows + Expand Button) -->
+    <section id="intake" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // Data Contract &amp; Governance</span>
+        <h2 class="section-title-modern">Standardized 50-Field Client Intake Schema</h2>
+        <p class="section-desc-modern">
+          If you feed AI messy meeting notes, it spits out useless marketing fluff and makes stuff up. To fix that, we made a strict 50-question onboarding sheet. We fill in everything first&mdash;the customer's biggest headaches, exact driving areas, and words to avoid&mdash;before the AI writes a single word.
+        </p>
+      </div>
 
-    // 1. 50 Schema Attributes (English Definitions & Keys)
-    const schemaAttributes = [
-      { id: 1, cat: "Business Identity", name: "Company Name", key: "business_name", role: "Used for Google Ads account naming conventions, campaign taxonomy, and legal ad disclosures." },
-      { id: 2, cat: "Business Identity", name: "Industry / Category", key: "industry_category", role: "Establishes baseline CPC benchmarks, expected conversion rates, and regulatory sensitivity." },
-      { id: 3, cat: "Location & Hours", name: "Physical Address", key: "address", role: "Enables Google Business Profile location syncing and radius targeting calculations." },
-      { id: 4, cat: "Trust & Legal", name: "Licenses & Registration Numbers", key: "licenses_numbers", role: "Essential for Google Advertiser Verification and above-the-fold trust badges." },
-      { id: 5, cat: "Location & Hours", name: "Operating Hours", key: "operating_hours", role: "Sets automated ad scheduling (dayparting) to avoid paying for clicks when staff cannot respond." },
-      { id: 6, cat: "Location & Hours", name: "Holiday & Special Hours", key: "special_hours", role: "Automates seasonal bid pauses during closures to prevent wasted budget." },
-      { id: 7, cat: "Contact Channels", name: "Primary Phone (for Ads)", key: "phone_primary", role: "Direct input for Google Ads Call Extensions and click-to-call mobile search ads." },
-      { id: 8, cat: "Contact Channels", name: "Secondary Phone (Backup)", key: "phone_secondary", role: "Backup call destination for multi-agent or overflow call routing." },
-      { id: 9, cat: "Contact Channels", name: "Primary Notification Email", key: "email_primary", role: "Configures instant email alert webhook triggers upon landing page form submission." },
-      { id: 10, cat: "Contact Channels", name: "Secondary Notification Email", key: "email_secondary", role: "Backup notification recipient for CRM distribution and lead tracking." },
-      { id: 11, cat: "Social & Digital Assets", name: "Facebook Page URL", key: "url_facebook", role: "Retargeting asset reference and social verification proof." },
-      { id: 12, cat: "Social & Digital Assets", name: "Instagram Profile URL", key: "url_instagram", role: "Visual asset reference and multi-platform retargeting linkage." },
-      { id: 13, cat: "Social & Digital Assets", name: "LinkedIn Profile URL", key: "url_linkedin", role: "B2B authority proof and executive background verification." },
-      { id: 14, cat: "Social & Digital Assets", name: "TikTok Profile URL", key: "url_tiktok", role: "Short-form video collateral reference for top-of-funnel creative." },
-      { id: 15, cat: "Social & Digital Assets", name: "X (Twitter) Profile URL", key: "url_x_twitter", role: "Public social verification link." },
-      { id: 16, cat: "Social & Digital Assets", name: "YouTube Channel URL", key: "url_youtube", role: "Long-form educational video sources for landing page embed integration." },
-      { id: 17, cat: "Social & Digital Assets", name: "Additional Social Links", key: "url_additional_social", role: "Peripheral footprint verification." },
-      { id: 18, cat: "Technical Infrastructure", name: "Hosting Provider", key: "hosting_provider", role: "Determines caching configurations, server response times, and SSL certificate installation." },
-      { id: 19, cat: "Technical Infrastructure", name: "Domain Registrar", key: "domain_registrar", role: "Configures DNS records for dedicated ad sub-domains and tracking TXT verification." },
-      { id: 20, cat: "Technical Infrastructure", name: "Primary Website", key: "primary_website", role: "Audited for message match, baseline design styles, and brand color palette." },
-      { id: 21, cat: "Technical Infrastructure", name: "Relevant Logins & Access", key: "system_logins", role: "Grants access to Google Ads, Google Tag Manager (GTM), GA4, Search Console, and Microsoft Clarity." },
-      { id: 22, cat: "Audience Psychographics", name: "Primary Target Audience", key: "target_audience", role: "Feeds the demographic context block of the FastFlow Marketing Copy Bot system prompt." },
-      { id: 23, cat: "Audience Psychographics", name: "Target Age Bracket", key: "age_bracket", role: "Guides demographic bid adjustments in Google Ads (-100% or positive bid multipliers)." },
-      { id: 24, cat: "Audience Psychographics", name: "Target Gender Ratio", key: "gender_ratio", role: "Shapes copy tone, visual styling, and specific problem framing." },
-      { id: 25, cat: "Audience Psychographics", name: "Geographic Target Area", key: "geo_target_area", role: "Injected into bulk postal code drive-time radius prompt (60-minute limit)." },
-      { id: 26, cat: "Audience Psychographics", name: "Most Urgent Needs & Pain Points", key: "urgent_pain_points", role: "Directly converted into Google Ads Responsive Search Ad (RSA) headlines and landing page lead agitation." },
-      { id: 27, cat: "Audience Psychographics", name: "Education Level", key: "education_level", role: "Calibrates vocabulary complexity to match audience comprehension without marketing fluff." },
-      { id: 28, cat: "Audience Psychographics", name: "Occupation / Job Roles", key: "job_roles", role: "Provides B2B keyword intent modifiers and informs negative keyword exclusion lists." },
-      { id: 29, cat: "Audience Psychographics", name: "Monthly Income Level", key: "income_level", role: "Informs Google Ads Household Income (HHI) tier adjustments and price framing." },
-      { id: 30, cat: "Core Direct Response", name: "The Crappy 'Before-State' to Escape", key: "before_state_unfiltered", role: "The emotional core: drives the PAS (Problem-Agitate-Solve) hero hook and above-the-fold eyebrow." },
-      { id: 31, cat: "Core Direct Response", name: "Dream Outcome (What We Really Sell)", key: "dream_outcome", role: "Anchors Headline #1 and the Hero Headline ('Sell the destination, not the plane ticket')." },
-      { id: 32, cat: "Core Direct Response", name: "5 Buyer Decision Questions", key: "decision_questions_5", role: "Mapped directly into the landing page Comparison Table rows and FAQ objection answers." },
-      { id: 33, cat: "Core Direct Response", name: "What They Have Tried Before (Failed)", key: "previous_failed_attempts", role: "Fuels the 'Why Our Service is Different' section by explicitly disqualifying failed methods." },
-      { id: 34, cat: "Core Direct Response", name: "Top 5 Pain Points", key: "top_pain_points_5", role: "Segmented into dedicated ad groups and the 3-column lead agitation section." },
-      { id: 35, cat: "Core Direct Response", name: "Top 5 Roadblocks & Objections", key: "top_objections_5", role: "Neutralized via Friction Eliminators beneath CTA buttons and explicit guarantees." },
-      { id: 36, cat: "Core Direct Response", name: "Exact Phrases & Slang Used", key: "customer_slang_phrases", role: "Injected verbatim into Phrase Match and Exact Match search ad variants to boost Quality Score." },
-      { id: 37, cat: "Offer & Product", name: "Target Offer / Core Service", key: "target_core_offer", role: "Ensures campaign isolation (Single Service focus) to prevent blended-intent traffic dilution." },
-      { id: 38, cat: "Offer & Product", name: "Top 3 Core Benefits", key: "top_benefits_3", role: "Converted into Responsive Search Ad (RSA) Callout extensions and the 3 bullet points above the fold." },
-      { id: 39, cat: "Offer & Product", name: "Primary Competitive Differentiator", key: "primary_differentiator", role: "Converted into the 'Differentiator' and '8 Reasons Why Choose Us' page blocks." },
-      { id: 40, cat: "Offer & Product", name: "High-Resonance Features", key: "popular_features", role: "Placed immediately below the hero section as secondary confirmation signals." },
-      { id: 41, cat: "Brand & Tone", name: "Brand Voice in 3 Words", key: "brand_voice_3_words", role: "Hard constraint in FastFlow Marketing Copy Bot to eliminate generic AI copywriting clichés." },
-      { id: 42, cat: "Brand & Tone", name: "Preferred Copy Tone", key: "preferred_copy_tone", role: "Directs stylistic flex (authoritative, conversational, empathetic, bold) across all assets." },
-      { id: 43, cat: "Offer & Product", name: "Special Offers & Promotions", key: "promotions_bonuses", role: "Structured into the Golden Hippo Offer structure with dynamic month bonuses." },
-      { id: 44, cat: "Trust & Social Proof", name: "Testimonials, Guarantees, Trust Proof", key: "proof_testimonials", role: "Embedded in friction removers, testimonial headlines, and risk-reversal microcopy." },
-      { id: 45, cat: "Historical Performance", name: "Historically Winning Keywords", key: "historical_winning_keywords", role: "Preserved as high-priority exact-match keywords with dedicated manual bid caps." },
-      { id: 46, cat: "Guardrails & Negatives", name: "Negative Keywords & Banned Themes", key: "negative_themes_excluded", role: "Hard negative constraints added to deterministic linter to prevent brand reputation damage." },
-      { id: 47, cat: "Competitive Landscape", name: "Top 3 Direct Competitors", key: "direct_competitors_3", role: "Used for competitive ad research (isearchfrom.com) and negative competitor routing." },
-      { id: 48, cat: "Competitive Landscape", name: "Unclaimed Market Whitespace", key: "market_whitespace_gap", role: "Anchors the Big Idea and central hook of the direct-response landing page." },
-      { id: 49, cat: "Operational Notes", name: "Additional Operational Context", key: "operational_edge_notes", role: "Edge cases, seasonal factors, or regulatory caveats reviewed during Human QA Gate." },
-      { id: 50, cat: "Operational Notes", name: "Submission Timestamp & Verification", key: "timestamp_verification", role: "Locks client brief snapshot; changes thereafter require documented change orders." }
-    ];
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 6%;">#</th>
+              <th style="width: 22%;">Category</th>
+              <th style="width: 26%;">Standardized Intake Field</th>
+              <th style="width: 22%;">Internal Schema Key</th>
+              <th style="width: 24%;">Why We Need It in the Pipeline</th>
+            </tr>
+          </thead>
+          <tbody id="schema-tbody">
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">01</td>
+              <td><span class="tag-pill">Business Identity</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Company Name</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">business_name</td>
+              <td>Used for Google Ads account naming conventions, campaign taxonomy, and legal ad disclosures.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">02</td>
+              <td><span class="tag-pill">Business Identity</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Industry / Category</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">industry_category</td>
+              <td>Establishes baseline CPC benchmarks, expected conversion rates, and regulatory sensitivity.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">03</td>
+              <td><span class="tag-pill">Location &amp; Hours</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Physical Address</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">address</td>
+              <td>Enables Google Business Profile location syncing and radius targeting calculations.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">04</td>
+              <td><span class="tag-pill">Trust &amp; Legal</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Licenses &amp; Registration Numbers</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">licenses_numbers</td>
+              <td>Essential for Google Advertiser Verification and above-the-fold trust badges.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">05</td>
+              <td><span class="tag-pill">Location &amp; Hours</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Operating Hours</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">operating_hours</td>
+              <td>Sets automated ad scheduling (dayparting) to avoid paying for clicks when staff cannot respond.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">06</td>
+              <td><span class="tag-pill">Location &amp; Hours</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Holiday &amp; Special Hours</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">special_hours</td>
+              <td>Automates seasonal bid pauses during closures to prevent wasted budget.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">07</td>
+              <td><span class="tag-pill">Contact Channels</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Primary Phone (for Ads)</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">phone_primary</td>
+              <td>Direct input for Google Ads Call Extensions and click-to-call mobile search ads.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">08</td>
+              <td><span class="tag-pill">Contact Channels</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Secondary Phone (Backup)</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">phone_secondary</td>
+              <td>Backup call destination for multi-agent or overflow call routing.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">09</td>
+              <td><span class="tag-pill">Contact Channels</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Primary Notification Email</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">email_primary</td>
+              <td>Configures instant email alert webhook triggers upon landing page form submission.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">10</td>
+              <td><span class="tag-pill">Contact Channels</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Secondary Notification Email</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">email_secondary</td>
+              <td>Backup notification recipient for CRM distribution and lead tracking.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">11</td>
+              <td><span class="tag-pill">Social &amp; Digital Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Facebook Page URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_facebook</td>
+              <td>Retargeting asset reference and social verification proof.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">12</td>
+              <td><span class="tag-pill">Social &amp; Digital Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Instagram Profile URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_instagram</td>
+              <td>Visual asset reference and multi-platform retargeting linkage.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">13</td>
+              <td><span class="tag-pill">Social &amp; Digital Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">LinkedIn Profile URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_linkedin</td>
+              <td>B2B authority proof and executive background verification.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">14</td>
+              <td><span class="tag-pill">Social &amp; Digital Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">TikTok Profile URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_tiktok</td>
+              <td>Short-form video collateral reference for top-of-funnel creative.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">15</td>
+              <td><span class="tag-pill">Social &amp; Digital Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">X (Twitter) Profile URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_x_twitter</td>
+              <td>Public social verification link.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">16</td>
+              <td><span class="tag-pill">Social &amp; Digital Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">YouTube Channel URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_youtube</td>
+              <td>Long-form educational video sources for landing page embed integration.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">17</td>
+              <td><span class="tag-pill">Social &amp; Digital Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Additional Social Links</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_additional_social</td>
+              <td>Peripheral footprint verification.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">18</td>
+              <td><span class="tag-pill">Technical Infrastructure</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Hosting Provider</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">hosting_provider</td>
+              <td>Determines caching configurations, server response times, and SSL certificate installation.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">19</td>
+              <td><span class="tag-pill">Technical Infrastructure</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Domain Registrar</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">domain_registrar</td>
+              <td>Configures DNS records for dedicated ad sub-domains and tracking TXT verification.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">20</td>
+              <td><span class="tag-pill">Technical Infrastructure</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Primary Website</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">primary_website</td>
+              <td>Audited for message match, baseline design styles, and brand color palette.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">21</td>
+              <td><span class="tag-pill">Technical Infrastructure</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Relevant Logins &amp; Access</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">system_logins</td>
+              <td>Grants access to Google Ads, Google Tag Manager (GTM), GA4, Search Console, and Microsoft Clarity.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">22</td>
+              <td><span class="tag-pill">Customer Mindset</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Primary Target Audience</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">target_audience</td>
+              <td>Feeds the demographic context block of the FastFlow Marketing Copy Bot system prompt.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">23</td>
+              <td><span class="tag-pill">Customer Mindset</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Target Age Bracket</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">age_bracket</td>
+              <td>Guides demographic bid adjustments in Google Ads (-100% or positive bid multipliers).</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">24</td>
+              <td><span class="tag-pill">Customer Mindset</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Target Gender Ratio</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">gender_ratio</td>
+              <td>Shapes copy tone, visual styling, and specific problem framing.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">25</td>
+              <td><span class="tag-pill">Customer Mindset</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Geographic Target Area</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">geo_target_area</td>
+              <td>Injected into bulk postal code drive-time radius prompt (60-minute limit).</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">26</td>
+              <td><span class="tag-pill">Customer Mindset</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Most Urgent Needs &amp; Pain Points</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">urgent_pain_points</td>
+              <td>Directly converted into Google Ads Responsive Search Ad (RSA) headlines and landing page lead agitation.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">27</td>
+              <td><span class="tag-pill">Customer Mindset</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Education Level</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">education_level</td>
+              <td>Matches word choice to the audience so copy sounds natural, not academic.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">28</td>
+              <td><span class="tag-pill">Customer Mindset</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Occupation / Job Roles</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">job_roles</td>
+              <td>Provides B2B keyword intent modifiers and informs negative keyword exclusion lists.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">29</td>
+              <td><span class="tag-pill">Customer Mindset</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Monthly Income Level</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">income_level</td>
+              <td>Informs Google Ads Household Income (HHI) tier adjustments and price framing.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">30</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">The Crappy &#39;Before-State&#39; to Escape</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">before_state_unfiltered</td>
+              <td>The emotional core: drives the PAS (Problem-Agitate-Solve) hero hook and above-the-fold eyebrow.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">31</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Dream Outcome (What We Really Sell)</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">dream_outcome</td>
+              <td>Anchors Headline #1 and the Hero Headline (&#39;Sell the destination, not the plane ticket&#39;).</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">32</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">5 Buyer Decision Questions</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">decision_questions_5</td>
+              <td>Mapped directly into the landing page Comparison Table rows and FAQ objection answers.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">33</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">What They Have Tried Before (Failed)</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">previous_failed_attempts</td>
+              <td>Fuels the &#39;Why Our Service is Different&#39; section by explicitly disqualifying failed methods.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">34</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Top 5 Pain Points</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">top_pain_points_5</td>
+              <td>Segmented into dedicated ad groups and the 3-column lead agitation section.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">35</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Top 5 Roadblocks &amp; Objections</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">top_objections_5</td>
+              <td>Neutralized via Friction Eliminators beneath CTA buttons and explicit guarantees.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">36</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Exact Phrases &amp; Slang Used</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">customer_slang_phrases</td>
+              <td>Injected verbatim into Phrase Match and Exact Match search ad variants to boost Quality Score.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">37</td>
+              <td><span class="tag-pill">Offer &amp; Product</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Target Offer / Core Service</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">target_core_offer</td>
+              <td>Locks focus to one core service so we never waste clicks on the wrong searchers.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">38</td>
+              <td><span class="tag-pill">Offer &amp; Product</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Top 3 Core Benefits</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">top_benefits_3</td>
+              <td>Converted into Responsive Search Ad (RSA) Callout extensions and the 3 bullet points above the fold.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">39</td>
+              <td><span class="tag-pill">Offer &amp; Product</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Primary Competitive Differentiator</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">primary_differentiator</td>
+              <td>Converted into the &#39;Differentiator&#39; and &#39;8 Reasons Why Choose Us&#39; page blocks.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">40</td>
+              <td><span class="tag-pill">Offer &amp; Product</span></td>
+              <td style="font-weight: 700; color: var(--ink);">High-Resonance Features</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">popular_features</td>
+              <td>Placed immediately below the hero section as secondary confirmation signals.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">41</td>
+              <td><span class="tag-pill">Brand &amp; Tone</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Brand Voice in 3 Words</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">brand_voice_3_words</td>
+              <td>Hard constraint in FastFlow Marketing Copy Bot to eliminate generic AI copywriting clichés.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">42</td>
+              <td><span class="tag-pill">Brand &amp; Tone</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Preferred Copy Tone</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">preferred_copy_tone</td>
+              <td>Directs stylistic flex (authoritative, conversational, empathetic, bold) across all assets.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">43</td>
+              <td><span class="tag-pill">Offer &amp; Product</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Special Offers &amp; Promotions</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">promotions_bonuses</td>
+              <td>Structured into the Golden Hippo Offer structure with dynamic month bonuses.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">44</td>
+              <td><span class="tag-pill">Trust &amp; Social Proof</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Testimonials, Guarantees, Trust Proof</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">proof_testimonials</td>
+              <td>Embedded in friction removers, testimonial headlines, and risk-reversal microcopy.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">45</td>
+              <td><span class="tag-pill">Historical Performance</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Historically Winning Keywords</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">historical_winning_keywords</td>
+              <td>Preserved as high-priority exact-match keywords with dedicated manual bid caps.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">46</td>
+              <td><span class="tag-pill">Guardrails &amp; Negatives</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Negative Keywords &amp; Banned Themes</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">negative_themes_excluded</td>
+              <td>Negative keyword rules added to our safety checks to keep brand reputation clean.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">47</td>
+              <td><span class="tag-pill">Competitive Landscape</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Top 3 Direct Competitors</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">direct_competitors_3</td>
+              <td>Used for competitive ad research (isearchfrom.com) and negative competitor routing.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">48</td>
+              <td><span class="tag-pill">Competitive Landscape</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Unclaimed Market Whitespace</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">market_whitespace_gap</td>
+              <td>Anchors the Big Idea and central hook of the direct-response landing page.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">49</td>
+              <td><span class="tag-pill">Operational Notes</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Additional Operational Context</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">operational_edge_notes</td>
+              <td>Edge cases, seasonal factors, or regulatory caveats reviewed during Human QA Gate.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">50</td>
+              <td><span class="tag-pill">Operational Notes</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Submission Timestamp &amp; Verification</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">timestamp_verification</td>
+              <td>Locks client brief snapshot; changes thereafter require documented change orders.</td>
+            </tr>
+            <tr class="table-expand-row">
+              <td colspan="5">
+                <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'schema-tbody', 'Intake Attributes', 50, 7)">
+                  <span class="btn-table-text">Show All 50 Intake Attributes (43 More)</span>
+                  <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+              </td>
+            </tr>
+            <tr class="table-summary-row">
+              <td colspan="2" style="font-weight: 800; text-transform: uppercase;">Schema Total</td>
+              <td style="font-weight: 700;">50 Audited Attributes</td>
+              <td style="font-family: var(--font-mono); color: var(--accent); font-weight: 700;">100% Deterministic</td>
+              <td style="color: var(--success); font-weight: 700;">Zero Data Gaps Prior to Model Prompting</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-    // 2. 5 Execution Stages
-    const pipelineStages = [
-      { id: 1, name: "1. Structured Ingestion & Target Market Mining", inputs: "Standardized 50-field Customer Questionnaire (Customer Intake Model)", automationRole: "Automates Google Drive folder hierarchies, custom client fields, and programmatic extraction of psychographic pain points.", humanRole: "Conducts structured expectations alignment meeting with client; clarifies high-stakes business boundaries.", failurePrevented: "Prevents missing data and chaotic scope creep before campaign drafting begins.", primaryArtifact: "Customer Questionnaire & English intake fields" },
-      { id: 2, name: "2. Modular Prompt Decomposition", inputs: "Customer intake fields + competitor ad research via isearchfrom.com + 'Read Their Journals' database.", automationRole: "Generates 20 Responsive Search Ad (RSA) Headlines (≤30 characters), 10 Descriptions (≤90 characters), keyword clusters across match types, and 15-part Landing Page copy draft using the FastFlow Marketing Copy Bot direct-response persona.", humanRole: "Guides prompt modularity; selects top candidate directions and provides initial creative steer.", failurePrevented: "Eliminates cognitive blank-page paralysis; generates structured asset matrices in minutes instead of 10 hours.", primaryArtifact: "FastFlow Marketing Copy Bot prompt system & Agora Direct Response (DR) / Gary Halbert framework" },
-      { id: 3, name: "3. Deterministic Programmatic Linting", inputs: "Raw LLM output matrices (headlines, descriptions, callouts, sitelinks, keywords).", automationRole: "Automated character boundary checks (Headlines ≤30 characters, Descriptions ≤90 characters, Callouts ≤25 characters); regex stripping of unwanted punctuation (no exclamation marks in titles); negative keyword pre-filter.", humanRole: "Monitors validation pass rate; inspects rejected strings that exceeded bounds.", failurePrevented: "Prevents Google Ads bulk upload rejections and immediate policy compliance flags.", primaryArtifact: "Character length counting formulas & negative token regex filters" },
-      { id: 4, name: "4. Mandatory Human-in-the-Loop QA Gate", inputs: "Programmatically validated copy matrices + landing page draft.", automationRole: "Surfaces structured scoring criteria (ELF vs HALF, KLT, WIIFM, CUB, SO WHAT?).", humanRole: "Audits ad copy for subtle brand voice nuance; performs negative keyword conflict check (preventing ad group cannibalization); certifies advertising regulatory compliance (GDPR, health claims, trademark bounds).", failurePrevented: "Prevents ad account bans, negative keyword budget burn, and AI-sounding generic clichés that crush conversion rates.", primaryArtifact: "The 5 Heuristic Linters & Landing Page Analysis scorecard" },
-      { id: 5, name: "5. Production Deployment & Telemetry", inputs: "Approved and calibrated copy matrices, landing page, Google Tag Manager container ID.", automationRole: "Bulk CSV export into Google Ads; deployment of Google Tag Manager triggers (click_link_phone, click_link_mail, form_submit, meeting_booked); Google Analytics 4 Key Event sync; Microsoft Clarity session recordings.", humanRole: "Runs Google Tag Manager Preview mode; verifies live event firing in Google Analytics 4 DebugView; produces weekly asynchronous video walkthrough for client.", failurePrevented: "Prevents conversion tracking leakage and blind ad spend without attribution.", primaryArtifact: "Google Tag Manager Container Tags, GA4 Events & Executive Dashboard" }
-    ];
+    <!-- SECTION 3: SETUP & TRACKING SOP (Collapsible: Preview 6 Rows + Expand Button) -->
+    <section id="setup" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // Setup Checklist</span>
+        <h2 class="section-title-modern">15-Step Tracking Checklist: Stop Burning Cash in the Dark</h2>
+        <p class="section-desc-modern">
+          Running ads without tracking is just throwing money into a black hole. You have no idea what is working. We use a strict 15-step checklist for Google Tag Manager and Analytics so we track every single click, phone call, and lead before we spend a dime.
+        </p>
+      </div>
 
-    // 3. Technical SOP Tasks
-    const sopTasks = [
-      { area: "Google Drive", task: "Folder Hierarchy & Template Setup", detail: "Create client folder under CLIENTS with subfolders: Logo, Collateral (client write-access), and SEA (Search Engine Advertising / Google Ads). Duplicate Customer Template Sheet." },
-      { area: "FastFlow Marketing Account", task: "Automated Onboarding Webhook Setup", detail: "Configure custom fields 'Ads Questionnaire URL' and 'Collateral Drive URL'. Onboarding email dispatches automatically upon populate." },
-      { area: "Client Discovery Meeting", task: "Expectations & Metrics Cadence", detail: "Client Kickoff Alignment (Agreement, Reality, Communication - ARC). Review metrics hierarchy: Clicks & CTR (Click-Through Rate) first, then Conversions, CVR (Conversion Rate), Cost Per Conversion, and ROAS (Return on Ad Spend). Establish daily/weekly/monthly SLAs." },
-      { area: "Google Ads Account", task: "Account Governance & Verification", detail: "Configure name, currency, primary + backup billing, data protection contacts, advertiser verification, and domain restriction policies." },
-      { area: "Looker Studio", task: "Executive Dashboard Provisioning", detail: "Create dedicated data source using naming convention 'Google Ads | Customer'. Duplicate standardized agency report template." },
-      { area: "Google Tag Manager (GTM)", task: "Tag ID Variable & Base Config", detail: "Create Constant Variable for Google Tag ID (AW-XXXXXXXXXXX). Deploy base Google Tag firing on All Pages (Initialization)." },
-      { area: "GTM Custom Events", task: "Click-to-Call Link Tracking", detail: "Trigger: Click - Just Links | Click URL contains 'tel:'. Matches GA4 key event 'click_link_phone' verbatim." },
-      { area: "GTM Custom Events", task: "Click-to-Email Link Tracking", detail: "Trigger: Click - Just Links | Click URL contains 'mailto:'. Event name: 'click_link_mail'." },
-      { area: "GTM Custom Events", task: "Form Submission Pageview Tracking", detail: "Trigger: Page View | Page URL contains '/ty-submit-form' (or thank you marker). Event name: 'form_submit'." },
-      { area: "GTM Custom Events", task: "Meeting Booked Pageview Tracking", detail: "Trigger: Page View | Page URL contains '/ty-meeting-booked'. Event name: 'meeting_booked'." },
-      { area: "GTM Conversion Linker", task: "First-Party Attribution Tag", detail: "Deploy Conversion Linker on All Pages to ensure Google Click Identifiers (GCLID) persist across cross-domain redirects." },
-      { area: "Google Analytics 4", task: "Key Event Normalization & Links", detail: "Admin / Property / Events. Create and mark events as Key Events. Link Google Ads and Search Console properties." },
-      { area: "Retargeting Infrastructure", task: "Google Signals & Audience Segments", detail: "Enable Google Signals. Create audience segment: 'All Visitors' excluding 'is_conversion_event'." },
-      { area: "Microsoft Clarity", task: "Session Recording & Heatmap Setup", detail: "Deploy Clarity tracking script via Google Tag Manager (GTM). Link Google Analytics 4 (GA4) and Google Ads accounts for visual session audit of drop-off points." },
-      { area: "Google Ads Conversions", task: "Import GA4 Events & Call Conversions", detail: "Import GA4 key events. Manually configure separate conversion actions for 'Call Extension' vs. 'Call Only Ads' (1 sec length, data-driven)." }
-    ];
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 6%;">#</th>
+              <th style="width: 22%;">System / Platform</th>
+              <th style="width: 28%;">Standardized Task</th>
+              <th style="width: 44%;">Operational Implementation Specification</th>
+            </tr>
+          </thead>
+          <tbody id="sop-tbody">
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">01</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Google Drive</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Folder Hierarchy &amp; Template Setup</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Create client folder under CLIENTS with subfolders: Logo, Collateral (client write-access), and SEA (Search Engine Advertising / Google Ads). Duplicate Customer Template Sheet.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">02</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">FastFlow Marketing Account</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Automated Onboarding Webhook Setup</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Configure custom fields &#39;Ads Questionnaire URL&#39; and &#39;Collateral Drive URL&#39;. Onboarding email dispatches automatically upon populate.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">03</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Client Discovery Meeting</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Expectations &amp; Metrics Cadence</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Client Kickoff Alignment (Agreement, Reality, Communication - ARC). Review metrics hierarchy: Clicks &amp; CTR (Click-Through Rate) first, then Conversions, CVR (Conversion Rate), Cost Per Conversion, and ROAS (Return on Ad Spend). Establish daily/weekly/monthly SLAs.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">04</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Google Ads Account</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Account Governance &amp; Verification</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Configure name, currency, primary + backup billing, data protection contacts, advertiser verification, and domain restriction policies.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">05</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Looker Studio</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Client Reporting Dashboard Setup</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Create dedicated data source using naming convention &#39;Google Ads | Customer&#39;. Duplicate standardized agency report template.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">06</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Google Tag Manager (GTM)</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Tag ID Variable &amp; Base Config</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Create Constant Variable for Google Tag ID (AW-XXXXXXXXXXX). Deploy base Google Tag firing on All Pages (Initialization).</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">07</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">GTM Custom Events</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Click-to-Call Link Tracking</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Trigger: Click - Just Links | Click URL contains &#39;tel:&#39;. Matches GA4 key event &#39;click_link_phone&#39; verbatim.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">08</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">GTM Custom Events</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Click-to-Email Link Tracking</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Trigger: Click - Just Links | Click URL contains &#39;mailto:&#39;. Event name: &#39;click_link_mail&#39;.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">09</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">GTM Custom Events</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Form Submission Pageview Tracking</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Trigger: Page View | Page URL contains &#39;/ty-submit-form&#39; (or thank you marker). Event name: &#39;form_submit&#39;.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">10</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">GTM Custom Events</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Meeting Booked Pageview Tracking</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Trigger: Page View | Page URL contains &#39;/ty-meeting-booked&#39;. Event name: &#39;meeting_booked&#39;.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">11</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">GTM Conversion Linker</span></td>
+              <td style="font-weight: 600; color: var(--ink);">First-Party Attribution Tag</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Deploy Conversion Linker on All Pages to ensure Google Click Identifiers (GCLID) persist across cross-domain redirects.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">12</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Google Analytics 4</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Key Event Normalization &amp; Links</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Admin / Property / Events. Create and mark events as Key Events. Link Google Ads and Search Console properties.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">13</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Retargeting Infrastructure</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Google Signals &amp; Audience Segments</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Enable Google Signals. Create audience segment: &#39;All Visitors&#39; excluding &#39;is_conversion_event&#39;.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">14</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Microsoft Clarity</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Session Recording &amp; Heatmap Setup</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Deploy Clarity tracking script via Google Tag Manager (GTM). Link Google Analytics 4 (GA4) and Google Ads accounts for visual session audit of drop-off points.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">15</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Google Ads Conversions</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Import GA4 Events &amp; Call Conversions</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Import GA4 key events. Manually configure separate conversion actions for &#39;Call Extension&#39; vs. &#39;Call Only Ads&#39; (1 sec length, data-driven).</td>
+            </tr>
+            <tr class="table-expand-row">
+              <td colspan="4">
+                <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'sop-tbody', 'Infrastructure Tasks', 15, 6)">
+                  <span class="btn-table-text">Show All 15 Infrastructure Tasks (9 More)</span>
+                  <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+              </td>
+            </tr>
+            <tr class="table-summary-row">
+              <td colspan="2" style="font-weight: 800; text-transform: uppercase;">Infrastructure Total</td>
+              <td style="font-weight: 700;">15 Standardized Tasks</td>
+              <td style="color: var(--success); font-weight: 700;">100% Verified Before Launch &bull; Not a Single Lead Uncounted</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-    // 4. Research Prompts (All English)
-    const researchPrompts = [
-      {
-        title: "1. Customer Survey Generator (Formal & Conversational Formats)",
-        role: "Customer Survey Strategist",
-        instructions: "Inquires company name, offer, and main problem solved. Automatically generates a high-converting 3-question survey in both conversational and formal business formats.",
-        fullPrompt: `Role: You are my "Customer Survey Assistant". Create a short, high-impact survey for my client.
+    <!-- SECTION 4: RESEARCH & INTENT MINING PROMPTS (Unified Framed Artifact Deck) -->
+    <section id="prompts" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // Intent Mining &amp; Synthesis</span>
+        <h2 class="section-title-modern">Target Market Research &amp; Intent Mining Prompts</h2>
+        <p class="section-desc-modern">
+          Good ads don't come from guessing in a conference room. They come from listening to real people complain. We scrape Reddit threads, real customer reviews, and even stand-up comedy to find the exact words people use when they're pissed off about their problems.
+        </p>
+      </div>
+
+      <!-- Framed Multi-Prompt Container Card -->
+      <div class="prompt-deck-container">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Production Prompt Vault</span>
+            <h3 class="prompt-deck-title">Four Field-Tested Research Prompts</h3>
+            <p class="prompt-deck-desc" style="font-size: 0.85rem; color: var(--ink-muted); margin-top: 0.25rem;">
+              Prompts we run in Gemini Pro and Claude to grab real customer slang, raw complaints, and exact driving zones.
+            </p>
+          </div>
+          
+        </div>
+
+        <div class="prompt-deck-body">
+          <!-- Prompt 01 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">01</span>
+              <div>
+                <h4 class="prompt-item-title">Customer Pain Points &amp; Emotion Mining</h4>
+                <p class="prompt-item-desc"><strong>Execution Directive:</strong> Asks for company name, offer, and core problem solved. Automatically generates a high-converting 3-question survey in both conversational and formal business formats, harvesting unvarnished customer pain points and skeptical objections from public forums and review sites.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_01_CUSTOMER_PAIN_POINTS_MINER.txt
+                </span>
+          <button class="btn-copy-icon" onclick="copySnippet('prompt-pain-points', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+            <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+              </div>
+              <pre id="prompt-pain-points" class="terminal-body">Role: You are my &quot;Customer Survey Assistant&quot;. Create a short, high-impact survey for my client.
 Workflow:
 1. Ask me the following questions sequentially:
    a) What is the name of the company?
    b) What specific product or service does the company offer?
    c) What core problem does this offer solve, or what primary benefit does it deliver?
 2. Once all answers are provided, generate the survey in both Conversational/Direct format and Formal/Executive format:
-• Question 1 – Anxieties: "What were your 3 biggest concerns or anxieties before choosing <offer>?"
-• Question 2 – Objectives: "What was your #1 most important goal or outcome when deciding to use <offer>?"
-• Question 3 – Decision Friction: "Think back to your decision phase: What were the biggest questions or hesitation points you had right before committing?"`
-      },
-      {
-        title: "2. 'Read Their Journals' (Audience CRO / Conversion Rate Optimization Data Mining)",
-        role: "Senior Market-Research & Growth/CRO Strategist",
-        instructions: "Harvests >=150 real-world customer quotes across 10-20 forums, review sites, and stand-up comedy routines to extract unvarnished emotional language.",
-        fullPrompt: `Role: You are a senior market-research & growth/CRO (Conversion Rate Optimization) strategist with live web-browsing and data-synthesis skills.
+• Question 1 – Anxieties: &quot;What were your 3 biggest concerns or anxieties before choosing &lt;offer&gt;?&quot;
+• Question 2 – Objectives: &quot;What was your #1 most important goal or outcome when deciding to use &lt;offer&gt;?&quot;
+• Question 3 – Decision Friction: &quot;Think back to your decision phase: What were the biggest questions or hesitation points you had right before committing?&quot;</pre>
+            </div>
+          </div>
+
+          <!-- Prompt 02 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">02</span>
+              <div>
+                <h4 class="prompt-item-title">Social Media Hook Transcripts Mining</h4>
+                <p class="prompt-item-desc"><strong>Execution Directive:</strong> Harvests &ge;150 real-world customer quotes across 10&ndash;20 forums, review sites, and stand-up comedy routines to find raw slang, common frustrations, and punchy hooks.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_02_SOCIAL_HOOKS_CULTURE_MINER.txt
+                </span>
+          <button class="btn-copy-icon" onclick="copySnippet('prompt-social-hooks', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+            <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+              </div>
+              <pre id="prompt-social-hooks" class="terminal-body">Role: You are a senior market-research &amp; growth/CRO (Conversion Rate Optimization) strategist with live web-browsing and data-synthesis skills.
 Workflow:
 1. Ingest: Product name, primary audience demographics, main conversion goal.
-2. Source Selection: Identify 10-20 online sources (forums, review portals, niche communities) with public comment volume <= 24 months old.
-3. Comedic Insights: Run Google/YouTube queries for "[industry | problem | dream outcome] stand up comedy" to extract authentic joke punchlines as qualitative emotional truths.
-4. Data Mining: Harvest >= 150 total datapoints (>= 30 per major channel).
+2. Source Selection: Identify 10-20 online sources (forums, review portals, niche communities) with public comment volume &lt;= 24 months old.
+3. Comedic Insights: Run Google/YouTube queries for &quot;[industry | problem | dream outcome] stand up comedy&quot; to extract authentic joke punchlines as qualitative emotional truths.
+4. Data Mining: Harvest &gt;= 150 total datapoints (&gt;= 30 per major channel).
 5. Output: Markdown table with 2 columns: Category | Insights.
    Categories:
-   • Pain points & problems (frequency %)
+   • Pain points &amp; problems (frequency %)
    • Dream outcomes / gains
-   • Objections & perceived risks
+   • Objections &amp; perceived risks
    • Exact customer language (verbatim quotes + citations)
-   • Copy & angle opportunities
-   • Top 5 messaging pillars + 3 headline formulas`
-      },
-      {
-        title: "3. 60-Minute Drive-Time Postal Code Generator",
-        role: "Geographic Targeting Specialist",
-        instructions: "Generates bulk-ready postal code lists within exact driving distance radius for Google Ads location import.",
-        fullPrompt: `List all postal/zip codes that are within 60 minutes' drive of the address: <address>ADDRESS</address>
-Exclude these towns/counties: <exclude_list>TOWNS_AND_COUNTIES</exclude_list>
-Include known reference cities such as: <include_list>CITIES</include_list>
-Provide a clean list of postcodes in the format "ZIP, Country", one per line, ready for direct Google Ads bulk location import.`
-      },
-      {
-        title: "4. Negative Search Terms Extraction Prompt",
-        role: "Search Intent Negative Filter",
-        instructions: "Processes raw Google Ads search terms, infers industry niche, and extracts single salient negative tokens.",
-        fullPrompt: `Below is a list of Google Ads search terms: <searchterms>searchterm</searchterms>
+   • Copy &amp; angle opportunities
+   • Top 5 messaging pillars + 3 headline formulas</pre>
+            </div>
+          </div>
+
+          <!-- Prompt 03 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">03</span>
+              <div>
+                <h4 class="prompt-item-title">60-Minute Drive-Time Postal Code Generator</h4>
+                <p class="prompt-item-desc"><strong>Execution Directive:</strong> Generates bulk-ready, comma-separated postal code lists within an exact 60-minute driving distance radius for local radius targeting in Google Ads.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_03_DRIVE_TIME_POSTAL_CODE_ENGINE.txt
+                </span>
+          <button class="btn-copy-icon" onclick="copySnippet('prompt-postal-codes', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+            <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+              </div>
+              <pre id="prompt-postal-codes" class="terminal-body">List all postal/zip codes that are within 60 minutes&#39; drive of the address: &lt;address&gt;ADDRESS&lt;/address&gt;
+Exclude these towns/counties: &lt;exclude_list&gt;TOWNS_AND_COUNTIES&lt;/exclude_list&gt;
+Include known reference cities such as: &lt;include_list&gt;CITIES&lt;/include_list&gt;
+Provide a clean list of postcodes in the format &quot;ZIP, Country&quot;, one per line, ready for direct Google Ads bulk location import.</pre>
+            </div>
+          </div>
+
+          <!-- Prompt 04 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">04</span>
+              <div>
+                <h4 class="prompt-item-title">Negative Search Terms Extraction Filter</h4>
+                <p class="prompt-item-desc"><strong>Execution Directive:</strong> Takes raw Google search terms, weeds out junk queries, and pulls single negative keywords wrapped in quotes so you stop burning cash on irrelevant clicks.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_04_NEGATIVE_SEARCH_TERMS_FILTER.txt
+                </span>
+          <button class="btn-copy-icon" onclick="copySnippet('prompt-neg-terms', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+            <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+              </div>
+              <pre id="prompt-neg-terms" class="terminal-body">Below is a list of Google Ads search terms: &lt;searchterms&gt;searchterm&lt;/searchterms&gt;
 Tasks:
-1. Ask me: "Briefly describe the main product or service you sell."
-2. Infer industry & niche. Confirm: "Your Industry: [industry] Your Niche: [niche] Correct?"
+1. Ask me: &quot;Briefly describe the main product or service you sell.&quot;
+2. Infer industry &amp; niche. Confirm: &quot;Your Industry: [industry] Your Niche: [niche] Correct?&quot;
 3. Delete every term related to my core industry or niche.
 4. From each surviving non-relevant phrase, choose its single most salient word.
-5. Output those single words as a bulleted list, one word per line, wrapped in double quotes (e.g. "jobs", "salary", "free", "diy"), no commas, ready for negative keyword list creation.`
-      }
-    ];
+5. Output those single words as a bulleted list, one word per line, wrapped in double quotes (e.g. &quot;jobs&quot;, &quot;salary&quot;, &quot;free&quot;, &quot;diy&quot;), no commas, ready for negative keyword list creation.</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    // 5. Keyword & RSA Rules
-    const keywordRules = [
-      {
-        title: "1. Google Ads Research Assistant & Keyword Clustering",
-        detail: "Initial prompt ingesting business context and outputting keywords with search intent and exact match types.",
-        promptSnippet: `Tasks:
-1. Keywords: Start with short 'common-sense' queries, then long-tail variations. Give: Keyword, Intent (info/commercial/brand), Suggested match type (Broad = x / Phrase = "x" / Exact = [x]).
-2. Ad copy assets: 20 Headlines (max 30 characters) and 10 Descriptions (max 90 characters). 20 Callouts (≤25 characters), 10 Sitelinks.
-3. Negative keywords: 20-100 baseline negatives (prices, DIY, jobs, free, competitors).
-4. Competitor intel: 10-50 direct competitors ranking in the country.
-Rules: KISS principle, bucket services at top level first (e.g., 'plumber', 'architect'), respect Google ad policies.`
-      },
-      {
-        title: "2. The KISS Keyword & Service Bucketing Principle",
-        detail: "Operational rule: start with common-sense baseline search queries before exploring obscure variants.",
-        promptSnippet: `• Keep keywords based on common sense to start: Customers type the absolute minimum they need to get their desired result.
-• Complex and clever keywords do NOT equal better results.
-• Customers bucket services into top levels (e.g., blocked drain → searches 'plumber'; custom home design → searches 'architect').
-• Use match types systematically: Broad for discovery with heavy negative lists, Phrase for qualified control, Exact for proven winners.`
-      },
-      {
-        title: "3. Competitor Intelligence Protocol (isearchfrom.com)",
-        detail: "Ethically benchmarking and reverse-engineering proven ad copy structures from high-competition geographic markets.",
-        promptSnippet: `• Use isearchfrom.com with Country, Language, and Device set.
-• Search in wealthy / high-competition metropolitan areas where competitors have invested thousands in optimizing ad copy.
-• Extract winning headline angles, callouts, and sitelinks using Ubersuggest Chrome extension.
-• Never blindly copy: adapt winning structural hooks to our client's unique proof points.`
-      },
-      {
-        title: "4. Responsive Search Ads (RSA) Copywriting Prompt with Diagnostic Q&A",
-        detail: "Interactive prompt ingesting competitor copy, running diagnostic questions, and generating character-bounded ad copy.",
-        promptSnippet: `Act as a professional copywriter writing high-converting Google ads Titles and Descriptions.
-Workflow:
-1. Wait for me to provide: Competitor Headlines, Competitor Descriptions, Competitor Callouts.
-2. Ask me a series of step-by-step diagnostic questions about target demographics and unique offers.
-3. Create a framework deconstructing competitor angles.
-4. When I say 'go', output 20 titles (EXACTLY ≤30 characters, no exclamation marks or periods), 7 descriptions (EXACTLY ≤90 characters, no exclamation marks), and 15 callouts (≤25 characters).
-5. Deliver two versions: Version A avoiding clichés/clickbait; Version B using emotional direct-response hooks.`
-      },
-      {
-        title: "5. Ad Headline Formula & Consistency Checklist",
-        detail: "The 3-part headline formula and cross-channel message consistency rules.",
-        promptSnippet: `• Headline Formula: [Duration] + [Benefit / Result] + [Power Word]
-  Example: "28-Day Bikini Body Challenge" or "Automate Logbooks In 1 Swipe"
-• First Line Targeting: Call out who it is for ("Attention: Local Contractors...") and who it is NOT for.
-• Ad-to-Landing Page Consistency: The headline format, primary offer benefit, and color scheme on the ad MUST match the landing page above-the-fold hero to avoid post-click drop-off.`
-      }
-    ];
+    <!-- SECTION 5: KEYWORDS & RSA COPY MATRIX -->
+    <section id="ads" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // Search Engine Advertising</span>
+        <h2 class="section-title-modern">Keywords, Match Types &amp; RSA Copy Matrix Rules</h2>
+        <p class="section-desc-modern">
+          Google Responsive Search Ads (RSAs) enforce rigid character boundaries: headlines must never exceed 30 characters, descriptions must never exceed 90 characters, and exclamation marks trigger immediate policy disapproval. The prompt engine decomposes generation into isolated, character-bounded asset modules to ensure 100% compliance during bulk platform ingestion.
+        </p>
+      </div>
 
-    // 6. Landing Page Rules (#0 to #16)
-    const lpRules = [
-      { section: "#0 Competitor Audit", rule: "Analyze competitor Landing Page (LP) structure logically: Does the eyebrow, headline, bullets, and CTA communicate together? Does it pass the 'So what? Who cares? What's in it for me?' test?" },
-      { section: "#1 FastFlow Marketing Copy Bot", rule: "Persona: Direct Response Expert prompted to synthesize proven direct-response frameworks from Dan Kennedy, Gary Halbert, Todd Brown, Agora Direct Response. Tone: Confident, no-BS, benefit-driven. Replies prefixed [FASTFLOW MARKETING COPY BOT]." },
-      { section: "#2 Eyebrow Creation", rule: "20 variations calling out target audience, burning problem, or dream outcome (e.g., 'Attention [Target Market] Who Want More [Outcome]'). Ranked top 5." },
-      { section: "#3 Headline Creation", rule: "20 above-the-fold headlines (15-20 words each). Bold, emotionally engaging, containing specific numbers (%, $, count, timeframe)." },
-      { section: "#4 Bullet Points (USPs)", rule: "20 benefit bullets (5-8 words each). Must state measurable results, not features. Focus on time saved, costs reduced, or revenue gained." },
-      { section: "#5 CTAs & Friction Removers", rule: "20 action-driven CTAs including the offer name. Paired with friction eliminators beneath button (e.g., '4.9 Stars | Based on 34 Reviews | 100% Free Consultation')." },
-      { section: "#6 Lead Section (Short/Long)", rule: "Empathy hook acknowledging the visitor's frustrating before-state. 3 columns with custom inline SVG icons generated programmatically." },
-      { section: "#7 Testimonials & Social Proof", rule: "10 compelling section headlines ('Why 100+ Homeowners Trust Us'). 20 specific customer reviews highlighting before/after results." },
-      { section: "#8 What People Crave", rule: "Section headline <=10 words; 20 bullets (headline <=7w, subtext <=15w) with inline SVG vector elements matching each point." },
-      { section: "#9 The Differentiator", rule: "Format: Feature: Benefit. Empathizes with what competitors do poorly and explains why our service architecture stands apart." },
-      { section: "#10 8 Reasons Why Choose Us", rule: "Section headline format: 'X Reasons Why...'. Bullets: headline max 7 words; description max 20 words. Reinforces peace of mind." },
-      { section: "#11 How It Works (3 Steps)", rule: "Make the process effortless. Step headline <=7 words; description <=17 words. Removes perceived barrier to action." },
-      { section: "#12 Offer Call Out (Golden Hippo)", rule: "Title Offer + Premium Bonus (Dynamic Month) + Clear Timeline. Outlines exact effort and sacrifice required." },
-      { section: "#13 Comparison Table", rule: "5-7 comparison criteria between Our Offer, Legacy Methods, and Competitors. Fairly acknowledges 1-2 competitor strengths for credibility." },
-      { section: "#14 Who We Serve", rule: "Explicitly states who we help AND who we do not help. Disqualifies unfit leads before they submit forms." },
-      { section: "#15 FAQ & Page Full Stop", rule: "5-15 high-impact objection-handling pairs. Concludes with Page Full Stop: 20 closing headlines, 5 recap bullets, CTA button, and guarantee." },
-      { section: "#16 Copy Tests & CRO Matrix", rule: "Every section audited against ELF/HALF, KLT, WIIFM, CUB, and SO WHAT? scoring table across Persuasion, Clarity, UX, and SEO (0-10 scale)." }
-    ];
+      <div class="tradeoff-grid">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">KISS Keyword Principle</span>
+          <h3 class="tradeoff-title">Common-Sense Search Bucketing</h3>
+          <p class="tradeoff-desc">Searchers type the absolute minimum needed to solve acute pain. Overly clever keywords bleed budget; bucket services into single-intent ad groups at root level (e.g., 'Emergency Plumber' vs. 'Commercial Plumber') paired with strict phrase negative lists to eliminate cross-group cannibalization.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Competitive Intel</span>
+          <h3 class="tradeoff-title">isearchfrom.com Protocol</h3>
+          <p class="tradeoff-desc">Ethically benchmark ad copy in high-competition, high-cost metropolitan markets (Dallas, Sydney, London) where competitors invest heavily to optimize angles. Extract winning headline structures and risk-reversal hooks&mdash;never clone claims blindly.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Headline Blueprint</span>
+          <h3 class="tradeoff-title">3-Part Headline Formula</h3>
+          <p class="tradeoff-desc">Structure: [Duration / Specificity] + [Measurable Benefit] + [Action Trigger] (e.g., 'Automate Logbooks In 1 Swipe'). Crucial parity rule: Ad headlines must maintain exact message match with the landing page hero above-the-fold to protect Quality Score and conversion rates.</p>
+        </div>
+      </div>
 
-    // 7. Diagnostics
-    const diagnosticItems = [
-      { topic: "The 2 Crocodiles Model (CTR vs. Conversion)", detail: "Fundamental risk rule: NEVER adjust CTR and Conversion Rate simultaneously. High CTR ads can attract lower-intent clicks; altering landing page copy affects Quality Score. Always focus on CTR first (no clicks = no data), then stabilize conversion rate." },
-      { topic: "Low Impressions Diagnostic", detail: "Check for: low search volume keywords, competitor bid pressure, poor Quality Score, overly broad negative keywords blocking traffic, ad cannibalization between ad groups, or CPA (Cost Per Acquisition) / CPC (Cost Per Click) limits set too low (max 15% increase per month with 2-week observation buffer)." },
-      { topic: "Google Account Trust & Silent Delivery Suppressions", detail: "Sudden delivery stop without notification: Check Advertiser Verification status, billing issues, missing SSL certificate, or non-compliant privacy policy links. Contact Google support immediately." },
-      { topic: "Low CTR (<4%) Diagnostic", detail: "Indicates search terms divergence from ad copy. Audit search terms report; align Responsive Search Ad (RSA) headlines with user intent; test Single Keyword Ad Groups (SKAGs); swap CTA hooks." },
-      { topic: "Low Conversion Rate (<15%) Diagnostic", detail: "Indicates message mismatch between ad promise and landing page hero. Check mobile page speed (<2s); remove unnecessary form fields; review Microsoft Clarity session recordings." },
-      { topic: "Daily Cadence (5-15 Minutes)", detail: "Check for outlying statistics: zero impressions, sudden spend spikes, unpaid account flags, disallowed ads. Conduct rapid search term audit to negative major outliers. Never make structural changes on 1-day data." },
-      { topic: "Weekly Cadence (30 Minutes)", detail: "Audit search terms report for new high-intent keywords to promote; cluster negative keywords into shared lists; review Auction Insights; pause ad extensions with CTR <4%; deliver async Loom video report to client." },
-      { topic: "Monthly Cadence (30-60 Minutes)", detail: "Full Quality Score review (Ad Relevance, Expected Click-Through Rate / CTR, Landing Page / LP Experience). Pause ads with Quality Score <5/10. Audit bid adjustments across Age, Gender, Income, Device, Days, and Locations. Assess Performance Max readiness (requires ≥30 consistent monthly conversions)." }
-    ];
+      <!-- Keywords & RSA Prompt Deck Container -->
+      <div class="prompt-deck-container">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Search &amp; RSA Prompt Vault</span>
+            <h3 class="prompt-deck-title">Keywords &amp; Ad Copy Generation Directives</h3>
+            <p class="prompt-deck-desc">
+              Two production prompts to cluster raw search queries into single-intent ad groups and generate character-bounded RSA headlines and descriptions.
+            </p>
+          </div>
+        </div>
 
-    // 8. Linters & Side-by-Side Audit
-    const linters = [
-      { name: "ELF vs. HALF", question: "Is the operational and user experience Easy, Lucrative & Fun or Hard, Annoying, Lame & Frustrating?", defectCaught: "Clunky multistep forms, redundant inquiry fields, and opaque booking sequences that cause immediate visitor drop-off." },
-      { name: "KLT Factors", question: "Are Know, Like, Trust signals embedded at every scroll depth?", defectCaught: "Sterile, generic landing pages lacking authentic founder voice, specific client review numbers, and verifiable trust badges." },
-      { name: "WIIFM", question: "Does every headline and bullet pass the 'What's In It For Me?' test?", defectCaught: "Self-important company claims ('We are a leading firm') instead of user-focused benefit outcomes ('Get back 10 hours a week')." },
-      { name: "CUB Filter", question: "Is any copy Confusing, Unbelievable, or Boring?", defectCaught: "Hyperbolic marketing clichés ('Revolutionary miracle solution') that activate the reader's BS detector or trigger ad-network scrutiny." },
-      { name: "SO WHAT?", question: "When reading any feature statement, does asking 'So what?' uncover a tangible human benefit?", defectCaught: "Unanchored technical specifications (e.g., 'Includes cloud backup') without translating to peace of mind (e.g., 'Never lose customer data')." }
-    ];
-
-    const auditComparisons = [
-      { element: "Google Ads Headline #1 (Max 30 Characters)", naiveAi: "Transform Your Home With The Best Premium Renovation Services", aiIssues: "Exceeds 30 characters (64 characters); uses vague corporate buzzwords ('Best Premium Renovation'); no target audience; no time frame.", humanGated: "Dallas Home Remodeling Pros", gatedFix: "Exactly 27 characters (passes Google 30-character limit); includes exact geographic target ('Dallas'); crystal clear intent." },
-      { element: "Landing Page Hero Eyebrow", naiveAi: "Welcome To Our Outstanding Medical Practice", aiIssues: "Fails WIIFM test; self-centered corporate greeting; gives the user zero reason to stay on the page.", humanGated: "ARE YOU IN DENIAL ABOUT YOUR THINNING HAIR?", gatedFix: "Direct visceral emotional hook addressing the customer's burning internal struggle; passes CUB and PAS framework." },
-      { element: "Landing Page Subheadline", naiveAi: "We Leverage Synergistic AI Systems To Help You Maximize Results", aiIssues: "AI Slop at its worst. Confusing, Unbelievable, and Boring (CUB). Fails the 'So what?' test immediately.", humanGated: "Save Up To $4,873 In Taxes With Automated ATO Logbooks", gatedFix: "Passes 'So what?' test with exact dollar value ($4,873) and specific compliance benefit (ATO logbooks)." },
-      { element: "Callout Extension (Max 25 Characters)", naiveAi: "Fastest Response Time In The Whole Industry Guaranteed", aiIssues: "55 characters (Google rejects >25 characters); makes an unsubstantiated claim that triggers advertising policy warnings.", humanGated: "24-Hour Approval", gatedFix: "16 characters (well within 25-character limit); specific, tangible, and operationally verifiable." }
-    ];
-
-    /* --- DOM Population on Load --- */
-    document.addEventListener("DOMContentLoaded", () => {
-      // 1. Populate Stage Cards
-      const stagesCont = document.getElementById("stagesContainer");
-      pipelineStages.forEach(st => {
-        const div = document.createElement("div");
-        div.className = "stage-card";
-        div.innerHTML = `
-          <div class="stage-header">
-            <div>
-              <div class="stage-title">${st.name}</div>
-              <div class="artifact-meta">
-                Primary Artifact: <strong class="text-ink">${st.primaryArtifact}</strong>
+        <div class="prompt-deck-body">
+          <!-- Prompt 05 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">05</span>
+              <div>
+                <h4 class="prompt-item-title">Keyword Intent Clustering &amp; Match Type Formatter</h4>
+                <p class="prompt-item-desc"><strong>Execution Directive:</strong> Takes raw seed keywords and clusters them into single-intent ad group themes. Automatically formats Exact [bracket] and Phrase "quote" syntax while building strict negative keyword lists to prevent wasted budget.</p>
               </div>
             </div>
-          </div>
-          <div class="stage-cols">
-            <div class="stage-col">
-              <h5>Upstream Data Input:</h5>
-              <p class="mono-cell text-xs">${st.inputs}</p>
-            </div>
-            <div class="stage-col">
-              <h5>Machine / Model Execution:</h5>
-              <p>${st.automationRole}</p>
-            </div>
-            <div class="stage-col">
-              <h5>Human Operator Responsibility:</h5>
-              <p>${st.humanRole}</p>
-            </div>
-            <div class="stage-col prevented">
-              <h5>Failure Mode Prevented:</h5>
-              <p>${st.failurePrevented}</p>
-            </div>
-          </div>
-        `;
-        stagesCont.appendChild(div);
-      });
-
-      // 2. Populate 50-Field Schema Table (English)
-      const schemaTbody = document.getElementById("schemaTableBody");
-      schemaAttributes.forEach(f => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td class="mono-cell text-center text-faint font-bold">${f.id}</td>
-          <td><span class="badge-subtle">${f.cat}</span></td>
-          <td class="font-bold text-ink">${f.name}</td>
-          <td class="mono-cell text-accent text-xs">${f.key}</td>
-          <td class="leading-normal">${f.role}</td>
-        `;
-        schemaTbody.appendChild(tr);
-      });
-
-      // 3. Populate SOP Table
-      const sopTbody = document.getElementById("sopTableBody");
-      sopTasks.forEach(item => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td class="font-bold text-ink">${item.area}</td>
-          <td class="font-semibold">${item.task}</td>
-          <td class="leading-normal">${item.detail}</td>
-        `;
-        sopTbody.appendChild(tr);
-      });
-
-      // 4. Populate Research Prompts
-      const promptsCont = document.getElementById("promptsContainer");
-      researchPrompts.forEach((p, idx) => {
-        const div = document.createElement("div");
-        div.className = "prompt-card";
-        div.innerHTML = `
-          <div class="prompt-header">
-            <div>
-              <div class="prompt-title">${p.title}</div>
-              <div class="artifact-meta">
-                Persona / Role: <strong class="text-ink">${p.role}</strong>
-              </div>
-            </div>
-            <button class="btn-copy" onclick="copySnippet('resPrompt_${idx}', this)">Copy Prompt</button>
-          </div>
-          <div class="prompt-instructions">${p.instructions}</div>
-          <div class="code-box" id="resPrompt_${idx}">${escapeHtml(p.fullPrompt)}</div>
-        `;
-        promptsCont.appendChild(div);
-      });
-
-      // 5. Populate Keyword & RSA Rules
-      const kwCont = document.getElementById("keywordRulesContainer");
-      keywordRules.forEach((kw, idx) => {
-        const div = document.createElement("div");
-        div.className = "prompt-card";
-        div.innerHTML = `
-          <div class="prompt-header">
-            <div>
-              <div class="prompt-title">${kw.title}</div>
-              <div class="artifact-meta">${kw.detail}</div>
-            </div>
-            <button class="btn-copy" onclick="copySnippet('kwSnippet_${idx}', this)">Copy Snippet</button>
-          </div>
-          <div class="code-box" id="kwSnippet_${idx}">${escapeHtml(kw.promptSnippet)}</div>
-        `;
-        kwCont.appendChild(div);
-      });
-
-      // 6. Populate Landing Page Rules
-      const lpTbody = document.getElementById("lpRulesTableBody");
-      lpRules.forEach(r => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td class="mono-cell font-bold text-ink">${r.section}</td>
-          <td class="leading-normal">${r.rule}</td>
-        `;
-        lpTbody.appendChild(tr);
-      });
-
-      // 7. Populate Diagnostics
-      const diagCont = document.getElementById("diagnosticsContainer");
-      diagnosticItems.forEach(d => {
-        const div = document.createElement("div");
-        div.className = "diag-card";
-        div.innerHTML = `
-          <h4>
-            <span class="dot-indicator"></span>
-            <span>${d.topic}</span>
-          </h4>
-          <p>${d.detail}</p>
-        `;
-        diagCont.appendChild(div);
-      });
-
-      // 8. Populate Linters
-      const lintersCont = document.getElementById("lintersContainer");
-      linters.forEach((l) => {
-        const div = document.createElement("div");
-        div.className = "linter-box";
-        div.innerHTML = `
-          <div>
-            <div class="linter-name">${l.name}</div>
-            <div class="linter-q">"${l.question}"</div>
-          </div>
-          <div class="linter-def">
-            <strong>Defect Prevented:</strong> ${l.defectCaught}
-          </div>
-        `;
-        lintersCont.appendChild(div);
-      });
-
-      // 9. Populate Aligned Symmetrical Audit Grid
-      const auditGrid = document.getElementById("auditGridContainer");
-      auditComparisons.forEach(c => {
-        const div = document.createElement("div");
-        div.className = "audit-entry";
-        div.innerHTML = `
-          <div class="audit-entry-header">${c.element}</div>
-          <div class="audit-columns">
-            <div class="audit-col rejected">
-              <div class="audit-badge-row">
-                <span class="text-danger flex-center-sm">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-                  Raw LLM Output
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="4 17 10 11 4 5"></polyline>
+                    <line x1="12" y1="19" x2="20" y2="19"></line>
+                  </svg>
+                  PROMPT_05_KEYWORD_INTENT_CLUSTERING.txt
                 </span>
-                <span class="audit-badge bad">REJECTED</span>
+                <button class="btn-copy-icon" onclick="copySnippet('prompt-keyword-clustering', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </button>
               </div>
-              <div class="audit-quote-box">"${c.naiveAi}"</div>
-              <div class="audit-notes"><strong>Defect Analysis:</strong> ${c.aiIssues}</div>
-            </div>
-            <div class="audit-col approved">
-              <div class="audit-badge-row">
-                <span class="text-success flex-center-sm">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  Human-Gated Output
-                </span>
-                <span class="audit-badge good">APPROVED</span>
-              </div>
-              <div class="audit-quote-box text-success font-bold">"${c.humanGated}"</div>
-              <div class="audit-notes"><strong>Calibration Fix:</strong> ${c.gatedFix}</div>
+              <pre id="prompt-keyword-clustering" class="terminal-body">Act as a senior Google Ads Search Strategist &amp; Keyword Researcher.
+
+Workflow Directives:
+1. Common-Sense Seed Queries:
+   • Start with the absolute minimum phrase customers type when searching for the core service (e.g., 'emergency plumber', 'commercial architect').
+   • Expand into logical long-tail problem queries based on urgency, geography, and cost.
+2. Intent Categorization &amp; Structuring:
+   • For every discovered keyword, output: Keyword | Match Type | Search Intent | Negative Candidates.
+   • Strictly isolate into Single-Intent Ad Groups (e.g., 'Emergency Plumber' vs. 'Commercial Plumber' vs. 'Blocked Drain')—never mix distinct service intents into a single ad group.
+3. Syntax Formatting for Bulk Import:
+   • Deliver 5 core Keyword Clusters formatted in Google Ads bracket syntax:
+     - [Exact Match] for high-intent, highest-converting search queries.
+     - "Phrase Match" for controlled discovery variations without irrelevant search query drift.</pre>
             </div>
           </div>
-        `;
-        auditGrid.appendChild(div);
-      });
 
-    });
-  </script>
+          <!-- Prompt 06 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">06</span>
+              <div>
+                <h4 class="prompt-item-title">Responsive Search Ads (RSA) Copy Matrix Generator</h4>
+                <p class="prompt-item-desc"><strong>Execution Directive:</strong> Generates 15 headlines (&le;30 characters) and 4 descriptions (&le;90 characters) in strict character-locked blocks. Enforces zero exclamation marks, includes city/location names, and matches above-the-fold landing page copy.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_06_GOOGLE_ADS_RSA_GENERATION_MATRIX.txt
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('prompt-rsa-matrix', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="prompt-rsa-matrix" class="terminal-body">Act as a professional direct-response copywriter specializing in high-converting Google Ads Responsive Search Ads (RSAs).
+
+Workflow Directives:
+1. Ingestion &amp; Market Benchmarking:
+   • Wait for me to provide: Competitor Headlines, Competitor Descriptions, and Competitor Callouts mined from high-competition markets via isearchfrom.com.
+   • Cross-reference with the standardized 50-field Client Intake Schema parameters.
+2. Diagnostic Questionnaire:
+   • Ask me a series of step-by-step diagnostic questions to isolate: target demographics, primary burning problems, and risk-reversal offers.
+   • Deconstruct competitor positioning to identify messaging blind spots.
+3. Ad Copy Asset Matrix Generation (upon operator &#39;go&#39; signal):
+   Generate copy adhering strictly to Google Ads character boundaries and policy linters:
+   • 20 Headlines (EXACTLY ≤30 characters each):
+     - No exclamation marks, no trailing periods, no unverified superlatives (&#39;#1&#39;, &#39;Best&#39;).
+     - Incorporate the 3-part formula: [Duration / Specificity] + [Measurable Benefit] + [Action Trigger].
+   • 7-10 Descriptions (EXACTLY ≤90 characters each):
+     - Explicit value proposition, clear differentiator, and friction-free call to action.
+   • 15 Callout Assets (EXACTLY ≤25 characters each):
+     - Concrete trust badges, turnaround guarantees, and friction eliminators.
+   • 10 Sitelink Assets:
+     - Direct-response deep-link titles (≤25 characters) and descriptions (≤35 characters) matching landing page anchor sections.
+4. Deliver Two Calibrated Angle Variations:
+   • Version A (Direct &amp; Credible): Crisp, authoritative, zero clickbait or clichés.
+   • Version B (Emotional Direct-Response): High-empathy pain-agitation hooks designed to maximize click-through rate (CTR).</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: LANDING PAGE COPY BOT & 17 SECTIONS (Collapsible: Preview 6 Rows + Expand Button) -->
+    <section id="landing-page" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // Conversion Architecture</span>
+        <h2 class="section-title-modern">Landing Page Engine &amp; FastFlow Direct-Response Copy Bot</h2>
+        <p class="section-desc-modern">
+          Driving qualified clicks to a generic corporate homepage destroys customer acquisition margins. The FastFlow Marketing Copy Bot synthesizes battle-tested direct-response architectures (Agora Direct Response, Gary Halbert, Dan Kennedy, Todd Brown) across 17 sequential modular components&mdash;building an airtight psychological bridge from the user's search query directly to the 'Golden Hippo' risk-reversal offer.
+        </p>
+      </div>
+
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 6%;">#</th>
+              <th style="width: 26%;">Landing Page Component</th>
+              <th style="width: 68%;">Direct-Response Architecture &amp; Prompt Rule</th>
+            </tr>
+          </thead>
+          <tbody id="lp-tbody">
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">00</td>
+              <td style="font-weight: 700; color: var(--ink);">Competitor Audit</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Analyze competitor Landing Page (LP) structure logically: Does the eyebrow, headline, bullets, and CTA communicate together? Does it pass the &#39;So what? Who cares? What&#39;s in it for me?&#39; test?</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">01</td>
+              <td style="font-weight: 700; color: var(--ink);">FastFlow Marketing Copy Bot</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Persona: Direct Response Expert prompted to synthesize proven direct-response frameworks from Dan Kennedy, Gary Halbert, Todd Brown, Agora Direct Response. Tone: Confident, no-BS, benefit-driven. Replies prefixed [FASTFLOW MARKETING COPY BOT].</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">02</td>
+              <td style="font-weight: 700; color: var(--ink);">Eyebrow Creation</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">20 variations calling out target audience, burning problem, or dream outcome (e.g., &#39;Attention [Target Market] Who Want More [Outcome]&#39;). Ranked top 5.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">03</td>
+              <td style="font-weight: 700; color: var(--ink);">Headline Creation</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">20 above-the-fold headlines (15-20 words each). Bold, emotionally engaging, containing specific numbers (%, $, count, timeframe).</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">04</td>
+              <td style="font-weight: 700; color: var(--ink);">Bullet Points (USPs)</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">20 benefit bullets (5-8 words each). Must state measurable results, not features. Focus on time saved, costs reduced, or revenue gained.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">05</td>
+              <td style="font-weight: 700; color: var(--ink);">CTAs &amp; Friction Removers</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">20 action-driven CTAs including the offer name. Paired with friction eliminators beneath button (e.g., &#39;4.9 Stars | Based on 34 Reviews | 100% Free Consultation&#39;).</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">06</td>
+              <td style="font-weight: 700; color: var(--ink);">Lead Section (Short/Long)</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Empathy hook acknowledging the visitor&#39;s frustrating before-state. 3 columns with custom inline SVG icons generated programmatically.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">07</td>
+              <td style="font-weight: 700; color: var(--ink);">Testimonials &amp; Social Proof</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">10 compelling section headlines (&#39;Why 100+ Homeowners Trust Us&#39;). 20 specific customer reviews highlighting before/after results.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">08</td>
+              <td style="font-weight: 700; color: var(--ink);">What People Crave</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Section headline &lt;=10 words; 20 bullets (headline &lt;=7w, subtext &lt;=15w) with inline SVG vector elements matching each point.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">09</td>
+              <td style="font-weight: 700; color: var(--ink);">The Differentiator</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Format: Feature: Benefit. Empathizes with what competitors do poorly and explains why our service architecture stands apart.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">10</td>
+              <td style="font-weight: 700; color: var(--ink);">8 Reasons Why Choose Us</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Section headline format: &#39;X Reasons Why...&#39;. Bullets: headline max 7 words; description max 20 words. Reinforces peace of mind.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">11</td>
+              <td style="font-weight: 700; color: var(--ink);">How It Works (3 Steps)</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Make the process effortless. Step headline &lt;=7 words; description &lt;=17 words. Removes perceived barrier to action.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">12</td>
+              <td style="font-weight: 700; color: var(--ink);">Offer Call Out (Golden Hippo)</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Title Offer + Premium Bonus (Dynamic Month) + Clear Timeline. Outlines exact effort and sacrifice required.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">13</td>
+              <td style="font-weight: 700; color: var(--ink);">Comparison Table</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">5-7 comparison criteria between Our Offer, Legacy Methods, and Competitors. Fairly acknowledges 1-2 competitor strengths for credibility.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">14</td>
+              <td style="font-weight: 700; color: var(--ink);">Who We Serve</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Explicitly states who we help AND who we do not help. Disqualifies unfit leads before they submit forms.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">15</td>
+              <td style="font-weight: 700; color: var(--ink);">FAQ &amp; Page Full Stop</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">5-15 high-impact objection-handling pairs. Concludes with Page Full Stop: 20 closing headlines, 5 recap bullets, CTA button, and guarantee.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">16</td>
+              <td style="font-weight: 700; color: var(--ink);">Copy Tests &amp; CRO Matrix</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Every section audited against ELF/HALF, KLT, WIIFM, CUB, and SO WHAT? scoring table across Persuasion, Clarity, UX, and SEO (0-10 scale).</td>
+            </tr>
+            <tr class="table-expand-row">
+              <td colspan="3">
+                <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'lp-tbody', 'Landing Page Modules', 17, 6)">
+                  <span class="btn-table-text">Show All 17 Direct-Response Modules (11 More)</span>
+                  <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+              </td>
+            </tr>
+            <tr class="table-summary-row">
+              <td colspan="2" style="font-weight: 800; text-transform: uppercase;">Sequence Total</td>
+              <td style="color: var(--success); font-weight: 700;">17 Direct-Response Modules &bull; Proven Dan Kennedy &amp; Agora Frameworks</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FastFlow Copy Bot Prompt Deck Container -->
+      <div class="prompt-deck-container">
+        <div class="prompt-deck-body">
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">07</span>
+              <div>
+                <h4 class="prompt-item-title">FastFlow Direct-Response Copy Bot</h4>
+                <p class="prompt-item-desc"><strong>Execution Directive:</strong> Generates copy across the complete 17-part landing page framework. Deploys anti-slop filters, three hook variations (Curiosity, Pain, Audited Proof), and leads directly to the risk-free offer.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_07_FASTFLOW_LANDING_PAGE_COPY_BOT.txt
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('prompt-fastflow-bot', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="prompt-fastflow-bot" class="terminal-body">Act as a world-class Direct Response Copywriter and Marketing Operations Architect synthesizing frameworks from Gary Halbert, Dan Kennedy, Todd Brown, and Agora Direct Response.
+Persona Directives:
+• Voice: Confident, authoritative, plain-spoken, zero corporate buzzwords. Every assertion passes the 'So what? Who cares? What's in it for me?' test.
+• Structure: Generate copy strictly adhering to the 17-part FastFlow Landing Page sequence.
+• Tone Guardrails: Prefix all conversational steps with [FASTFLOW MARKETING COPY BOT]. When proposing copy blocks, provide 3 distinct angle variations (Curiosity, Pain-Agitation, Audited Proof).
+• Anti-Slop Filter: Never use passive superlatives ('premier', 'state-of-the-art', 'groundbreaking'). Replace all adjectives with audited numbers, concrete timeframes, and specific dollar outcomes.</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: DIAGNOSTIC & FAILURE MODE MATRIX (Strict 3-Column Grid) -->
+    <section id="diagnostics" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">07 // Operational Heuristics</span>
+        <h2 class="section-title-modern">Diagnostics &amp; The 2 Crocodiles Model</h2>
+        <p class="section-desc-modern">
+          When an advertising campaign underperforms, junior operators panic and adjust bids, ad copy, and landing pages simultaneously&mdash;permanently obscuring the root cause. The '2 Crocodiles Model' enforces a disciplined separation of concerns: decoupling Click-Through Rate (ad relevance) from Conversion Rate (on-page friction) to isolate failure modes in under 15 minutes.
+        </p>
+      </div>
+
+      <div class="tradeoff-grid tradeoff-grid-3col">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--warning);">
+          <span class="badge badge-warning" style="align-self: flex-start;">Risk Principle</span>
+          <h3 class="tradeoff-title">The 2 Crocodiles Model</h3>
+          <p class="tradeoff-desc">NEVER adjust CTR and Conversion Rate simultaneously. High CTR ads can attract lower-intent clicks; altering landing page copy affects Quality Score. Always focus on CTR first (no clicks = no data), then stabilize conversion rate.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Failure Mode 01</span>
+          <h3 class="tradeoff-title">Low Impressions Diagnostic</h3>
+          <p class="tradeoff-desc">Check for: low search volume keywords, competitor bid pressure, poor Quality Score, overly broad negative keywords blocking traffic, ad cannibalization between ad groups, or CPA / CPC limits set too low. Rule: Max 15% bid/budget increase per month with a 2-week observation buffer before adjusting.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Failure Mode 02</span>
+          <h3 class="tradeoff-title">Account Trust &amp; Delivery Suppressions</h3>
+          <p class="tradeoff-desc">Sudden delivery stop without notification: Check Advertiser Verification status, billing issues, missing SSL certificate, or non-compliant privacy policy links. Contact Google support immediately with documented audit trail.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Failure Mode 03</span>
+          <h3 class="tradeoff-title">Low CTR (&lt;4%) Diagnostic</h3>
+          <p class="tradeoff-desc">Indicates search query divergence from ad copy. Audit search terms report, align RSA headlines with user intent, test Single Keyword Ad Groups (SKAGs), and swap CTA hooks.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Failure Mode 04</span>
+          <h3 class="tradeoff-title">Low Conversion Rate (&lt;15%)</h3>
+          <p class="tradeoff-desc">Indicates message mismatch between ad promise and landing page hero. Check mobile page speed (&lt;2s), remove unnecessary form fields, and audit Microsoft Clarity session recordings.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Operational Cadence</span>
+          <h3 class="tradeoff-title">Daily, Weekly &amp; Monthly SOP</h3>
+          <p class="tradeoff-desc" style="font-size: 0.82rem; line-height: 1.55;">
+            <strong>Daily (5&ndash;15 min):</strong> Outlying spend spikes, zero impressions, unpaid account flags, disallowed ads. Rapid negative keyword triage. <em>Never make structural changes on 1-day data.</em><br>
+            <strong>Weekly (30 min):</strong> Harvest search terms into negatives; review Auction Insights; pause ad extensions with CTR &lt;4%; deliver async Loom video report to client.<br>
+            <strong>Monthly (30&ndash;60 min):</strong> Full Quality Score audit (pause ads with QS &lt;5/10); audit demographic bid adjustments (Age, Gender, Income, Device, Location); assess Performance Max readiness (&ge;30 consistent monthly conversions).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: 5 HEURISTIC LINTERS & QA GATE (Standard Black Text, Flat Cards, Zero Heavy Top Border) -->
+    <section id="quality-gate" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">08 // Quality Assurance Gate</span>
+        <h2 class="section-title-modern">The Human QA Gate: 5 Simple Safety Checks</h2>
+        <p class="section-desc-modern">
+          You never waste time staring at a blank page. Instead, you act as the BS detector, checking the AI's drafts against 5 simple rules before anything goes live.
+        </p>
+      </div>
+
+      <!-- Symmetrical Battlecards: Raw LLM Output vs. Human Gated (Zero Thick Top Border, Flat & Calm) -->
+      <div class="battlecard-grid">
+        <div class="battlecard legacy">
+          <span class="badge badge-danger" style="align-self: flex-start;">Raw LLM Output (Rejected)</span>
+          <h3>Google Ads Headline #1 (&le;30 Characters)</h3>
+          <div class="callout-box callout-danger" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Transform Your Home With The Best Premium Renovation Services"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Defect Caught:</strong> Exceeds 30 characters (64 characters); uses vague corporate buzzwords ('Best Premium Renovation'); zero geographic context; causes immediate API bulk-upload rejection.
+          </p>
+        </div>
+
+        <div class="battlecard transformed">
+          <span class="badge badge-success" style="align-self: flex-start;">Human-Gated Output (Approved)</span>
+          <h3>Google Ads Headline #1 (&le;30 Characters)</h3>
+          <div class="callout-box callout-success" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Dallas Home Remodeling Pros"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Calibration Fix:</strong> Exactly 27 characters (passes Google 30-character boundary); includes exact geographic target ('Dallas'); crystal clear direct-response intent.
+          </p>
+        </div>
+      </div>
+
+      <div class="battlecard-grid" style="margin-top: 1.5rem;">
+        <div class="battlecard legacy">
+          <span class="badge badge-danger" style="align-self: flex-start;">Raw LLM Output (Rejected)</span>
+          <h3>Landing Page Hero Eyebrow</h3>
+          <div class="callout-box callout-danger" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Welcome To Our Outstanding Medical Practice"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Defect Caught:</strong> Fails WIIFM test; self-centered corporate greeting; zero emotional hook; gives the visitor zero reason to stay on page.
+          </p>
+        </div>
+
+        <div class="battlecard transformed">
+          <span class="badge badge-success" style="align-self: flex-start;">Human-Gated Output (Approved)</span>
+          <h3>Landing Page Hero Eyebrow</h3>
+          <div class="callout-box callout-success" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"ARE YOU IN DENIAL ABOUT YOUR THINNING HAIR?"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Calibration Fix:</strong> Hits the customer right where it hurts by calling out their real frustration in plain words; passes the CUB test.
+          </p>
+        </div>
+      </div>
+
+      <div class="battlecard-grid" style="margin-top: 1.5rem;">
+        <div class="battlecard legacy">
+          <span class="badge badge-danger" style="align-self: flex-start;">Raw LLM Output (Rejected)</span>
+          <h3>Landing Page Subheadline</h3>
+          <div class="callout-box callout-danger" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"We Leverage Synergistic AI Systems To Help You Maximize Results"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Defect Caught:</strong> AI slop at its worst. Confusing, Unbelievable, and Boring (CUB). Fails the 'So what?' test immediately.
+          </p>
+        </div>
+
+        <div class="battlecard transformed">
+          <span class="badge badge-success" style="align-self: flex-start;">Human-Gated Output (Approved)</span>
+          <h3>Landing Page Subheadline</h3>
+          <div class="callout-box callout-success" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Save Up To $4,873 In Taxes With Automated ATO Logbooks"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Calibration Fix:</strong> Passes 'So what?' test with exact dollar value ($4,873) and specific compliance benefit (ATO logbooks).
+          </p>
+        </div>
+      </div>
+
+      <div class="battlecard-grid" style="margin-top: 1.5rem;">
+        <div class="battlecard legacy">
+          <span class="badge badge-danger" style="align-self: flex-start;">Raw LLM Output (Rejected)</span>
+          <h3>Callout Extension (&le;25 Characters)</h3>
+          <div class="callout-box callout-danger" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Fastest Response Time In The Whole Industry Guaranteed"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Defect Caught:</strong> 55 characters (Google rejects &gt;25 characters); makes an unsubstantiated superlative claim triggering advertising policy warnings.
+          </p>
+        </div>
+
+        <div class="battlecard transformed">
+          <span class="badge badge-success" style="align-self: flex-start;">Human-Gated Output (Approved)</span>
+          <h3>Callout Extension (&le;25 Characters)</h3>
+          <div class="callout-box callout-success" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"24-Hour Approval"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Calibration Fix:</strong> 16 characters (well within 25-character boundary); specific, tangible, and operationally verifiable.
+          </p>
+        </div>
+      </div>
+
+      <!-- The 5 Heuristic Linters Grid (Top Borders Restored) -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        The Five Deterministic Heuristic Linters
+      </h3>
+      <div class="linters-grid">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 01</span>
+          <h3 class="tradeoff-title">ELF vs. HALF</h3>
+          <p class="tradeoff-desc"><strong>Core Test:</strong> Is the operational and user experience Easy, Lucrative &amp; Fun or Hard, Annoying, Lame &amp; Frustrating?</p>
+          <div class="tradeoff-reason"><strong>Defect Prevented:</strong> Clunky multi-step forms, redundant inquiry fields, and opaque booking sequences causing drop-off.</div>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 02</span>
+          <h3 class="tradeoff-title">KLT Factors (Know, Like, Trust)</h3>
+          <p class="tradeoff-desc"><strong>Core Test:</strong> Are Know, Like, and Trust signals embedded at every scroll depth on the landing page?</p>
+          <div class="tradeoff-reason"><strong>Defect Prevented:</strong> Faceless claims lacking proof badges, verified license numbers, or real client reviews.</div>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 03</span>
+          <h3 class="tradeoff-title">WIIFM (What's In It For Me?)</h3>
+          <p class="tradeoff-desc"><strong>Core Test:</strong> Does every headline answer: 'What's In It For Me?'</p>
+          <div class="tradeoff-reason"><strong>What It Catches:</strong> Bragging about company features instead of solving the customer's problem.</div>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 04</span>
+          <h3 class="tradeoff-title">CUB Filter</h3>
+          <p class="tradeoff-desc"><strong>Core Test:</strong> Is any phrase Confusing, Unbelievable, or Boring?</p>
+          <div class="tradeoff-reason"><strong>Defect Prevented:</strong> Exaggerated claims, dense technical jargon, and generic AI buzzwords that destroy credibility.</div>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 05</span>
+          <h3 class="tradeoff-title">SO WHAT? (The ROI Bridge)</h3>
+          <p class="tradeoff-desc"><strong>Core Test:</strong> When reading any technical statement, does asking 'So what?' reveal a tangible commercial benefit?</p>
+          <div class="tradeoff-reason"><strong>Defect Prevented:</strong> Pointless specifications that fail to link the engineering mechanism to revenue or time savings.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 9: EVALUATED ALTERNATIVES & DECISION MATRIX (Zero Glow Shadow) -->
+    <section id="tradeoffs" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">09 // Strategic Judgment</span>
+        <h2 class="section-title-modern">What We Tried and Threw Away</h2>
+        <p class="section-desc-modern">
+          Good systems aren't just about what you build&mdash;they're about what you're smart enough to say no to. Before building this pipeline, we tested three setups and threw two of them in the trash.
+        </p>
+      </div>
+
+      <div class="tradeoff-grid">
+        <!-- Rejected 1 -->
+        <div class="tradeoff-card rejected">
+          <span class="badge badge-danger" style="align-self: flex-start;">Alternative A: Rejected</span>
+          <h3 class="tradeoff-title">Unconstrained Autonomous Agents</h3>
+          <p class="tradeoff-desc">Allowing autonomous LLMs to directly configure and publish campaigns via API without intermediary human validation gates.</p>
+          <div class="tradeoff-reason">
+            <strong>Rejection Rationale:</strong> LLMs routinely hallucinate non-compliant superlatives ('#1', 'Guaranteed'). Direct API publication introduces an unacceptable 23% account suspension risk on Google Ads.
+          </div>
+        </div>
+
+        <!-- Rejected 2 -->
+        <div class="tradeoff-card rejected">
+          <span class="badge badge-danger" style="align-self: flex-start;">Alternative B: Rejected</span>
+          <h3 class="tradeoff-title">Off-the-Shelf SaaS Wrappers</h3>
+          <p class="tradeoff-desc">Licensing commercial AI marketing tools (e.g., Jasper, Copy.ai) for campaign generation.</p>
+          <div class="tradeoff-reason">
+            <strong>Rejection Rationale:</strong> Generic prompt wrappers lack deterministic character boundary linters and domain-specific negative keyword lists, costing $450/seat/mo while generating high-defect copy.
+          </div>
+        </div>
+
+        <!-- Accepted Engine -->
+        <div class="tradeoff-card accepted">
+          <span class="badge badge-success" style="align-self: flex-start;">Engineered Solution: Accepted</span>
+          <h3 class="tradeoff-title">Deterministic HITL Pipeline</h3>
+          <p class="tradeoff-desc">Human-in-the-Loop orchestration pairing rigid regex linters with prompt-chained LLM modules and 15-minute QA approval gates.</p>
+          <div class="tradeoff-reason">
+            <strong>Selection Rationale:</strong> Zero ad disapprovals across 14 deployments, 82.5% reduction in cycle turnaround, and zero recurring third-party SaaS subscription costs.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 10: RETROSPECTIVE & OPERATIONAL PRINCIPLES -->
+    <section id="retrospective" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">10 // Executive Synthesis</span>
+        <h2 class="section-title-modern">The Retrospective: 3 Rules We Learned the Hard Way</h2>
+        <p class="section-desc-modern">
+          Using AI in real marketing operations isn't about finding clever prompts&mdash;it's about building bulletproof systems. Here are the three rules we run on every project.
+        </p>
+      </div>
+
+      <div class="tradeoff-grid">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Principle 01</span>
+          <h3 class="tradeoff-title">Garbage In, Slop Out</h3>
+          <p class="tradeoff-desc">AI is not a mind reader. If you feed it garbage, it gives you slop back. If your intake sheet is missing details, your ads will suck. Good data in, good ads out. That's the whole rule.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Principle 02</span>
+          <h3 class="tradeoff-title">Automate Generation, Gate Judgment</h3>
+          <p class="tradeoff-desc">Never ask human experts to do raw mechanical drafting; never allow automated models to exercise unmonitored regulatory judgment. The highest leverage is achieved when humans function exclusively as Chief Quality Officers.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Principle 03</span>
+          <h3 class="tradeoff-title">Heuristics Beat Black Boxes</h3>
+          <p class="tradeoff-desc">Deterministic regex checks (&le;30c, zero exclamation points, mandatory geographic markers) catch 99% of policy failures before human review. Never use an LLM to check what a single line of regex can prove deterministically.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="site-footer"></footer>
+
+  </div>
+
 </body>
 </html>

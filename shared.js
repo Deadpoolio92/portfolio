@@ -85,22 +85,38 @@ function renderSiteFooter() {
 function copySnippet(id, btn) {
   const el = document.getElementById(id);
   if (!el || !btn) return;
-  const text = el.innerText;
-  const orig = btn.innerText;
+  const text = el.innerText || el.textContent;
+  const origHtml = btn.innerHTML;
+  const copySvg = btn.querySelector('.copy-icon-svg');
+  const checkSvg = btn.querySelector('.check-icon-svg');
 
   function onCopySuccess() {
-    btn.innerText = 'Copied!';
     btn.classList.add('copied');
+    if (copySvg && checkSvg) {
+      copySvg.style.display = 'none';
+      checkSvg.style.display = 'inline-block';
+      btn.setAttribute('title', 'Copied!');
+    } else {
+      btn.innerText = 'Copied!';
+    }
     setTimeout(() => {
-      btn.innerText = orig;
       btn.classList.remove('copied');
+      if (copySvg && checkSvg) {
+        copySvg.style.display = 'inline-block';
+        checkSvg.style.display = 'none';
+        btn.setAttribute('title', 'Copy to clipboard');
+      } else {
+        btn.innerHTML = origHtml;
+      }
     }, 2000);
   }
 
   function onCopyFailure() {
-    btn.innerText = 'Copy Failed';
+    btn.classList.add('copy-failed');
+    if (!copySvg) btn.innerText = 'Copy Failed';
     setTimeout(() => {
-      btn.innerText = orig;
+      btn.classList.remove('copy-failed');
+      btn.innerHTML = origHtml;
     }, 2000);
   }
 
@@ -138,13 +154,153 @@ function escapeHtml(string) {
     .replace(/'/g, '&#39;');
 }
 
-// 7. Auto-Initialization on DOM Ready
+// 7. Interactive Tabs Component (Dual-Mode: Interactive on Screen, Unrolled in Print)
+function initTabs() {
+  const containers = document.querySelectorAll('.tabs-container');
+  containers.forEach(container => {
+    const tabButtons = container.querySelectorAll('.tab-btn');
+    const tabPanels = container.querySelectorAll('.tab-panel');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-tab');
+        if (!targetId) return;
+
+        // Deactivate all buttons in this container
+        tabButtons.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+
+        // Deactivate all panels in this container
+        tabPanels.forEach(p => {
+          p.classList.remove('active');
+          p.setAttribute('aria-hidden', 'true');
+        });
+
+        // Activate clicked button
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        // Activate target panel
+        const targetPanel = container.querySelector('#' + targetId) || document.getElementById(targetId);
+        if (targetPanel) {
+          targetPanel.classList.add('active');
+          targetPanel.setAttribute('aria-hidden', 'false');
+        }
+      });
+    });
+  });
+}
+
+// 7. Capsule Pill Tab Switcher
+function switchCapsuleTab(paneId, btn) {
+  const container = btn.closest('.capsule-tabs-container');
+  if (!container) return;
+  const allBtns = container.querySelectorAll('.capsule-tab-btn');
+  const allPanes = container.querySelectorAll('.capsule-tab-pane');
+
+  allBtns.forEach(b => b.classList.remove('active'));
+  allPanes.forEach(p => p.classList.remove('active'));
+
+  btn.classList.add('active');
+  const targetPane = document.getElementById(paneId);
+  if (targetPane) targetPane.classList.add('active');
+}
+
+// 8. Auto-Initialization on DOM Ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     renderSiteFooter();
+    initTabs();
+    initScrollSpy();
   });
 } else {
   initTheme();
   renderSiteFooter();
+  initTabs();
+  initScrollSpy();
+}
+
+
+// 9. Table Row Expansion Engine (Collapsible long tables with print-mode unrolling)
+function toggleTableRows(btn, tbodyId, labelSingular, totalCount, previewCount) {
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody || !btn) return;
+  const isExpanded = tbody.classList.toggle('is-expanded');
+  const btnText = btn.querySelector('.btn-table-text');
+  const chevron = btn.querySelector('.chevron-icon');
+
+  if (isExpanded) {
+    if (btnText) btnText.textContent = `Show Fewer ${labelSingular} (First ${previewCount})`;
+    if (chevron) chevron.style.transform = 'rotate(180deg)';
+  } else {
+    if (btnText) btnText.textContent = `Show All ${totalCount} ${labelSingular} (${totalCount - previewCount} More)`;
+    if (chevron) chevron.style.transform = 'rotate(0deg)';
+    
+    // Smooth scroll back to table header if user scrolled far down
+    const tableWrap = tbody.closest('.table-frame') || tbody.closest('table');
+    if (tableWrap) {
+      const rect = tableWrap.getBoundingClientRect();
+      if (rect.top < 100) {
+        window.scrollBy({ top: rect.top - 120, behavior: 'smooth' });
+      }
+    }
+  }
+}
+
+// 10. Dynamic Scroll Spy & Click Tracking for Chapter Navigation
+function initScrollSpy() {
+  const pills = Array.from(document.querySelectorAll('.sticky-nav-bar .nav-tag-pill, .nav-grid-track .nav-tag-pill, .chapter-bar .chapter-pill'));
+  if (!pills.length) return;
+
+  const sections = [];
+  pills.forEach(pill => {
+    const href = pill.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      const target = document.querySelector(href);
+      if (target) {
+        sections.push({ pill, target });
+      }
+    }
+
+    // Instant active feedback when clicked
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+
+  if (!sections.length) return;
+
+  function updateActivePill() {
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const docHeight = document.documentElement.scrollHeight;
+
+    // Edge case: bottom of the page (activate the final chapter)
+    if (scrollY + windowHeight >= docHeight - 50) {
+      pills.forEach(p => p.classList.remove('active'));
+      sections[sections.length - 1].pill.classList.add('active');
+      return;
+    }
+
+    // Active section detection: find the latest section whose top is at or above viewport trigger line (120px)
+    let current = sections[0];
+    for (let i = 0; i < sections.length; i++) {
+      const rect = sections[i].target.getBoundingClientRect();
+      if (rect.top <= 130) {
+        current = sections[i];
+      }
+    }
+
+    pills.forEach(p => p.classList.remove('active'));
+    if (current && current.pill) {
+      current.pill.classList.add('active');
+    }
+  }
+
+  window.addEventListener('scroll', updateActivePill, { passive: true });
+  updateActivePill();
 }

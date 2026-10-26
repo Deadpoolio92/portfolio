@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Karol | Autonomous Systems & Operations Portfolio</title>
-  <link rel="stylesheet" href="shared.css" />
-  <script src="shared.js"></script>
+  <title>Karol Jasztal | AI Systems Engineering &amp; Operations Portfolio</title>
+  <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css?v=20261026g" />
+  <script src="shared.js?v=20261025d"></script>
 </head>
 <body>
 
@@ -18,7 +22,7 @@
           Karol Jasztal
         </a>
         <span class="nav-divider">/</span>
-        <span class="nav-context">Case Studies</span>
+        <span class="nav-context">Case Studies Hub</span>
       </div>
       <div class="nav-actions">
         <button id="themeToggle" class="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
@@ -30,263 +34,464 @@
 
   <div class="container">
 
-    <!-- Dossier Header -->
-    <header class="dossier-header">
-      <div class="meta-tagline">
-        <span>AI &bull; Autonomous Systems &bull; Operations &bull; Production Architecture</span>
+    <!-- HERO SECTION -->
+    <header class="hero-banner" style="margin-bottom: 2.5rem; padding-bottom: 2.5rem;">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Production Portfolio &bull; Karol Jasztal &middot; Head of Operations &amp; AI Systems Leader
       </div>
-      <h1 class="dossier-title">AI Systems Engineering &amp; Operations Portfolio</h1>
-      <p class="dossier-subtitle">
-        Documenting deterministic Human-in-the-Loop (HITL) automation, out-of-band security interception, and high-throughput production infrastructure.
+      <h1 class="hero-title">
+        AI Systems Engineering &amp; Operations:
+        <span class="headline-accent">Production Proof &amp; Autonomous Workflows</span>
+      </h1>
+      <p class="hero-subtitle">
+        Proven systems, real production code, and zero-bullshit operational telemetry. Here is how I cut 82% of setup drag on marketing pipelines, stop rogue AI execution with out-of-band OS firewalls across 11,000+ files, and slash API bills by 76.8% with decoupled subagent architectures.
       </p>
     </header>
 
-    <!-- Case Studies Section -->
-    <main class="projects-grid">
+    <!-- SECTION 1: VERIFIED PRODUCTION CASE STUDIES -->
+    <section class="section-wrap" style="padding-top: 0;">
+      <div class="section-header-modern" style="margin-bottom: 2rem;">
+        <span class="section-eyebrow">01 // Primary Operational Dossiers</span>
+        <h2 class="section-title-modern">Production Case Studies</h2>
+        <p class="section-desc-modern">
+          In-depth technical dossiers featuring real primary artifacts: verified schemas, test evidence, live terminal logs, and architecture specs.
+        </p>
+      </div>
 
-      <!-- Case Study 1 -->
-      <article class="card">
-        <div>
-          <div class="card-top">
-            <h2 class="card-title">Production LLM Pipeline: Engineering a 82% Campaign Setup Time Reduction</h2>
-          </div>
-          <p class="card-prose">
-            Transitioning high-friction marketing launches and direct-response landing page architectures from a 40-hour cognitive bottleneck into a 7-hour deterministic Human-in-the-Loop pipeline with zero ad-policy defects.
-          </p>
-          <div class="card-tags">
-            <span class="tag-pill">50-Field Schema</span>
-            <span class="tag-pill">GTM &amp; GA4 Telemetry</span>
-            <span class="tag-pill">Deterministic Linters</span>
-            <span class="tag-pill">CUB / ELF Verification</span>
-          </div>
-        </div>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="gads-workflow.html">
-            View Case Study
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </a>
-          <a class="btn btn-secondary" href="gads-workflow.pdf" download>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-            Download PDF
-          </a>
-        </div>
-      </article>
+      <div class="projects-grid">
 
-      <!-- Case Study 2 -->
-      <article class="card">
-        <div>
-          <div class="card-top">
-            <h2 class="card-title">Zero-Trust Autonomous Agent Architecture: Vetting &amp; Governing 11,000+ Files</h2>
-          </div>
-          <p class="card-prose">
-            Deterministic defense-in-depth, multi-dialect PreToolUse lifecycle intercepts, and multi-mode autonomous subsystems across 180 curated skills and 33 MCP servers with zero security compromises.
-          </p>
-          <div class="card-tags">
-            <span class="tag-pill">PreToolUse Hooks</span>
-            <span class="tag-pill">RBAC Subagents</span>
-            <span class="tag-pill">Radar v2 Provenance</span>
-            <span class="tag-pill">PowerShell / Posix Gates</span>
-          </div>
-        </div>
-        <div class="card-actions">
-          <a class="btn btn-primary" href="zero-trust-agent-architecture.html">
-            View Case Study
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </a>
-          <a class="btn btn-secondary" href="zero-trust-agent-architecture.pdf" download>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-            Download PDF
-          </a>
-        </div>
-      </article>
+        <!-- Case Study 1: Google Ads -->
+        <article class="card card-accent" style="border-top: 4px solid var(--accent); --card-hover-border: var(--accent);">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-accent">Autonomous Marketing Ops</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">
+              <a href="gads-workflow.html" class="card-title-link" style="color: inherit; text-decoration: none;">
+                From 40-Hour Spreadsheet Chaos to a 7-Hour Machine:
+                <span class="headline-accent">How I Cut 82% of Google Ads Grunt Work</span>
+              </a>
+            </h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              How strict 50-field schemas and automated QA linters killed copy-paste errors and ad-policy suspensions.
+            </p>
 
-      <!-- Case Study 3 -->
-      <article class="card wip">
-        <div>
-          <div class="card-top">
-            <h2 class="card-title">Multi-Agent System Orchestration: State Management Across Distributed Clusters</h2>
+            <!-- Mini-KPI Stat Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Cycle Time</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--accent); margin: 0.15rem 0;">40h &rarr; 7h</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">-82.5% Cut</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Compliance</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--success); margin: 0.15rem 0;">100%</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">0 Flags</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Annual ROI</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">1,320h</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Time Saved</div>
+              </div>
+            </div>
           </div>
-          <p class="card-prose">
-            Autonomous task handoff protocol, conflict-free state resolution, and real-time execution across coordinated agent clusters without operator intervention.
-          </p>
-          <div class="card-tags">
-            <span class="tag-pill">Distributed Orchestration</span>
-            <span class="tag-pill">State Machines</span>
-            <span class="tag-pill">Telemetry Stream</span>
-          </div>
-        </div>
-        <div class="card-actions">
-          <span class="btn btn-disabled">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            Coming Soon
-          </span>
-        </div>
-      </article>
 
-      <!-- Case Study 4 -->
-      <article class="card wip">
-        <div>
-          <div class="card-top">
-            <h2 class="card-title">HubSpot Two-Pipeline Revenue Engine</h2>
+          <div class="card-actions" style="display: flex; gap: 0.65rem; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <a class="btn btn-secondary" href="gads-workflow.pdf" download style="flex: 0 0 auto; padding: 0.5rem 0.85rem; justify-content: center; text-align: center; white-space: nowrap;" title="Download PDF Version">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              PDF
+            </a>
+            <a class="btn btn-primary" href="gads-workflow.html" style="flex: 1; justify-content: center; text-align: center; white-space: nowrap;">
+              View Case Study
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
           </div>
-          <p class="card-prose">
-            Unified dual-pipeline revenue model syncing qualification, closed-won stage transitions, attribution schemas, and cross-team lifecycle states.
-          </p>
-          <div class="card-tags">
-            <span class="tag-pill">HubSpot Ops</span>
-            <span class="tag-pill">Dual-Pipeline Architecture</span>
-            <span class="tag-pill">RevOps Telemetry</span>
-          </div>
-        </div>
-        <div class="card-actions">
-          <span class="btn btn-disabled">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            Coming Soon
-          </span>
-        </div>
-      </article>
+        </article>
 
-      <!-- Case Study 5 -->
-      <article class="card wip">
-        <div>
-          <div class="card-top">
-            <h2 class="card-title">500,000-Record CRM Data Cleanup &amp; Governance</h2>
-          </div>
-          <p class="card-prose">
-            Deterministic deduping routines, enrichment cascades, and automated validation gates deployed across half a million legacy records with audit trails.
-          </p>
-          <div class="card-tags">
-            <span class="tag-pill">Data Governance</span>
-            <span class="tag-pill">CRM Hygiene</span>
-            <span class="tag-pill">Schema Normalization</span>
-          </div>
-        </div>
-        <div class="card-actions">
-          <span class="btn btn-disabled">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            Coming Soon
-          </span>
-        </div>
-      </article>
+        <!-- Case Study 2: Zero-Trust Security -->
+        <article class="card card-danger" style="border-top: 4px solid var(--danger); --card-hover-border: var(--danger);">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-danger">Zero-Trust AI Security</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">
+              <a href="zero-trust-agent-architecture.html" class="card-title-link" style="color: inherit; text-decoration: none;">
+                Why Asking AI to &quot;Be Careful&quot; Fails:
+                <span class="headline-accent" style="color: var(--danger);">How I Vetted 11,000+ Files and Built Real OS Firewalls for Autonomous Agents</span>
+              </a>
+            </h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Why natural-language guardrails fail when autonomous agents touch live filesystems.
+            </p>
 
-      <!-- Case Study 6 -->
-      <article class="card wip">
-        <div>
-          <div class="card-top">
-            <h2 class="card-title">High-Velocity Marketing Ops &amp; Zero-Defect QA Pipeline</h2>
+            <!-- Mini-KPI Stat Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Security</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--danger); margin: 0.15rem 0;">0 Escapes</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">0 Breaches</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Provenance</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">11,000+</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Files Vetted</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">OS Firewall</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--danger); margin: 0.15rem 0;">Exit 2</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--danger); font-weight: 600;">Hard Blocks</div>
+              </div>
+            </div>
           </div>
-          <p class="card-prose">
-            Automated regression suites, linting rules, and link/tracking validation engines preventing broken attribution and production defects at deployment time.
-          </p>
-          <div class="card-tags">
-            <span class="tag-pill">Marketing Operations</span>
-            <span class="tag-pill">Automated QA</span>
-            <span class="tag-pill">CI/CD Integration</span>
-          </div>
-        </div>
-        <div class="card-actions">
-          <span class="btn btn-disabled">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            Coming Soon
-          </span>
-        </div>
-      </article>
 
-      <!-- Case Study 7 -->
-      <article class="card wip">
-        <div>
-          <div class="card-top">
-            <h2 class="card-title">Systems Architecture &amp; Pipeline State Machine</h2>
+          <div class="card-actions" style="display: flex; gap: 0.65rem; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <a class="btn btn-secondary" href="zero-trust-agent-architecture.pdf" download style="flex: 0 0 auto; padding: 0.5rem 0.85rem; justify-content: center; text-align: center; white-space: nowrap;" title="Download PDF Version">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              PDF
+            </a>
+            <a class="btn btn-primary" href="zero-trust-agent-architecture.html" style="flex: 1; justify-content: center; text-align: center; white-space: nowrap;">
+              View Case Study
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
           </div>
-          <p class="card-prose">
-            Strictly typed finite-state machine governing asynchronous cross-platform webhooks, failure reconciliation, and idempotent transaction boundaries.
-          </p>
-          <div class="card-tags">
-            <span class="tag-pill">FSM Design</span>
-            <span class="tag-pill">Distributed Systems</span>
-            <span class="tag-pill">Idempotency Gates</span>
-          </div>
-        </div>
-        <div class="card-actions">
-          <span class="btn btn-disabled">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            Coming Soon
-          </span>
-        </div>
-      </article>
+        </article>
 
-      <!-- Case Study 8 -->
-      <article class="card wip">
-        <div>
-          <div class="card-top">
-            <h2 class="card-title">Async-First Operating System &amp; Meeting Elimination Protocol</h2>
-          </div>
-          <p class="card-prose">
-            Structured decision documentation protocols, silent review cycles, and signal-to-noise communication policies reducing recurring meeting hours across teams.
-          </p>
-          <div class="card-tags">
-            <span class="tag-pill">Async Workflow</span>
-            <span class="tag-pill">Operational Cadence</span>
-            <span class="tag-pill">Knowledge Architecture</span>
-          </div>
-        </div>
-        <div class="card-actions">
-          <span class="btn btn-disabled">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            Coming Soon
-          </span>
-        </div>
-      </article>
+        <!-- Case Study 3: Multi-Agent System -->
+        <article class="card card-success" style="border-top: 4px solid var(--success); --card-hover-border: var(--success);">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-success">Multi-Agent Systems &amp; FinOps</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">
+              <a href="multi-agent-system.html" class="card-title-link" style="color: inherit; text-decoration: none;">
+                Inside a Production Multi-Agent System:
+                <span class="headline-accent" style="color: var(--success);">How I Built an Autonomous Subagent System to Cut Token Burn by 76.8%</span>
+              </a>
+            </h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Ditched giant 80k-token "God Prompts" for a lean Conductor delegating to fresh subagents.
+            </p>
 
-      <!-- Case Study 9 -->
-      <article class="card wip">
-        <div>
-          <div class="card-top">
-            <h2 class="card-title">Scalable SOP Library &amp; Zero-Touch Onboarding Framework</h2>
+            <!-- Mini-KPI Stat Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Token Burn</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--success); margin: 0.15rem 0;">-76.8%</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">5.26M Cut</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Latency</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--accent); margin: 0.15rem 0;">4.8s</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">-80.2% Fast</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Scale</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">700+</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Sessions Run</div>
+              </div>
+            </div>
           </div>
-          <p class="card-prose">
-            Modular, executable operating procedures mapped directly to automated role-based provisioning pipelines for day-one operational autonomy.
-          </p>
-          <div class="card-tags">
-            <span class="tag-pill">SOP Systems</span>
-            <span class="tag-pill">Zero-Touch IT</span>
-            <span class="tag-pill">Self-Serve Knowledge</span>
-          </div>
-        </div>
-        <div class="card-actions">
-          <span class="btn btn-disabled">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            Coming Soon
-          </span>
-        </div>
-      </article>
 
-      <!-- Case Study 10 -->
-      <article class="card wip">
-        <div>
-          <div class="card-top">
-            <h2 class="card-title">German Regulatory Bookkeeping &amp; Immutable Hash-Chain Ledger</h2>
+          <div class="card-actions" style="display: flex; gap: 0.65rem; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <a class="btn btn-secondary" href="multi-agent-system.pdf" download style="flex: 0 0 auto; padding: 0.5rem 0.85rem; justify-content: center; text-align: center; white-space: nowrap;" title="Download PDF Version">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              PDF
+            </a>
+            <a class="btn btn-primary" href="multi-agent-system.html" style="flex: 1; justify-content: center; text-align: center; white-space: nowrap;">
+              View Case Study
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
           </div>
-          <p class="card-prose">
-            GoBD-compliant automated bookkeeping engine implementing cryptographic hash verification, verifiable audit logging, and automated reconciliation.
-          </p>
-          <div class="card-tags">
-            <span class="tag-pill">GoBD Compliance</span>
-            <span class="tag-pill">Cryptographic Ledgers</span>
-            <span class="tag-pill">Audit Trail Integrity</span>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: SYSTEMS ROADMAP & IN-FLIGHT ARCHITECTURES -->
+    <section class="section-wrap" style="padding-top: 2rem;">
+      <div class="section-header-modern" style="margin-bottom: 2rem;">
+        <span class="section-eyebrow">02 // Systems Roadmap &amp; Pipeline Blueprints</span>
+        <h2 class="section-title-modern">Operational Architecture Pipeline</h2>
+        <p class="section-desc-modern">
+          Active operational pipelines, data governance architectures, and revenue infrastructure currently in production and staging.
+        </p>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- Blueprint 04: HubSpot -->
+        <article class="card wip">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-neutral">RevOps Architecture</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">HubSpot Two-Pipeline Revenue Engine</h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Syncing sales qualification and closed-won handoffs with zero attribution drift.
+            </p>
+
+            <!-- Blueprint Target Metric Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Tracks</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">2 Stages</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Sales/Success</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Drift Rate</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">0.0%</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Lifecycle Parity</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Sync Latency</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">&lt;500ms</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Bi-Directional</div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="card-actions">
-          <span class="btn btn-disabled">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            Coming Soon
-          </span>
-        </div>
-      </article>
+          <div class="card-actions" style="border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <span class="btn btn-disabled" style="width: 100%; justify-content: center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Coming Soon
+            </span>
+          </div>
+        </article>
 
-    </main>
+        <!-- Blueprint 05: CRM Data Cleanup -->
+        <article class="card wip">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-neutral">Data Governance &amp; Hygiene</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">500,000-Record CRM Data Cleanup &amp; Governance</h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Deterministic deduping routines and validation gates deployed across legacy databases.
+            </p>
 
+            <!-- Blueprint Target Metric Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Volume</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">500k</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Dirty Records</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Accuracy</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">99.8%</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Deduplication</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Audit Trail</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">100%</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Verifiable Hash</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions" style="border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <span class="btn btn-disabled" style="width: 100%; justify-content: center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Coming Soon
+            </span>
+          </div>
+        </article>
+
+        <!-- Blueprint 06: Marketing QA -->
+        <article class="card wip">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-neutral">High-Velocity Automated QA</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">High-Velocity Marketing Ops &amp; Zero-Defect QA Pipeline</h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Automated regression suites and headless link checkers catching broken UTMs before launch.
+            </p>
+
+            <!-- Blueprint Target Metric Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Regression</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">100%</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Automated QA</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Defects</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">0 Broken</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Links &amp; UTMs</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Ship Speed</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">4x Faster</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Deploy Cycles</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions" style="border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <span class="btn btn-disabled" style="width: 100%; justify-content: center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Coming Soon
+            </span>
+          </div>
+        </article>
+
+        <!-- Blueprint 07: State Machine -->
+        <article class="card wip">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-neutral">Distributed Systems &amp; FSM</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">Systems Architecture &amp; Pipeline State Machine</h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Strictly typed finite-state machine governing asynchronous cross-platform webhooks.
+            </p>
+
+            <!-- Blueprint Target Metric Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Engine</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">FSM Core</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Strictly Typed</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Reliability</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">Idempotent</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Zero Duplicate</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Recovery</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">Backoffs</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Self-Healing</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions" style="border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <span class="btn btn-disabled" style="width: 100%; justify-content: center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Coming Soon
+            </span>
+          </div>
+        </article>
+
+        <!-- Blueprint 08: Async OS -->
+        <article class="card wip">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-neutral">Async Operational Cadence</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">Async-First Operating System &amp; Meeting Elimination Protocol</h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Structured decision documentation protocols eliminating recurring weekly meeting drag.
+            </p>
+
+            <!-- Blueprint Target Metric Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Meetings</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">-15h/wk</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Time Unlocked</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Cadence</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">Async RFC</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Silent Reviews</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Culture</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">100%</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Documented</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions" style="border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <span class="btn btn-disabled" style="width: 100%; justify-content: center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Coming Soon
+            </span>
+          </div>
+        </article>
+
+        <!-- Blueprint 09: SOP Library -->
+        <article class="card wip">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-neutral">Zero-Touch IT Onboarding</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">Scalable SOP Library &amp; Zero-Touch Onboarding Framework</h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Executable runbooks mapped to automated role provisioning scripts for day-one autonomy.
+            </p>
+
+            <!-- Blueprint Target Metric Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Onboarding</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">Day One</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Fully Autonomous</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Runbooks</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">Modular</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Self-Serve</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Hand-Holding</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">0 Hours</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Frictionless IT</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions" style="border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <span class="btn btn-disabled" style="width: 100%; justify-content: center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Coming Soon
+            </span>
+          </div>
+        </article>
+
+        <!-- Blueprint 10: German Bookkeeping -->
+        <article class="card wip">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-neutral">Cryptographic GoBD Ledgers</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">German Regulatory Bookkeeping &amp; Immutable Hash-Chain Ledger</h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              GoBD-compliant accounting pipeline using cryptographic hash chains and automated reconciliation.
+            </p>
+
+            <!-- Blueprint Target Metric Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Standard</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">GoBD</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">German Tax</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Ledger</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">SHA-256</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Hash Chains</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Reconcile</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">Auto-Match</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Bank/Invoices</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions" style="border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <span class="btn btn-disabled" style="width: 100%; justify-content: center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Coming Soon
+            </span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Modern Site Footer (Rendered automatically by shared.js) -->
     <footer id="site-footer"></footer>
   </div>
+
 </body>
 </html>

@@ -7,6 +7,10 @@ _artifact-preferences.md
 # All Markdown source files (only deploy finished HTML & PDF)
 *.md
 
+# Skills etc.
+.agents/
+.claude/
+
 # OS and editor metadata
 .DS_Store
 Thumbs.db

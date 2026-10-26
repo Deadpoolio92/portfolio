@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Executive Design System &amp; Component Blueprint | Karol Jasztal</title>
+  <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css?v=20261025" />
+  <script src="shared.js?v=20261025b"></script>
+
+  <style>
+    /* ==========================================================================
+       mockups.html — Component Showcase Specific Helpers
+       All core tokens, reset, typography, layouts, bento grids, and print styles
+       are inherited directly from shared.css (Single Source of Truth).
+       ========================================================================== */
+
+    .component-label {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin: 2rem 0 0.85rem;
+      display: block;
+    }
+
+    /* Token Swatch Grid */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .swatch-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      transition: border-color 0.15s ease;
+    }
+    .swatch-card:hover { border-color: var(--border-highlight); }
+    .swatch-preview {
+      height: 48px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 0.25rem;
+    }
+    .swatch-name {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .swatch-role {
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+    }
+
+    /* Typography Specimens */
+    .type-sample-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .type-sample-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--ink-faint);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Element Row for Badges & Buttons */
+    .element-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.85rem;
+      margin: 0.75rem 0 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header (Normal Flow / Not Sticky) -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio Overview
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Design System &amp; Component Blueprint</span>
+      </div>
+      <div class="nav-actions">
+        <a href="mockups.pdf" download class="btn-ghost" style="padding: 0.45rem 0.85rem; font-size: 0.82rem; gap: 0.35rem;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Download PDF
+        </a>
+        <button id="themeToggle" class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Sticky Chapter Anchor Bar (Only this bar sticks to top!) -->
+  <nav class="sticky-nav-bar">
+    <div class="nav-grid-track">
+      <a href="#tokens" class="nav-tag-pill active">1. Tokens &amp; Swatches</a>
+      <a href="#typography" class="nav-tag-pill">2. Typography</a>
+      <a href="#buttons-badges" class="nav-tag-pill">3. Buttons &amp; Badges</a>
+      <a href="#bento-metrics" class="nav-tag-pill">4. Metrics &amp; Bento</a>
+      <a href="#battlecards" class="nav-tag-pill">5. Symmetrical Battlecards</a>
+      <a href="#tabs" class="nav-tag-pill">6. Technical Artifacts</a>
+      <a href="#tables" class="nav-tag-pill">7. Primary Data Tables</a>
+      <a href="#tradeoffs" class="nav-tag-pill">8. Decision Trade-Offs &amp; QA</a>
+      <a href="#callouts" class="nav-tag-pill">9. Callouts &amp; Quotes</a>
+      <a href="#steps" class="nav-tag-pill">10. Pipeline Stepper</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO SECTION (Direct Flow: Eyebrow -> Title -> Subtitle, Zero Action Buttons or Dividers) -->
+    <header class="hero-banner">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Design System &bull; Karol Jasztal
+      </div>
+      <h1 class="hero-title">Executive Design System: <span class="headline-accent">High-Impact Case Study Blueprints</span></h1>
+      <p class="hero-subtitle">
+        Calibrated design tokens, responsive Bento layouts, deterministic QA patterns, and hardened interactive components powering high-converting executive case studies.
+      </p>
+    </header>
+
+    <!-- SECTION 1: DESIGN TOKENS & ADAPTIVE COLOR PALETTE -->
+    <section id="tokens" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // Foundation Tokens</span>
+        <h2 class="section-title-modern">Design Tokens &amp; Adaptive Color System</h2>
+        <p class="section-desc-modern">
+          Calibrated design tokens ensuring high contrast and seamless Light/Dark transitions. Click the theme toggle above to see live adaptation.
+        </p>
+      </div>
+
+      <span class="component-label">Canvas &amp; Surface Tokens</span>
+      <div class="swatch-grid">
+        <div class="swatch-card">
+          <div class="swatch-preview" style="background: var(--bg);"></div>
+          <div class="swatch-name">--bg</div>
+          <div class="swatch-role">Global canvas background (neutral gray)</div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-preview" style="background: var(--surface);"></div>
+          <div class="swatch-name">--surface</div>
+          <div class="swatch-role">Primary Bento cards &amp; containers</div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-preview" style="background: var(--surface-subtle);"></div>
+          <div class="swatch-name">--surface-subtle</div>
+          <div class="swatch-role">Table alternating rows, code terminal</div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-preview" style="background: var(--surface-elevated);"></div>
+          <div class="swatch-name">--surface-elevated</div>
+          <div class="swatch-role">Interactive hover states &amp; summary footers</div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-preview" style="background: var(--border);"></div>
+          <div class="swatch-name">--border</div>
+          <div class="swatch-role">Subtle 1px structural container boundary</div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-preview" style="background: var(--border-highlight);"></div>
+          <div class="swatch-name">--border-highlight</div>
+          <div class="swatch-role">Focused active container boundaries</div>
+        </div>
+      </div>
+
+      <span class="component-label">Semantic Accent &amp; Status Tokens</span>
+      <div class="swatch-grid">
+        <div class="swatch-card">
+          <div class="swatch-preview" style="background: var(--accent);"></div>
+          <div class="swatch-name">--accent (Sky Blue)</div>
+          <div class="swatch-role">Primary interactive highlights &amp; linters</div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-preview" style="background: var(--success);"></div>
+          <div class="swatch-name">--success (Emerald)</div>
+          <div class="swatch-role">Passing audits, positive deltas, approved</div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-preview" style="background: var(--danger);"></div>
+          <div class="swatch-name">--danger (Rose)</div>
+          <div class="swatch-role">Legacy bottlenecks, rejected alternatives</div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-preview" style="background: var(--warning);"></div>
+          <div class="swatch-name">--warning (Amber)</div>
+          <div class="swatch-role">Heuristic cautions, 2 Crocodiles model</div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-preview" style="background: var(--purple, #a855f7);"></div>
+          <div class="swatch-name">--purple (Violet)</div>
+          <div class="swatch-role">Specialized subagents &amp; vault-ops</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: TYPOGRAPHY & HIERARCHY -->
+    <section id="typography" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // Typography System</span>
+        <h2 class="section-title-modern">Typography &amp; Information Hierarchy</h2>
+        <p class="section-desc-modern">
+          Disciplined type scale pairing Plus Jakarta Sans for geometric authority, JetBrains Mono for system tokens and code, and optimized system sans for readability.
+        </p>
+      </div>
+
+      <div class="type-sample-box">
+        <div class="type-sample-meta">Display H1 &bull; Plus Jakarta Sans 800 &bull; -0.03em tracking</div>
+        <h1 style="font-family: var(--font-display); font-size: 2.25rem; font-weight: 800; color: var(--ink); line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 0.5rem;">
+          Slashing Google Ads Setup Time by 82% with a Production LLM Pipeline
+        </h1>
+        <p style="font-size: 1.05rem; color: var(--ink-muted); line-height: 1.6;">
+          Executive headline formula commanding attention with audited metrics and deterministic systems engineering.
+        </p>
+      </div>
+
+      <div class="type-sample-box">
+        <div class="type-sample-meta">Section Header H2 &bull; Plus Jakarta Sans 800 &bull; Stacked Editorial Flow</div>
+        <span class="section-eyebrow">01 // Operational Transformation</span>
+        <h2 class="section-title-modern" style="margin-top: 0.35rem;">
+          Architecture, Pipeline Blueprint &amp; Empirical Time Study
+        </h2>
+        <p class="section-desc-modern" style="margin-top: 0.5rem;">
+          Stacked 3-element headline layout ensuring scannability and context before diving into telemetry.
+        </p>
+      </div>
+
+      <div class="type-sample-box">
+        <div class="type-sample-meta">Systems Mono &bull; JetBrains Mono 600/700 &bull; Code &amp; Telemetry</div>
+        <div style="font-family: var(--font-mono); font-size: 0.88rem; color: var(--accent); line-height: 1.6;">
+          <code>^GTM-[A-Z0-9]{4,8}$ &bull; max_chars: 30 &bull; 40h &rarr; 7h (-82.5%) &bull; 0.0% Defect Rate</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: BUTTONS, PILLS & STATUS BADGES -->
+    <section id="buttons-badges" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // Interaction Primitives</span>
+        <h2 class="section-title-modern">Action Buttons, Pills &amp; Semantic Badges</h2>
+        <p class="section-desc-modern">
+          Flat, zero-shadow interaction elements. Badges and pills feature 100% rounded geometry with balanced monospace padding.
+        </p>
+      </div>
+
+      <span class="component-label">Action Buttons (All 5 Production Variations)</span>
+      <div class="element-row">
+        <!-- 1. Primary Action -->
+        <button class="btn-glow" type="button">
+          Explore Operational Telemetry
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+
+        <!-- 2. Secondary Ghost Action -->
+        <a href="#!" class="btn-ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Download PDF Dossier
+        </a>
+
+        <!-- 3. Disabled State (Balanced Padding) -->
+        <span class="btn-disabled">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Audit Lock Active
+        </span>
+
+        <!-- 4. Table Expand/Collapse Pill -->
+        <button type="button" class="btn-table-toggle">
+          <span class="btn-table-text">Show All 50 Intake Attributes (43 More)</span>
+          <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+
+        <!-- 5. Inline Modern Copy Button -->
+        <div style="background: var(--surface-subtle); padding: 0.4rem 0.75rem; border-radius: 8px; border: 1px solid var(--border); display: inline-flex; align-items: center; gap: 0.6rem;">
+          <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-muted);">PROMPT_SAMPLE.txt</span>
+          <button class="btn-copy-icon" onclick="copySnippet('demo-copy-snippet', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+            <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+        </div>
+        <div id="demo-copy-snippet" style="display: none;">You are an expert direct-response copywriter.</div>
+      </div>
+
+      <span class="component-label">Tag Pills (.tag-pill)</span>
+      <div class="element-row">
+        <span class="tag-pill">50-Field Schema</span>
+        <span class="tag-pill">GTM &amp; GA4 Telemetry</span>
+        <span class="tag-pill">Deterministic Linters</span>
+        <span class="tag-pill">Zero Policy Defects</span>
+        <span class="tag-pill">PreToolUse Intercepts</span>
+        <span class="tag-pill">Plus Jakarta Sans</span>
+      </div>
+
+      <span class="component-label">Semantic Status Badges (.badge — Zero Shadow, 100% Rounded Pills)</span>
+      <div class="element-row">
+        <span class="badge badge-success">Chosen Architecture: Approved</span>
+        <span class="badge badge-danger">Alternative A: Rejected</span>
+        <span class="badge badge-warning">Quality Gate: Heuristic Check</span>
+        <span class="badge badge-accent">Production Telemetry</span>
+        <span class="badge badge-neutral">50 Fields Audited</span>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: BENTO GRID & EXECUTIVE METRICS -->
+    <section id="bento-metrics" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // Key Impact Telemetry</span>
+        <h2 class="section-title-modern">Audited Operational Breakthroughs &amp; Bento Grid</h2>
+        <p class="section-desc-modern">
+          Empirical time-motion measurements verified across 14 consecutive deployment cycles with zero ad policy suspensions.
+        </p>
+      </div>
+
+      <!-- 4-Column Executive Metric Strip -->
+      <div class="metrics-strip">
+        <div class="metric-strip-card">
+          <div class="metric-strip-label">Setup Cycle Time</div>
+          <div class="metric-strip-val">40h &rarr; 7h</div>
+          <div class="metric-strip-delta success">&minus;82.5% Audited Reduction</div>
+        </div>
+        <div class="metric-strip-card">
+          <div class="metric-strip-label">Compliance Record</div>
+          <div class="metric-strip-val">100.0%</div>
+          <div class="metric-strip-delta success">Zero Account Suspensions</div>
+        </div>
+        <div class="metric-strip-card">
+          <div class="metric-strip-label">Operational Multiplier</div>
+          <div class="metric-strip-val">5.7x</div>
+          <div class="metric-strip-delta" style="color: var(--ink-faint);">Zero Net Headcount Added</div>
+        </div>
+        <div class="metric-strip-card">
+          <div class="metric-strip-label">Annual Value Unlocked</div>
+          <div class="metric-strip-val">1,320h</div>
+          <div class="metric-strip-delta success">Strategic High-Leverage Focus</div>
+        </div>
+      </div>
+
+      <!-- Bento Grid with Dual-Segment Progress Bar -->
+      <div class="bento-grid">
+        <!-- Big Bento Card 1 -->
+        <div class="bento-card bento-span-7">
+          <div class="bento-stat-label">End-to-End Campaign Cycle Time</div>
+          <div class="bento-stat-num">40h &rarr; 7h</div>
+          <span class="bento-stat-delta delta-success">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+            -82.5% Audited Turnaround Time Saved
+          </span>
+          <div class="bento-progress-track" title="40h Total Campaign Time: 7h Automated (Green) vs 33h Eliminated Waste (Red)">
+            <div class="bento-progress-segment green" style="width: 17.5%;"></div>
+            <div class="bento-progress-segment red" style="width: 82.5%;"></div>
+          </div>
+          <div class="bento-progress-legend">
+            <span class="legend-item"><span class="legend-dot green"></span> <strong>7h</strong> High-Signal Execution (17.5%)</span>
+            <span class="legend-item"><span class="legend-dot red"></span> <strong>33h</strong> Eliminated Waste (-82.5%)</span>
+          </div>
+        </div>
+
+        <!-- Bento Card 2 -->
+        <div class="bento-card bento-span-5">
+          <div class="bento-stat-label">Policy Compliance Rate</div>
+          <div class="bento-stat-num">100.0%</div>
+          <span class="bento-stat-delta delta-success">Zero Ad Account Suspensions</span>
+          <p style="font-size: 0.85rem; color: var(--ink-muted); margin-top: 0.85rem; line-height: 1.5;">
+            Enforced by 5 deterministic heuristic regex linters running prior to staging submission.
+          </p>
+        </div>
+
+        <!-- Bento Card 3 -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Throughput Multiplier</div>
+          <div class="bento-stat-num">5.7x</div>
+          <span style="font-size: 0.82rem; color: var(--ink-faint);">Zero Net Headcount Added</span>
+        </div>
+
+        <!-- Bento Card 4 -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Annual Value Unlocked</div>
+          <div class="bento-stat-num">1,320h</div>
+          <span class="bento-stat-delta delta-success">High-Leverage Strategic Focus</span>
+        </div>
+
+        <!-- Bento Card 5 -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Intake Contract</div>
+          <div class="bento-stat-num">50 Fields</div>
+          <span style="font-size: 0.82rem; color: var(--ink-faint);">Deterministic Schema Bounds</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: BATTLECARDS (Symmetrical 2-Column Key-Value Rows) -->
+    <section id="battlecards" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // Architectural Decision</span>
+        <h2 class="section-title-modern">Legacy Manual Operations vs. Deterministic Pipeline</h2>
+        <p class="section-desc-modern">
+          Side-by-side architectural comparison detailing why human brute-forcing was eliminated in favor of constrained prompt synthesis.
+        </p>
+      </div>
+
+      <div class="battlecard-grid">
+        <!-- Legacy Card -->
+        <div class="battlecard legacy">
+          <span class="badge badge-danger" style="align-self: flex-start;">The Legacy Bottleneck (40 Hours)</span>
+          <h3>Ad-Hoc Manual Spreadsheets</h3>
+          <ul class="feature-list">
+            <li class="feature-row bad">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span class="feature-col-label">Manual Brute-Forcing:</span>
+              <span class="feature-col-desc">65% of working hours spent copying strings across spreadsheets.</span>
+            </li>
+            <li class="feature-row bad">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span class="feature-col-label">8.4% Defect Rejections:</span>
+              <span class="feature-col-desc">Manual human typo overruns exceeding 30 characters.</span>
+            </li>
+            <li class="feature-row bad">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span class="feature-col-label">Linear Scaling Strain:</span>
+              <span class="feature-col-desc">Requires $140k/yr per 2 junior coordinators to absorb volume.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Transformed Card (Zero Shadow) -->
+        <div class="battlecard transformed">
+          <span class="badge badge-success" style="align-self: flex-start;">Karol's Engineered Engine (7 Hours)</span>
+          <h3>Deterministic HITL + Heuristic Linters</h3>
+          <ul class="feature-list">
+            <li class="feature-row good">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="feature-col-label">15-Min High-Signal Review:</span>
+              <span class="feature-col-desc">Operator validates output against direct-response heuristics.</span>
+            </li>
+            <li class="feature-row good">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="feature-col-label">0.0% Defect Record:</span>
+              <span class="feature-col-desc">Regex linters catch character bounds &amp; policy terms pre-submission.</span>
+            </li>
+            <li class="feature-row good">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="feature-col-label">Zero Headcount Expansion:</span>
+              <span class="feature-col-desc">Absorbs 5.7x volume with current team.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: DUAL-MODE INTERACTIVE TABS & FRAMED PROMPT DECK -->
+    <section id="tabs" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // Primary Technical Artifacts</span>
+        <h2 class="section-title-modern">Technical Artifact Presentation Patterns</h2>
+        <p class="section-desc-modern">
+          Inspect production prompts, schemas, and heuristic linters. Features both Pattern 6A (Single Segmented Control Tabs) and Pattern 6B (Unified Framed Prompt Deck).
+        </p>
+      </div>
+
+      <!-- PATTERN 6A: SINGLE SEGMENTED CONTROL TABS (Clean Track, Zero Concentric Boxes) -->
+      <span class="component-label">Pattern 6A: Capsule Pill Tabs (Clean Single Segmented Switcher)</span>
+      <div class="capsule-tabs-container">
+        <div class="capsule-tabs-bar">
+          <div class="capsule-tab-nav">
+            <button class="capsule-tab-btn active" onclick="switchCapsuleTab('pane-prompts', this)">1. Production Prompt Bank</button>
+            <button class="capsule-tab-btn" onclick="switchCapsuleTab('pane-linters', this)">2. Heuristic Linters</button>
+            <button class="capsule-tab-btn" onclick="switchCapsuleTab('pane-schema', this)">3. Data Contract</button>
+          </div>
+        </div>
+
+        <div id="pane-prompts" class="capsule-tab-pane active">
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">01</span>
+              <div>
+                <h4 class="prompt-item-title">Synthesizer Directive</h4>
+                <p class="prompt-item-desc">Primary production instruction set enforcing direct-response copywriting rules and strict character bounds.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+            <div class="terminal-header">
+              <span class="terminal-filename">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                STAGE_01_SYNTHESIZER_DIRECTIVE.txt
+              </span>
+              <button class="btn-copy-icon" onclick="copySnippet('prompt-text-v2', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+                <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+            </div>
+            <pre id="prompt-text-v2" class="terminal-body">You are an expert direct-response copywriter and marketing operations systems architect.
+Synthesize high-converting Responsive Search Ads (RSAs) based on verified intake parameters.
+
+CONSTRAINTS:
+1. Generate exactly 15 Headlines (each strictly ≤ 30 characters).
+2. Generate exactly 4 Descriptions (each strictly ≤ 90 characters).
+3. Do not use generic buzzwords, unearned superlatives, or AI copy slop.
+4. Adhere strictly to the CUB (Confused, Unbelieving, Bored) rejection filter.</pre>
+          </div>
+          </div>
+        </div><div id="pane-linters" class="capsule-tab-pane">
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">02</span>
+              <div>
+                <h4 class="prompt-item-title">Deterministic Validation Rules</h4>
+                <p class="prompt-item-desc">5 regex-driven test suites run locally before any asset is passed to staging: Character bounds (&le;30/90), restricted keyword lexicon, GTM/GA4 container verification, HTTP 200 URL liveness, and conversion tag alignment.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+            <div class="terminal-header">
+              <span class="terminal-filename">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                HEURISTIC_LINTER_RULES.regex
+              </span>
+              <button class="btn-copy-icon" onclick="copySnippet('linter-text', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+                <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+            </div>
+            <pre id="linter-text" class="terminal-body"># Linter Rule 01: Headline Bounds Check
+^.{1,30}$
+
+# Linter Rule 02: Description Bounds Check
+^.{1,90}$
+
+# Linter Rule 03: Prohibited Lexicon Filter (Negative Lookahead)
+^(?!.*(revolutionary|best-in-class|synergy|game-changer|disruptive)).*$
+
+# Linter Rule 04: GTM Container Pattern
+^GTM-[A-Z0-9]{4,8}$</pre>
+          </div>
+          </div>
+        </div><div id="pane-schema" class="capsule-tab-pane">
+          <h4 style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--ink);">50-Field Intake Contract</h4>
+          <p style="color: var(--ink-muted); font-size: 0.9rem; line-height: 1.6;">
+            All 50 fields are strictly typed: target audience pain points (Min 3, Max 5), primary conversion goal (Enum), headline character limits (Integer Max 30), and GTM container regex pattern (^GTM-[A-Z0-9]+$).
+          </p>
+        </div>
+      </div>
+
+      <!-- PATTERN 6B: UNIFIED FRAMED PROMPT DECK (Properly Aligned Title Group & Balanced Header) -->
+      <span class="component-label" style="margin-top: 3.5rem;">Pattern 6B: Unified Framed Prompt Deck (Stacked Enclosure)</span>
+      <div class="prompt-deck-container">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Production Prompt Vault</span>
+            <h4 class="prompt-deck-title">Four Qualitative Intent Mining Directives</h4>
+            <p class="prompt-deck-desc">
+              Directives executed against Gemini Pro and Claude 3.5 Sonnet to harvest real customer pain vernacular, emotional hooks, and radius geographic boundaries.
+            </p>
+          </div>
+          
+        </div>
+
+        <div class="prompt-deck-body">
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">01</span>
+              <div>
+                <h4 class="prompt-item-title">Customer Survey Generator (Formal &amp; Conversational Formats)</h4>
+                <p class="prompt-item-desc">Inquires company name, offer, and main problem solved; generates a 3-question survey isolating customer anxieties, objectives, and decision friction.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_01_CUSTOMER_SURVEY_GENERATOR.txt
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('prompt-demo-1', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="prompt-demo-1" class="terminal-body">Role: You are my "Customer Survey Assistant". Create a short, high-impact survey for my client.
+Workflow:
+1. Ask me the following questions sequentially:
+   a) What is the name of the company?
+   b) What specific product or service does the company offer?
+   c) What core problem does this offer solve?
+2. Once all answers are provided, generate the survey in both Conversational and Formal formats.</pre>
+            </div>
+          </div>
+
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">02</span>
+              <div>
+                <h4 class="prompt-item-title">'Read Their Journals' (Audience CRO / Intent Mining)</h4>
+                <p class="prompt-item-desc">Harvests &ge;150 customer data points, authentic forum quotes, and stand-up comedy punchlines to extract qualitative emotional truths.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_02_READ_THEIR_JOURNALS_INTENT_MINER.txt
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('prompt-demo-2', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="prompt-demo-2" class="terminal-body">Role: Senior market-research & CRO strategist with live web-browsing skills.
+Workflow:
+1. Ingest product name, audience demographics, and conversion goal.
+2. Mine &ge;150 quotes across forums and reviews &le;24 months old.
+3. Extract qualitative emotional truths and authentic pain points.</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: PRIMARY DATA TABLES & EXPANDABLE ROWS -->
+    <section id="tables" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">07 // Technical Data Architecture</span>
+        <h2 class="section-title-modern">Primary Intake Contract Schema (Collapsible Data Table)</h2>
+        <p class="section-desc-modern">
+          Responsive data tables with repeating headers in print, clean borders, interactive row expansion for long schemas, and an elevated summary row.
+        </p>
+      </div>
+
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 6%;">#</th>
+              <th style="width: 22%;">Category</th>
+              <th style="width: 26%;">Standardized Intake Field</th>
+              <th style="width: 22%;">Internal Schema Key</th>
+              <th style="width: 24%;">Operational Purpose in Pipeline</th>
+            </tr>
+          </thead>
+          <tbody id="mockup-schema-tbody">
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">01</td>
+              <td><span class="tag-pill">Psychographics</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Target Audience Pain Points</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">target_audience_pain</td>
+              <td>Feeds prompt synthesizer with primary customer friction points.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">02</td>
+              <td><span class="tag-pill">Telemetry</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Primary Conversion Action</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">primary_conversion_goal</td>
+              <td>Determines downstream conversion tracking &amp; telemetry tags.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">03</td>
+              <td><span class="tag-pill">Compliance</span></td>
+              <td style="font-weight: 700; color: var(--ink);">RSA Headline Boundary Rule</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">rsa_headline_bounds</td>
+              <td>Deterministic regex linter bounds check pre-submission (&le;30c).</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">04</td>
+              <td><span class="tag-pill">Infrastructure</span></td>
+              <td style="font-weight: 700; color: var(--ink);">GTM Container Identifier</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">gtm_container_id</td>
+              <td>Verifies container telemetry deployment on landing destination.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">05</td>
+              <td><span class="tag-pill">Geography</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Drive-Time Postal Radius</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">target_postal_radius</td>
+              <td>Generates bulk geographic location coordinates for campaign targeting.</td>
+            </tr>
+            <tr class="table-expand-row">
+              <td colspan="5">
+                <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'mockup-schema-tbody', 'Intake Attributes', 5, 3)">
+                  <span class="btn-table-text">Show All 5 Schema Attributes (2 More)</span>
+                  <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+              </td>
+            </tr>
+            <tr class="table-summary-row">
+              <td colspan="2" style="font-weight: 800; text-transform: uppercase;">Schema Total</td>
+              <td style="font-weight: 700;">50 Audited Attributes</td>
+              <td style="font-family: var(--font-mono); color: var(--accent); font-weight: 700;">100% Deterministic</td>
+              <td style="color: var(--success); font-weight: 700;">Zero Data Gaps Prior to Model Prompting</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 8: DECISION MATRIX & QA GATE VARIATIONS -->
+    <section id="tradeoffs" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">08 // Decision Trade-Offs</span>
+        <h2 class="section-title-modern">Decision Matrix &amp; QA Card Variations</h2>
+        <p class="section-desc-modern">
+          Covers all three card design variations: Variant A (Top-Accent Decision Cards), Variant B (Heuristic Linter Cards), and Variant C (Flat Symmetrical QA Gate Cards).
+        </p>
+      </div>
+
+      <span class="component-label">Variant A: Evaluated Alternatives &amp; Decision Matrix (Top Colored Borders)</span>
+      <div class="tradeoff-grid">
+        <div class="tradeoff-card rejected">
+          <span class="badge badge-danger" style="align-self: flex-start;">Alternative A: Rejected</span>
+          <h3 class="tradeoff-title">Unconstrained Autonomous Agents</h3>
+          <p class="tradeoff-desc">Allowing autonomous LLMs to directly configure and publish campaigns via API without intermediary human validation gates.</p>
+          <div class="tradeoff-reason">
+            <strong>Why Rejected:</strong> Hallucination drift triggered policy compliance flags; lack of deterministic audit trails created catastrophic account suspension risk.
+          </div>
+        </div>
+
+        <div class="tradeoff-card accepted">
+          <span class="badge badge-success" style="align-self: flex-start;">Chosen Architecture: Approved</span>
+          <h3 class="tradeoff-title">Deterministic HITL Pipeline + Linters</h3>
+          <p class="tradeoff-desc">Constrained LLM synthesis audited by deterministic regex linters, with structured one-click human verification.</p>
+          <div class="tradeoff-reason">
+            <strong>Result:</strong> Delivered an audited 82.5% time reduction with a flawless 0.0% policy suspension record across all deployment cycles.
+          </div>
+        </div>
+      </div>
+
+      <span class="component-label" style="margin-top: 3.5rem;">Variant B: Deterministic Heuristic Linters (4px Accent Top Border)</span>
+      <div class="linters-grid">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 01</span>
+          <h3 class="tradeoff-title">ELF vs. HALF</h3>
+          <p class="tradeoff-desc"><strong>Core Test:</strong> Is the operational and user experience Easy, Lucrative &amp; Fun or Hard, Annoying, Lame &amp; Frustrating?</p>
+          <div class="tradeoff-reason"><strong>Defect Prevented:</strong> Clunky multi-step forms and opaque booking sequences.</div>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 02</span>
+          <h3 class="tradeoff-title">KLT Factors (Know, Like, Trust)</h3>
+          <p class="tradeoff-desc"><strong>Core Test:</strong> Are Know, Like, and Trust signals embedded at every scroll depth on the landing page?</p>
+          <div class="tradeoff-reason"><strong>Defect Prevented:</strong> Faceless claims lacking proof badges, license numbers, or real reviews.</div>
+        </div>
+      </div>
+
+      <span class="component-label" style="margin-top: 3.5rem;">Variant C: Symmetrical QA Gate Battlecards (Calm 1px Borders, Standard Black Ink Text)</span>
+      <div class="battlecard-grid">
+        <div class="battlecard" style="border-top: 1px solid var(--border);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Raw LLM Output (Rejected)</span>
+          <h3>Google Ads Headline #1 (&le;30 Characters)</h3>
+          <div class="callout-box callout-danger" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Transform Your Home With The Best Premium Renovation Services"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Defect Caught:</strong> Exceeds 30 characters (64 chars); uses vague corporate buzzwords ('Best Premium Renovation'); zero geographic context; causes immediate API bulk-upload rejection.
+          </p>
+        </div>
+
+        <div class="battlecard" style="border-top: 1px solid var(--border);">
+          <span class="badge badge-success" style="align-self: flex-start;">Human-Gated Output (Approved)</span>
+          <h3>Google Ads Headline #1 (&le;30 Characters)</h3>
+          <div class="callout-box callout-success" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Dallas Home Remodeling Pros"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Calibration Fix:</strong> Exactly 27 characters (passes Google 30-character boundary); includes exact geographic target ('Dallas'); crystal clear direct-response intent.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 9: CALLOUTS & PRINCIPLE QUOTES -->
+    <section id="callouts" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">09 // Quality Gates &amp; Principles</span>
+        <h2 class="section-title-modern">Callouts, Risk Intercepts &amp; Architecture Quotes</h2>
+        <p class="section-desc-modern">
+          High-visibility callouts for avoided critical failure modes and foundational engineering maxims.
+        </p>
+      </div>
+
+      <div class="callout-box callout-danger">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div>
+          <div class="callout-title">Critical Failure Mode Avoided</div>
+          <div class="callout-text">
+            Allowing an unvalidated character string to exceed 30 characters in a Google Ads Responsive Search Ad causes immediate API rejection and stops the entire deployment wave. Programmatic regex bounds run prior to staging submission.
+          </div>
+        </div>
+      </div>
+
+      <div class="callout-box callout-success" style="margin-top: 1.25rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+        <div>
+          <div class="callout-title">PreToolUse GTM Attestation Verified</div>
+          <div class="callout-text">
+            All 15 setup tasks validated in preview mode: GA4 key events fire with matching parameters and Google Click Identifiers (GCLID) persist across domain boundaries.
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-box" style="margin-top: 2rem;">
+        <div class="quote-text">
+          &ldquo;Automation without deterministic bounds is simply high-velocity defect generation. Constrain the input schema, lint the intermediary representation, and reserve human cognition strictly for high-signal strategic judgment.&rdquo;
+        </div>
+        <div class="quote-author">&mdash; Karol Jasztal, Core Systems Engineering Principle</div>
+      </div>
+    </section>
+
+    <!-- SECTION 10: PIPELINE SEQUENCE STEPS -->
+    <section id="steps" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">10 // Chronological Sequence</span>
+        <h2 class="section-title-modern">The 5-Stage Human-in-the-Loop Sequence Rail</h2>
+        <p class="section-desc-modern">
+          Idempotent stage transitions ensuring data hygiene and auditability from intake to production telemetry.
+        </p>
+      </div>
+
+      <div class="pipeline-rail">
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stage 01</span>
+          <div class="node-title" style="margin-top: 0.5rem; font-family: var(--font-display); font-weight: 700;">Deterministic Intake</div>
+          <p class="node-desc">50-field Google Sheets schema with strict type validation enforcing data hygiene.</p>
+        </div>
+
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stage 02</span>
+          <div class="node-title" style="margin-top: 0.5rem; font-family: var(--font-display); font-weight: 700;">Prompt Synthesis</div>
+          <p class="node-desc">LLM synthesizes 15 headlines &amp; 4 descriptions conditioned on direct-response frameworks.</p>
+        </div>
+
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stage 03</span>
+          <div class="node-title" style="margin-top: 0.5rem; font-family: var(--font-display); font-weight: 700;">Heuristic Linting</div>
+          <p class="node-desc">Automated regex bounds verification (&le;30/90 chars) and policy lexicon screening.</p>
+        </div>
+
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stage 04</span>
+          <div class="node-title" style="margin-top: 0.5rem; font-family: var(--font-display); font-weight: 700;">Human Verification</div>
+          <p class="node-desc">15-minute operator sanity audit confirming strategic nuance and angle punchiness.</p>
+        </div>
+
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stage 05</span>
+          <div class="node-title" style="margin-top: 0.5rem; font-family: var(--font-display); font-weight: 700;">Live Telemetry</div>
+          <p class="node-desc">Automated GTM / GA4 telemetry injection and staging deployment.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="site-footer"></footer>
+
+  </div>
+
+</body>
+</html>
