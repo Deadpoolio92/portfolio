@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>From 500,000 Dirty Records to 99.8% Accuracy: How I Cleaned Up a Massive CRM Crisis with Six Sigma DMAIC | Karol Jasztal</title>
+  <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css?v=20261027a" />
+  <script src="shared.js?v=20261027a"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Header (Normal Flow / Not Sticky) -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio Overview
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Data Governance &amp; CRM Architecture</span>
+      </div>
+      <div class="nav-actions">
+        <a href="crm-data-cleanup.pdf" download class="btn-ghost" style="padding: 0.45rem 0.85rem; font-size: 0.82rem; gap: 0.35rem;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Download PDF
+        </a>
+        <button id="themeToggle" class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Sticky Chapter Anchor Bar (Option 2B Decoupled Sticky Navigation) -->
+  <nav class="sticky-nav-bar" id="sticky-nav" aria-label="Case study sections">
+    <div class="nav-grid-track">
+      <a href="#define" class="nav-tag-pill active">01. Crisis &amp; Constraints (Define)</a>
+      <a href="#measure" class="nav-tag-pill">02. 20-Record Pilot Audit (Measure)</a>
+      <a href="#analyze" class="nav-tag-pill">03. Root Cause Diagnostics (Analyze)</a>
+      <a href="#improve" class="nav-tag-pill">04. Distributed Async Sprint (Improve)</a>
+      <a href="#control" class="nav-tag-pill">05. Permanent Pipedrive Controls (Control)</a>
+      <a href="#tradeoffs" class="nav-tag-pill">06. Trade-Offs &amp; Retrospective</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO SECTION -->
+    <header class="hero-banner">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Production Systems Dossier &bull; Karol Jasztal &middot; Head of Operations &amp; Systems Leader
+      </div>
+      <h1 class="hero-title">
+        From 500,000 Dirty Records to 99.8% Accuracy:
+        <span class="headline-accent">How I Cleaned Up a Massive CRM Crisis with Six Sigma DMAIC</span>
+      </h1>
+      <p class="hero-subtitle">
+        When a healthcare client imported 750,000 external contacts into their live Pipedrive CRM, over 500,000 of them were duplicates. The result was a 67% baseline defect rate polluting active patient pipelines. Because sales reps and care coordinators had already worked the data for weeks, rolling back was impossible. Here is how I used Six Sigma DMAIC, an initial 20-record pilot audit that uncovered an 87% Pareto pattern, an async global team, and permanent Pipedrive automations to achieve 99.8% deduplication accuracy and save 10 hours per week of manual team grunt work.
+      </p>
+
+      <!-- Bento Grid Telemetry in Hero Command Center -->
+      <div class="bento-grid" id="bento-metrics" style="margin-top: 2.25rem;">
+        <!-- Bento Card 01: Cleaned Volume -->
+        <div class="bento-card bento-span-7">
+          <div class="bento-stat-label">Dirty Record Pool Resolved (Zero Rollback)</div>
+          <div class="bento-stat-num" style="color: var(--accent);">500,000 Records</div>
+          <p class="bento-stat-desc">
+            Surgically resolved 500,000 duplicate and corrupted entries across 750,000 ingested contacts without deleting a single live sales note or losing ongoing patient consultation history.
+          </p>
+          <div class="bento-comparison-track" style="margin-top: 1rem;">
+            <div class="bento-bar-segment" style="width: 67%; background: var(--danger);"></div>
+            <div class="bento-bar-segment segment-green" style="width: 33%;"></div>
+          </div>
+          <div class="bento-comparison-legend">
+            <span><strong style="color: var(--danger);">67% Baseline Dirty Records at Import</strong></span>
+            <span><strong style="color: var(--success);">&lt;0.2% Residual Defect Rate Post-Sprint</strong></span>
+          </div>
+        </div>
+
+        <!-- Bento Card 02: Deduplication Accuracy -->
+        <div class="bento-card bento-span-5">
+          <div class="bento-stat-label">Deduplication Precision &amp; Integrity</div>
+          <div class="bento-stat-num" style="color: var(--success);">99.8%</div>
+          <span class="bento-stat-delta delta-success">Zero False-Positive Patient Merges</span>
+          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
+            Enforced tool-assisted human verification on ambiguous records, preventing catastrophic patient file mix-ups under strict healthcare compliance rules.
+          </p>
+        </div>
+
+        <!-- Bento Card 03: Team Hours Saved -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Weekly Grunt Work Automated</div>
+          <div class="bento-stat-num" style="color: var(--success);">10 hrs/wk</div>
+          <span class="bento-stat-delta delta-success">520 Hours Recovered / Year</span>
+          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
+            Built native Pipedrive workflow automations for deal property cascading, task assignment, and stage follow-ups, permanently removing manual admin overhead.
+          </p>
+        </div>
+
+        <!-- Bento Card 04: Healthcare Privacy -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Healthcare Privacy &amp; Audit Trail</div>
+          <div class="bento-stat-num" style="color: var(--accent);">100% Zero Leaks</div>
+          <span class="bento-stat-delta delta-success">HIPAA &amp; GDPR Compliant</span>
+          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
+            Every deduplication, contact update, and field merge carried complete timestamped audit logging with zero patient confidentiality breaches.
+          </p>
+        </div>
+
+        <!-- Bento Card 05: Recurrence Rate -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Defect Recurrence Post-Launch</div>
+          <div class="bento-stat-num" style="color: var(--success);">0.0%</div>
+          <span style="font-size: 0.82rem; color: var(--ink-faint);">Permanent Point-of-Entry Gates</span>
+          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
+            Implemented duplicate warning triggers for similar-sounding names and required company links, stopping future import corruption at the door.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 01: DEFINE — THE 500k CRISIS & HEALTHCARE BOUNDS -->
+    <!-- ========================================================================= -->
+    <section id="define" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // DEFINE: THE 500,000-RECORD CRISIS</span>
+        <h2 class="section-title-modern">The Unplanned Disaster: When "Rollback Import" Is Off the Table</h2>
+        <p class="section-desc-modern">
+          It is every Operations Leader's worst CRM nightmare: an external vendor delivers a raw list of 750,000 contacts. Someone clicks "Import CSV" directly into the live Pipedrive CRM without pre-flight deduplication. Within minutes, half a million duplicates collided with live customer accounts, creating massive chaos across sales pipelines and patient consult queues.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <p style="font-size: 0.95rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1.5rem;">
+          In high-volume sales operations, duplicate data is not just an aesthetic blemish—it is a direct revenue and compliance hazard. At this healthcare organization, the newly imported list overlapped with their existing database by approximately <strong>500,000 records</strong>. Two out of every three rows in the CRM were duplicate, contradictory, or missing vital medical qualification data.
+        </p>
+
+        <!-- Crisis Breakdown Card -->
+        <div style="background: var(--surface-subtle); border-left: 4px solid var(--danger); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Why We Couldn't Just Hit "Undo"</h3>
+          <p style="font-size: 0.9rem; color: var(--ink-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+            In normal software mishaps, an engineer rolls back the database to the prior backup. Here, that was completely out of the question:
+          </p>
+          <ul style="font-size: 0.88rem; color: var(--ink-muted); padding-left: 1.25rem; line-height: 1.55;">
+            <li><strong>Weeks of Active Usage:</strong> The client's sales representatives and care coordinators had already been working the imported data for several weeks before leadership sounded the alarm.</li>
+            <li><strong>High-Stakes Live Notes:</strong> Reps had conducted hundreds of live phone calls, scheduled patient consultations, updated deal stages, and entered confidential medical notes directly onto the new duplicate records.</li>
+            <li><strong>Catastrophic Revenue Risk:</strong> A blind database rollback would have wiped out weeks of real sales outreach, deleted scheduled appointments, and destroyed active revenue pipeline. We had to perform open-heart surgery on the database while the patient was running a marathon.</li>
+          </ul>
+        </div>
+
+        <!-- 3 Non-Negotiable Constraints -->
+        <div style="margin-bottom: 2.25rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">Three Non-Negotiable Operational Constraints</h3>
+          <div class="pipeline-rail">
+            <div class="pipeline-node" style="border-top: 4px solid var(--danger);">
+              <span class="node-num">01</span>
+              <h4 class="node-title">Healthcare Privacy &amp; HIPAA/GDPR</h4>
+              <p class="node-desc">Zero tolerance for accidental patient record merges. Merging two different individuals with similar names would violate patient confidentiality laws.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+              <span class="node-num">02</span>
+              <h4 class="node-title">Zero Live Data Destruction</h4>
+              <p class="node-desc">Every single call log, consultation note, and stage change recorded by reps over the past weeks had to be preserved into the master record.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+              <span class="node-num">03</span>
+              <h4 class="node-title">100% Async Global Execution</h4>
+              <p class="node-desc">The cleanup sprint team was distributed across 4 continents and 12-hour time differences. Zero synchronous war rooms; 100% written SOPs.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Six Sigma DMAIC Pipeline Rail -->
+        <div>
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">The Six Sigma DMAIC Execution Spine</h3>
+          <div class="pipeline-rail">
+            <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+              <span class="node-num">01</span>
+              <h4 class="node-title">Define (Crisis Bounds)</h4>
+              <p class="node-desc">Mapped the 500k-record duplicate explosion and established healthcare compliance boundaries.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--purple);">
+              <span class="node-num">02</span>
+              <h4 class="node-title">Measure (Pilot Audit)</h4>
+              <p class="node-desc">Conducted an exhaustive 20-record pilot discovering the 87% naming discrepancy Pareto pattern.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+              <span class="node-num">03</span>
+              <h4 class="node-title">Analyze (5-Whys)</h4>
+              <p class="node-desc">Diagnosed root causes: absence of input validation, missing data dictionary, and unstructured CSVs.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--success);">
+              <span class="node-num">04</span>
+              <h4 class="node-title">Improve (Async Sprint)</h4>
+              <p class="node-desc">Led an async global team using visual checklists, Chrome highlighting extensions, and matching scripts.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+              <span class="node-num">05</span>
+              <h4 class="node-title">Control (Automations)</h4>
+              <p class="node-desc">Built permanent Pipedrive validation triggers that eliminated 10 hours/week of team grunt work.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 02: MEASURE — THE 20-RECORD PILOT AUDIT -->
+    <!-- ========================================================================= -->
+    <section id="measure" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // MEASURE: QUANTIFYING DEFECT PATTERNS</span>
+        <h2 class="section-title-modern">The 20-Record Pilot: Finding the 87% Root Pattern Before Touching a Row</h2>
+        <p class="section-desc-modern">
+          Faced with 500,000 dirty records, inexperienced managers either panic-hire dozens of data clerks or write reckless Python scripts that blindly merge data. In Six Sigma, you never guess—you measure. I isolated a representative pilot sample of 20 dirty records and audited every character by hand.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <div style="background: var(--surface-subtle); border-left: 4px solid var(--purple); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">The 87% Pareto Discovery</h3>
+          <p style="font-size: 0.9rem; color: var(--ink-muted); line-height: 1.55;">
+            The 20-record pilot paid off immediately: <strong>approximately 87% of all deduplication failures were driven by the exact same root issue</strong>. Automated deduplication in Pipedrive failed because of slight naming discrepancies between the imported contacts and existing CRM entries:
+          </p>
+          <div style="font-family: var(--mono); font-size: 0.82rem; background: var(--surface); padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; line-height: 1.6; color: var(--ink);">
+            &bull; Contact Name Inversion: "Miller, Robert" vs. "Robert Miller"<br>
+            &bull; Academic &amp; Clinical Titles: "Dr. Jane Doe, MD" vs. "Jane Doe"<br>
+            &bull; Corporate Suffix Noise: "St. Jude Health LLC" vs. "St Jude Health"<br>
+            &bull; Unlinked Organizations: Contact created with company name in a raw text field instead of linked to the Master Organization account.
+          </div>
+        </div>
+
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.75rem;">Defect Pattern &amp; Error Distribution Matrix (Collapsible)</h3>
+        <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+          Based on the pilot findings, we categorized all defects across the 500,000-record pool. Previewing the top 6 defect patterns below (expand to inspect all 12 audited categories):
+        </p>
+
+        <!-- Collapsible Progressive Disclosure Table -->
+        <div class="table-frame">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 6%;">#</th>
+                <th style="width: 24%;">Defect Category</th>
+                <th style="width: 14%;">Impact Share</th>
+                <th style="width: 28%;">Observed Error Example</th>
+                <th style="width: 28%;">Resolution Mechanism</th>
+              </tr>
+            </thead>
+            <tbody id="defect-tbody">
+              <!-- Visible Preview Rows (1 to 6) -->
+              <tr>
+                <td style="font-family: var(--mono);">01</td>
+                <td><span class="badge badge-danger">Contact Name Suffixes</span></td>
+                <td style="font-weight: 700; color: var(--danger);">32.4%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">"Dr. Robert J. Miller, MD"</td>
+                <td style="font-size: 0.85rem;">Strip clinical honorifics into custom taxonomy field <code>title_tag</code>.</td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono);">02</td>
+                <td><span class="badge badge-danger">Inverted First / Last Names</span></td>
+                <td style="font-weight: 700; color: var(--danger);">19.8%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">"Smith, Alice" vs "Alice Smith"</td>
+                <td style="font-size: 0.85rem;">Regex transposition linter splits comma-delimited strings to First/Last.</td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono);">03</td>
+                <td><span class="badge badge-warning">Unlinked Organizations</span></td>
+                <td style="font-weight: 700; color: var(--warning);">21.2%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Raw text string "Charité Berlin"</td>
+                <td style="font-size: 0.85rem;">Fuzzy Levenshtein matching links contact to verified master Org record.</td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono);">04</td>
+                <td><span class="badge badge-warning">Corporate Suffix Mismatches</span></td>
+                <td style="font-weight: 700; color: var(--warning);">13.6%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">"HealthCorp GmbH" vs "HealthCorp"</td>
+                <td style="font-size: 0.85rem;">Regex strip of legal entities (GmbH, AG, LLC, Inc., UG) before lookup.</td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono);">05</td>
+                <td><span class="badge badge-accent">Phone Formatting Chaos</span></td>
+                <td style="font-weight: 700; color: var(--accent);">7.1%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">"030 / 123 456" vs "+49 30 123456"</td>
+                <td style="font-size: 0.85rem;">E.164 standardization script converts local dials to international keys.</td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono);">06</td>
+                <td><span class="badge badge-accent">Missing Healthcare Fields</span></td>
+                <td style="font-weight: 700; color: var(--accent);">3.2%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Empty medical discipline / clinic type</td>
+                <td style="font-size: 0.85rem;">Async team manual enrichment from registered public medical registry.</td>
+              </tr>
+
+              <!-- Hidden Rows (7 to 12) -->
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">07</td>
+                <td><span class="badge badge-neutral">Typos in Email Domains</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">1.1%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">"user@gmx..de", "dr@klinik.con"</td>
+                <td style="font-size: 0.85rem;">RFC 5322 regex validation catches double-dots and common TLD typos.</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">08</td>
+                <td><span class="badge badge-neutral">Case Inconsistencies</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0.8%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">"DR. HANS SCHMIDT"</td>
+                <td style="font-size: 0.85rem;">Automated title casing script normalizes ALL-CAPS strings to Title Case.</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">09</td>
+                <td><span class="badge badge-neutral">Whitespace &amp; Line Breaks</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0.3%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Trailing tab characters in phone strings</td>
+                <td style="font-size: 0.85rem;">Automated string trim removes invisible non-breaking whitespace.</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">10</td>
+                <td><span class="badge badge-neutral">Duplicate Pipeline Deals</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0.2%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Two open deals for same consultation</td>
+                <td style="font-size: 0.85rem;">Deal consolidation script merges timeline notes and deletes duplicate card.</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">11</td>
+                <td><span class="badge badge-neutral">Orphaned Activity Tasks</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0.1%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Follow-up task attached to deleted dupe</td>
+                <td style="font-size: 0.85rem;">Pipedrive API re-parents all scheduled activities to the surviving master record.</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">12</td>
+                <td><span class="badge badge-neutral">Missing Privacy Consent</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0.1%</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Unset HIPAA / GDPR consent timestamp</td>
+                <td style="font-size: 0.85rem;">Re-attaches original import audit batch ID with verified partner consent proof.</td>
+              </tr>
+
+              <!-- Expand Row Button -->
+              <tr class="table-expand-row">
+                <td colspan="5">
+                  <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'defect-tbody', 'Defect Categories', 12, 6)">
+                    <span class="btn-table-text">Show All 12 Defect Categories (6 More)</span>
+                    <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Summary Row -->
+              <tr class="table-summary-row">
+                <td colspan="2" style="font-weight: 800; text-transform: uppercase;">Dataset Total</td>
+                <td style="font-weight: 700; color: var(--danger);">500,000 Records</td>
+                <td style="font-family: var(--mono); color: var(--accent); font-weight: 700;">87% Discrepancies</td>
+                <td style="color: var(--success); font-weight: 700;">100% Resolved Under DMAIC Framework</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 03: ANALYZE — ROOT CAUSE DIAGNOSTICS -->
+    <!-- ========================================================================= -->
+    <section id="analyze" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // ANALYZE: ROOT CAUSE DIAGNOSTICS</span>
+        <h2 class="section-title-modern">The 5-Whys Diagnostic Chain &amp; Clean Data Contract</h2>
+        <p class="section-desc-modern">
+          In operations, if you only clean the dirty data without fixing the entry point, you are just scheduling your next crisis. We executed a thorough 5-Whys root cause analysis to uncover why half a million duplicate records bypassed Pipedrive in the first place, and built a strict data contract for all incoming data.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <!-- 5-Whys Terminal Block -->
+        <div class="terminal-card" style="margin-bottom: 2rem;">
+          <div class="terminal-header">
+            <span class="terminal-filename">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+              DIAGNOSTIC_ROOT_CAUSE_5_WHYS.txt
+            </span>
+            <button class="btn-copy-icon" onclick="copySnippet('snippet-5whys', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+              <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </button>
+          </div>
+          <pre id="snippet-5whys" class="terminal-body">SIX SIGMA DMAIC ROOT CAUSE ANALYSIS — 5-WHYS DIAGNOSTIC CHAIN
+Client: Healthcare Provider &amp; Clinical Outreach Organization
+Platform: Pipedrive CRM
+Dataset: 750,000 Ingested External Records (500,000 Colliding Duplicates)
+
+WHY 1: Why did 500,000 duplicate contacts flood the active Pipedrive CRM?
+       └── Because an external marketing list of 750k leads was bulk-imported without deduplication checks.
+
+WHY 2: Why did standard CRM deduplication checks fail to flag the 500,000 existing records?
+       └── Because Pipedrive's native import matcher only evaluated exact 1:1 string equality on contact names and emails.
+
+WHY 3: Why did string equality fail to match identical healthcare professionals and clinics?
+       └── Because external vendors formatted names as "Dr. John Smith, MD" while internal records held "John Smith",
+           and company records included legal suffixes ("Clinic GmbH" vs "Clinic").
+
+WHY 4: Why was unstandardized external data allowed to enter the live CRM database in the first place?
+       └── Because the organization had no staging environment, no pre-import validation linter, and no data dictionary.
+
+WHY 5: Why was there no pre-import validation or centralized data dictionary?
+       └── ROOT CAUSE: The organization operated the CRM as a passive digital address book rather than a deterministic
+           state machine. There were no point-of-entry validation gates, no required organization linkages, and no automated
+           phonetic duplicate warnings for sales reps.
+
+CORRECTIVE ACTION DIRECTIVE:
+1. Conduct a surgical, zero-data-loss deduplication sprint across all 500,000 conflicting records.
+2. Build permanent Pipedrive point-of-entry validation triggers and similar-sounding duplicate warning rules.
+3. Automate manual rep grunt work to eliminate 10 hours/week of administrative friction.</pre>
+        </div>
+
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.75rem;">The Clean Data Contract (Target Schema)</h3>
+        <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+          To stop dirty data permanently, we defined a strict data contract for every contact, deal, and organization inside Pipedrive:
+        </p>
+
+        <div class="table-frame">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 20%;">Field Name</th>
+                <th style="width: 20%;">Pipedrive API Key</th>
+                <th style="width: 15%;">Data Type</th>
+                <th style="width: 25%;">Validation Rule</th>
+                <th style="width: 20%;">Compliance Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight: 700;">Clean First Name</td>
+                <td style="font-family: var(--mono); color: var(--accent);">first_name</td>
+                <td>String</td>
+                <td>Title Case; all honorifics (Dr./MD) stripped automatically.</td>
+                <td>Personalization</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700;">Clean Last Name</td>
+                <td style="font-family: var(--mono); color: var(--accent);">last_name</td>
+                <td>String</td>
+                <td>Title Case; mandatory single surname for indexing.</td>
+                <td>Deduplication Index</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700;">Linked Organization</td>
+                <td style="font-family: var(--mono); color: var(--accent);">org_id</td>
+                <td>Foreign Key (ID)</td>
+                <td>Mandatory link to verified Master Org; no raw text strings.</td>
+                <td>Account Hierarchy</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700;">Standardized Phone</td>
+                <td style="font-family: var(--mono); color: var(--accent);">phone_e164</td>
+                <td>E.164 String</td>
+                <td>Strict country code prefix (+49...); spaces stripped.</td>
+                <td>Dialer Integration</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700;">Normalized Email</td>
+                <td style="font-family: var(--mono); color: var(--accent);">email_val</td>
+                <td>RFC 5322 String</td>
+                <td>Normalized lowercase; domain MX syntax verified.</td>
+                <td>Primary Unique Key</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700;">Healthcare Consent</td>
+                <td style="font-family: var(--mono); color: var(--accent);">hipaa_gdpr_ok</td>
+                <td>Boolean Flag</td>
+                <td>True/False with immutable timestamp and source batch ID.</td>
+                <td>HIPAA / GDPR Gate</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 04: IMPROVE — ASYNC SPRINT & TOOL-ASSISTED MERGING -->
+    <!-- ========================================================================= -->
+    <section id="improve" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // IMPROVE: ASYNC SPRINT &amp; TOOL-ASSISTED MERGING</span>
+        <h2 class="section-title-modern">Distributed Execution: Foolproof Checklists, Chrome Extensions &amp; Helper Scripts</h2>
+        <p class="section-desc-modern">
+          How do you clean 500,000 records without burning out your core team or leaking patient data? You build an async assembly line. I organized a distributed sprint team across global time zones, gave them a foolproof visual decision tree, and equipped them with browser highlighting tools and candidate-matching scripts.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <p style="font-size: 0.95rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1.5rem;">
+          Because the client operated in healthcare, 100% blind algorithmic deduplication was too reckless—one bad merge could combine two distinct patients. On the other hand, purely manual row-by-row clicking would have taken over a year. We built a <strong>Tool-Assisted Human-in-the-Loop (HITL) system</strong> that gave our async team superpowers:
+        </p>
+
+        <!-- 3 Pillars of the Sprint Engine -->
+        <div class="pipeline-rail" style="margin-bottom: 2rem;">
+          <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+            <span class="node-num">01</span>
+            <h4 class="node-title">Browser Highlighting Extensions</h4>
+            <p class="node-desc">Custom-configured Chrome extensions that highlighted matching phone numbers, email domain roots, and partial names across open tabs, cutting rep visual scanning fatigue by 80%.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--purple);">
+            <span class="node-num">02</span>
+            <h4 class="node-title">Candidate-Matching Helper Scripts</h4>
+            <p class="node-desc">Ran lightweight phonetic (Soundex) and Levenshtein distance algorithms to group similar-sounding clinic names ("Charité Berlin" vs "Klinikum Charite"), serving up pre-grouped clusters for review.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--success);">
+            <span class="node-num">03</span>
+            <h4 class="node-title">Timeline Concatenation Script</h4>
+            <p class="node-desc">Automatically grabbed active notes, consultation history, and custom field values from duplicate records and appended them into an immutable chronological timeline before merging.</p>
+          </div>
+        </div>
+
+        <!-- Sprint SOP Checklist Terminal Card -->
+        <div class="terminal-card" style="margin-bottom: 2rem;">
+          <div class="terminal-header">
+            <span class="terminal-filename">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+              SOP_CHECKLIST_SURGICAL_DEDUPLICATION.txt
+            </span>
+            <button class="btn-copy-icon" onclick="copySnippet('snippet-sop', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+              <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </button>
+          </div>
+          <pre id="snippet-sop" class="terminal-body">ASYNC DISTRIBUTED SPRINT SOP: SURGICAL ZERO-LOSS CRM DEDUPLICATION
+Execution Model: 100% Asynchronous &bull; Double-Blind QA Verification &bull; Healthcare Privacy
+Target Platform: Pipedrive CRM Contact &amp; Deal Entities
+
+STEP 01: CLUSTER INGESTION &amp; FIELD HIGHLIGHTING
+  1. Open assigned Pipedrive Candidate Batch in Chrome with the Field-Highlighting Extension active.
+  2. Verify that highlighted phone roots (+49...), normalized email domains, and company IDs match.
+  3. If records share identical phone + normalized email: proceed to Step 02 immediately.
+  4. If names are phonetically similar but emails differ: execute Registry Sanity Check (Step 04).
+
+STEP 02: HISTORICAL NOTE PRESERVATION (CRITICAL REVENUE GATE)
+  1. Inspect Activity Timeline on both Record A (Legacy master) and Record B (Recent import).
+  2. Run the Timeline Concatenation script to extract all rep call notes, deal stages, and consult dates.
+  3. Verify that zero rep call logs will be overwritten or truncated during the merge.
+  4. Pin active healthcare consultation notes to the top of the consolidated activity stream.
+
+STEP 03: SURGICAL MERGE EXECUTION
+  1. Select Record A as Primary Master Entity (preserves oldest database UUID and attribution history).
+  2. Merge Record B into Record A using native Pipedrive API / Interface merge tool.
+  3. Verify that the standardized E.164 phone and normalized lowercase email are retained.
+  4. Link the consolidated contact to the verified Master Organization entity (strip raw text company).
+
+STEP 04: ESCALATION &amp; AMBIGUOUS IDENTITY GATE
+  1. If confidence is &lt; 100% (e.g., common surnames like "Schmidt" with different addresses):
+     DO NOT MERGE. Tag record with [ESCALATION_QUEUE_L2] and assign to Lead Reviewer.
+  2. Under HIPAA/GDPR, an accidental merge is a compliance violation. When in doubt, keep separated.
+
+STEP 05: DOUBLE-BLIND QA SPOT CHECK
+  1. 10% of all merged records are routed automatically into the secondary QA queue.
+  2. Reviewer B verifies that zero deal notes were dropped and that contact names follow Title Case.
+  3. Approved records receive the verified audit stamp: [AUDIT_CLEAN_2026_DMAIC].</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 05: CONTROL — PERMANENT PIPEDRIVE CONTROLS -->
+    <!-- ========================================================================= -->
+    <section id="control" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // CONTROL: POINT-OF-ENTRY PREVENTION &amp; AUTOMATION</span>
+        <h2 class="section-title-modern">Locking the Front Door: Permanent Pipedrive Automations &amp; 10 Hours Saved Weekly</h2>
+        <p class="section-desc-modern">
+          The difference between a one-off cleanup and Six Sigma DMAIC is the Control phase. Cleaning up 500,000 records means nothing if reps can dump another dirty spreadsheet into the CRM next quarter. We locked the front door with permanent validation triggers and automated away 10 hours per week of manual admin grunt work.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <div style="margin-bottom: 2rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">Permanent Pipedrive Validation Automations</h3>
+          <div class="pipeline-rail">
+            <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+              <span class="node-num">01</span>
+              <h4 class="node-title">Similar-Sounding Name Warnings</h4>
+              <p class="node-desc">Configured automated duplicate detection in Pipedrive. If a rep creates a contact with a similar-sounding name or matching domain, the CRM flags existing matches before saving.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+              <span class="node-num">02</span>
+              <h4 class="node-title">Mandatory Org Linkage Gates</h4>
+              <p class="node-desc">Eliminated free-text company entries. Reps cannot create or save a contact without linking them directly to a verified parent Organization entity.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--success);">
+              <span class="node-num">03</span>
+              <h4 class="node-title">Deal Stage Required Fields</h4>
+              <p class="node-desc">Enforced hard validation gates on pipeline stages. Moving a deal to <em>Consultation Booked</em> requires verified E.164 phone and HIPAA/GDPR consent confirmation.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10 Hours Per Week Automations -->
+        <div style="background: var(--surface-subtle); border-left: 4px solid var(--success); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Automating Rep Grunt Work: 10 Hours Saved Every Week</h3>
+          <p style="font-size: 0.9rem; color: var(--ink-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+            During our initial measurement, we noticed client reps spent roughly 2 hours every day manually copying organization addresses into individual deals, creating follow-up task reminders, and logging status emails. We used Pipedrive's native workflow automation tools to permanently eliminate this grunt work:
+          </p>
+          <ul style="font-size: 0.88rem; color: var(--ink-muted); padding-left: 1.25rem; line-height: 1.55;">
+            <li><strong>Automated Deal Property Cascading:</strong> Updating a clinic's primary address, medical specialty, or phone automatically updates all linked contacts and open deals instantly.</li>
+            <li><strong>Automated Next-Step Task Generation:</strong> Moving a deal stage generates assigned call and email tasks for the account owner with 24-hour reminder triggers.</li>
+            <li><strong>Audited Time Recovered:</strong> Saved approximately <strong>10 hours per week across the entire team</strong> (~520 hours/year), freeing healthcare sales reps to focus 100% of their energy on patient consultations.</li>
+          </ul>
+        </div>
+
+        <!-- Operational Duality Panel -->
+        <div style="margin-bottom: 2rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.75rem;">Operational Duality: Automation Engine vs. Hard Constraints</h3>
+          <p style="font-size: 0.88rem; color: var(--ink-faint); margin-bottom: 1rem;">
+            Balancing automated execution velocity with healthcare privacy guardrails:
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem;">
+            <div style="background: var(--surface-subtle); border-left: 3px solid var(--success); padding: 0.75rem 1rem; border-radius: 6px;">
+              <div style="font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--success); text-transform: uppercase; margin-bottom: 0.25rem;">⚡ HOW POWERED IT IS (AUTOMATION ENGINE)</div>
+              <div style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5;">
+                &bull; <strong>Auto-Normalizes Names:</strong> Strips honorifics and converts all-caps to Title Case automatically.<br>
+                &bull; <strong>Cascades Org Properties:</strong> Syncs addresses and phone formats across all open deals.<br>
+                &bull; <strong>Flags Potential Dupes:</strong> Pre-screen matching checks phonetic similarity before record creation.
+              </div>
+            </div>
+            <div style="background: var(--surface-subtle); border-left: 3px solid var(--danger); padding: 0.75rem 1rem; border-radius: 6px;">
+              <div style="font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin-bottom: 0.25rem;">🛑 WHERE IT IS PURPOSEFULLY LIMITED (GUARDRAILS)</div>
+              <div style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5;">
+                &bull; <strong>Zero Blind Merges:</strong> Automated scripts never delete or merge records without human sign-off.<br>
+                &bull; <strong>HIPAA Field Locks:</strong> Sensitive medical fields are restricted to authenticated roles only.<br>
+                &bull; <strong>Bulk Import Freeze:</strong> CSV bulk import permissions stripped from general rep accounts.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 06: TRADE-OFFS & RETROSPECTIVE -->
+    <!-- ========================================================================= -->
+    <section id="tradeoffs" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // EVALUATED ALTERNATIVES &amp; RETROSPECTIVE</span>
+        <h2 class="section-title-modern">Architectural Trade-Offs, Failure Modes &amp; Operator Retrospective</h2>
+        <p class="section-desc-modern">
+          Every operational breakthrough requires rejecting seemingly easy shortcuts. Here is the diagnostic breakdown of paths we evaluated, failure modes we neutralized, and permanent leadership lessons from cleaning 500,000 records.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">Strategic Decision &amp; Failure Mode Matrix</h3>
+        
+        <!-- Strict 3-Column Diagnostic Matrix (2x3 Cadence) -->
+        <div class="tradeoff-grid tradeoff-grid-3col" style="margin-bottom: 2.5rem;">
+          <!-- Card 01 -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Trade-Off 01</span>
+            <h4 class="tradeoff-title">Full Database Rollback</h4>
+            <p class="tradeoff-desc">
+              <strong>Rejected Path:</strong> Rolling back Pipedrive to the pre-import snapshot.<br>
+              <strong>Why Rejected:</strong> Would have erased 3+ weeks of live sales rep calls, active patient consultations, and qualified deals. Surgical deduplication preserved 100% of pipeline revenue.
+            </p>
+          </div>
+
+          <!-- Card 02 -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Trade-Off 02</span>
+            <h4 class="tradeoff-title">Blind Algorithmic Merge</h4>
+            <p class="tradeoff-desc">
+              <strong>Rejected Path:</strong> Writing an unassisted Python script to auto-merge all matching names.<br>
+              <strong>Why Rejected:</strong> In healthcare, false-positive merges violate patient privacy (HIPAA/GDPR). Tool-assisted Human-in-the-Loop review ensured zero wrongful merges.
+            </p>
+          </div>
+
+          <!-- Card 03 -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+            <span class="badge badge-accent" style="align-self: flex-start;">Trade-Off 03</span>
+            <h4 class="tradeoff-title">Synchronous War Rooms</h4>
+            <p class="tradeoff-desc">
+              <strong>Rejected Path:</strong> Daily 3-hour Zoom coordination calls across global reps.<br>
+              <strong>Why Rejected:</strong> Distributed team spanned a 12-hour time difference. 100% async SOP checklists and Loom videos kept momentum high with zero meeting fatigue.
+            </p>
+          </div>
+
+          <!-- Card 04 -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Failure Mode 01</span>
+            <h4 class="tradeoff-title">Name Suffix Collisions</h4>
+            <p class="tradeoff-desc">
+              <strong>The Risk:</strong> Automated scripts merging "John Smith Jr." with "John Smith Sr." or failing on clinical titles.<br>
+              <strong>Defensive Control:</strong> Stripped honorifics into dedicated taxonomy fields before running match comparisons.
+            </p>
+          </div>
+
+          <!-- Card 05 -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Failure Mode 02</span>
+            <h4 class="tradeoff-title">Overwritten Rep Notes</h4>
+            <p class="tradeoff-desc">
+              <strong>The Risk:</strong> CRM merge overwriting historical activity on older records.<br>
+              <strong>Defensive Control:</strong> Timeline concatenation script consolidated all historical activity into an uneditable master feed prior to merge.
+            </p>
+          </div>
+
+          <!-- Card 06 -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Failure Mode 03</span>
+            <h4 class="tradeoff-title">Post-Launch Re-Pollution</h4>
+            <p class="tradeoff-desc">
+              <strong>The Risk:</strong> Reps reverting to sloppy manual entry and bad CSV imports.<br>
+              <strong>Defensive Control:</strong> Point-of-entry required field gates, stripped bulk CSV permissions, and scheduled quarterly drift audits.
+            </p>
+          </div>
+        </div>
+
+        <!-- Senior Operator Retrospective -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem 1.75rem;">
+          <div style="font-family: var(--mono); font-size: 0.75rem; color: var(--accent); text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem;">Senior Operator Hindsight</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 0.85rem; color: var(--ink);">Why Six Sigma DMAIC Saved the Organization</h3>
+          <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1rem;">
+            When a database is burning with 500,000 corrupted records, human panic creates bad decisions. People want to either hit "undo" or write a magic script overnight. Both options would have failed here. Hitting undo would have deleted active revenue deals, and a blind script would have caused HIPAA privacy violations.
+          </p>
+          <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1rem;">
+            The Six Sigma DMAIC discipline is what kept us grounded. Taking an hour to do a simple <strong>20-record pilot audit</strong> revealed that 87% of the mess was simple naming discrepancies, saving us hundreds of hours of over-engineering. Organizing an async team with Chrome extensions and foolproof checklists proved that you don't need meetings to move mountains.
+          </p>
+          <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6;">
+            Most importantly, by focusing on the <strong>Control phase</strong>, we didn't just clean up the mess—we permanently freed the team from 10 hours a week of manual grunt work and locked the front door so the chaos can never come back.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CENTRALIZED SITE FOOTER (Dynamic via shared.js) -->
+    <footer id="site-footer"></footer>
+
+  </div>
+
+</body>
+</html>
