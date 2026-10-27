@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fixing Lost Deals and Calendar Chaos: How I Re-Engineered HubSpot &amp; Calendly to Save 500+ Hours for a 50-Person Brokerage | Karol Jasztal</title>
+  <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css?v=20261026h" />
+  <script src="shared.js?v=20261025d"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Header (Normal Flow / Not Sticky) -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio Overview
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Revenue Operations (RevOps) &amp; CRM Architecture</span>
+      </div>
+      <div class="nav-actions">
+        <a href="hubspot-revenue-engine.pdf" download class="btn-ghost" style="padding: 0.45rem 0.85rem; font-size: 0.82rem; gap: 0.35rem;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Download PDF
+        </a>
+        <button id="themeToggle" class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Sticky Chapter Anchor Bar (Option 2B Decoupled Sticky Navigation) -->
+  <nav class="sticky-nav-bar" id="sticky-nav">
+    <div class="nav-grid-track">
+      <a href="#pipeline-architecture" class="nav-tag-pill active">01. Two-Track Architecture</a>
+      <a href="#operational-schema" class="nav-tag-pill">02. Data Contract &amp; Schema</a>
+      <a href="#workflow-engine" class="nav-tag-pill">03. Automated Workflows</a>
+      <a href="#quality-gates" class="nav-tag-pill">04. Quality Gates</a>
+      <a href="#evaluated-alternatives" class="nav-tag-pill">05. Strategic Trade-Offs</a>
+      <a href="#retrospective" class="nav-tag-pill">06. Senior Retrospective</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO SECTION -->
+    <header class="hero-banner">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Production Systems Blueprint &bull; Karol Jasztal &middot; Head of Operations &amp; Systems Leader
+      </div>
+      <h1 class="hero-title">
+        Fixing Lost Deals and Calendar Chaos:
+        <span class="headline-accent">How I Re-Engineered HubSpot &amp; Calendly to Save 500+ Hours for a 50-Person Brokerage</span>
+      </h1>
+      <p class="hero-subtitle">
+        When a 50-person real estate brokerage shoves cold portal leads, active buyer negotiations, mortgage calculations, and notary closings into one messy HubSpot pipeline, deals fall through the cracks. Here is how I mapped a clean architecture in Figma, decoupled intake from closing into two purpose-built pipelines, and wired automated 3-strike phone cadences, dynamic onboarding emails, and multi-calendar Calendly routing to eliminate 500+ hours of admin chaos.
+      </p>
+
+      <!-- Bento Grid Telemetry in Hero Command Center (Clean: No Top Border) -->
+      <div class="bento-grid" id="bento-metrics" style="margin-top: 2.25rem;">
+        <!-- Bento Card 01: Time Saved -->
+        <div class="bento-card bento-span-7">
+          <div class="bento-stat-label">Verified Sales Team Capacity Recovered</div>
+          <div class="bento-stat-num" style="color: var(--success);">500+ Hours Saved / Year</div>
+          <p class="bento-stat-desc">
+            Automating manual email drafting, task reminders, call cadences, and meeting scheduling freed 1–2 hours per broker every week across the 6-person sales unit (288–576 hours/year).
+          </p>
+          <div class="bento-comparison-track" style="margin-top: 1rem;">
+            <div class="bento-bar-segment" style="width: 28%; background: var(--accent);"></div>
+            <div class="bento-bar-segment segment-green" style="width: 72%;"></div>
+          </div>
+          <div class="bento-comparison-legend">
+            <span><strong style="color: var(--accent);">~28% Residual High-Touch Negotiation</strong></span>
+            <span><strong style="color: var(--success);">72% Routine Admin &amp; Coordination Automated</strong></span>
+          </div>
+        </div>
+
+        <!-- Bento Card 02: Pipeline Decoupling -->
+        <div class="bento-card bento-span-5">
+          <div class="bento-stat-label">Customer Relationship Management (CRM) Architecture</div>
+          <div class="bento-stat-num">2 Dedicated Tracks</div>
+          <p class="bento-stat-desc">
+            Decoupled raw intake into <strong>Pipeline A (Leads: 11 Stages)</strong> and active negotiations into <strong>Pipeline B (Sales: 12 Stages)</strong>, connected by an automated graduation trigger.
+          </p>
+        </div>
+
+        <!-- Bento Card 03: Multi-Calendar Sync -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Multi-Calendar Routing</div>
+          <div class="bento-stat-num" style="color: var(--success);">100% Automated</div>
+          <span class="bento-stat-delta delta-success">Zero Scheduling Conflicts</span>
+          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
+            Synchronized Calendly routing across 6 internal brokers and an external mortgage finance consultant with zero back-and-forth emails.
+          </p>
+        </div>
+
+        <!-- Bento Card 04: Intake Hygiene -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Inbound Data Hygiene</div>
+          <div class="bento-stat-num" style="color: var(--success);">0 Dirty Records</div>
+          <span class="bento-stat-delta delta-success">Zapier Triage Gate</span>
+          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
+            Pre-flight schema validation blocks malformed phone numbers and empty email strings before lead injection into HubSpot.
+          </p>
+        </div>
+
+        <!-- Bento Card 05: Speed to Lead -->
+        <div class="bento-card bento-span-4">
+          <div class="bento-stat-label">Speed-to-Lead Response</div>
+          <div class="bento-stat-num" style="color: var(--accent);">&lt; 15 Minutes</div>
+          <span style="font-size: 0.82rem; color: var(--ink-faint);">Days &rarr; Automated Minutes</span>
+          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
+            Inbound portal leads trigger instant welcome emails and automated high-priority call tasks, eliminating lead cooling.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 01: ARCHITECTURE, BLUEPRINT & TIME STUDY -->
+    <!-- ========================================================================= -->
+    <section id="pipeline-architecture" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // Architecture, Blueprint &amp; Time Study</span>
+        <h2 class="section-title-modern">Decoupling the "All-in-One" Pipeline: Why Monolithic CRMs Fail</h2>
+        <p class="section-desc-modern">
+          In a ~50-person regional real estate brokerage, lead velocity and clarity make or break deals. When I first audited their HubSpot setup, the team was operating out of a single monolithic pipeline. Cold portal inquiries, active buyer property tours, mortgage paperwork, and notary signings were jammed into one confusing view with weird, inconsistent stage names. Sales reps spent hours filtering active buyers from spam, and scheduling between internal brokers and their external mortgage consultant was a mess of uncoordinated emails.
+        </p>
+      </div>
+
+      <!-- Symmetrical Side-by-Side Comparison (2 Columns) -->
+      <div class="battlecard-grid" style="margin-bottom: 2rem;">
+        <!-- Left: Broken Monolithic Pipeline -->
+        <div class="battlecard" style="border-top: 4px solid var(--danger);">
+          <div class="battlecard-header">
+            <span class="badge badge-danger">Before: The Broken Monolithic Bucket</span>
+          </div>
+          <h3 class="battlecard-title">One Cluttered Pipeline for Everything</h3>
+          <ul class="battlecard-list">
+            <li><strong>Everything in One Bucket:</strong> Cold web forms sat next to deals awaiting notary signings; reps wasted mental energy filtering active clients from dead leads.</li>
+            <li><strong>Inbound Leads Stalled:</strong> Leads from portals (Prospective, web forms) arrived through brittle Zapier connections; missing fields caused silent failures.</li>
+            <li><strong>Forgotten Follow-Ups:</strong> Reps manually scheduled call reminders. If a broker got busy, missed calls were abandoned without a systematic retry cadence.</li>
+            <li><strong>External Partner Disconnect:</strong> Handing buyers over to the external mortgage consultant was done via untracked manual emails with zero CRM transparency.</li>
+            <li><strong>Wasted Legal Fees:</strong> Purchase contracts were ordered before financing feasibility was proven, resulting in expensive legal cancellations.</li>
+            <li><strong>Modal &amp; Tab Fatigue:</strong> Reps hopped across multiple HubSpot tabs, modals, and activity panels to log calls and notes, leaving records incomplete.</li>
+          </ul>
+        </div>
+
+        <!-- Right: Engineered Two-Track State Machine -->
+        <div class="battlecard" style="border-top: 4px solid var(--success);">
+          <div class="battlecard-header">
+            <span class="badge" style="background: rgba(34, 197, 94, 0.12); color: var(--success); border: 1px solid var(--success);">After: The Two-Track Revenue Engine</span>
+          </div>
+          <h3 class="battlecard-title">Decoupled Qualification &amp; Closing Tracks</h3>
+          <ul class="battlecard-list">
+            <li><strong>Figma-Engineered Blueprint:</strong> Mapped every pipeline stage, transition criteria, and automation in Figma first and reviewed it live with leadership before touching HubSpot.</li>
+            <li><strong>Clean Separation:</strong> Pipeline A handles 11 Lead Qualification stages; Pipeline B handles 12 Active Sales stages—linked by an automated graduation trigger.</li>
+            <li><strong>Automated 3-Strike Cadence:</strong> Unanswered calls automatically trigger 48-hour delay timers and prompt reps with structured retry tasks across 3 attempts.</li>
+            <li><strong>Synchronized Calendly Routing:</strong> Multi-calendar sync routes buyers directly to internal brokers or the external mortgage consultant with zero email tag.</li>
+            <li><strong>Financing Checklist Gate:</strong> Contract drafting is physically blocked in HubSpot until the external mortgage consultant approves financing feasibility.</li>
+            <li><strong>Single-Pane Rep Intake Form:</strong> Built a native HubSpot form pre-populated with known contact data that exposes missing qualification fields and captures meeting dates and notes in one view.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Visual Architecture Diagram: The Two-Pipeline Engine -->
+      <div id="architecture-blueprint" class="terminal-card" style="margin-bottom: 2.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+          <div>
+            <span class="badge" style="background: rgba(37, 99, 235, 0.12); color: var(--accent); border: 1px solid var(--accent); font-family: var(--mono); font-size: 0.75rem;">FIGMA BLUEPRINT ARCHITECTURE</span>
+            <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0.35rem 0 0 0; color: var(--ink);">Two-Track Pipeline &amp; State Machine Flow</h3>
+          </div>
+          <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--ink-faint);">Standardized CRM State Engine</span>
+        </div>
+
+        <!-- Flow Visual Container -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <!-- Track A: Leads -->
+          <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 1.15rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+              <span style="font-family: var(--font-display); font-weight: 700; color: var(--accent); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">Pipeline A: Leads (Intake &amp; Qualification)</span>
+              <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--ink-faint); background: var(--surface); padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid var(--border);">All 11 Defined Stages</span>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.5rem; text-align: center;">
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">STAGE 01</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">New Inbound Lead</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Portal Ingestion</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--danger); font-weight: 700;">FALLBACK</div>
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--danger); line-height: 1.25; margin: 0.2rem 0;">Invalid Number</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Zapier Triage</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">CADENCE 1–3</div>
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">Unreached Lead</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">48h Retry Loop</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">STAGE 02</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">Contact Established</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Broker Call Done</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">CALENDLY</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--accent); line-height: 1.25; margin: 0.2rem 0;">Meeting Scheduled</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Calendar Synced</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--danger); font-weight: 700;">EXCEPTION</div>
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--danger); line-height: 1.25; margin: 0.2rem 0;">Meeting Cancelled</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Reschedule Loop</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--danger); font-weight: 700;">RETRY</div>
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--danger); line-height: 1.25; margin: 0.2rem 0;">Meeting No-Show</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Re-Engage Alert</div>
+              </div>
+              <div style="background: var(--surface); border: 2px solid var(--success); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px; background: rgba(34, 197, 94, 0.08);">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 800;">GRADUATION ⚡</div>
+                <div style="font-size: 0.8rem; font-weight: 800; color: var(--success); line-height: 1.25; margin: 0.2rem 0;">Meeting Attended</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--success); font-weight: 600;">Promote to Sales &rarr;</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); font-weight: 700;">DISQUALIFIED</div>
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--ink-muted); line-height: 1.25; margin: 0.2rem 0;">Unqualified / Spam</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Audit Exit</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); font-weight: 700;">BUFFER</div>
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--ink-muted); line-height: 1.25; margin: 0.2rem 0;">Not Ready / Cold</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Warm Retention</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">NURTURE POOL</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">Long-Term Nurture</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Follow-Up (WVL)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connecting Graduation Bridge -->
+          <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin: -0.25rem 0;">
+            <div style="height: 1px; background: var(--border); flex: 1;"></div>
+            <div style="font-family: var(--mono); font-size: 0.75rem; background: var(--surface-subtle); border: 1px solid var(--success); color: var(--success); padding: 0.35rem 0.85rem; border-radius: 20px; font-weight: 700;">
+              ⚡ AUTOMATED GRADUATION: "Meeting Attended" in Leads Triggers Deal Creation in Sales (First Consultation)
+            </div>
+            <div style="height: 1px; background: var(--border); flex: 1;"></div>
+          </div>
+
+          <!-- Track B: Sales -->
+          <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 1.15rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+              <span style="font-family: var(--font-display); font-weight: 700; color: var(--accent); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">Pipeline B: Sales (Active Brokering &amp; Contract Closing)</span>
+              <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--ink-faint); background: var(--surface); padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid var(--border);">All 12 Defined Stages</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.5rem; text-align: center;">
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">STAGE 01</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">Intake Setting</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Buyer Briefing</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--success); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px; background: rgba(34, 197, 94, 0.06);">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 800;">GRADUATED ⚡</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">First Consultation</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--success); font-weight: 600;">1. Closing Pitch</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">STAGE 03</div>
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">Self-Disclosure Open</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Dynamic Email Sent</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">STAGE 04</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">Self-Disclosure Done</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Financials Verified</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">STAGE 05</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">Second Consultation</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">2. Closing Review</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--accent); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px; background: rgba(37, 99, 235, 0.05);">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 800;">PARTNER HANDOFF</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">Mortgage Application</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--accent);">External Consultant</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--danger); font-weight: 700;">EXCEPTION</div>
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--danger); line-height: 1.25; margin: 0.2rem 0;">Financing Declined</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Alternative Re-pitch</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">STAGE 08</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">Third Consultation</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">3. Closing Offer</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">17-DAY BUFFER</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">Contract Drafting</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Statutory Review</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--danger); font-weight: 700;">CLOSED LOST</div>
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--danger); line-height: 1.25; margin: 0.2rem 0;">Deal Lost</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">&rarr; Recycle to Nurture</div>
+              </div>
+              <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--accent); font-weight: 700;">LEGAL NOTARY</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--ink); line-height: 1.25; margin: 0.2rem 0;">Notary Deed Signing</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--ink-faint);">Legal Closing</div>
+              </div>
+              <div style="background: var(--surface); border: 2px solid var(--success); border-radius: 6px; padding: 0.55rem 0.35rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 82px; background: rgba(34, 197, 94, 0.08);">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 800;">CLOSED WON</div>
+                <div style="font-size: 0.8rem; font-weight: 800; color: var(--success); line-height: 1.25; margin: 0.2rem 0;">Deal Won &#127881;</div>
+                <div style="font-family: var(--mono); font-size: 0.63rem; color: var(--success); font-weight: 600;">Revenue Recognized</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Closed Lost Recycling Bridge -->
+          <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-top: -0.5rem;">
+            <div style="height: 1px; background: var(--border); flex: 1;"></div>
+            <div style="font-family: var(--mono); font-size: 0.72rem; background: var(--surface-subtle); border: 1px dashed var(--border); color: var(--ink-muted); padding: 0.25rem 0.75rem; border-radius: 20px;">
+              ↩ RECYCLE LOOP: "Deal Lost" in Sales Automatically Routes Inactive Prospects Back to Leads (Long-Term Nurture Pool)
+            </div>
+            <div style="height: 1px; background: var(--border); flex: 1;"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Empirical Time & Capacity Study Table (Clean Header: No Mock Terminal Strings) -->
+      <div id="time-study-table" class="terminal-card" style="margin-bottom: 2rem;">
+        <div style="background: var(--surface-subtle); border-bottom: 1px solid var(--border); padding: 0.85rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <h3 style="font-family: var(--font-display); font-size: 0.98rem; font-weight: 700; color: var(--ink); margin: 0;">6 Full-Time Sales Brokers</h3>
+          <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Annual Operational Capacity Recovered</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Operational Workflow Task</th>
+                <th>Legacy Manual Method</th>
+                <th>Automated HubSpot Engine</th>
+                <th>Weekly Time Saved</th>
+                <th>Annual Time Saved</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>01. Inbound Lead Triage &amp; Welcome</strong></td>
+                <td>Manual portal check &amp; copy-paste email</td>
+                <td>Instant Zapier validation &amp; automated email</td>
+                <td>1.5 &ndash; 3.0 hrs/wk</td>
+                <td><strong style="color: var(--success);">72 &ndash; 144 hrs/yr</strong></td>
+              </tr>
+              <tr>
+                <td><strong>02. Missed Call Follow-up Cadence</strong></td>
+                <td>Manual calendar reminders / forgotten leads</td>
+                <td>3-strike cadence with 48h delay timers</td>
+                <td>2.0 &ndash; 4.0 hrs/wk</td>
+                <td><strong style="color: var(--success);">96 &ndash; 192 hrs/yr</strong></td>
+              </tr>
+              <tr>
+                <td><strong>03. Meeting Confirmations &amp; Prep</strong></td>
+                <td>Manual email drafting with Zoom/address links</td>
+                <td>Automated post-setting email &amp; 08:00 morning prep task</td>
+                <td>1.0 &ndash; 2.0 hrs/wk</td>
+                <td><strong style="color: var(--success);">48 &ndash; 96 hrs/yr</strong></td>
+              </tr>
+              <tr>
+                <td><strong>04. Financial Self-Disclosure Outreach</strong></td>
+                <td>Rep manually checked tone &amp; attached PDF</td>
+                <td>Dynamic informal vs. formal property branch dispatch</td>
+                <td>1.0 &ndash; 1.5 hrs/wk</td>
+                <td><strong style="color: var(--success);">48 &ndash; 72 hrs/yr</strong></td>
+              </tr>
+              <tr>
+                <td><strong>05. External Mortgage Partner Coordination</strong></td>
+                <td>Back-and-forth email chains with external consultant</td>
+                <td>Dedicated partner Calendly + checklist gate</td>
+                <td>0.5 &ndash; 1.5 hrs/wk</td>
+                <td><strong style="color: var(--success);">24 &ndash; 72 hrs/yr</strong></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr style="background: var(--surface-subtle); font-weight: 700;">
+                <td colspan="3">TOTAL ANNUAL CAPACITY RECOVERED (6 BROKERS)</td>
+                <td>6.0 &ndash; 12.0 hrs/wk</td>
+                <td><strong style="color: var(--success); font-size: 1.05rem;">288 &ndash; 576 hrs/yr (~500+ hrs)</strong></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 02: OPERATIONAL SCHEMA & PROPERTY DATA CONTRACT -->
+    <!-- ========================================================================= -->
+    <section id="operational-schema" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // Operational Schema &amp; Data Contract</span>
+        <h2 class="section-title-modern">Standardized Property Taxonomy: Killing Bad Data at the Gate</h2>
+        <p class="section-desc-modern">
+          Before building automations, you need a rock-solid schema. When brokers create custom fields on the fly, workflows misfire and lead assignments break. I established a standardized property dictionary across HubSpot Contacts and Deals, binding every dropdown to deterministic validation logic.
+        </p>
+      </div>
+
+      <!-- Collapsible Progressive Disclosure Table (Clean Header: No Mock Terminal Strings) -->
+      <div class="terminal-card" style="margin-bottom: 2rem;">
+        <div style="background: var(--surface-subtle); border-bottom: 1px solid var(--border); padding: 0.85rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <h3 style="font-family: var(--font-display); font-size: 0.98rem; font-weight: 700; color: var(--ink); margin: 0;">HubSpot Property Taxonomy &amp; Custom Data Contract</h3>
+          <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">10 Standardized Fields</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="schema-table">
+            <thead>
+              <tr>
+                <th>Property Name</th>
+                <th>Internal API Key</th>
+                <th>Type</th>
+                <th>Scope</th>
+                <th>Operational Function in State Machine</th>
+              </tr>
+            </thead>
+            <tbody id="schema-tbody">
+              <tr>
+                <td><strong>Lead Source Intake</strong></td>
+                <td><code>leadtrans</code></td>
+                <td>Dropdown</td>
+                <td>Leads</td>
+                <td>Captures inbound origin (Prospective portal, web form) to trigger round-robin assignment</td>
+              </tr>
+              <tr>
+                <td><strong>Lead Call Cadence Status</strong></td>
+                <td><code>lead_phone_status</code></td>
+                <td>Dropdown</td>
+                <td>Leads</td>
+                <td>Drives the 3-strike retry cadence: <code>Attempt 1: Unreached</code> &rarr; <code>Attempt 2: Unreached</code> &rarr; <code>Attempt 3: Unreached</code></td>
+              </tr>
+              <tr>
+                <td><strong>Meeting Attendance Status</strong></td>
+                <td><code>lead_meeting_status</code></td>
+                <td>Dropdown</td>
+                <td>Both</td>
+                <td>Primary graduation gatekeeper: <code>Meeting Attended</code> triggers deal creation in Pipeline Sales</td>
+              </tr>
+              <tr>
+                <td><strong>Customer Salutation Tone</strong></td>
+                <td><code>salutation_tone</code></td>
+                <td>Radio (Informal / Formal)</td>
+                <td>Sales</td>
+                <td>Determines whether automated emails use informal (first-name) or formal (Mr./Ms.) phrasing</td>
+              </tr>
+              <tr>
+                <td><strong>Self-Disclosure Status</strong></td>
+                <td><code>sa_status</code></td>
+                <td>Dropdown</td>
+                <td>Sales</td>
+                <td>Tracks buyer financial disclosure status: <code>Self-Disclosure in Progress</code> &rarr; <code>Self-Disclosure Completed</code></td>
+              </tr>
+              <tr>
+                <td><strong>Financing Feasibility Status</strong></td>
+                <td><code>financing_clearance</code></td>
+                <td>Dropdown</td>
+                <td>Sales</td>
+                <td>Hard gate: blocks contract drafting unless set to <code>Financing Approved</code> by mortgage specialist</td>
+              </tr>
+              <tr>
+                <td><strong>External Mortgage Consultant</strong></td>
+                <td><code>external_finance_rep</code></td>
+                <td>User Lookup</td>
+                <td>Sales</td>
+                <td>Binds contact to external mortgage consultant with dedicated Calendly links</td>
+              </tr>
+              <!-- Hidden Rows for Progressive Disclosure (Unrolled in Print) -->
+              <tr class="table-row-hidden">
+                <td><strong>Contract Review Deadline</strong></td>
+                <td><code>kv_review_deadline</code></td>
+                <td>Date Picker</td>
+                <td>Sales</td>
+                <td>Starts the 17-day statutory buyer review countdown before scheduling the notary signing</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td><strong>Property Listing Value</strong></td>
+                <td><code>amount</code></td>
+                <td>Currency (EUR)</td>
+                <td>Sales</td>
+                <td>Tracks deal weighting, commission forecasting, and executive board reporting</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td><strong>Disqualification Reason Code</strong></td>
+                <td><code>disqualification_reason</code></td>
+                <td>Dropdown</td>
+                <td>Leads</td>
+                <td>Mandatory audit tag for spam, invalid phone numbers, or unfinanceable inquiries</td>
+              </tr>
+              <!-- Standard Toggle Button Row (Hidden in print) -->
+              <tr class="table-expand-row" id="schema-toggle-row">
+                <td colspan="5">
+                  <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'schema-tbody', 'Schema Fields', 10, 7)">
+                    <span class="btn-table-text">Show All 10 Schema Fields (3 More)</span>
+                    <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Native Form Showcase: Sales Rep Interface Innovation -->
+      <div class="terminal-card" style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; padding: 1.5rem; box-shadow: var(--shadow-sm); margin-top: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+          <span class="badge" style="background: rgba(37, 99, 235, 0.12); color: var(--accent); border: 1px solid var(--accent); font-family: var(--mono); font-size: 0.72rem;">SALES REP INTERFACE INNOVATION</span>
+          <span style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint);">Native HubSpot Architecture</span>
+        </div>
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.5rem 0; color: var(--ink);">
+          The Single-Pane Rep Intake Form: Eliminating Modal Fatigue
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+          HubSpot's default interface requires brokers to bounce between Contact details, Deal stages, and Activity logs across multiple browser tabs and popup modals. To streamline live call operations for the 6 sales reps, I engineered a dedicated <strong>native HubSpot intake form</strong> that consolidated the entire qualification workflow into a single, cohesive view.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+          <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 1rem;">
+            <div style="font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); margin-bottom: 0.35rem;">01 // AUTOMATIC PRE-POPULATION</div>
+            <div style="font-weight: 700; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.25rem;">Zero Duplicate Entry</div>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); margin: 0; line-height: 1.45;">
+              Existing buyer data from real estate portals (full name, phone, email, inquired property address) automatically pre-fills upon form open, eliminating redundant copy-pasting.
+            </p>
+          </div>
+
+          <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 1rem;">
+            <div style="font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); margin-bottom: 0.35rem;">02 // AUDIT OF MISSING FIELDS</div>
+            <div style="font-weight: 700; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.25rem;">Live Qualification Visibility</div>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); margin: 0; line-height: 1.45;">
+              Exposes all required qualification fields in one scrolling view. Reps instantly spot empty properties during live calls, ensuring critical budget, timeline, and financing status are never forgotten.
+            </p>
+          </div>
+
+          <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 1rem;">
+            <div style="font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); margin-bottom: 0.35rem;">03 // ATOMIC SINGLE-CLICK UPDATE</div>
+            <div style="font-weight: 700; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.25rem;">No Modal Switching</div>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); margin: 0; line-height: 1.45;">
+              Meeting dates, consultation notes, deal values, and property assignment fields are submitted atomically in one click, updating both Contact and Deal records simultaneously with zero modal hopping.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 03: WORKFLOW AUTOMATION & STATE MACHINE DECK -->
+    <!-- ========================================================================= -->
+    <section id="workflow-engine" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // Workflow Automation &amp; State Machine</span>
+        <h2 class="section-title-modern">Production Workflows: Automating Grunt Work with State Machines</h2>
+        <p class="section-desc-modern">
+          The heart of the solution is a series of 6 modular HubSpot workflows. Instead of asking sales reps to remember manual checklist steps, the CRM tracks real broker actions (logging a call, completing a meeting, or updating a qualification field) and automatically drives the deal forward.
+        </p>
+      </div>
+
+      <!-- Operational Duality Panel -->
+      <div class="operational-duality-panel" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2.25rem;">
+        <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-top: 4px solid var(--success); border-radius: 8px; padding: 1.25rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+            <span style="font-size: 1.1rem;">&#9889;</span>
+            <h3 style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--success); text-transform: uppercase; margin: 0;">What Is Fully Automated</h3>
+          </div>
+          <ul style="font-size: 0.85rem; color: var(--ink-muted); margin: 0; padding-left: 1.25rem; line-height: 1.6;">
+            <li><strong>Instant Intake &amp; Welcome:</strong> Zapier triggers instant intro emails and rep call tasks upon portal form submission.</li>
+            <li><strong>3-Strike Call Cadence:</strong> Unanswered calls schedule follow-up tasks at exact 48-hour delay intervals.</li>
+            <li><strong>Pipeline Graduation:</strong> Marking a meeting as attended ("Meeting Attended") automatically creates the sales deal in Pipeline B.</li>
+            <li><strong>Dynamic Email Dispatch:</strong> Self-disclosure instructions dynamically switch between informal and formal templates based on customer profile.</li>
+            <li><strong>Mortgage Hand-off Routing:</strong> Dedicated Calendly booking links route buyers to the external mortgage partner without broker friction.</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-top: 4px solid var(--danger); border-radius: 8px; padding: 1.25rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+            <span style="font-size: 1.1rem;">&#128721;</span>
+            <h3 style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin: 0;">Where Human Broker Sign-Off Is Required</h3>
+          </div>
+          <ul style="font-size: 0.85rem; color: var(--ink-muted); margin: 0; padding-left: 1.25rem; line-height: 1.6;">
+            <li><strong>Qualification Judgment:</strong> Assessing whether the buyer's timeline and budget are genuine before setting meetings.</li>
+            <li><strong>Valuation Adjustments:</strong> Final offer negotiation and deal amount calibration in the sales pipeline.</li>
+            <li><strong>Financing Document Completeness:</strong> Manual audit of buyer paystubs and equity proofs before submitting to banks.</li>
+            <li><strong>Contract Approval:</strong> Reviewing the draft purchase agreement with both buyer and seller.</li>
+            <li><strong>Notary Attendance:</strong> In-person legal deed signing and recording the official close date in HubSpot.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Clean Workflow Deck Grid: Standalone Cards with NO Outer Gray Container Box -->
+      <div class="workflow-deck-grid" style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+        <!-- WORKFLOW 01 -->
+        <div class="workflow-card" style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 10px; padding: 1.5rem; box-shadow: var(--shadow-sm);">
+          <div class="workflow-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge" style="background: rgba(37, 99, 235, 0.12); color: var(--accent); border: 1px solid var(--accent); font-family: var(--mono); font-size: 0.72rem;">WORKFLOW 01</span>
+            <span style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint);">HubSpot Automation Spec</span>
+          </div>
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.5rem 0; color: var(--ink);">Inbound Lead Ingestion &amp; Rep Assignment</h3>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+            <strong>Executive Purpose:</strong> Validates inbound lead payload from real estate portals (e.g. Prospective) via Zapier, creates the contact record, sends an instant welcome email with company credentials, and issues an urgent 48-hour call task to the intake broker.
+          </p>
+
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--accent); border-radius: 4px; padding: 0.65rem 0.9rem; margin-bottom: 1.15rem; font-size: 0.82rem;">
+            <strong style="color: var(--accent); font-family: var(--mono); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem;">⚡ Enrollment Trigger</strong>
+            <span style="color: var(--ink);">Contact Property <code>leadtrans</code> is known (Inbound payload verified via Zapier webhook)</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">01</span>
+              <div style="line-height: 1.5;"><strong>Assign Contact Owner:</strong> Senior intake specialist assigned automatically via round-robin distribution.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">02</span>
+              <div style="line-height: 1.5;"><strong>Create Deal:</strong> Generated in <em>Pipeline: Leads</em> at Stage <code>01. New Inbound Lead</code>.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">03</span>
+              <div style="line-height: 1.5;"><strong>Dispatch Welcome Email:</strong> Instant automated email sent to lead with introduction and verified brokerage credentials.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">04</span>
+              <div style="line-height: 1.5;"><strong>Assign Broker Priority Call:</strong> High-priority phone outreach task created for the rep with an immediate 2 business day due date.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WORKFLOW 02 -->
+        <div class="workflow-card" style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 10px; padding: 1.5rem; box-shadow: var(--shadow-sm);">
+          <div class="workflow-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge" style="background: rgba(37, 99, 235, 0.12); color: var(--accent); border: 1px solid var(--accent); font-family: var(--mono); font-size: 0.72rem;">WORKFLOW 02</span>
+            <span style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint);">HubSpot Automation Spec</span>
+          </div>
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.5rem 0; color: var(--ink);">The 3-Strike Call Cadence &amp; Fallback Timer Loop</h3>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+            <strong>Executive Purpose:</strong> When a call goes unanswered, the broker logs call status as "Unreached". This triggers a timed 48-hour retry sequence across 3 attempts, preventing reps from either abandoning leads or spamming buyers.
+          </p>
+
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--accent); border-radius: 4px; padding: 0.65rem 0.9rem; margin-bottom: 1.15rem; font-size: 0.82rem;">
+            <strong style="color: var(--accent); font-family: var(--mono); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem;">⚡ Enrollment Trigger</strong>
+            <span style="color: var(--ink);">Contact Call Status updated to <code>Unreached</code> (Logged by Sales Broker)</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">01</span>
+              <div style="line-height: 1.5;"><strong>Attempt 01 (Strike 1):</strong> Stage set to <em>Unreached Lead</em> &bull; 48-hour business delay timer initialized &bull; Task generated: <em>"Missed call #1 — retry in 48 hours"</em>.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">02</span>
+              <div style="line-height: 1.5;"><strong>Attempt 02 (Strike 2):</strong> If still unanswered, stage maintained &bull; Second 48-hour delay timer set &bull; Task generated: <em>"Missed call #2 — retry in 48 hours"</em>.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">03</span>
+              <div style="line-height: 1.5;"><strong>Attempt 03 (Final Phone Strike):</strong> Third 48-hour delay timer set &bull; High-priority broker task: <em>"Missed call #3 — final phone attempt"</em>.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: rgba(34, 197, 94, 0.1); border: 1px solid var(--success); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">✓</span>
+              <div style="line-height: 1.5;"><strong>Fallback Gate (Max Attempts Reached):</strong> Automatically archives lead to <em>Long-Term Nurture Pool</em> with internal notification, preserving broker focus.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WORKFLOW 03 -->
+        <div id="workflow-03" class="workflow-card" style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--success); border-radius: 10px; padding: 1.5rem; box-shadow: var(--shadow-sm);">
+          <div class="workflow-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge badge-success" style="font-family: var(--mono); font-size: 0.72rem;">WORKFLOW 03 (GRADUATION GATE)</span>
+            <span style="font-family: var(--mono); font-size: 0.72rem; color: var(--success); font-weight: 700;">Leads &rarr; Sales Handoff</span>
+          </div>
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.5rem 0; color: var(--ink);">Meeting Confirmation &amp; Lead-to-Sales Graduation</h3>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+            <strong>Executive Purpose:</strong> When a consultation is scheduled, Calendly syncs the appointment to HubSpot. The system dispatches meeting details and schedules a morning preparation alert. Once the meeting takes place ("Meeting Attended"), the graduation gate automatically moves the deal into the Sales pipeline.
+          </p>
+
+          <div style="background: rgba(34, 197, 94, 0.06); border-left: 3px solid var(--success); border-radius: 4px; padding: 0.65rem 0.9rem; margin-bottom: 1.15rem; font-size: 0.82rem;">
+            <strong style="color: var(--success); font-family: var(--mono); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem;">⚡ Enrollment Trigger</strong>
+            <span style="color: var(--ink);">Calendly Event Booked OR Broker updates deal status to <code>Meeting Scheduled</code></span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">01</span>
+              <div style="line-height: 1.5;"><strong>Stage Alignment:</strong> Deal stage set to <code>Meeting Scheduled</code> in <em>Pipeline: Leads</em>.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">02</span>
+              <div style="line-height: 1.5;"><strong>Confirmation Packet:</strong> Automated email dispatches calendar invite, Zoom link, and property preparation packet to the prospect.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">03</span>
+              <div style="line-height: 1.5;"><strong>Morning Briefing Alert:</strong> Automation holds until scheduled meeting morning at 08:00 Central European Time (CET) and prompts broker: <em>"Meeting today at [Time] with buyer prospect"</em>.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: rgba(34, 197, 94, 0.12); border: 1px solid var(--success); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">⚡</span>
+              <div style="line-height: 1.5;"><strong>Graduation State Transition:</strong> On status <code>Meeting Attended</code>, deal automatically graduates from <em>Pipeline: Leads</em> into <em>Pipeline: Sales</em> at Stage <code>01. Initial Consultation</code> with leadership notifications.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WORKFLOW 04 -->
+        <div id="workflow-04" class="workflow-card" style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 10px; padding: 1.5rem; box-shadow: var(--shadow-sm);">
+          <div class="workflow-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge" style="background: rgba(37, 99, 235, 0.12); color: var(--accent); border: 1px solid var(--accent); font-family: var(--mono); font-size: 0.72rem;">WORKFLOW 04</span>
+            <span style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint);">HubSpot Automation Spec</span>
+          </div>
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.5rem 0; color: var(--ink);">Dynamic Informal vs. Formal Self-Disclosure Dispatch</h3>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+            <strong>Executive Purpose:</strong> When a deal enters "Self-Disclosure in Progress", the system inspects the contact's salutation preference. It branches dynamically to send either informal (first-name) or formal (Mr./Ms.) onboarding documentation with zero manual broker editing.
+          </p>
+
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--accent); border-radius: 4px; padding: 0.65rem 0.9rem; margin-bottom: 1.15rem; font-size: 0.82rem;">
+            <strong style="color: var(--accent); font-family: var(--mono); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem;">⚡ Enrollment Trigger</strong>
+            <span style="color: var(--ink);">Deal enters <em>Pipeline: Sales</em> at Stage <code>Self-Disclosure in Progress</code></span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">01</span>
+              <div style="line-height: 1.5;"><strong>Tone Evaluation:</strong> Evaluates Contact Property <code>salutation_tone</code> to determine communication preference.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">02</span>
+              <div style="line-height: 1.5;"><strong>Dynamic Branching:</strong> If <code>Informal</code> &rarr; sends first-name self-disclosure email; if <code>Formal</code> (or unassigned) &rarr; sends formal Mr./Ms. onboarding packet.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">03</span>
+              <div style="line-height: 1.5;"><strong>Follow-Up Cadence:</strong> Sets 5-business-day timer for automated broker task: <em>"Review self-disclosure packet or call buyer for missing details"</em>.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WORKFLOW 05 -->
+        <div class="workflow-card" style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 10px; padding: 1.5rem; box-shadow: var(--shadow-sm);">
+          <div class="workflow-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge" style="background: rgba(37, 99, 235, 0.12); color: var(--accent); border: 1px solid var(--accent); font-family: var(--mono); font-size: 0.72rem;">WORKFLOW 05</span>
+            <span style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint);">HubSpot Automation Spec</span>
+          </div>
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.5rem 0; color: var(--ink);">External Mortgage &amp; Finance Consultant Routing</h3>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+            <strong>Executive Purpose:</strong> Enforces document completeness before handing off buyers to the external mortgage financing consultant. Routes the buyer via dedicated Calendly calendar links and sets recurring Tuesday morning status checks.
+          </p>
+
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--accent); border-radius: 4px; padding: 0.65rem 0.9rem; margin-bottom: 1.15rem; font-size: 0.82rem;">
+            <strong style="color: var(--accent); font-family: var(--mono); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem;">⚡ Enrollment Trigger</strong>
+            <span style="color: var(--ink);">Deal advances to Stage <code>Mortgage Financing Application</code> in <em>Pipeline: Sales</em></span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">01</span>
+              <div style="line-height: 1.5;"><strong>Mandatory Checklist Gate:</strong> Prompts broker with required verification items [ID Copies, Last 3 Paystubs, Tax Returns, Equity Proof] before handoff.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">02</span>
+              <div style="line-height: 1.5;"><strong>Partner Notification &amp; Dedicated Link:</strong> Sends automated notification to external consultant and emails buyer with consultant's dedicated Calendly link.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">03</span>
+              <div style="line-height: 1.5;"><strong>Weekly Synchronization:</strong> Establishes recurring Tuesday 08:00 Central European Time (CET) task: <em>"Check mortgage pre-approval status with external consultant"</em>.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: rgba(34, 197, 94, 0.1); border: 1px solid var(--success); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">✓</span>
+              <div style="line-height: 1.5;"><strong>Approval Gate:</strong> If approved &rarr; advances to <code>06. Final Offer Confirmation</code>; if infeasible &rarr; routes to <code>Financing Declined</code> to prompt alternative listings.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WORKFLOW 06 -->
+        <div class="workflow-card" style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 10px; padding: 1.5rem; box-shadow: var(--shadow-sm);">
+          <div class="workflow-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge" style="background: rgba(37, 99, 235, 0.12); color: var(--accent); border: 1px solid var(--accent); font-family: var(--mono); font-size: 0.72rem;">WORKFLOW 06</span>
+            <span style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint);">HubSpot Automation Spec</span>
+          </div>
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.5rem 0; color: var(--ink);">Contract Review 17-Day Buffer &amp; Notary Closing</h3>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+            <strong>Executive Purpose:</strong> When a sales agreement is drafted, the system initiates a 17-day statutory buyer review countdown before prompting the broker to schedule the official notary deed signing.
+          </p>
+
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--accent); border-radius: 4px; padding: 0.65rem 0.9rem; margin-bottom: 1.15rem; font-size: 0.82rem;">
+            <strong style="color: var(--accent); font-family: var(--mono); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem;">⚡ Enrollment Trigger</strong>
+            <span style="color: var(--ink);">Deal enters Stage <code>Purchase Contract Drafting</code> in <em>Pipeline: Sales</em></span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">01</span>
+              <div style="line-height: 1.5;"><strong>Draft Request:</strong> Broker task created: <em>"Request purchase contract draft from notary office"</em>.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">02</span>
+              <div style="line-height: 1.5;"><strong>Statutory Review Buffer:</strong> System initiates a mandatory 17-day countdown delay timer enforcing consumer due diligence protections.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">03</span>
+              <div style="line-height: 1.5;"><strong>Buyer Feedback Check:</strong> Task on Day 18 prompts broker: <em>"Collect contract feedback from buyer: Approved / Revision Required / Withdrawn"</em>.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: rgba(34, 197, 94, 0.12); border: 1px solid var(--success); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">⚡</span>
+              <div style="line-height: 1.5;"><strong>Notary Closing &amp; Closed Won:</strong> Upon signing approval, moves to <code>Notary Deed Signing</code>; on deed execution, marks <code>Closed Won</code> and stamps current date for instant revenue recognition.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 04: QUALITY GATES & EXCEPTION HANDLING -->
+    <!-- ========================================================================= -->
+    <section id="quality-gates" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // Deterministic Quality Gates</span>
+        <h2 class="section-title-modern">Failure Modes &amp; Defensive CRM Controls</h2>
+        <p class="section-desc-modern">
+          Automations are dangerous if you don't build circuit breakers. If a lead fills out a phone number with 3 digits or a buyer's financing falls through, the system must catch it before a rep embarrasses the company or incurs legal costs.
+        </p>
+      </div>
+
+      <div class="tradeoff-grid tradeoff-grid-3col">
+        <!-- Gate 01 -->
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <div style="font-family: var(--mono); font-size: 0.75rem; color: var(--danger); margin-bottom: 0.5rem; font-weight: 700;">GATE 01 &bull; INTAKE</div>
+          <h3 style="font-family: var(--font-display); font-size: 1rem; margin-bottom: 0.5rem;">Zapier Payload Filter</h3>
+          <p style="font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5;">
+            <strong>Failure Mode:</strong> Malformed phone strings or missing contact info polluting broker dial queues.<br>
+            <strong>Defensive Control:</strong> Zapier multi-step validation checks required fields; corrupt or incomplete leads are routed directly to the <code>Invalid Number</code> fallback stage in HubSpot for broker review instead of clogging active queues.
+          </p>
+        </div>
+
+        <!-- Gate 02 -->
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <div style="font-family: var(--mono); font-size: 0.75rem; color: var(--accent); margin-bottom: 0.5rem; font-weight: 700;">GATE 02 &bull; CONTACT</div>
+          <h3 style="font-family: var(--font-display); font-size: 1rem; margin-bottom: 0.5rem;">48-Hour Strike Lock</h3>
+          <p style="font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5;">
+            <strong>Failure Mode:</strong> Reps spamming an unreachable lead 5 times in 2 hours or abandoning them after 1 ring.<br>
+            <strong>Defensive Control:</strong> Delay timers lock the next call task to 48 hours; auto-archives to Nurture pool only after 3 documented attempts.
+          </p>
+        </div>
+
+        <!-- Gate 03 -->
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <div style="font-family: var(--mono); font-size: 0.75rem; color: var(--danger); margin-bottom: 0.5rem; font-weight: 700;">GATE 03 &bull; LEGAL</div>
+          <h3 style="font-family: var(--font-display); font-size: 1rem; margin-bottom: 0.5rem;">Mortgage Clearance Lock</h3>
+          <p style="font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5;">
+            <strong>Failure Mode:</strong> Ordering expensive notary contract drafts for buyers who cannot secure a mortgage.<br>
+            <strong>Defensive Control:</strong> Stage transition to purchase contract drafting is physically blocked until the mortgage consultant confirms feasibility.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 05: EVALUATED ALTERNATIVES & STRATEGIC TRADE-OFFS -->
+    <!-- ========================================================================= -->
+    <section id="evaluated-alternatives" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // Evaluated Alternatives &amp; Trade-Offs</span>
+        <h2 class="section-title-modern">Strategic Operating Trade-Offs: Choosing the Right Engine</h2>
+        <p class="section-desc-modern">
+          Before building this two-pipeline architecture, I evaluated three operating models with brokerage leadership. The decision came down to balancing process rigor against broker adoption.
+        </p>
+      </div>
+
+      <div class="tradeoff-grid tradeoff-grid-3col">
+        <!-- Option 1 -->
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <div class="tradeoff-badge badge-danger">OPTION 01: MONOLITHIC PIPELINE</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.75rem;">Status Quo ("Everything Bucket")</h3>
+          <p style="font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1rem;">
+            Keep all deals in one pipeline and rely on broker discipline to manually update deal stages and write follow-up emails.
+          </p>
+          <ul style="font-size: 0.82rem; color: var(--ink-muted); padding-left: 1.15rem; line-height: 1.5;">
+            <li><strong>Pros:</strong> Zero migration effort required.</li>
+            <li><strong>Cons:</strong> Extreme clutter; high deal drop-off; 500+ hours wasted on manual admin; zero partner visibility.</li>
+            <li><strong style="color: var(--danger);">Verdict: Rejected.</strong> Unsustainable at 50 employees.</li>
+          </ul>
+        </div>
+
+        <!-- Option 2 -->
+        <div class="tradeoff-card" style="border-top: 4px solid var(--ink-muted);">
+          <div class="tradeoff-badge badge-neutral">OPTION 02: MANUAL SPREADSHEETS</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.75rem;">Inbox &amp; Spreadsheet Silos</h3>
+          <p style="font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1rem;">
+            Let brokers manage their own deals via personal spreadsheets, Outlook folders, and phone sticky notes.
+          </p>
+          <ul style="font-size: 0.82rem; color: var(--ink-muted); padding-left: 1.15rem; line-height: 1.5;">
+            <li><strong>Pros:</strong> Brokers have total freedom with zero CRM learning curve.</li>
+            <li><strong>Cons:</strong> Complete lack of management visibility; zero speed-to-lead standardization; high risk of spreadsheet corruption and data loss due to human error (a decisive factor against spreadsheets); massive data loss if a broker leaves.</li>
+            <li><strong style="color: var(--danger);">Verdict: Rejected.</strong> Destroys enterprise value.</li>
+          </ul>
+        </div>
+
+        <!-- Option 3 -->
+        <div class="tradeoff-card" style="border-top: 4px solid var(--success);">
+          <div class="tradeoff-badge" style="background: rgba(34, 197, 94, 0.12); color: var(--success); border: 1px solid var(--success);">OPTION 03: DEPLOYED SOLUTION</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.75rem;">Two-Track Decoupled State Machine</h3>
+          <p style="font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1rem;">
+            Decouple Leads (11 stages) from Sales (12 stages), wire automated call loops, and sync multi-calendar routing via Calendly.
+          </p>
+          <ul style="font-size: 0.82rem; color: var(--ink-muted); padding-left: 1.15rem; line-height: 1.5;">
+            <li><strong>Pros:</strong> Crystal clear views; 500+ hours saved annually; instant speed-to-lead; automated partner handoff.</li>
+            <li><strong>Cons:</strong> Required initial training and joint QA sessions to align broker terminology.</li>
+            <li><strong style="color: var(--success);">Verdict: Chosen.</strong> Scalable foundation for brokerage growth.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 06: SENIOR RETROSPECTIVE & OPERATIONAL LEARNINGS -->
+    <!-- ========================================================================= -->
+    <section id="retrospective" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // Senior Retrospective &amp; Credentials</span>
+        <h2 class="section-title-modern">Retrospective: What I Learned &amp; Professional Credentials</h2>
+        <p class="section-desc-modern">
+          Building great CRM operations is never about software features. It's about respecting how real brokers work under pressure and removing friction from their daily lives.
+        </p>
+      </div>
+
+      <div class="battlecard-grid" style="margin-bottom: 2.5rem;">
+        <div class="battlecard" style="border-top: 4px solid var(--success);">
+          <div class="battlecard-header">
+            <span class="badge badge-success">What Worked Exceptionally Well</span>
+          </div>
+          <h3 class="battlecard-title">Figma Blueprints &amp; Joint Live QA</h3>
+          <p class="card-prose" style="margin-bottom: 1rem;">
+            Mapping the entire flow in Figma before clicking a single toggle in HubSpot saved at least 1–2 weeks of re-work. The leadership team could visually trace every lead branch, spot confusing terminology, and align on stage criteria. Running joint video QA sessions with client brokers caught edge cases before live prospects were impacted.
+          </p>
+        </div>
+
+        <div class="battlecard" style="border-top: 4px solid var(--accent);">
+          <div class="battlecard-header">
+            <span class="badge" style="background: rgba(37, 99, 235, 0.12); color: var(--accent); border: 1px solid var(--accent);">What I Would Do Differently in 2026</span>
+          </div>
+          <h3 class="battlecard-title">AI-Assisted Architecture &amp; Deeper Discovery</h3>
+          <p class="card-prose" style="margin-bottom: 1rem;">
+            If I built this today, I would leverage AI to create a stronger initial structure and build interactive HTML mockups instead of static Figma boards, paired with deep AI research to benchmark CRM best practices. I would also push client leadership to broaden discovery interviews beyond the executive sponsor—interviewing frontline sales reps and external consultants directly to uncover workflow nuances. On implementation, I would explore AI automation to script HubSpot properties and workflows, shifting my role from manual setup grunt work to pure verification and strategic governance. Finally, I would explore automated call transcription to extract buyer qualification criteria directly into contact records, provided German and GDPR legal counsel permits.
+          </p>
+        </div>
+      </div>
+
+      <!-- HubSpot Professional Credentials Badge Grid with Direct Verification Links -->
+      <div class="credentials-container" style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; text-align: center;">
+        <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--accent); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">VERIFIED PLATFORM MASTERY</span>
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0.35rem 0 0.85rem 0; color: var(--ink);">
+          Backed by 6 Official HubSpot Certifications
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--ink-muted); max-width: 680px; margin: 0 auto 1.5rem auto;">
+          This architecture was designed and implemented on deep, certified platform knowledge across the entire HubSpot ecosystem. Click any badge to verify directly on HubSpot Academy:
+        </p>
+
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem;">
+          <a href="https://app-eu1.hubspot.com/academy/achievements/tnv57jtb/en/1/karol-jasztal/revenue-operations" target="_blank" rel="noopener noreferrer" class="badge" style="background: var(--surface); border: 1px solid var(--border); color: var(--ink); padding: 0.5rem 0.85rem; font-family: var(--mono); font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem; transition: border-color 0.2s, transform 0.2s; box-shadow: var(--shadow-sm);">
+            <span style="color: var(--success);">&#10003;</span> Revenue Operations
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <a href="https://app-eu1.hubspot.com/academy/achievements/mf33nncz/en/1/karol-jasztal/hubspot-sales-hub-software" target="_blank" rel="noopener noreferrer" class="badge" style="background: var(--surface); border: 1px solid var(--border); color: var(--ink); padding: 0.5rem 0.85rem; font-family: var(--mono); font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem; transition: border-color 0.2s, transform 0.2s; box-shadow: var(--shadow-sm);">
+            <span style="color: var(--success);">&#10003;</span> Sales Hub Software
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <a href="https://app-eu1.hubspot.com/academy/achievements/lrk8rcb3/en/1/karol-jasztal/hubspot-marketing-hub-software" target="_blank" rel="noopener noreferrer" class="badge" style="background: var(--surface); border: 1px solid var(--border); color: var(--ink); padding: 0.5rem 0.85rem; font-family: var(--mono); font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem; transition: border-color 0.2s, transform 0.2s; box-shadow: var(--shadow-sm);">
+            <span style="color: var(--success);">&#10003;</span> Marketing Hub Software
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <a href="https://app-eu1.hubspot.com/academy/achievements/4nnx9t0m/en/1/karol-jasztal/sales-enablement" target="_blank" rel="noopener noreferrer" class="badge" style="background: var(--surface); border: 1px solid var(--border); color: var(--ink); padding: 0.5rem 0.85rem; font-family: var(--mono); font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem; transition: border-color 0.2s, transform 0.2s; box-shadow: var(--shadow-sm);">
+            <span style="color: var(--success);">&#10003;</span> Sales Enablement
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <a href="https://app-eu1.hubspot.com/academy/achievements/34v8l643/en/1/karol-jasztal/inbound-marketing" target="_blank" rel="noopener noreferrer" class="badge" style="background: var(--surface); border: 1px solid var(--border); color: var(--ink); padding: 0.5rem 0.85rem; font-family: var(--mono); font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem; transition: border-color 0.2s, transform 0.2s; box-shadow: var(--shadow-sm);">
+            <span style="color: var(--success);">&#10003;</span> Inbound Marketing
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <a href="https://app-eu1.hubspot.com/academy/achievements/lkt9cvyj/en/1/karol-jasztal/inbound-marketing-optimization" target="_blank" rel="noopener noreferrer" class="badge" style="background: var(--surface); border: 1px solid var(--border); color: var(--ink); padding: 0.5rem 0.85rem; font-family: var(--mono); font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem; transition: border-color 0.2s, transform 0.2s; box-shadow: var(--shadow-sm);">
+            <span style="color: var(--success);">&#10003;</span> Inbound Marketing Optimization
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modern Site Footer (Rendered automatically by shared.js) -->
+    <footer id="site-footer"></footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof initScrollSpy === 'function') {
+        initScrollSpy();
+      }
+    });
+  </script>
+</body>
+</html>
