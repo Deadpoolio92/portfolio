@@ -480,7 +480,7 @@
         <span class="section-eyebrow">06 // Primary Technical Artifacts</span>
         <h2 class="section-title-modern">Technical Artifact Presentation Patterns</h2>
         <p class="section-desc-modern">
-          Inspect production prompts, schemas, and heuristic linters. Features both Pattern 6A (Single Segmented Control Tabs) and Pattern 6B (Unified Framed Prompt Deck).
+          Inspect production prompts, operational workflows, schemas, and heuristic linters. Features Pattern 6A (Single Segmented Control Tabs), Pattern 6B (Unified Framed Prompt Deck), and Pattern 6C (Operational Workflow &amp; SOP Cards).
         </p>
       </div>
 
@@ -647,6 +647,88 @@ Workflow:
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- PATTERN 6C: OPERATIONAL WORKFLOW & SOP CHECKLIST CARDS (Zero Copy Button, Structured Steps) -->
+      <span class="component-label" style="margin-top: 3.5rem;">Pattern 6C: Operational Workflow &amp; SOP Checklist Cards (Non-Prompt Pattern, Zero Copy Button)</span>
+      <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 1.25rem; line-height: 1.5;">
+        Standard architecture for CRM automations, state-machine transitions, DMAIC root-cause teardowns, and governance SOP checklists. Unlike prompt decks, operational cards carry zero terminal framing, zero fake <code>.txt</code> headers, and zero copy buttons, using Semantic Status Badges to denote step sequences.
+      </p>
+
+      <div class="workflow-deck-grid">
+
+        <!-- SPECIMEN 01: CRM WORKFLOW AUTOMATION SPEC -->
+        <div class="workflow-card">
+          <div class="workflow-header">
+            <span class="badge badge-accent">WORKFLOW 01</span>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-faint);">CRM Automation Spec</span>
+          </div>
+          <h3 class="workflow-title">Inbound Lead Triage &amp; Owner Assignment</h3>
+          <p class="workflow-desc">
+            <strong>Executive Purpose:</strong> Ingests lead payload from external portals, validates required data contracts, creates pipeline deal, and assigns a high-priority 48-hour outreach task to the intake broker.
+          </p>
+
+          <div class="workflow-trigger-box">
+            <strong style="color: var(--accent); font-family: var(--font-mono); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem;">&#9889; Enrollment Trigger</strong>
+            <span style="color: var(--ink);">Contact Property <code>leadtrans</code> is known (Verified inbound payload)</span>
+          </div>
+
+          <div class="workflow-step-list">
+            <div class="workflow-step-item">
+              <span class="badge badge-accent" style="min-width: 28px; justify-content: center; padding: 0.2rem 0.5rem; font-size: 0.72rem; font-family: var(--font-mono); border-radius: 9999px; flex-shrink: 0;">01</span>
+              <div style="line-height: 1.5;"><strong style="color: var(--ink);">Assign Owner:</strong> Automated round-robin routing to senior intake specialist.</div>
+            </div>
+            <div class="workflow-step-item">
+              <span class="badge badge-accent" style="min-width: 28px; justify-content: center; padding: 0.2rem 0.5rem; font-size: 0.72rem; font-family: var(--font-mono); border-radius: 9999px; flex-shrink: 0;">02</span>
+              <div style="line-height: 1.5;"><strong style="color: var(--ink);">Create Pipeline Deal:</strong> Generated in <em>Pipeline: Leads</em> at Stage <code>01. New Inbound Lead</code>.</div>
+            </div>
+            <div class="workflow-step-item">
+              <span class="badge badge-accent" style="min-width: 28px; justify-content: center; padding: 0.2rem 0.5rem; font-size: 0.72rem; font-family: var(--font-mono); border-radius: 9999px; flex-shrink: 0;">03</span>
+              <div style="line-height: 1.5;"><strong style="color: var(--ink);">Dispatch Welcome Email:</strong> Instant automated email sent with company credentials.</div>
+            </div>
+            <div class="workflow-step-item">
+              <span class="badge badge-accent" style="min-width: 28px; justify-content: center; padding: 0.2rem 0.5rem; font-size: 0.72rem; font-family: var(--font-mono); border-radius: 9999px; flex-shrink: 0;">04</span>
+              <div style="line-height: 1.5;"><strong style="color: var(--ink);">Assign Priority Call:</strong> High-priority phone outreach task created with a 2 business day SLA.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPECIMEN 02: STANDARD OPERATING PROCEDURE (SOP) CHECKLIST -->
+        <div class="workflow-card purple">
+          <div class="workflow-header">
+            <span class="badge badge-purple">SOP PROTOCOL</span>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-faint);">Quality Control Checklist</span>
+          </div>
+          <h3 class="workflow-title">SOP: Surgical Deduplication &amp; Golden Record Resolution</h3>
+          <p class="workflow-desc">
+            <strong>Executive Purpose:</strong> Standard operating procedure guiding distributed analysts through manual deduplication, master surviving record identification, and field preservation without data loss.
+          </p>
+
+          <div class="workflow-trigger-box purple">
+            <strong style="color: var(--purple); font-family: var(--font-mono); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem;">&#128737; Mandatory Pre-Condition</strong>
+            <span style="color: var(--ink);">Cluster export CSV verified against read-only staging backup before touching production records</span>
+          </div>
+
+          <div class="workflow-step-list">
+            <div class="workflow-step-item">
+              <span class="badge badge-purple" style="min-width: 28px; justify-content: center; padding: 0.2rem 0.5rem; font-size: 0.72rem; font-family: var(--font-mono); border-radius: 9999px; flex-shrink: 0;">01</span>
+              <div style="line-height: 1.5;"><strong style="color: var(--ink);">Cluster Identification:</strong> Isolate duplicate cluster using primary key <code>normalized_email</code> or fuzzy company name.</div>
+            </div>
+            <div class="workflow-step-item">
+              <span class="badge badge-purple" style="min-width: 28px; justify-content: center; padding: 0.2rem 0.5rem; font-size: 0.72rem; font-family: var(--font-mono); border-radius: 9999px; flex-shrink: 0;">02</span>
+              <div style="line-height: 1.5;"><strong style="color: var(--ink);">Determine Golden Surviving Record:</strong> Select record with earliest creation date and highest activity touch count.</div>
+            </div>
+            <div class="workflow-step-item">
+              <span class="badge badge-purple" style="min-width: 28px; justify-content: center; padding: 0.2rem 0.5rem; font-size: 0.72rem; font-family: var(--font-mono); border-radius: 9999px; flex-shrink: 0;">03</span>
+              <div style="line-height: 1.5;"><strong style="color: var(--ink);">Field Harvest &amp; Preservation:</strong> Copy non-empty secondary fields (mobile numbers, notes, historical tags) into the surviving master.</div>
+            </div>
+            <div class="workflow-step-item">
+              <span class="badge badge-purple" style="min-width: 28px; justify-content: center; padding: 0.2rem 0.5rem; font-size: 0.72rem; font-family: var(--font-mono); border-radius: 9999px; flex-shrink: 0;">04</span>
+              <div style="line-height: 1.5;"><strong style="color: var(--ink);">Execute Merge &amp; Log Audit:</strong> Confirm merge in CRM interface, tag with <code>dedup_v1_completed</code>, and log resolution in cluster sheet.</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
