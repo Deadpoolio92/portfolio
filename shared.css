@@ -9,6 +9,7 @@
   --bg: #f8fafc;
   --surface: #ffffff;
   --surface-subtle: #f1f5f9;
+  --surface-muted: #e2e8f0;
   --surface-elevated: #ffffff;
   --border: #e2e8f0;
   --border-subtle: #cbd5e1;
@@ -45,6 +46,7 @@ html.dark {
   --bg: #090d16;
   --surface: #111827;
   --surface-subtle: #1f2937;
+  --surface-muted: #243248;
   --surface-elevated: #1e293b;
   --border: #243248;
   --border-subtle: #334155;
@@ -2870,7 +2872,8 @@ tbody.is-expanded .table-row-hidden {
     font-size: 6.9pt !important;
     line-height: 1.25 !important;
   }
-  #operational-schema .terminal-card {
+  #operational-schema .terminal-card,
+  #operational-schema .table-frame {
     margin-bottom: 0.65rem !important;
     padding: 0.75rem 0.9rem !important;
   }
