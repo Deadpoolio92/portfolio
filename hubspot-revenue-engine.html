@@ -51,7 +51,7 @@
   <div class="container">
 
     <!-- HERO SECTION -->
-    <header class="hero-banner">
+    <header class="hero-banner hero-centered">
       <div class="status-eyebrow">
         <span class="pulse-dot"></span>
         Production Systems Blueprint &bull; Karol Jasztal &middot; Head of Operations &amp; Systems Leader
@@ -61,65 +61,49 @@
         <span class="headline-accent">How I Re-Engineered HubSpot &amp; Calendly to Save 500+ Hours for a 50-Person Brokerage</span>
       </h1>
       <p class="hero-subtitle">
-        When a 50-person real estate brokerage shoves cold portal leads, active buyer negotiations, mortgage calculations, and notary closings into one messy HubSpot pipeline, deals fall through the cracks. Here is how I mapped a clean architecture in Figma, decoupled intake from closing into two purpose-built pipelines, and wired automated 3-strike phone cadences, dynamic onboarding emails, and multi-calendar Calendly routing to eliminate 500+ hours of admin chaos.
+        When brokers spend two hours a day playing calendar tag and digging through messy CRM stages, high-ticket buyers walk away. I rebuilt our 50-person brokerage's HubSpot setup from scratch, wiring instant Calendly routing and automated callbacks that dropped response times under 15 minutes and recovered 500+ hours a year.
       </p>
 
-      <!-- Bento Grid Telemetry in Hero Command Center (Clean: No Top Border) -->
-      <div class="bento-grid" id="bento-metrics" style="margin-top: 2.25rem;">
-        <!-- Bento Card 01: Time Saved -->
-        <div class="bento-card bento-span-7">
-          <div class="bento-stat-label">Verified Sales Team Capacity Recovered</div>
-          <div class="bento-stat-num" style="color: var(--success);">500+ Hours Saved / Year</div>
-          <p class="bento-stat-desc">
-            Automating manual email drafting, task reminders, call cadences, and meeting scheduling freed 1–2 hours per broker every week across the 6-person sales unit (288–576 hours/year).
-          </p>
-          <div class="bento-comparison-track" style="margin-top: 1rem;">
-            <div class="bento-bar-segment" style="width: 28%; background: var(--accent);"></div>
-            <div class="bento-bar-segment segment-green" style="width: 72%;"></div>
-          </div>
-          <div class="bento-comparison-legend">
-            <span><strong style="color: var(--accent);">~28% Residual High-Touch Negotiation</strong></span>
-            <span><strong style="color: var(--success);">72% Routine Admin &amp; Coordination Automated</strong></span>
-          </div>
+            <!-- Option 03C • Centered Connected HUD Telemetry Bar (Zero Progress Bar) -->
+      <div class="hud-telemetry-bar" id="bento-metrics">
+        <!-- Cell 1: Capacity Recovered -->
+        <div class="hud-cell">
+          <div class="hud-label">Capacity Recovered</div>
+          <div class="hud-num" style="color: var(--success);">500+ Hours</div>
+          <span class="hud-delta delta-success">72% Admin Automated</span>
+          <div class="hud-sub">50-Person Brokerage</div>
         </div>
 
-        <!-- Bento Card 02: Pipeline Decoupling -->
-        <div class="bento-card bento-span-5">
-          <div class="bento-stat-label">Customer Relationship Management (CRM) Architecture</div>
-          <div class="bento-stat-num">2 Dedicated Tracks</div>
-          <p class="bento-stat-desc">
-            Decoupled raw intake into <strong>Pipeline A (Leads: 11 Stages)</strong> and active negotiations into <strong>Pipeline B (Sales: 12 Stages)</strong>, connected by an automated graduation trigger.
-          </p>
+        <!-- Cell 2: CRM Architecture -->
+        <div class="hud-cell">
+          <div class="hud-label">CRM Architecture</div>
+          <div class="hud-num">2 Tracks</div>
+          <span class="hud-delta delta-neutral">Leads &amp; Sales</span>
+          <div class="hud-sub">11 + 12 Staged Pipelines</div>
         </div>
 
-        <!-- Bento Card 03: Multi-Calendar Sync -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Multi-Calendar Routing</div>
-          <div class="bento-stat-num" style="color: var(--success);">100% Automated</div>
-          <span class="bento-stat-delta delta-success">Zero Scheduling Conflicts</span>
-          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
-            Synchronized Calendly routing across 6 internal brokers and an external mortgage finance consultant with zero back-and-forth emails.
-          </p>
+        <!-- Cell 3: Calendar Routing -->
+        <div class="hud-cell">
+          <div class="hud-label">Calendar Routing</div>
+          <div class="hud-num" style="color: var(--success);">100% Automated</div>
+          <span class="hud-delta delta-success">Zero Conflicts</span>
+          <div class="hud-sub">6 Brokers + Mortgage Desk</div>
         </div>
 
-        <!-- Bento Card 04: Intake Hygiene -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Inbound Data Hygiene</div>
-          <div class="bento-stat-num" style="color: var(--success);">0 Dirty Records</div>
-          <span class="bento-stat-delta delta-success">Zapier Triage Gate</span>
-          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
-            Pre-flight schema validation blocks malformed phone numbers and empty email strings before lead injection into HubSpot.
-          </p>
+        <!-- Cell 4: Inbound Hygiene -->
+        <div class="hud-cell">
+          <div class="hud-label">Inbound Hygiene</div>
+          <div class="hud-num" style="color: var(--success);">0 Dirty Records</div>
+          <span class="hud-delta delta-success">Zapier Triage Gate</span>
+          <div class="hud-sub">Point-of-Entry Validation</div>
         </div>
 
-        <!-- Bento Card 05: Speed to Lead -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Speed-to-Lead Response</div>
-          <div class="bento-stat-num" style="color: var(--accent);">&lt; 15 Minutes</div>
-          <span style="font-size: 0.82rem; color: var(--ink-faint);">Days &rarr; Automated Minutes</span>
-          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
-            Inbound portal leads trigger instant welcome emails and automated high-priority call tasks, eliminating lead cooling.
-          </p>
+        <!-- Cell 5: Speed to Lead -->
+        <div class="hud-cell">
+          <div class="hud-label">Speed to Lead</div>
+          <div class="hud-num" style="color: var(--accent);">&lt; 15 Minutes</div>
+          <span class="hud-delta delta-success">Instant Routing</span>
+          <div class="hud-sub">Days &rarr; Automated Minutes</div>
         </div>
       </div>
     </header>

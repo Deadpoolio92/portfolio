@@ -51,7 +51,7 @@
   <div class="container">
 
     <!-- HERO SECTION -->
-    <header class="hero-banner">
+    <header class="hero-banner hero-centered">
       <div class="status-eyebrow">
         <span class="pulse-dot"></span>
         Production Systems Dossier &bull; Karol Jasztal &middot; Head of Operations &amp; Systems Leader
@@ -61,66 +61,49 @@
         <span class="headline-accent">How I Cleaned Up a Massive CRM Crisis with Six Sigma DMAIC</span>
       </h1>
       <p class="hero-subtitle">
-        When a healthcare client imported 750,000 external contacts into their live Pipedrive CRM, over 500,000 of them were duplicates. The result was a 67% baseline defect rate polluting active patient pipelines. Because sales reps and care coordinators had already worked the data for weeks, rolling back was impossible. Here is how I used Six Sigma DMAIC, an initial 50-record pilot audit that uncovered an 87% Pareto pattern, an async global team, and permanent Pipedrive validation controls to achieve 99.8% deduplication accuracy—plus an additional proactive automation suite that saved the client team 10 hours per week of manual grunt work.
+        Faced with 500,000 dirty records and zero option for a rollback, I used a 50-record pilot audit to pinpoint the 87% root-cause pattern behind the duplicates. We guided an async sprint team to clean up the mess with 99.8% accuracy, then automated daily pipeline tasks to cut 10 hours of weekly grunt work.
       </p>
 
-      <!-- Bento Grid Telemetry in Hero Command Center -->
-      <div class="bento-grid" id="bento-metrics" style="margin-top: 2.25rem;">
-        <!-- Bento Card 01: Cleaned Volume -->
-        <div class="bento-card bento-span-7">
-          <div class="bento-stat-label">Dirty Record Pool Resolved (Zero Rollback)</div>
-          <div class="bento-stat-num" style="color: var(--accent);">500,000 Records</div>
-          <p class="bento-stat-desc">
-            Surgically resolved 500,000 duplicate and corrupted entries across 750,000 ingested contacts without deleting a single live sales note or losing ongoing patient consultation history.
-          </p>
-          <div class="bento-comparison-track" style="margin-top: 1rem;">
-            <div class="bento-bar-segment" style="width: 67%; background: var(--danger);"></div>
-            <div class="bento-bar-segment segment-green" style="width: 33%;"></div>
-          </div>
-          <div class="bento-comparison-legend">
-            <span><strong style="color: var(--danger);">67% Baseline Dirty Records at Import</strong></span>
-            <span><strong style="color: var(--success);">&lt;0.2% Residual Defect Rate Post-Sprint</strong></span>
-          </div>
+            <!-- Option 03C • Centered Connected HUD Telemetry Bar (Zero Progress Bar) -->
+      <div class="hud-telemetry-bar" id="bento-metrics">
+        <!-- Cell 1: Records Resolved -->
+        <div class="hud-cell">
+          <div class="hud-label">Records Resolved</div>
+          <div class="hud-num" style="color: var(--accent);">500,000 Records</div>
+          <span class="hud-delta delta-danger">67% Dirty &rarr; &lt;0.2%</span>
+          <div class="hud-sub">Zero Rollback &bull; Zero Loss</div>
         </div>
 
-        <!-- Bento Card 02: Deduplication Accuracy -->
-        <div class="bento-card bento-span-5">
-          <div class="bento-stat-label">Deduplication Precision &amp; Integrity</div>
-          <div class="bento-stat-num" style="color: var(--success);">99.8%</div>
-          <span class="bento-stat-delta delta-success">Zero False-Positive Patient Merges</span>
-          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
-            Enforced tool-assisted human verification on ambiguous records, preventing catastrophic patient file mix-ups under strict healthcare compliance rules.
-          </p>
+        <!-- Cell 2: Dedupe Accuracy -->
+        <div class="hud-cell">
+          <div class="hud-label">Dedupe Accuracy</div>
+          <div class="hud-num" style="color: var(--success);">99.8%</div>
+          <span class="hud-delta delta-success">0 False Merges</span>
+          <div class="hud-sub">Tool-Assisted Human Gates</div>
         </div>
 
-        <!-- Bento Card 03: Team Hours Saved -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Weekly Grunt Work Automated</div>
-          <div class="bento-stat-num" style="color: var(--success);">10 hrs/wk</div>
-          <span class="bento-stat-delta delta-success">520 Hours Recovered / Year</span>
-          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
-            Built native Pipedrive workflow automations for deal property cascading, task assignment, and stage follow-ups, permanently removing manual admin overhead.
-          </p>
+        <!-- Cell 3: Weekly Time Saved -->
+        <div class="hud-cell">
+          <div class="hud-label">Weekly Time Saved</div>
+          <div class="hud-num" style="color: var(--success);">10 hrs/wk</div>
+          <span class="hud-delta delta-success">+520h / Year</span>
+          <div class="hud-sub">Automated Pipeline Tasks</div>
         </div>
 
-        <!-- Bento Card 04: Healthcare Privacy -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Healthcare Privacy &amp; Audit Trail</div>
-          <div class="bento-stat-num" style="color: var(--accent);">100% Zero Leaks</div>
-          <span class="bento-stat-delta delta-success">HIPAA &amp; GDPR Compliant</span>
-          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
-            Every deduplication, contact update, and field merge carried complete timestamped audit logging with zero patient confidentiality breaches.
-          </p>
+        <!-- Cell 4: Healthcare Privacy -->
+        <div class="hud-cell">
+          <div class="hud-label">Healthcare Privacy</div>
+          <div class="hud-num" style="color: var(--accent);">100% Zero Leaks</div>
+          <span class="hud-delta delta-success">HIPAA &amp; GDPR</span>
+          <div class="hud-sub">Timestamped Audit Logs</div>
         </div>
 
-        <!-- Bento Card 05: Recurrence Rate -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Defect Recurrence Post-Launch</div>
-          <div class="bento-stat-num" style="color: var(--success);">0.0%</div>
-          <span style="font-size: 0.82rem; color: var(--ink-faint);">Permanent Point-of-Entry Gates</span>
-          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
-            Implemented duplicate warning triggers for similar-sounding names and required company links, stopping future import corruption at the door.
-          </p>
+        <!-- Cell 5: Defect Recurrence -->
+        <div class="hud-cell">
+          <div class="hud-label">Defect Recurrence</div>
+          <div class="hud-num" style="color: var(--success);">0.0%</div>
+          <span class="hud-delta delta-success">Permanent Gates</span>
+          <div class="hud-sub">Point-of-Entry Safeguards</div>
         </div>
       </div>
     </header>

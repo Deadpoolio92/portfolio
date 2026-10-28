@@ -51,7 +51,7 @@
   <div class="container">
 
     <!-- HERO SECTION (Direct Flow: Eyebrow -> Title -> Subtitle -> Bento Telemetry) -->
-    <header class="hero-banner">
+    <header class="hero-banner hero-centered">
       <div class="status-eyebrow">
         <span class="pulse-dot"></span>
         Production Security Blueprint &bull; Karol Jasztal &middot; Head of Operations &amp; AI Systems Leader
@@ -61,63 +61,49 @@
         <span class="headline-accent">How I Vetted 11,000+ Files and Built Real OS Firewalls for Autonomous Agents</span>
       </h1>
       <p class="hero-subtitle">
-        Giving autonomous AI agents raw shell access and sensitive API keys is asking for trouble. Here is how I took 11,000+ untrusted skills, hooks, and MCP servers across Claude Code, DeepSeek Harness, and Google Antigravity, and locked them down with deterministic out-of-band guards. We threw out 49% of candidate files as dangerous bloat or prompt-injection traps&mdash;and across 241 production primitives, we have never had a single credential leak, wiped file, or runaway execution.
+        One rogue AI command or prompt injection can wipe a filesystem or leak your API keys in seconds. I audited 11,000+ community skills, scrapped the 49% that were dangerous traps, and hooked hard OS firewalls directly into three agent harnesses&mdash;blocking rogue execution with zero breaches across 241 production tools.
       </p>
 
-      <!-- Bento Grid Telemetry in Hero Command Center -->
-      <div class="bento-grid" id="bento-metrics" style="margin-top: 2.25rem;">
-        <!-- Big Bento Card 1 -->
-        <div class="bento-card bento-span-7">
-          <div class="bento-stat-label">Total Candidate Files Audited vs. Rejected</div>
-          <div class="bento-stat-num">11,000+ &rarr; 5,363 Rejected</div>
-          <p class="bento-stat-desc">
-            Rigorous automated static linters and human security audits rejected ~49% of all external tools due to hardcoded URLs, arbitrary dynamic evals, credential scraping, or unversioned bloat.
-          </p>
-          <!-- Dual-Segment Comparison Progress Bar -->
-          <div class="bento-comparison-track" style="margin-top: 1rem;">
-            <div class="bento-bar-segment segment-green" style="width: 51%;"></div>
-            <div class="bento-bar-segment segment-red" style="width: 49%;"></div>
-          </div>
-          <div class="bento-comparison-legend">
-            <span><strong style="color: var(--success);">51% Curated Safe (5,637 Files)</strong></span>
-            <span><strong style="color: var(--danger);">49% Security Rejected (5,363 Files)</strong></span>
-          </div>
+            <!-- Option 03C • Centered Connected HUD Telemetry Bar (Zero Progress Bar) -->
+      <div class="hud-telemetry-bar" id="bento-metrics">
+        <!-- Cell 1: Audit Scope -->
+        <div class="hud-cell">
+          <div class="hud-label">Candidate Files</div>
+          <div class="hud-num">11,000+</div>
+          <span class="hud-delta delta-danger">5,363 Rejected (49%)</span>
+          <div class="hud-sub">Malicious Traps Blocked</div>
         </div>
 
-        <!-- Big Bento Card 2 -->
-        <div class="bento-card bento-span-5">
-          <div class="bento-stat-label">Curated Production Control Plane</div>
-          <div class="bento-stat-num">241 Primitives</div>
-          <p class="bento-stat-desc">
-            180 battle-tested skills (33,108 lines of code), 33 Model Context Protocol (MCP) servers, 17 specialized subagents, and 11 runtime hooks operating seamlessly across 50,787 managed vault files.
-          </p>
+        <!-- Cell 2: Control Plane -->
+        <div class="hud-cell">
+          <div class="hud-label">Control Plane</div>
+          <div class="hud-num">241 Primitives</div>
+          <span class="hud-delta delta-neutral">180 Skills &bull; 33 MCP</span>
+          <div class="hud-sub">50k+ Vault Files</div>
         </div>
 
-        <!-- Mini Bento Card 3 -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Runtime Execution Firewall</div>
-          <div class="bento-stat-num" style="color: var(--success);">0 Breaches</div>
-          <p class="bento-stat-desc">
-            Zero credential leaks, zero wiped disks, zero unauthorized git force-pushes, and zero unvetted outbound network calls.
-          </p>
+        <!-- Cell 3: Runtime Firewall -->
+        <div class="hud-cell">
+          <div class="hud-label">Runtime Firewall</div>
+          <div class="hud-num" style="color: var(--success);">0 Breaches</div>
+          <span class="hud-delta delta-success">Zero Leaks</span>
+          <div class="hud-sub">Hard OS Firewalls</div>
         </div>
 
-        <!-- Mini Bento Card 4 -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Cross-Harness Parity</div>
-          <div class="bento-stat-num">3 Harnesses</div>
-          <p class="bento-stat-desc">
-            Single canonical package format automatically rendered for Claude Code, DeepSeek Harness, and Google Antigravity.
-          </p>
+        <!-- Cell 4: Harness Parity -->
+        <div class="hud-cell">
+          <div class="hud-label">Harness Parity</div>
+          <div class="hud-num">3 Harnesses</div>
+          <span class="hud-delta delta-success">100% Shared Config</span>
+          <div class="hud-sub">Claude &bull; DSH &bull; Antigravity</div>
         </div>
 
-        <!-- Mini Bento Card 5 -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Supply-Chain Drift Catch</div>
-          <div class="bento-stat-num" style="color: var(--accent);">100% Upstream Catch</div>
-          <p class="bento-stat-desc">
-            Radar v2 automated delta briefs catch upstream git changes, prompting 3-way security diffing before any code is promoted.
-          </p>
+        <!-- Cell 5: Upstream Drift -->
+        <div class="hud-cell">
+          <div class="hud-label">Upstream Drift</div>
+          <div class="hud-num" style="color: var(--accent);">100% Catch</div>
+          <span class="hud-delta delta-success">Radar v2 Engine</span>
+          <div class="hud-sub">3-Way Security Diffing</div>
         </div>
       </div>
     </header>

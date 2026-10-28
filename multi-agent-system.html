@@ -51,7 +51,7 @@
   <div class="container">
 
     <!-- HERO SECTION -->
-    <header class="hero-banner">
+    <header class="hero-banner hero-centered">
       <div class="status-eyebrow">
         <span class="pulse-dot"></span>
         Production Systems Blueprint &bull; Karol Jasztal &middot; Head of Operations &amp; AI Systems Leader
@@ -61,65 +61,49 @@
         <span class="headline-accent">How I Built an Autonomous Subagent System to Cut Token Burn by 76.8%</span>
       </h1>
       <p class="hero-subtitle">
-        Most people build AI setups by dumping 50 pages of instructions, 20 tools, and a bunch of source code into one giant prompt. It burns a ton of cash, runs painfully slow, and makes dumb mistakes. Here is how I do it instead: an autonomous Conductor that hands tiny tasks to fresh subagents with stripped tools, backed by real OS firewalls that kill runaway commands before a terminal ever opens.
+        Instead of burning 80,000 tokens per call on a single sluggish prompt, I built a modular mesh of six specialized subagents managed by an autonomous Conductor. Each subagent gets clean context and stripped-down tools, dropping response latency by 80.2% and slashing token costs by 76.8% across 700+ live runs.
       </p>
 
-      <!-- Bento Grid Telemetry in Hero Command Center -->
-      <div class="bento-grid" id="bento-metrics" style="margin-top: 2.25rem;">
-        <!-- Bento Card 01: Token Delta -->
-        <div class="bento-card bento-span-7">
-          <div class="bento-stat-label">Verified Developer Token Cut</div>
-          <div class="bento-stat-num">76.8% Less Token Burn</div>
-          <p class="bento-stat-desc">
-            Ditching giant system prompts for tiny frontmatter tags (&lt;1,200 tokens) and loading skills only when needed dropped 50-turn developer sessions from 6.85M tokens down to 1.59M tokens.
-          </p>
-          <div class="bento-comparison-track" style="margin-top: 1rem;">
-            <div class="bento-bar-segment segment-green" style="width: 23.2%;"></div>
-            <div class="bento-bar-segment segment-red" style="width: 76.8%;"></div>
-          </div>
-          <div class="bento-comparison-legend">
-            <span><strong style="color: var(--success);">23.2% Fresh Subagent Work (1.59M Tokens)</strong></span>
-            <span><strong style="color: var(--danger);">76.8% Pure Waste Cut (5.26M Tokens Saved)</strong></span>
-          </div>
+            <!-- Option 03C • Centered Connected HUD Telemetry Bar (Zero Progress Bar) -->
+      <div class="hud-telemetry-bar" id="bento-metrics">
+        <!-- Cell 1: Token Cut -->
+        <div class="hud-cell">
+          <div class="hud-label">Token Efficiency</div>
+          <div class="hud-num" style="color: var(--success);">&minus;76.8% Burn</div>
+          <span class="hud-delta delta-success">&minus;5.26M Tokens</span>
+          <div class="hud-sub">6.85M &rarr; 1.59M Turn Delta</div>
         </div>
 
-        <!-- Bento Card 02: Context Window -->
-        <div class="bento-card bento-span-5">
-          <div class="bento-stat-label">Working Turn Context Size</div>
-          <div class="bento-stat-num">4,200 Tokens</div>
-          <p class="bento-stat-desc">
-            Keeps memory flat at ~4.2k tokens a turn instead of choking on 82,400+ tokens (&minus;94.9% smaller), so the model never forgets the rules in the middle of a chat.
-          </p>
+        <!-- Cell 2: Context Window -->
+        <div class="hud-cell">
+          <div class="hud-label">Context Window</div>
+          <div class="hud-num">4,200 Tokens</div>
+          <span class="hud-delta delta-success">&minus;94.9% Smaller</span>
+          <div class="hud-sub">Flat Working Memory</div>
         </div>
 
-        <!-- Bento Card 03: Response Latency -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Average Wait Time Per Turn</div>
-          <div class="bento-stat-num" style="color: var(--success);">4.8s vs 24.2s</div>
-          <span class="bento-stat-delta delta-success">&minus;80.2% Faster Replies</span>
-          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
-            Tiny prompt payloads cut developer wait times from 24+ annoying seconds down to under 5 seconds per turn.
-          </p>
+        <!-- Cell 3: Latency -->
+        <div class="hud-cell">
+          <div class="hud-label">Response Latency</div>
+          <div class="hud-num" style="color: var(--success);">4.8s vs 24.2s</div>
+          <span class="hud-delta delta-success">&minus;80.2% Faster</span>
+          <div class="hud-sub">Instant Developer Flow</div>
         </div>
 
-        <!-- Bento Card 04: Safety Record -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Runaway Commands Escaped</div>
-          <div class="bento-stat-num" style="color: var(--success);">0 Escapes</div>
-          <span class="bento-stat-delta delta-success">100% PreToolUse Hard Blocks</span>
-          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
-            Out-of-band PowerShell hooks instantly block dangerous stuff like <code>rm -rf</code>, <code>git push -f</code>, and <code>DROP TABLE</code> before anything runs.
-          </p>
+        <!-- Cell 4: Safety Record -->
+        <div class="hud-cell">
+          <div class="hud-label">Safety Record</div>
+          <div class="hud-num" style="color: var(--success);">0 Escapes</div>
+          <span class="hud-delta delta-success">100% PreToolUse Hard Blocks</span>
+          <div class="hud-sub">Hardened Out-of-Band Hooks</div>
         </div>
 
-        <!-- Bento Card 05: Isolated Subagents -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Specialized Subagents</div>
-          <div class="bento-stat-num">6 Sandboxes</div>
-          <span style="font-size: 0.82rem; color: var(--ink-faint);">Strict Job Separation</span>
-          <p class="bento-stat-desc" style="margin-top: 0.5rem;">
-            Conductor, Code Builder, Code Reviewer, Security Reviewer, Test Writer, and Researcher with physically stripped tools.
-          </p>
+        <!-- Cell 5: Subagent Mesh -->
+        <div class="hud-cell">
+          <div class="hud-label">Subagent Mesh</div>
+          <div class="hud-num">6 Sandboxes</div>
+          <span class="hud-delta delta-neutral">Strict Tool Scopes</span>
+          <div class="hud-sub">Conductor &bull; 700+ Runs</div>
         </div>
       </div>
     </header>

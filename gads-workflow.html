@@ -55,7 +55,7 @@
   <div class="container">
 
     <!-- HERO SECTION (Direct Flow: Eyebrow -> Title -> Subtitle -> Bento Telemetry) -->
-    <header class="hero-banner">
+    <header class="hero-banner hero-centered">
       <div class="status-eyebrow">
         <span class="pulse-dot"></span>
         Production Systems Dossier &bull; Karol Jasztal &middot; Head of Operations &amp; AI Systems Leader
@@ -65,55 +65,46 @@
         How I took a messy, 40-hour Google Ads and landing page setup and turned it into a smooth 7-hour system. We eliminated 33 hours of copy-paste grunt work per campaign&mdash;and across 14 live client launches in a row, Google never flagged or rejected a single ad.
       </p>
 
-      <!-- Bento Grid Telemetry in Hero Command Center -->
-      <div class="bento-grid" id="bento-metrics" style="margin-top: 2.25rem;">
-        <!-- Big Bento Card 1 -->
-        <div class="bento-card bento-span-7">
-          <div class="bento-stat-label">End-to-End Campaign Cycle Time</div>
-          <div class="bento-stat-num">40h &rarr; 7h</div>
-          <span class="bento-stat-delta delta-success">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
-            &minus;82.5% Audited Turnaround Time Saved
-          </span>
-          <div class="bento-progress-track" title="40h Total Campaign Time: 7h Automated Flow (Green) vs 33h Eliminated Manual Waste (Red)">
-            <div class="bento-progress-segment green" style="width: 17.5%;"></div>
-            <div class="bento-progress-segment red" style="width: 82.5%;"></div>
-          </div>
-          <div class="bento-progress-legend">
-            <span class="legend-item"><span class="legend-dot green"></span> <strong>7h</strong> High-Signal Execution (17.5%)</span>
-            <span class="legend-item"><span class="legend-dot red"></span> <strong>33h</strong> Eliminated Manual Waste (&minus;82.5%)</span>
-          </div>
+            <!-- Option 03C • Centered Connected HUD Telemetry Bar (Zero Progress Bar) -->
+      <div class="hud-telemetry-bar" id="bento-metrics">
+        <!-- Cell 1: Cycle Time -->
+        <div class="hud-cell">
+          <div class="hud-label">Cycle Time</div>
+          <div class="hud-num" style="color: var(--accent);">40h &rarr; 7h</div>
+          <span class="hud-delta delta-success">&minus;82.5% Cut</span>
+          <div class="hud-sub">Audited Turnaround</div>
         </div>
 
-        <!-- Bento Card 2 -->
-        <div class="bento-card bento-span-5">
-          <div class="bento-stat-label">Policy Compliance Record</div>
-          <div class="bento-stat-num">100.0%</div>
-          <span class="bento-stat-delta delta-success">Zero Ad Account Suspensions</span>
-          <p style="font-size: 0.85rem; color: var(--ink-muted); margin-top: 0.85rem; line-height: 1.5;">
-            Enforced by 5 deterministic heuristic regex linters verifying character bounds (&le;30/90c) and prohibited superlatives prior to staging submission.
-          </p>
+        <!-- Cell 2: Compliance -->
+        <div class="hud-cell">
+          <div class="hud-label">Compliance</div>
+          <div class="hud-num" style="color: var(--success);">100.0%</div>
+          <span class="hud-delta delta-success">0 Policy Flags</span>
+          <div class="hud-sub">14 Clean Launches</div>
         </div>
 
-        <!-- Bento Card 3 -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Throughput Multiplier</div>
-          <div class="bento-stat-num">5.7x</div>
-          <span style="font-size: 0.82rem; color: var(--ink-faint);">Zero Net Headcount Added</span>
+        <!-- Cell 3: Throughput -->
+        <div class="hud-cell">
+          <div class="hud-label">Throughput</div>
+          <div class="hud-num">5.7x</div>
+          <span class="hud-delta delta-success">+470% Speed</span>
+          <div class="hud-sub">Zero Headcount</div>
         </div>
 
-        <!-- Bento Card 4 -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Annual Capital Unlocked</div>
-          <div class="bento-stat-num">1,320h</div>
-          <span class="bento-stat-delta delta-success">+$118k in Saved Payroll</span>
+        <!-- Cell 4: Annual ROI -->
+        <div class="hud-cell">
+          <div class="hud-label">Annual ROI</div>
+          <div class="hud-num">1,320h</div>
+          <span class="hud-delta delta-success">+$118k Payroll</span>
+          <div class="hud-sub">Hours Recovered</div>
         </div>
 
-        <!-- Bento Card 5 -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Intake Schema Contract</div>
-          <div class="bento-stat-num">50 Fields</div>
-          <span style="font-size: 0.82rem; color: var(--ink-faint);">Strict Rules &bull; Zero Guessing</span>
+        <!-- Cell 5: Intake Schema -->
+        <div class="hud-cell">
+          <div class="hud-label">Intake Schema</div>
+          <div class="hud-num">50 Fields</div>
+          <span class="hud-delta delta-neutral">Normalized</span>
+          <div class="hud-sub">Zero Guessing</div>
         </div>
       </div>
     </header>

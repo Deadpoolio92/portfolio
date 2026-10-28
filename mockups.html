@@ -136,7 +136,7 @@
   <div class="container">
 
     <!-- HERO SECTION (Direct Flow: Eyebrow -> Title -> Subtitle, Zero Action Buttons or Dividers) -->
-    <header class="hero-banner">
+    <header class="hero-banner hero-centered">
       <div class="status-eyebrow">
         <span class="pulse-dot"></span>
         Design System &bull; Karol Jasztal
@@ -145,6 +145,49 @@
       <p class="hero-subtitle">
         Calibrated design tokens, responsive Bento layouts, deterministic QA patterns, and hardened interactive components powering high-converting executive case studies.
       </p>
+
+      <!-- Option 03C • Centered Connected HUD Telemetry Bar (Hero Standard) -->
+      <div class="hud-telemetry-bar" style="margin-top: 2.25rem;">
+        <!-- Cell 1: Cycle Time -->
+        <div class="hud-cell">
+          <div class="hud-label">Cycle Time</div>
+          <div class="hud-num" style="color: var(--accent);">40h &rarr; 7h</div>
+          <span class="hud-delta delta-success">&minus;82.5% Cut</span>
+          <div class="hud-sub">Audited Turnaround</div>
+        </div>
+
+        <!-- Cell 2: Compliance -->
+        <div class="hud-cell">
+          <div class="hud-label">Compliance</div>
+          <div class="hud-num" style="color: var(--success);">100.0%</div>
+          <span class="hud-delta delta-success">0 Policy Flags</span>
+          <div class="hud-sub">14 Clean Launches</div>
+        </div>
+
+        <!-- Cell 3: Throughput -->
+        <div class="hud-cell">
+          <div class="hud-label">Throughput</div>
+          <div class="hud-num">5.7x</div>
+          <span class="hud-delta delta-success">+470% Speed</span>
+          <div class="hud-sub">Zero Headcount</div>
+        </div>
+
+        <!-- Cell 4: Annual ROI -->
+        <div class="hud-cell">
+          <div class="hud-label">Annual ROI</div>
+          <div class="hud-num">1,320h</div>
+          <span class="hud-delta delta-success">+$118k Payroll</span>
+          <div class="hud-sub">Hours Recovered</div>
+        </div>
+
+        <!-- Cell 5: Intake Schema -->
+        <div class="hud-cell">
+          <div class="hud-label">Intake Schema</div>
+          <div class="hud-num">50 Fields</div>
+          <span class="hud-delta delta-neutral">Normalized</span>
+          <div class="hud-sub">Zero Guessing</div>
+        </div>
+      </div>
     </header>
 
     <!-- SECTION 1: DESIGN TOKENS & ADAPTIVE COLOR PALETTE -->
@@ -328,13 +371,13 @@
       </div>
     </section>
 
-    <!-- SECTION 4: BENTO GRID & EXECUTIVE METRICS -->
+    <!-- SECTION 4: BODY TELEMETRY & SUPPORTING METRICS -->
     <section id="bento-metrics" class="section-wrap">
       <div class="section-header-modern">
-        <span class="section-eyebrow">04 // Key Impact Telemetry</span>
-        <h2 class="section-title-modern">Audited Operational Breakthroughs &amp; Bento Grid</h2>
+        <span class="section-eyebrow">04 // Body Telemetry</span>
+        <h2 class="section-title-modern">Chapter Body Telemetry &amp; Supporting Metrics</h2>
         <p class="section-desc-modern">
-          Empirical time-motion measurements verified across 14 consecutive deployment cycles with zero ad policy suspensions.
+          Secondary telemetry components utilized across case study body chapters: 4-column executive metric strips and 3-column diagnostic KPI grids. (Note: The Connected HUD Telemetry Bar is strictly reserved for the hero header above.)
         </p>
       </div>
 
@@ -362,55 +405,22 @@
         </div>
       </div>
 
-      <!-- Bento Grid with Dual-Segment Progress Bar -->
-      <div class="bento-grid">
-        <!-- Big Bento Card 1 -->
-        <div class="bento-card bento-span-7">
-          <div class="bento-stat-label">End-to-End Campaign Cycle Time</div>
-          <div class="bento-stat-num">40h &rarr; 7h</div>
-          <span class="bento-stat-delta delta-success">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
-            -82.5% Audited Turnaround Time Saved
-          </span>
-          <div class="bento-progress-track" title="40h Total Campaign Time: 7h Automated (Green) vs 33h Eliminated Waste (Red)">
-            <div class="bento-progress-segment green" style="width: 17.5%;"></div>
-            <div class="bento-progress-segment red" style="width: 82.5%;"></div>
-          </div>
-          <div class="bento-progress-legend">
-            <span class="legend-item"><span class="legend-dot green"></span> <strong>7h</strong> High-Signal Execution (17.5%)</span>
-            <span class="legend-item"><span class="legend-dot red"></span> <strong>33h</strong> Eliminated Waste (-82.5%)</span>
-          </div>
+      <!-- 3-Column Diagnostic KPI Grid (Body Section Pattern) -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
+        <div style="background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: 12px; padding: 1.25rem; text-align: center;">
+          <div style="font-family: var(--font-mono, monospace); font-size: 0.72rem; font-weight: 700; color: var(--ink-faint); text-transform: uppercase;">Turnaround Efficiency</div>
+          <div style="font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; color: var(--accent); margin: 0.35rem 0;">82.5% Cut</div>
+          <span class="badge badge-accent" style="font-size: 0.72rem;">Audited Time-Motion</span>
         </div>
-
-        <!-- Bento Card 2 -->
-        <div class="bento-card bento-span-5">
-          <div class="bento-stat-label">Policy Compliance Rate</div>
-          <div class="bento-stat-num">100.0%</div>
-          <span class="bento-stat-delta delta-success">Zero Ad Account Suspensions</span>
-          <p style="font-size: 0.85rem; color: var(--ink-muted); margin-top: 0.85rem; line-height: 1.5;">
-            Enforced by 5 deterministic heuristic regex linters running prior to staging submission.
-          </p>
+        <div style="background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--success); border-radius: 12px; padding: 1.25rem; text-align: center;">
+          <div style="font-family: var(--font-mono, monospace); font-size: 0.72rem; font-weight: 700; color: var(--ink-faint); text-transform: uppercase;">Quality Assurance</div>
+          <div style="font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; color: var(--success); margin: 0.35rem 0;">0 Disapprovals</div>
+          <span class="badge badge-success" style="font-size: 0.72rem;">Deterministic Linters</span>
         </div>
-
-        <!-- Bento Card 3 -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Throughput Multiplier</div>
-          <div class="bento-stat-num">5.7x</div>
-          <span style="font-size: 0.82rem; color: var(--ink-faint);">Zero Net Headcount Added</span>
-        </div>
-
-        <!-- Bento Card 4 -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Annual Value Unlocked</div>
-          <div class="bento-stat-num">1,320h</div>
-          <span class="bento-stat-delta delta-success">High-Leverage Strategic Focus</span>
-        </div>
-
-        <!-- Bento Card 5 -->
-        <div class="bento-card bento-span-4">
-          <div class="bento-stat-label">Intake Contract</div>
-          <div class="bento-stat-num">50 Fields</div>
-          <span style="font-size: 0.82rem; color: var(--ink-faint);">Deterministic Schema Bounds</span>
+        <div style="background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--purple); border-radius: 12px; padding: 1.25rem; text-align: center;">
+          <div style="font-family: var(--font-mono, monospace); font-size: 0.72rem; font-weight: 700; color: var(--ink-faint); text-transform: uppercase;">Team Capacity</div>
+          <div style="font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; color: var(--purple); margin: 0.35rem 0;">+1,320h / Year</div>
+          <span class="badge badge-purple" style="font-size: 0.72rem;">Strategic Focus</span>
         </div>
       </div>
     </section>

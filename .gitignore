@@ -11,8 +11,9 @@ _artifact-preferences.md
 .agents/
 .claude/
 
-# Asset images
+# Asset files
 *.png
+*.skill
 
 # OS and editor metadata
 .DS_Store

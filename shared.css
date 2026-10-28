@@ -1794,6 +1794,28 @@ tr:hover td {
   margin-bottom: 3.5rem;
 }
 
+/* Centered Hero Header */
+.hero-centered {
+  text-align: center;
+}
+.hero-centered .status-eyebrow {
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-centered .hero-title {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1140px;
+}
+.hero-centered .hero-subtitle {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 820px;
+}
+
 .status-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -1833,7 +1855,7 @@ tr:hover td {
   letter-spacing: -0.03em;
   color: var(--ink);
   margin-bottom: 1.25rem;
-  max-width: 950px;
+  max-width: 1140px;
 }
 
 .hero-subtitle {
@@ -2068,7 +2090,7 @@ tr:hover td {
 }
 .bento-stat-num {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 3.5vw, 3.25rem);
+  font-size: clamp(1.45rem, 2vw, 1.85rem);
   font-weight: 800;
   letter-spacing: -0.04em;
   color: var(--ink);
@@ -2087,7 +2109,135 @@ tr:hover td {
 .delta-success {
   background: var(--success-bg);
   color: var(--success);
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  border: 1px solid var(--success-border);
+}
+.delta-danger {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+}
+.delta-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--warning-border);
+}
+.delta-purple {
+  background: var(--purple-bg);
+  color: var(--purple);
+  border: 1px solid var(--purple-border);
+}
+.delta-accent {
+  background: var(--accent-subtle);
+  color: var(--accent);
+  border: 1px solid var(--border-highlight, var(--border));
+}
+.delta-neutral {
+  background: var(--surface-subtle);
+  color: var(--ink-muted);
+  border: 1px solid var(--border);
+}
+
+/* ==========================================================================
+   Option 03C • Centered Connected HUD Telemetry Bar
+   Continuous single-row panel with hairline dividers and centered metrics
+   ========================================================================== */
+.hud-telemetry-bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-top: 2.25rem;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.hud-cell {
+  padding: 1.25rem 1.15rem;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.35rem;
+  transition: background 0.2s ease;
+}
+
+.hud-cell:hover {
+  background: var(--surface-subtle);
+}
+
+.hud-cell:last-child {
+  border-right: none;
+}
+
+.hud-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.15rem;
+  text-align: center;
+}
+
+.hud-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 1.9vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--ink);
+  text-align: center;
+  margin-bottom: 0.2rem;
+}
+
+.hud-delta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin: 0 auto;
+}
+
+.hud-sub {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  line-height: 1.35;
+  text-align: center;
+}
+
+@media (max-width: 1080px) {
+  .hud-telemetry-bar {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .hud-cell {
+    border-bottom: 1px solid var(--border);
+  }
+  .hud-cell:nth-child(3) {
+    border-right: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .hud-telemetry-bar {
+    grid-template-columns: 1fr;
+  }
+  .hud-cell {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border);
+  }
+  .hud-cell:last-child {
+    border-bottom: none;
+  }
 }
 
 /* Dual-Segment Progress Bar */
@@ -2297,6 +2447,27 @@ tr:hover td {
   line-height: 1.7;
   overflow-x: auto;
   white-space: pre-wrap;
+}
+
+.terminal-scroll-20 {
+  max-height: 440px !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+}
+.terminal-scroll-20::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.terminal-scroll-20::-webkit-scrollbar-track {
+  background: var(--surface-subtle);
+  border-radius: 4px;
+}
+.terminal-scroll-20::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+.terminal-scroll-20::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-muted);
 }
 
 /* Modern In-Box Copy Icon Button */
@@ -2794,6 +2965,56 @@ tbody.is-expanded .table-row-hidden {
     border-color: #dddddd !important;
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+
+  /* Connected HUD Bar Print Rules (Unrolls cleanly in 5 equal columns on A4) */
+  .hud-telemetry-bar {
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    background: #ffffff !important;
+    border: 1px solid #cccccc !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+  .hud-cell {
+    padding: 0.65rem 0.5rem !important;
+    border-right: 1px solid #cccccc !important;
+    border-bottom: none !important;
+    background: #ffffff !important;
+    text-align: center !important;
+    align-items: center !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .hud-cell:last-child {
+    border-right: none !important;
+  }
+  .hud-label {
+    font-size: 6.5pt !important;
+    color: #444444 !important;
+    margin-bottom: 0.1rem !important;
+  }
+  .hud-num {
+    font-size: 11pt !important;
+    color: #000000 !important;
+    margin-bottom: 0.15rem !important;
+  }
+  .hud-delta {
+    font-size: 6.5pt !important;
+    padding: 0.1rem 0.35rem !important;
+  }
+  .hud-sub {
+    font-size: 6.5pt !important;
+    color: #555555 !important;
+  }
+
+  .terminal-scroll-20 {
+    max-height: 380px !important;
+    overflow: hidden !important;
   }
 
   /* Executive 8-Page Structure for HubSpot Case Study */

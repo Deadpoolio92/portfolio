@@ -1,0 +1,1693 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>15 Creative Contractors, 70–100 Assets a Week, Zero Leaks: How I Built the Marketing QA Machine for Fast-Moving Telehealth | Karol Jasztal</title>
+  <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css?v=20261027a" />
+  <script src="shared.js?v=20261027a"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Header (Normal Flow / Not Sticky) -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio Overview
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Marketing Operations &amp; Applied AI Systems</span>
+      </div>
+      <div class="nav-actions">
+        <a href="marketing-ai-ops-qa.pdf" download class="btn-ghost" style="padding: 0.45rem 0.85rem; font-size: 0.82rem; gap: 0.35rem;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Download PDF
+        </a>
+        <button id="themeToggle" class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Sticky Chapter Anchor Bar (Option 2B Decoupled Sticky Navigation) -->
+  <nav class="sticky-nav-bar" id="sticky-nav" aria-label="Case study sections">
+    <div class="nav-grid-track">
+      <a href="#cadence" class="nav-tag-pill active">01. Pipeline &amp; Cadence</a>
+      <a href="#data-contracts" class="nav-tag-pill">02. Single-Source Data</a>
+      <a href="#skills-automation" class="nav-tag-pill">03. AI Skills &amp; Toolchain</a>
+      <a href="#qa-gates" class="nav-tag-pill">04. QA Gates &amp; Migration</a>
+      <a href="#tradeoffs" class="nav-tag-pill">05. Evaluated Trade-Offs</a>
+      <a href="#retrospective" class="nav-tag-pill">06. Operator Retrospective</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO SECTION -->
+    <header class="hero-banner hero-centered">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Production Systems Dossier &bull; Karol Jasztal &middot; Head of Operations &amp; Systems Leader
+      </div>
+      <h1 class="hero-title">
+        15 Creative Contractors, 70–100 Assets a Week, Zero Leaks:
+        <span class="headline-accent">How I Built the Marketing QA Machine for Fast-Moving Telehealth</span>
+      </h1>
+      <p class="hero-subtitle">
+        Pumping out 70–100 creative assets every week across 40 landing pages left our marketing operations drowning in Drive chaos and compliance risk. I deployed four custom Claude skills, automated the Asana-to-Linear handoff, and personally ran a 100% human QA check&mdash;saving 15 hours of weekly grunt work with zero FDA flags.
+      </p>
+
+            <!-- Option 03C • Centered Connected HUD Telemetry Bar (Zero Progress Bar) -->
+      <div class="hud-telemetry-bar" id="bento-metrics">
+        <!-- Cell 1: Creative Intake -->
+        <div class="hud-cell">
+          <div class="hud-label">Creative Intake</div>
+          <div class="hud-num" style="color: var(--accent);">70–100 Assets/wk</div>
+          <span class="hud-delta delta-neutral">15 Contractors</span>
+          <div class="hud-sub">Video &bull; UGC &bull; Pages</div>
+        </div>
+
+        <!-- Cell 2: Compliance Record -->
+        <div class="hud-cell">
+          <div class="hud-label">Compliance Record</div>
+          <div class="hud-num" style="color: var(--success);">0 Violations</div>
+          <span class="hud-delta delta-success">100% FDA Parity</span>
+          <div class="hud-sub">Zero Ad Suspensions</div>
+        </div>
+
+        <!-- Cell 3: Human QA Gate -->
+        <div class="hud-cell">
+          <div class="hud-label">Human QA Gate</div>
+          <div class="hud-num" style="color: var(--purple);">100% Sign-Off</div>
+          <span class="hud-delta delta-purple">Zero Leaks</span>
+          <div class="hud-sub">Human Audit on Every Asset</div>
+        </div>
+
+        <!-- Cell 4: Linear Cutover -->
+        <div class="hud-cell">
+          <div class="hud-label">Linear Cutover</div>
+          <div class="hud-num" style="color: var(--success);">500 Tasks</div>
+          <span class="hud-delta delta-success">0 Dropped Deadlines</span>
+          <div class="hud-sub">Asana &rarr; Linear Migration</div>
+        </div>
+
+        <!-- Cell 5: Weekly Time Saved -->
+        <div class="hud-cell">
+          <div class="hud-label">Weekly Time Saved</div>
+          <div class="hud-num" style="color: var(--accent);">15 hrs/wk</div>
+          <span class="hud-delta delta-success">+780h / Year</span>
+          <div class="hud-sub">Admin Busywork Cut</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 01: PIPELINE & CADENCE -->
+    <!-- ========================================================================= -->
+    <section id="cadence" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // CADENCE: HIGH-VELOCITY CREATIVE OPERATIONS</span>
+        <h2 class="section-title-modern">The In-Media-Res Crisis: 70–100 Assets a Week vs. Healthcare Compliance</h2>
+        <p class="section-desc-modern">
+          In direct-to-consumer telehealth, creative fatigue hits fast. To sustain patient acquisition, marketing must test dozens of fresh hooks every week. But when advertising compounded Glucagon-Like Peptide-1 (GLP-1) medications, a single unapproved weight-loss promise or missing risk disclosure risks severe FDA warning letters and immediate ad account shutdowns.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <div style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--danger); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+          <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">The Operational Breaking Point</h3>
+          <p style="font-size: 0.9rem; color: var(--ink-muted); line-height: 1.55;">
+            At a high-growth telehealth startup, a 15-person distributed contractor team pumped out <strong>70 to 100 creative assets every week</strong> across video ads, UGC reels, static banners, and responsive landing pages. The creative velocity was high, but the backend operational infrastructure was cracking:
+          </p>
+          <div style="font-family: var(--mono); font-size: 0.82rem; background: var(--surface-subtle); padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; line-height: 1.6; color: var(--ink);">
+            &bull; <strong>Google Drive Labyrinth:</strong> Hundreds of unmapped folders; team members wasted up to 30 minutes per task hunting for assets.<br>
+            &bull; <strong>Pricing Drift &amp; Confusion:</strong> No single source of truth for subscription tiers, leading to conflicting prices on live ad copy.<br>
+            &bull; <strong>Legal Review Bottleneck:</strong> Routine copy sat in legal queues for days, stalling high-performing direct-response campaigns.<br>
+            &bull; <strong>Disconnected Toolchain:</strong> Asana, Figma, and Google Drive operated in silos, leading to lost briefs and fragmented feedback.
+          </div>
+        </div>
+
+        <!-- Non-Negotiable Operational Constraints Pipeline Rail -->
+        <div style="margin-bottom: 2.5rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">Non-Negotiable Operational Constraints</h3>
+          <div class="pipeline-rail">
+            <div class="pipeline-node" style="border-top: 4px solid var(--danger);">
+              <span class="badge badge-danger" style="align-self: flex-start;">Constraint 01</span>
+              <h4 class="node-title">100% Human Sign-Off</h4>
+              <p class="node-desc">Zero autonomous ad publishing. Every video script, spoken dialogue, on-screen caption, and disclaimer required my personal sign-off.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+              <span class="badge badge-accent" style="align-self: flex-start;">Constraint 02</span>
+              <h4 class="node-title">Zero Dropped Deliverables</h4>
+              <p class="node-desc">Seamless migration of 500 active tasks from Linear to Asana with zero missed deadlines and zero downtime across active sprints.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--purple);">
+              <span class="badge badge-purple" style="align-self: flex-start;">Constraint 03</span>
+              <h4 class="node-title">Single Pricing Truth</h4>
+              <p class="node-desc">Zero memory-based pricing. All promotional copy, banners, and checkout pages were required to query one master data contract.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--success);">
+              <span class="badge badge-success" style="align-self: flex-start;">Constraint 04</span>
+              <h4 class="node-title">6-Viewport Verification</h4>
+              <p class="node-desc">Mandatory responsive testing across 6 viewports on 40 actively managed landing pages daily to guarantee legal disclaimers never clipped on mobile.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Time-Motion Study Table -->
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.75rem;">Time-Motion Study: Legacy Drag vs. Engineered Infrastructure</h3>
+        <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+          Audited time measurements per task comparing the legacy manual bottleneck against Karol's single-source automated operating system:
+        </p>
+        <div class="table-frame" style="margin-bottom: 2rem;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 32%;">Operational Phase</th>
+                <th style="width: 28%;">Legacy Bottleneck (Baseline)</th>
+                <th style="width: 28%;">Engineered Infrastructure (Karol)</th>
+                <th style="width: 12%; text-align: right;">Audited Delta</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>01. Brief Setup &amp; Folder Provisioning</strong></td>
+                <td>30 mins / task (manual folder creation, copying brief templates)</td>
+                <td><span style="color: var(--success); font-weight: 600;">2 mins / task</span> (pm-asana auto-provisions Drive folders &amp; docs)</td>
+                <td style="text-align: right;"><span class="badge badge-success">-93.3%</span></td>
+              </tr>
+              <tr>
+                <td><strong>02. Pricing Lookup &amp; Copy Verification</strong></td>
+                <td>15 mins / asset (Slack pings to finance, checking old landers)</td>
+                <td><span style="color: var(--success); font-weight: 600;">&lt;10 secs</span> (pricing skill queries Master Google Sheet)</td>
+                <td style="text-align: right;"><span class="badge badge-success">-98.9%</span></td>
+              </tr>
+              <tr>
+                <td><strong>03. Creative Asset Hunting &amp; Context</strong></td>
+                <td>20 mins / review (searching unmapped Drive, guessing Figma frames)</td>
+                <td><span style="color: var(--success); font-weight: 600;">Instant</span> (google-drive-filer-creatives + Bidirectional cross-links)</td>
+                <td style="text-align: right;"><span class="badge badge-success">-100.0%</span></td>
+              </tr>
+              <tr>
+                <td><strong>04. First-Pass Regulatory Pre-Screening</strong></td>
+                <td>4–6 hrs / batch (routine copy queues waiting on legal counsel)</td>
+                <td><span style="color: var(--success); font-weight: 600;">10 mins / batch</span> (Overhauled Claude regulatory skill pre-screen)</td>
+                <td style="text-align: right;"><span class="badge badge-success">-95.8%</span></td>
+              </tr>
+              <tr>
+                <td><strong>05. Pre-Deployment QA &amp; Sign-Off</strong></td>
+                <td>45 mins / page (inconsistent ad-hoc desktop checks, mobile defects)</td>
+                <td><span style="color: var(--success); font-weight: 600;">12 mins / page</span> (6-viewport responsive matrix + single-source components)</td>
+                <td style="text-align: right;"><span class="badge badge-success">-73.3%</span></td>
+              </tr>
+              <tr style="background: var(--surface-subtle); font-weight: 700;">
+                <td><strong>Total Weekly Administrative Drag</strong></td>
+                <td><strong>~20.5 Hours / Week</strong></td>
+                <td><strong style="color: var(--success);">~5.5 Hours / Week</strong></td>
+                <td style="text-align: right;"><strong style="color: var(--success);">-15.0 hrs/wk</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 02: SINGLE-SOURCE DATA CONTRACTS -->
+    <!-- ========================================================================= -->
+    <section id="data-contracts" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // DATA CONTRACTS: SINGLE SOURCE OF TRUTH</span>
+        <h2 class="section-title-modern">Eradicating Pricing Drift &amp; Centralizing 40 Landing Pages</h2>
+        <p class="section-desc-modern">
+          In healthcare e-commerce, pricing discrepancies are legal liabilities. I established a master pricing Google Sheet as the company-wide contract, built a custom Claude skill to query it, and directed developers to refactor hardcoded landing pages into single-source components.
+        </p>
+      </div>
+
+      <div class="section-body">
+        
+        <!-- Clean Outer Card with White Elevated Inner Cards (Left-Aligned per mockups.html) -->
+        <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+            <h3 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--ink);">The Single-Source Pricing Architecture</h3>
+            <span class="badge badge-accent">Single Source of Truth</span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin-bottom: 1.25rem;">
+            Instead of allowing copywriters to copy-paste prices from old briefs or developers to hardcode dollar amounts into web templates, the entire organization queried one centralized data contract:
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+            <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem; text-align: left; box-shadow: var(--shadow-sm);">
+              <span class="badge badge-accent" style="margin-bottom: 0.5rem; display: inline-flex;">Copywriters</span>
+              <h4 style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin: 0.4rem 0 0.25rem 0;">Ad Copy Pricing Queries</h4>
+              <p style="font-size: 0.82rem; color: var(--ink-muted); margin: 0; line-height: 1.5;">Query the custom <code>pricing</code> Claude skill for instant, 100% accurate ad copy numbers without checking spreadsheets.</p>
+            </div>
+            <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem; text-align: left; box-shadow: var(--shadow-sm);">
+              <span class="badge badge-purple" style="margin-bottom: 0.5rem; display: inline-flex;">Web Developers</span>
+              <h4 style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin: 0.4rem 0 0.25rem 0;">Centralized Components</h4>
+              <p style="font-size: 0.82rem; color: var(--ink-muted); margin: 0; line-height: 1.5;">Dynamic web pricing blocks across 40 landing pages update simultaneously from a single centralized component.</p>
+            </div>
+            <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem; text-align: left; box-shadow: var(--shadow-sm);">
+              <span class="badge badge-success" style="margin-bottom: 0.5rem; display: inline-flex;">Static Designers</span>
+              <h4 style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink); margin: 0.4rem 0 0.25rem 0;">Auto-Populated Briefs</h4>
+              <p style="font-size: 0.82rem; color: var(--ink-muted); margin: 0; line-height: 1.5;">Brief doc templates automatically embed exact dosage and pricing grids so creative banners match checkout tiers.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Centralizing Landing Pages & Sunsetting Legacy Risk -->
+        <div class="workflow-card" style="border-top: 4px solid var(--purple); margin-bottom: 1.75rem;">
+          <div class="card-top" style="margin-bottom: 0.65rem;">
+            <span class="badge badge-purple">Web Engineering &amp; Risk Mitigation</span>
+          </div>
+          <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Collapsing 40 Manual Edits &amp; Governing 40 Active Pages (from 100 Live Sprawl)</h4>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+            Over time, the marketing ecosystem had accumulated over 100 live landing pages with hardcoded pricing, claims, and disclaimers. Whenever prices, patient counters, or claims shifted, updating them required dozens of individual code edits—and inevitable errors.
+          </p>
+          <ul style="font-size: 0.88rem; color: var(--ink); line-height: 1.6; padding-left: 1.25rem; margin: 0;">
+            <li><strong>Single-Source Dynamic Components:</strong> Collaborated with engineering to centralize not just pricing grids and FAQ accordions, but every recurring data point and social proof asset across the 40 active pages: patient milestone tallies (e.g. <em>"Over 25,000 patients served"</em>), verified review counts and star ratings, clinician credentials, and legal disclaimers. Updating one central component instantly synchronized across all 40 landing pages with zero risk of discrepancies or manual drift.</li>
+            <li><strong>Landing Page Portfolio Audit &amp; Decommissioning:</strong> Built a master tracking sheet auditing visitor and conversion volume across all 100 live landing pages. Discovered that 60 pages were stale, abandoned historical variants generating zero sales while exposing the company to regulatory risk. Sunsetting these legacy variants allowed operations to focus 100% of daily governance on the ~40 core active high-performing funnels.</li>
+          </ul>
+        </div>
+
+        <!-- Living SOP Library & Standardized Landing Page Frameworks -->
+        <div class="workflow-card" style="border-top: 4px solid var(--accent); margin-bottom: 1rem;">
+          <div class="card-top" style="margin-bottom: 0.65rem;">
+            <span class="badge badge-accent">Operational Knowledge Architecture</span>
+          </div>
+          <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">The Living SOP Library &amp; Conversion-Grade Landing Page Frameworks</h4>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+            To eliminate scattered rules and tribal knowledge trapped in people's heads, I established a centralized operational knowledge base that continuously codified production standards for the distributed team:
+          </p>
+          <ul style="font-size: 0.88rem; color: var(--ink); line-height: 1.6; padding-left: 1.25rem; margin: 0;">
+            <li><strong>Living SOP Library Across Disciplines:</strong> Authored and actively maintained comprehensive Standard Operating Procedures (SOPs) for static designers, copywriters, video editors, and QA gatekeepers. Whenever a universal rule, compliance boundary, or edge case surfaced during QA, I codified it directly into the corresponding SOP and briefed the team. New contractor onboarding became turnkey: instead of relying on informal Slack threads, new hires received complete, up-to-date operating runbooks on day one, dramatically elevating copywriting discipline and creative execution.</li>
+            <li><strong>Modular Landing Page Frameworks:</strong> Designed standardized Landing Page Frameworks (codified in Notion: <code>LP Framework (Long)</code> for TOF/MOF education-heavy funnels and <code>LP Framework (Short)</code> for high-intent BOF funnels). These frameworks established modular section hierarchies, clinical trust sequences, objection-handling blocks, and CTA placements—elevating all net-new landing pages to a consistent conversion and compliance baseline before development.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 03: AI SKILLS & TOOLCHAIN AUTOMATION -->
+    <!-- ========================================================================= -->
+    <section id="skills-automation" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // APPLIED AI: FOUR PRODUCTION CLAUDE SKILLS</span>
+        <h2 class="section-title-modern">The Production Claude Skills Architecture &amp; Ecosystem Automation</h2>
+        <p class="section-desc-modern">
+          Rather than buying bloated SaaS tools, I built and deployed four dedicated Claude skills that removed friction from daily creative operations—automating live pricing lookups, Asana project provisioning, Drive asset filing, and seamless marketing-to-engineering handoffs.
+        </p>
+      </div>
+
+      <div class="section-body">
+
+        <!-- Pattern 6B: Unified Framed Prompt Deck (Matching mockups.html & shared.css) -->
+        <div class="prompt-deck-container" style="margin-bottom: 2.5rem;">
+          <div class="prompt-deck-header">
+            <div class="prompt-deck-title-group">
+              <span class="prompt-deck-kicker">Applied AI Toolchain &amp; Custom Claude Skills</span>
+              <h4 class="prompt-deck-title">Four Production Claude Skills Orchestrating Creative Operations</h4>
+              <p class="prompt-deck-desc" style="font-size: 0.85rem; color: var(--ink-muted); margin: 0.2rem 0 0 0;">
+                Real, unvarnished skill definitions deployed inside Claude to eliminate manual folder creation, cross-tool context switching, pricing drift, and marketing-to-engineering handoff friction.
+              </p>
+              <div class="compliance-note-banner" style="background: #ffffff; border: 1px solid var(--border); border-left: 4px solid var(--danger, #ef4444); border-radius: 6px; padding: 0.85rem 1.15rem; margin-top: 1rem; font-size: 0.8rem; line-height: 1.55; color: var(--ink-muted); box-shadow: var(--shadow-sm);">
+                <strong style="color: var(--ink); display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.25rem;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--danger, #ef4444);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Confidentiality &amp; Compliance Anonymization Notice
+                </strong>
+                The skill definitions below are authentic, full-length production architecture files deployed inside Claude. To protect employer intellectual property and comply with strict confidentiality and NDA covenants, all brand names, partner agency names, live internal Google Drive folder IDs, spreadsheet keys, team GIDs, and confidential API tokens have been sanitized into bracketed placeholders (e.g. <code>[SECURE_PRICING_MASTER_SHEET_ID]</code>). Each card displays the first 20 lines; scroll vertically to inspect the complete operational prompt rules, error recovery procedures, and edge-case handling verbatim.
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-deck-body">
+            
+            <!-- Skill 01: pricing -->
+            <div class="prompt-deck-item">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">01</span>
+                <div>
+                  <h4 class="prompt-item-title">pricing &mdash; Single-Source Pricing &amp; Formulation Query Engine</h4>
+                  <p class="prompt-item-desc">
+                    Directly references the live Master Pricing Google Sheet (sanitized token <code>[SECURE_PRICING_MASTER_SHEET_ID]</code>). Enforces queries strictly against the "Overview" tab, respects per-product copy notes, distinguishes full-dose vs. microdose formulations, and ensures copywriters never cite outdated subscription prices.
+                  </p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                    pricing / SKILL.md
+                  </span>
+                  <span class="badge badge-neutral" style="font-size: 0.68rem; margin-left: 0.75rem; margin-right: auto; letter-spacing: 0.03em; border: 1px solid var(--border);">44 lines &bull; Complete Spec</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('skill-pricing-code', this)" title="Copy full skill file" aria-label="Copy full skill file">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre id="skill-pricing-code" class="terminal-body terminal-scroll-20">---
+name: pricing
+description: Use this skill whenever a question involves pricing, plan names, promos, savings, vial counts, billing cadence, or auto-renewal terms for any product (Semaglutide, Tirzepatide, NAD+, or any future product added to the sheet). Trigger on mentions of plan pricing, subscription cost, promo price, monthly cost, 3-month plan, auto-renewal price, or similar - even if the product name isn't explicit. Always fetch live data rather than relying on memory, since prices and promos change.
+---
+
+# Plans Overview Pricing
+
+## Source of truth
+
+Google Sheet: https://docs.google.com/spreadsheets/d/[SECURE_PRICING_MASTER_SHEET_ID]/edit
+File ID: `[SECURE_PRICING_MASTER_SHEET_ID]`
+
+## Steps
+
+1. **Always fetch live content** of this file before answering — never rely on
+   previously cached or remembered figures. Use the Google Drive read/fetch
+   tool with the File ID above.
+2. This file has two tabs: **"Overview"** and **"Comparison"**. ONLY use data
+   from the **"Overview"** tab. Ignore the "Comparison" tab entirely, even if
+   it appears in the fetched content.
+3. Within "Overview," treat the per-product plan tables (columns like Plan
+   Name, # Vials/Cycle, Regular Total, Promo Total, Auto-Renewal terms) as the
+   source of truth — **not** the "Quick-Glance Comparison" section at the
+   bottom of the Overview tab, which is a summary and may lag behind the
+   detailed tables.
+4. Pay attention to each product's **"COPY NOTES"** section (e.g. which
+   promos are first-time-customer-only, which plans have no regular/crossed-
+   out price, mandatory disclosures like vial strength) and apply those
+   constraints to any copy or answer generated.
+5. If a plan type someone asks about doesn't appear in the tables, state
+   clearly that it doesn't currently exist — don't infer or estimate one.
+6. **"As low as" / "Starting at" / "From" phrasing:** these always refer to
+   the single lowest number available across ALL plans for that product —
+   including promo prices, not just regular prices. Compare every plan's
+   Regular (per month) AND Promo (per month) figures and use the lowest one
+   found, regardless of whether it comes from a promo or regular column.
+   (Do not exclude promo pricing when computing this figure.)
+7. **Full-dose vs. microdose (Semaglutide &amp; Tirzepatide only):** these two
+   products each have a separate "Full-Dose" and "Microdose" table with
+   different pricing. Default to **Full-Dose** pricing unless the user
+   explicitly asks about microdosing, low-dose, or the microdose funnel.
+   Never mix tables — e.g. don't pull a "lowest price" from the microdose
+   table when the product/context is the standard (full-dose) offering.
+   NAD+ has no full-dose/microdose distinction and is unaffected by this rule.
+</pre>
+              </div>
+            </div>
+
+            <!-- Skill 02: pm-asana -->
+            <div class="prompt-deck-item">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">02</span>
+                <div>
+                  <h4 class="prompt-item-title">pm-asana &mdash; Project Management &amp; Automatic Drive Provisioning</h4>
+                  <p class="prompt-item-desc">
+                    Governs Asana project and task creation for the marketing team. Enforces the single-task <code>Task</code> model across status pipelines. Every deliverable created automatically provisions an identically-named Google Drive folder and brief doc (<code>Template_Creative_Brief_v2.gdoc</code>) and injects bidirectional links into Asana custom fields.
+                  </p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                    pm-asana / SKILL.md
+                  </span>
+                  <span class="badge badge-neutral" style="font-size: 0.68rem; margin-left: 0.75rem; margin-right: auto; letter-spacing: 0.03em; border: 1px solid var(--border);">468 lines &bull; Full Production Specification</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('skill-pm-asana-code', this)" title="Copy full skill file" aria-label="Copy full skill file">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre id="skill-pm-asana-code" class="terminal-body terminal-scroll-20">---
+name: "pm-asana"
+description: "Project Management for Asana — the Marketing Marketing team. Use when the user wants to: create a new Asana project (campaign or evergreen) for Marketing; create one or more tasks in an existing project; set up a full campaign in one go; parse a brain-dump or task list into Asana tasks; promote an item out of the Ideas project into real work; or backfill/create the Google Drive folder and Brief doc for a new or existing Asana task. Every task created by this skill automatically gets a matching Google Drive folder + Brief doc (named identically to the task) created and linked in. Triggers on mentions of Asana projects/tasks, campaigns, flights, briefs, copy, design, video/UGC, filing marketing work, or setting up a task's Drive folder/doc. Always preview the full plan and wait for explicit confirmation before any write."
+---
+
+# pm-asana — Project &amp; Task Creator for Asana
+
+Create well-structured projects and tasks in Asana for the Marketing Marketing team. Every deliverable is a **single task** that moves through its lifecycle via the `Task` status pipeline — never split into separate Brief/Copy/Design tasks. Always preview the full plan and wait for explicit confirmation before executing any write.
+
+**Golden rule: never assume, always ask.** Ask every clarifying question needed so that nothing is ambiguous before building the plan. Do not skip questions to save time.
+
+Every task this skill creates also gets a matching **Google Drive folder + Brief doc, created and linked automatically** — see "RULES — Automatic Google Drive folder + doc" below. This always happens; it is not something to ask permission for.
+
+---
+
+## PHASE 1 — Analysis (always run first)
+
+Verify IDs fresh each session (they can change), then fetch current state:
+
+- `asana_typeahead_search(resource_type: "team", query: "Marketing")` → confirm team GID
+- `asana_get_projects_for_team(team_gid)` → existing projects, avoid duplicates
+- `asana_typeahead_search(resource_type: "project_template", query: "Campaign")` → confirm template GID
+- `asana_get_workspace_users` or `asana_typeahead_search(resource_type: "user")` → resolve assignees
+- For an existing target project: `asana_get_project(project_id, opt_fields: "name,custom_field_settings.custom_field.name,custom_field_settings.custom_field.gid,custom_field_settings.custom_field.enum_options.name,custom_field_settings.custom_field.enum_options.gid")` and `asana_get_project_sections(project_id)`
+
+Use this to confirm the project exists, suggest the right project, warn about near-duplicate task names, and resolve field/section/assignee GIDs.
+
+---
+
+## PHASE 2 — Determine creation mode
+
+| Mode | Description |
+|---|---|
+| new project | Create a campaign or evergreen project (preferably from the Campaign template) |
+| new task(s) | Add one or more deliverable tasks to an existing project |
+| full campaign | New project + its tasks in one go |
+| bulk / brain-dump | User pastes an unstructured list; map it to projects + tasks |
+| promote idea | Move/recreate an item from the `Ideas` project into a real project |
+| Drive backfill | Create the Drive folder + Brief doc for an **existing** task that doesn't have them yet, and link them in |
+
+If the mode is unclear, ask.
+
+---
+
+## PHASE 3 — Clarify before building (NEVER ASSUME, ALWAYS ASK)
+
+Gather **all** information needed so nothing is ambiguous. Do not cap the number of questions, and do not skip ahead because the input "seems detailed enough." If a required value is missing or guessable, ask — do not infer it.
+
+Always confirm, at minimum:
+- **Project**: which existing project, or a new one? Campaign or evergreen?
+- **Format** of each deliverable (Blog, Email, Landing Page, Static Ad, Video, UGC, Social, Print) — this determines the status path.
+- **Product**(s): Semaglutide (GLP-1), Tirzepatide (GLP-1/GIP), NAD+ — can be multiple.
+- **Channel**(s): Meta, Google, Pinterest, TikTok, Instagram, Reddit, Email, ManyChat — can be multiple (cross-channel is normal).
+- **Discipline**: Paid, Organic, Owned, SEO.
+- **Awareness** stage(s) if relevant: TOF (Unaware), TOF (Problem Aware), MOF (Solution Aware), BOF (Product Aware), BOF (Most Aware).
+- **Assignee** and **due date** if known.
+- **Resources**: which links already exist (Design, Live). 📂 Google Drive and 📋 Brief never need to be asked about — they're always auto-created and auto-linked (see Drive rules below). ✍️ Copy is **never** auto-linked by that automation, even though the auto-created Brief doc's content may double as copy early on — if the Format's template calls for a Copy line, ask for it (or note it'll be added once the Brief doc's content is split out).
+
+Only the team (`Marketing`), the task type (`Task`), and the Drive folder/Brief doc creation are fixed and never need to be asked.
+
+---
+
+## PHASE 4 — Build and preview the plan
+
+Construct the full plan and present it before any write. The layout below is a template — replace every bracketed placeholder with the real value for this request; do not copy the placeholder text literally.
+
+```
+📋 PLAN — [short description of what's being created]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[PROJECT]  [project name, per "RULES — Naming convention"]   ([new, from Campaign template] OR [existing])
+           Team: Marketing
+
+[TASK 1]   [task name, per "RULES — Naming convention"]
+           Project: [destination project name]
+           Format: [one Format value] | Product: [one or more Product values] | Channel: [one or more Channel values]
+           Discipline: [Discipline value] | Awareness: [Awareness value(s) if relevant, else omit]
+           Starting status: Brief ToDo (auto via project Rule)
+           Path: [the status path for this Format — see "RULES — The single-task model &amp; status paths"]
+           Assignee: [assignee, or "unassigned"] | Due: [date, or "none"]
+           Drive: will auto-create folder "[task name]" + Brief doc "[task name]" inside it
+
+[TASK 2]   [task name, per "RULES — Naming convention"]
+           [same field lines as above, filled in for this deliverable]
+
+[…repeat one block per deliverable…]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Note: I set name, description, fields, assignee, due date and dependencies via the
+connector. A project Rule auto-converts each new task to Task at Brief ToDo —
+no manual type-setting needed. Each task also gets its own Google Drive folder and
+Brief doc, created automatically and linked into the task description.
+Type "confirm" to create, or tell me what to adjust.
+```
+
+Never write before explicit confirmation ("confirm", "yes", "go ahead", "do it", "looks good"). If the user requests changes, update and re-show.
+
+---
+
+## PHASE 5 — Execute
+
+After confirmation:
+
+1. **Project** (if new): preferred path is the user creating it from the **Campaign** template in the Asana UI (one click) so it inherits `Task`, sections, and saved views. If the user wants it automated, `asana_create_project(name, team, default_view: "board", default_access_level)` then attach the five fields — but warn this plain project won't have the template's task type default or views until adjusted.
+2. **Tasks**: `asana_create_task` per deliverable with `name`, `html_notes` (resource block first with **linked labels** — see "How the links MUST be written" in Description templates — then body), `project_id`, `custom_fields`, `assignee`, `due_on`, `followers`. At this point 📂 Google Drive (Marketing) and 📋 Brief are still plain unlinked placeholders (their links don't exist yet).
+   - **Use `project_id` (singular), NOT `projects`.** Passing `projects` is silently ignored — the task gets created with no project (empty `memberships`), which also makes `custom_fields` fail with *"custom field … is not on given object"*. Always `project_id`.
+   - **`custom_fields` is a JSON string** mapping field GID → option GID (single-select) or array of option GIDs (multi-select). If a create still rejects a field, create the task with `project_id` first, then `asana_update_task` to set `custom_fields` (the task is a project member by then).
+3. **Drive folder + Brief doc** (automatic, every task): immediately after each task is created, run the procedure in "RULES — Automatic Google Drive folder + doc" to create the folder + doc and link them into the task via `asana_update_task` on `html_notes`.
+4. **Subtasks**: `asana_create_task(parent: &lt;task_gid&gt;, ...)` alone creates a plain subtask with no project membership — use this for pure organizational containers (e.g. a Stage or Funnel task nested under a bigger container) that hold context/verbatim briefs but never carry Format/fields/Task status themselves. **To create a deliverable subtask that also gets the full Task treatment, pass `project_id` in the same call** — `asana_create_task(parent: &lt;task_gid&gt;, project_id: &lt;project_gid&gt;, ...)`. **Confirmed:** this makes the task both a subtask of its parent AND a full member of that project in one call, inheriting the Task Rule and accepting `custom_fields` normally — no extra step needed. Only a subtask created with `parent` alone (no `project_id`) stays outside any project and can't carry a Task status or fields until added to one in the UI. The single-task model still applies either way: most work is one subtask per deliverable, not split into separate Copy/Design tasks. Deliverable subtasks (created with `project_id`) also get their own Drive folder + Brief doc per step 3.
+5. **Dependencies** (if any): `asana_set_task_dependencies` / `asana_set_task_dependents`.
+
+**Connector limits — be honest about these in the plan, never fake them:**
+- Cannot set the `Task` task type or its status via API (verified: API-created tasks come in as `custom_type: null`). **This is handled automatically by a project Rule** — *"when a task is added to this project → set task type to Task"* — which converts each new task to Task at its first status (`Brief ToDo`). **Confirmed in use: the Rule reliably fires on API-created tasks.** The Rule lives in the **Campaign template**, so every project created from the template inherits it. If a project is ever created WITHOUT the template (e.g. a plain API-created project), it won't have the Rule and tasks will stay plain — recreate the Rule in that project.
+- Cannot create a project *from* a template via API (UI only).
+- Cannot create sections, statuses, task types, or task templates via API.
+- The Brief doc's "Ticket" link is created by uploading HTML content (with a real `&lt;a href&gt;`) and letting Drive convert it to a native Google Doc — do not upload plain text for this, since a raw URL pasted as plain text is not guaranteed to auto-hyperlink. **Confirmed working live** — the resulting Google Doc renders "Ticket" as a real clickable hyperlink.
+- The Drive `create_file` tool's own schema marks its `mimeType` field "DEPRECATED — use contentMimeType instead," yet the tool's description also says folders and Google-native docs are created "by setting mime type to `application/vnd.google-apps.folder`/`.document`" with no other field to do that. This skill uses `mimeType` for the target file type (folder/doc) and `contentMimeType` for the uploaded content's format. **Confirmed working** for folder creation, plain-text doc creation, and the `text/html`-with-`&lt;a href&gt;` Ticket-link doc creation.
+- The Asana task object's plain `notes` field (returned by the API after a write) always shows resource lines as label-then-raw-URL, even when `html_notes` was sent with proper `&lt;a href&gt;` labels — this is just the API's plain-text mirror of the rich `html_notes`, not a sign the links failed. Check the rendered task in the Asana UI (or trust a successful write) rather than treating the `notes` field's raw-URL appearance as an error.
+
+After creation, report every item created with its Asana URL, and anything that failed and why — including each task's Drive folder link and Brief doc link.
+
+---
+
+## PHASE 6 — Post-run review (after every successful run)
+
+After reporting the created items, always end with a short self-review of how the run went against this skill. The goal is continuous improvement: surface anything that drifted from what the skill describes so it can be fixed before next time.
+
+Check, at minimum:
+- **IDs:** did every GID in the REFERENCE section still resolve (team, project, template, fields, option values, Drive root)? Flag any that changed, were missing, or had to be re-fetched.
+- **Connector capabilities:** did anything behave differently than the "Connector limits" note claims — e.g. the API now lets you set the task type/status, instantiate a project from a template, create sections, or reliably auto-link URLs inside a Google Doc? Flag new capabilities and newly-broken ones.
+- **Fields &amp; options:** did any Format / Product / Channel / Discipline / Awareness value not exist, get renamed, or not apply cleanly?
+- **Naming &amp; status paths:** did the naming convention or a Format's status path need a workaround or feel wrong?
+- **Drive:** did the project-level Drive folder resolve cleanly for every project used? Any task where no matching project folder could be found (so the Drive step had to be skipped or routed to `_Inbox (ToSort)`)? Any naming mismatch between the created folder/doc and the task name?
+- **Ambiguity:** did anything require guessing (a violation of "never assume")? If so, note the question that should have been asked.
+- **Anything else** that would make the next run smoother.
+
+Then output exactly one of:
+
+```
+✅ No changes needed in skill
+```
+
+— or —
+
+```
+⚠️ Skill adjustments needed:
+- [specific, actionable change #1]
+- [specific, actionable change #2]
+```
+
+Keep it brief. This review is a recommendation only — never edit the skill automatically; the user decides what to apply.
+
+---
+
+## RULES — Naming convention
+
+Patterns below use bracketed placeholders. Replace each placeholder with the real value; never use the placeholder text itself as a name.
+
+### Projects
+- **Campaign:** the campaign's own name only — no product, channel, or date in the name, unless the campaign genuinely recurs (then append the recurring period).
+  - Pattern: `[campaign name]`  — or `[campaign name] [recurring period]` if it repeats.
+- **Evergreen:** the plain name of the ongoing production line/function.
+  - Pattern: `[function name]`
+- **Ideas:** the single `💡 Ideas` project. Never put product or channel in a project name — those are fields. This is what prevents project sprawl (do not create one project per channel).
+
+### Tasks
+Pattern: `[concept or funnel] - [specific asset]`
+- `[concept or funnel]` = the campaign idea, funnel, or theme the deliverable belongs to.
+- `[specific asset]` = the exact thing being produced, plus any identifying number/variant.
+- Evergreen task with no campaign concept: use just `[descriptor]` (e.g. the topic plus the asset, or a sequence number) — no concept prefix needed.
+
+Rules:
+- Separator is ` - ` (space, hyphen, space). Never `|`, `/`, `—`, or `:`.
+- **No TYPE prefix** (BRIEF/COPY/DESIGN are retired — task type + Format + status cover this).
+- **No channel, product, or format in the title** — those live in fields.
+- Title must be readable standalone (in a notification, without the project open).
+- **This exact title is also the name of the task's Drive folder and Brief doc** (see Drive rules below) — one more reason it must be exact and final before creating.
+
+### Hard block
+If a proposed name doesn't conform, refuse and explain what to change. Never create a non-conforming name "just for now."
+
+---
+
+## RULES — The single-task model &amp; status paths
+
+One deliverable = one task = one `Task`, advancing through statuses. Which statuses a task uses depends on its **Format**:
+
+| Format | Status path |
+|---|---|
+| Blog · text Social | Brief → Copy → **Copy QA** → Approved → Done *(skip Visual + Final QA)* |
+| Email · Landing Page · Static Ad · image Social · Print | Brief → Copy → Copy QA → Visual → Final QA → Approved → Done |
+| Video · UGC | Brief → Copy *(script)* → Copy QA *(script compliance)* → Visual *(footage + edit)* → Final QA → Approved → Done |
+
+- `Copy` = the writing phase (copy, or **script** for video). `Visual` = production (design, or footage + edit for video).
+- Copy-only formats use **Copy QA** as their single compliance gate and never enter Visual or Final QA.
+- Record the intended initial status and full path in the plan, even though the API sets only the default.
+
+---
+
+## RULES — Fields to always set
+
+Set every applicable field on task creation via `custom_fields` (a JSON string of `{ "&lt;fieldGID&gt;": &lt;value&gt; }`). Multi-enum values are **arrays** of option GIDs; single-enum values are a single option GID string.
+
+Always set **Format** (drives the status path). Set **Product**, **Channel**, **Discipline**, and **Awareness** whenever known. Ask if unknown — do not guess.
+
+**Exception — SEO/Blog tasks intentionally leave `Channel` empty** (their home is organic search / the website, which isn't a Channel option; `Discipline = SEO` covers it). Don't flag Channel as missing or ask for it on Blog/SEO work.
+
+---
+
+## RULES — Automatic Google Drive folder + doc
+
+Every task this skill creates (and every task run through "Drive backfill" mode) gets a matching Google Drive folder with a Brief doc inside it, following the same project ↔ Drive mirror described in the `google-drive-filer-creatives` skill: **top-level Drive folder = Asana project name, sub-folder = Asana task name, verbatim.** This is always done automatically — never ask the user whether to do it, only report the result.
+
+Tools used: `search_files` (find the project folder and check for an existing task folder) and `create_file` (create the folder and the doc). Drive root folder ID: `[MARKETING_DRIVE_ROOT_FOLDER_ID]` (same root as `google-drive-filer-creatives`).
+
+### Procedure, per task (run right after the Asana task is created and its `permalink_url`/gid are known)
+
+1. **Resolve the project's Drive folder.** `search_files` with `parentId = '[MARKETING_DRIVE_ROOT_FOLDER_ID]' and mimeType = 'application/vnd.google-apps.folder' and title = '&lt;exact project name&gt;'`. Cache the result per project for the rest of the run (no need to re-search per task in the same project).
+   - **Not found?** Don't guess or create a new top-level project folder. Tell the user no Drive folder exists for that project, skip the Drive step for its tasks, and leave the 📂/📋 lines as unlinked placeholders per the normal template rule.
+2. **Check for an existing task folder** (idempotency, needed for both new-task and Drive-backfill modes): `search_files` with `parentId = '&lt;project folder id&gt;' and mimeType = 'application/vnd.google-apps.folder' and title = '&lt;exact task name&gt;'`.
+   - **Already exists?** Don't create a duplicate. Use the existing folder. Look inside it (`parentId = '&lt;task folder id&gt;'`) for a doc already named `&lt;exact task name&gt;`; if one exists, use it and don't create a second doc — just make sure both are linked into the Asana task description if they aren't already.
+3. **Create the task folder** (only if step 2 found nothing): `create_file(title: "&lt;exact task name&gt;", parentId: "&lt;project folder id&gt;", mimeType: "application/vnd.google-apps.folder")`.
+4. **Create the Brief doc** (only if step 2 found nothing): `create_file(title: "&lt;exact task name&gt;", parentId: "&lt;task folder id from step 3&gt;", mimeType: "application/vnd.google-apps.document", textContent: "&lt;h1&gt;&lt;exact task name&gt;&lt;/h1&gt;&lt;p&gt;&lt;a href=\"&lt;asana task permalink_url&gt;\"&gt;Ticket&lt;/a&gt;&lt;/p&gt;", contentMimeType: "text/html")`. **Content must be uploaded as HTML (`contentMimeType: "text/html"`), not plain text** — Drive converts the HTML into a native Google Doc on creation, which is what turns the Asana link into a real clickable hyperlink instead of pasting a raw URL. (Note: `&lt;p&gt;` is fine here — this HTML goes to Drive's own converter, not Asana; Asana's own `&lt;p&gt;` restriction, below, does not apply to this call.) The doc's first line is its own title (as a heading) and the second line is the word **"Ticket"**, hyperlinked to the Asana task's `permalink_url` — never display the raw URL as visible text. This doc is where the brief and/or copywriting for the task lives — one doc serves both purposes unless the team later splits copy into its own doc.
+5. **Get shareable links** for the folder and the doc (the file objects returned by `create_file`/`search_files` carry the Drive URL — use it directly; do not construct URLs by hand).
+6. **Link into Asana.** Update the task's `html_notes` via `asana_update_task`, replacing the plain-label placeholders with linked labels, per "How the links MUST be written":
+   - `📂 Google Drive (Marketing)` → the task folder link.
+   - `📋 Brief` → the Brief doc link.
+   - Leave every other resource line (`🎨 Design`, `✍️ Copy`/`Script`, `🌐 Live`) exactly as-is — this automation never touches those.
+
+### Notes
+- **Names must match exactly, character-for-character** — the Drive folder, the Drive doc, and the Asana task title are always identical. If the task is later renamed in Asana, rename the folder and doc to match (not automatic — flag it if you notice a mismatch).
+- **Drive backfill mode** runs the same procedure (steps 1–6) against an existing task: read its current `html_notes`/`notes` first so you don't clobber other resource lines, and skip creation for any folder/doc step 2 finds already exists.
+- **Dual-homed tasks** (in two Asana projects, per `google-drive-filer-creatives`) get their Drive folder placed under the more specific/strategic project, same as that skill's rule — don't create a second copy of the folder under the other project.
+- **`_`-prefixed shared folders** (`_Asset Library`, `_Brand and Compliance`, etc.) are never a target of this automation — it only ever creates task-named folders inside a project folder.
+
+---
+
+## REFERENCE — Live IDs (verify fresh each session)
+
+```
+Workspace (company.com):  [WORKSPACE_GID]
+Marketing team:            [MARKETING_TEAM_GID]
+Ideas project:             [IDEAS_PROJECT_GID]
+Campaign template:         [CAMPAIGN_TEMPLATE_GID]
+Task type:                 Task  (set in UI; API cannot assign it)
+Google Drive root folder:  [MARKETING_DRIVE_ROOT_FOLDER_ID]
+```
+
+### Custom fields &amp; option GIDs
+
+**Channel** — `[FIELD_GID_CHANNEL]` (multi_enum)
+| Option | GID |
+|---|---|
+| Meta | [GID_CH_META] |
+| Google | [GID_CH_GOOGLE] |
+| Pinterest | [GID_CH_PINTEREST] |
+| TikTok | [GID_CH_TIKTOK] |
+| Instagram | [GID_CH_INSTAGRAM] |
+| Reddit | [GID_CH_REDDIT] |
+| Email | [GID_CH_EMAIL] |
+| SMS | [GID_CH_SMS] |
+| ManyChat | [GID_CH_MANYCHAT] |
+
+**Product** — `[FIELD_GID_PRODUCT]` (multi_enum)
+| Option | GID |
+|---|---|
+| Semaglutide (GLP-1) | [GID_PROD_SEMA] |
+| Tirzepatide (GLP-1/GIP) | [GID_PROD_TIRZ] |
+| NAD+ | [GID_PROD_NAD] |
+| Sermorelin | [GID_PROD_SERM] |
+
+**Discipline** — `[FIELD_GID_DISCIPLINE]` (enum)
+| Option | GID |
+|---|---|
+| Paid | [GID_DISC_PAID] |
+| Organic | [GID_DISC_ORGANIC] |
+| Owned | [GID_DISC_OWNED] |
+| SEO | [GID_DISC_SEO] |
+
+**Awareness** — `[FIELD_GID_AWARENESS]` (multi_enum)
+| Option | GID |
+|---|---|
+| TOF (Unaware) | [GID_AWR_TOF_UNAWARE] |
+| TOF (Problem Aware) | [GID_AWR_TOF_PROBLEM] |
+| MOF (Solution Aware) | [GID_AWR_MOF_SOLUTION] |
+| BOF (Product Aware) | [GID_AWR_BOF_PRODUCT] |
+| BOF (Most Aware) | [GID_AWR_BOF_MOST] |
+
+**Format** — `[FIELD_GID_FORMAT]` (enum)
+| Option | GID |
+|---|---|
+| Blog | [GID_FMT_BLOG] |
+| Email | [GID_FMT_EMAIL] |
+| Landing Page | [GID_FMT_LP] |
+| Static Ad | [GID_FMT_STATIC] |
+| Video | [GID_FMT_VIDEO] |
+| UGC | [GID_FMT_UGC] |
+| Social | [GID_FMT_SOCIAL] |
+| Print | [GID_FMT_PRINT] |
+
+&gt; **Print** = offline / physical collateral — handouts, package inserts, flyers, mailers. Route any printed deliverable here. Follows the copy + design status path.
+
+**Example `custom_fields` string** (a Meta+Pinterest, GLP-1, Paid, TOF, Static Ad task):
+```
+{"[FIELD_GID_FORMAT]":"[GID_FMT_STATIC]","[FIELD_GID_PRODUCT]":["[GID_PROD_SEMA]"],"[FIELD_GID_CHANNEL]":["[GID_CH_META]","[GID_CH_PINTEREST]"],"[FIELD_GID_DISCIPLINE]":"[GID_DISC_PAID]","[FIELD_GID_AWARENESS]":["[GID_AWR_TOF_UNAWARE]"]}
+```
+
+### Task status order (for the plan / UI reference)
+```
+Brief ToDo · Brief In Progress · Brief Done
+Copy ToDo · Copy In Progress · Copy In Review · Copy In Adjustment · Copy Done · Copy QA (incl. Compliance)
+Visual ToDo · Visual In Progress · Visual In Review · Visual In Adjustment · Visual Done · Final QA (incl. Compliance)
+Approved · Done · Canceled
+```
+
+---
+
+## Description templates (resource block FIRST)
+
+The clickable resource block goes at the very top so links are reachable the instant a task opens. **Every line the task's Format template calls for is always included — never omit a line just because the destination doesn't exist yet.** Use the ready-made block for that Format (below) exactly as written: drop in a real link wherever a URL is known, and leave every other line as its plain unlinked label. There is nothing to decide or reconstruct per task — copy the block for the Format and go.
+
+**📂 Google Drive (Marketing) and 📋 Brief are populated automatically** by the procedure in "RULES — Automatic Google Drive folder + doc" right after task creation — write the initial `html_notes` with them as plain placeholders (per the templates below), then the Drive step immediately follows up with `asana_update_task` to turn them into real links. Never skip writing the placeholder lines up front just because you know they'll be filled in a moment later.
+
+### How the links MUST be written (do not skip this)
+
+**The label text itself is the hyperlink. The URL is never shown as visible text.**
+
+- ✅ Correct: the words **Google Drive (Marketing)** are clickable and point to the URL.
+- ❌ Wrong: `📂 Google Drive (Marketing): https://drive.google.com/...` (raw URL printed next to the label).
+- ❌ Wrong: emoji + label as plain text with the link sitting separately.
+
+To achieve this you **must** write the description with the **`html_notes`** parameter (NOT the plain `notes` parameter — plain text only auto-links a raw URL, which is the wrong look). Each resource line is an `&lt;li&gt;` whose emoji is followed by an `&lt;a&gt;` whose *visible text is the label*:
+
+```html
+&lt;body&gt;
+&lt;ul&gt;
+&lt;li&gt;🌐 &lt;a href="https://…"&gt;Live&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;📂 &lt;a href="https://drive.google.com/…"&gt;Google Drive (Marketing)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;🎨 &lt;a href="https://figma.com/…"&gt;Design&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;✍️ &lt;a href="https://docs.google.com/…"&gt;Copy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;📋 &lt;a href="https://docs.google.com/…"&gt;Brief&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;💰 &lt;a href="https://docs.google.com/spreadsheets/d/[SECURE_PRICING_MASTER_SHEET_ID]/edit?gid=[PRICING_TAB_GID]#gid=[PRICING_TAB_GID]"&gt;Pricing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Objective&lt;/h2&gt;
+One sentence describing the objective goes here as plain text — do NOT wrap it in a &amp;lt;p&amp;gt; tag.
+&lt;/body&gt;
+```
+
+**Asana `html_notes` is strict XML — follow these rules or the call fails with "XML is invalid":**
+- Single root `&lt;body&gt;…&lt;/body&gt;`, well-formed and properly closed.
+- **Allowed tags only:** `&lt;body&gt; &lt;h1&gt; &lt;h2&gt; &lt;ol&gt; &lt;ul&gt; &lt;li&gt; &lt;strong&gt; &lt;em&gt; &lt;u&gt; &lt;s&gt; &lt;code&gt; &lt;pre&gt; &lt;blockquote&gt; &lt;a&gt; &lt;hr/&gt; &lt;img&gt;`.
+- **NOT allowed — confirmed to hard-fail the call with "XML is invalid":** `&lt;p&gt;`, `&lt;br&gt;`/`&lt;br/&gt;`, `&lt;b&gt;`, `&lt;i&gt;`. **Never use `&lt;p&gt;` for body text** (e.g. the sentence under `&lt;h2&gt;Objective&lt;/h2&gt;` or `&lt;h2&gt;Details&lt;/h2&gt;`) — write that text as a plain text node directly under `&lt;body&gt;`, right after the heading, with no wrapping tag. Use `&lt;ul&gt;/&lt;li&gt;` for the resource list and `&lt;h2&gt;` for section headings; never use `&lt;br/&gt;` for line breaks.
+- Only `&lt;a&gt;` may carry attributes (`href`). Any attribute on another element is rejected.
+- **Every resource line in the Format's template (see the ready-made blocks below) is always included, on every task of that Format, with no exceptions and no case-by-case judgment calls.** If a URL is known, wrap the label in `&lt;a href="..."&gt;`. If not, leave it as plain emoji + label text with no `&lt;a&gt;` wrapping (e.g. `✍️ Copy`, `🌐 Live`) — a visible placeholder ready to become a link the instant the doc/file/page exists. Never omit a template line because "it doesn't exist yet" — that's exactly what the unlinked placeholder is for. The only line that's never left unlinked is 💰 Pricing, since it always has the same fixed, already-known URL. 📂 Google Drive (Marketing) and 📋 Brief are effectively never left unlinked either, since the automatic Drive step fills them in immediately after task creation.
+
+&gt; If you ever fall back to plain `notes` (e.g. no links at all), that's fine for link-free text — but the moment a resource has a URL, use `html_notes` with linked labels.
+
+**FIXED ORDER — do not reorder.** Resource lines must ALWAYS appear top-to-bottom in exactly the order below, no matter which links a task has or what order they appeared in the source. Omit any line that doesn't apply, but never move a line above its position here. (Common mistake to avoid: putting Brief or Copy at the top — Brief is second-to-last, Copy/Script sits above Brief.)
+
+**Resource vocabulary (canonical order — each label is the clickable link):**
+```
+🌐 Live
+📂 Google Drive (Marketing)
+🎨 Design
+✍️ Copy (or ✍️ Script)
+📋 Brief
+💰 Pricing  → always links to https://docs.google.com/spreadsheets/d/[SECURE_PRICING_MASTER_SHEET_ID]/edit?gid=[PRICING_TAB_GID]#gid=[PRICING_TAB_GID]
+```
+
+Each `🔖 Label` below is a **linked label** (emoji + `&lt;a href&gt;` whose visible text is the label) emitted via `html_notes` per the rule above — never a bare URL.
+
+### Blog (Format = Blog)
+Use this block verbatim — every line included, unlinked except Pricing:
+```html
+&lt;ul&gt;
+&lt;li&gt;🌐 Live&lt;/li&gt;
+&lt;li&gt;📂 Google Drive (Marketing)&lt;/li&gt;
+&lt;li&gt;✍️ Copy&lt;/li&gt;
+&lt;li&gt;📋 Brief&lt;/li&gt;
+&lt;li&gt;💰 &lt;a href="https://docs.google.com/spreadsheets/d/[SECURE_PRICING_MASTER_SHEET_ID]/edit?gid=[PRICING_TAB_GID]#gid=[PRICING_TAB_GID]"&gt;Pricing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+```
+Follow with `&lt;h2&gt;Objective&lt;/h2&gt;` (one sentence, as a plain text node — no `&lt;p&gt;` — describing what this article is and the search/topic goal) then `&lt;h2&gt;Details&lt;/h2&gt;` (more detail if available, also plain text). As each destination is created, replace that line's plain label with `&lt;a href="..."&gt;label&lt;/a&gt;` — the rest of the block doesn't change.
+
+### Copy + Design (Format = Email / Landing Page / Static Ad / image Social / Print)
+Use this block verbatim — every line included, unlinked except Pricing:
+```html
+&lt;ul&gt;
+&lt;li&gt;🌐 Live&lt;/li&gt;
+&lt;li&gt;📂 Google Drive (Marketing)&lt;/li&gt;
+&lt;li&gt;🎨 Design&lt;/li&gt;
+&lt;li&gt;✍️ Copy&lt;/li&gt;
+&lt;li&gt;📋 Brief&lt;/li&gt;
+&lt;li&gt;💰 &lt;a href="https://docs.google.com/spreadsheets/d/[SECURE_PRICING_MASTER_SHEET_ID]/edit?gid=[PRICING_TAB_GID]#gid=[PRICING_TAB_GID]"&gt;Pricing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+```
+Follow with `&lt;h2&gt;Objective&lt;/h2&gt;` (one sentence, as a plain text node — no `&lt;p&gt;` — describing what this asset is and why it exists) then `&lt;h2&gt;Details&lt;/h2&gt;` (more detail if available, also plain text). Link each label in-place as its destination is created.
+
+**Special case — Landing Page framework reference:** When Format = Landing Page, add a line in `&lt;h2&gt;Details&lt;/h2&gt;` (not the resource block — the right link depends on the Awareness field, which is multi-select, so picking it can need a judgment call rather than being a clean always-linkable resource) pointing to the matching framework:
+- Awareness includes TOF and/or MOF → link 💻 [LP Framework (Long)](https://app.notion.com/p/[SECURE_NOTION_LP_FRAMEWORK_LONG_ID])
+- Awareness is BOF only → link 💻 [LP Framework (Short)](https://app.notion.com/p/[SECURE_NOTION_LP_FRAMEWORK_SHORT_ID])
+- If Awareness spans both TOF/MOF and BOF, default to the Long framework (it covers more ground) and note why in Details.
+
+### Video / UGC (Format = Video / UGC)
+Use this block verbatim — every line included, unlinked except Pricing:
+```html
+&lt;ul&gt;
+&lt;li&gt;📂 Google Drive (Marketing)&lt;/li&gt;
+&lt;li&gt;✍️ Script&lt;/li&gt;
+&lt;li&gt;📋 Brief&lt;/li&gt;
+&lt;li&gt;💰 &lt;a href="https://docs.google.com/spreadsheets/d/[SECURE_PRICING_MASTER_SHEET_ID]/edit?gid=[PRICING_TAB_GID]#gid=[PRICING_TAB_GID]"&gt;Pricing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+```
+Follow with `&lt;h2&gt;Objective&lt;/h2&gt;` (one sentence, as a plain text node — no `&lt;p&gt;` — describing what this video is and the platform/placement) then `&lt;h2&gt;More Details&lt;/h2&gt;` (more detail if available, also plain text). Link each label in-place as its destination is created.
+
+---
+
+## Bulk / brain-dump mode
+
+1. Read the full input; identify every distinct deliverable.
+2. Map each to a project + a single task with a conforming name and a Format.
+3. Flag anything ambiguous with ❓ and ask before executing (never assume).
+4. Present the complete plan in the Phase 4 format; wait for confirmation.
+
+### Example for flaging ambiguous request
+```
+❓ UNCLEAR: "redo the landing page"
+   → Which product? Which channel? Which campaign/project? (Format = Landing Page assumed — confirm.)
+```
+
+---
+
+## Promote-from-Ideas mode
+
+When an item in `💡 Ideas` is greenlit:
+1. Read the idea task.
+2. Confirm its destination (existing project or a new one) and all required fields.
+3. Recreate it as a conforming task in the destination (or move it), carrying over resources.
+4. Mark the original Ideas task `Done`/`Canceled` or note the move. Confirm before writing.
+5. Create its Drive folder + Brief doc per "RULES — Automatic Google Drive folder + doc" in the destination project, same as any new task.
+
+---
+
+## Drive backfill mode
+
+For an existing task that's missing its Drive folder/doc, or where the user pastes an Asana task link and asks for its Drive resources to be set up:
+1. Fetch the task (`asana_get_task`) — get its exact name, project, and current `html_notes`/`notes`.
+2. Run the procedure in "RULES — Automatic Google Drive folder + doc," steps 1–6, against that task.
+3. Report the folder/doc links created (or reused, if they already existed).
+
+No confirmation step is required for backfill mode beyond the user's original request — it never touches Asana fields, status, or any resource line other than 📂 Google Drive (Marketing) and 📋 Brief.
+
+---
+
+## Things to never do
+- Never create a task or project before explicit confirmation.
+- Never split one deliverable into separate Brief/Copy/Design tasks — it's one `Task`.
+- Never put product, channel, or format in a project or task title — those are fields.
+- Never use a TYPE prefix (BRIEF/COPY/DESIGN) in a title — retired.
+- Never guess a Format, product, channel, or assignee — ask.
+- Never claim the *connector* set the task type/status — the API can't; it's the project Rule that converts new tasks to Task.
+- Never recreate the retired Linear labels (Type:*, Operational:*).
+- Never create a campaign project per channel (no "Meta Ads" project) — channel is a field.
+- Never create a duplicate Drive folder or doc for a task that already has one — always check first (see "RULES — Automatic Google Drive folder + doc," step 2).
+- Never let the Drive folder/doc name drift from the exact Asana task title.
+- Never skip the automatic Drive step or ask permission to run it — it always runs for every task this skill creates.
+- **Never use `&lt;p&gt;` inside an Asana `html_notes` payload** — it hard-fails the call with "XML is invalid." Body text goes as a plain text node under `&lt;body&gt;`, not wrapped in `&lt;p&gt;`.
+
+</pre>
+              </div>
+            </div>
+
+            <!-- Skill 03: google-drive-filer-creatives -->
+            <div class="prompt-deck-item">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">03</span>
+                <div>
+                  <h4 class="prompt-item-title">google-drive-filer-creatives &mdash; Asana-to-Drive 1:1 Mirror Taxonomy</h4>
+                  <p class="prompt-item-desc">
+                    Organizes the shared marketing Drive to mirror Asana 1:1 (<code>Asana project &rarr; Asana task &rarr; identically named Drive folder</code>). Enables contractors to instantly find assets, routes new uploads to <code>_Asset Library</code> or task folders, and handles cross-folder gathering.
+                  </p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                    google-drive-filer-creatives / SKILL.md
+                  </span>
+                  <span class="badge badge-neutral" style="font-size: 0.68rem; margin-left: 0.75rem; margin-right: auto; letter-spacing: 0.03em; border: 1px solid var(--border);">112 lines &bull; Full Production Taxonomy</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('skill-drive-code', this)" title="Copy full skill file" aria-label="Copy full skill file">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre id="skill-drive-code" class="terminal-body terminal-scroll-20">---
+name: google-drive-filer-creatives
+description: &gt;-
+  THE default for any question about where a Marketing marketing file or folder lives in the shared
+  Google Drive, where to put a new one, or requests to gather every file of a type from a time
+  window across the Drive (e.g. "all static ads from the past 2 weeks," "every UGC video from last
+  quarter"). Trigger on casual asks like "where is the brand kit?", "where do logos/fonts live?",
+  "which folder has the Pinterest ads?", "where is the pricing sheet?" — and on cross-folder
+  gathering requests even without a named project. The Drive mirrors Asana 1:1 (project = top
+  folder, task = sub-folder, same names). Use for finding, saving, filing, or gathering any
+  marketing asset: ads, LPs, UGC/video, blog articles, email/SMS, briefs, brand kit, logos, fonts,
+  FDA/COA docs, NDAs, voice-overs, testimonials, funnels, pricing sheet. Lean toward using it, even
+  for one-liners. Do NOT use only to write/generate content, create Asana tasks, review compliance,
+  or look up live pricing. Work from the live Drive, not memory.
+---
+
+# Marketing Google Drive Filer
+
+Three jobs, all grounded in the same mental model of the Drive: (1) **find** where an existing file
+lives, (2) **place** a new file so it lands in the correct folder, and (3) **gather** every file of a
+type from a time window, scattered across many folders. Jobs 1 and 2 are the common case and are
+fully covered below. Job 3 is a heavier crawl-based job — read its reference file before starting one.
+
+## The model (how the Drive is organized)
+
+- **Top level = Asana projects.** Each Asana marketing project has one Drive folder with the exact
+  same name, plus a few shared support folders whose names start with `_`.
+- **Inside a project = folders named exactly like Asana tasks**, flat (no channel/status sub-layers).
+  A task folder holds everything for that task.
+- **`_`-prefixed folders are the exceptions** — standing/shared material that isn't a single task.
+- So the path to anything is: **Asana project → Asana task → the identically-named Drive folder.**
+  You reason from Asana; the Drive mirrors it.
+
+There is a root README titled **"Where are my files?"** that explains the whole system — point
+people to it for the full picture. For the full top-level folder list and the less-common edge-case
+rules (funnels, testimonial-style ads, Agency, file naming, etc.), see `references/drive-map.md` —
+read it whenever a Job 2 placement touches one of those cases, or whenever you need exact folder
+names beyond what's inline here.
+
+## Always work from the LIVE Drive — do not rely on a memorized tree
+
+The structure changes as projects and tasks are added, and folders are renamed to match Asana.
+**Never answer from a static map.** This applies to all three jobs. When the Google Drive connector
+is available:
+
+1. Start at the **root folder** `[MARKETING_DRIVE_ROOT_FOLDER_ID]` and list children with a `parentId = '&lt;id&gt;'`
+   search.
+2. Drill into the relevant project folder to read the **current** task-named folders and grab the
+   **live folder link**.
+3. When looking for something by name, search `title contains '...'`.
+
+Return live links, never guessed ones. If the connector isn't available, say so and use the reference
+list in `references/drive-map.md` as a fallback (note it may be out of date).
+
+## Job 1 — Finding a file
+
+1. Work out which **Asana project + task** it belongs to (ask if genuinely unclear).
+2. In the live Drive, open that project folder and find the task-named folder; or search by title if
+   you're not sure of the project.
+3. Reply with the folder (or file) and its live link. If it isn't where it should be, check
+   `_Inbox (ToSort)` and `_Archive`, and say so.
+
+## Job 2 — Placing a file (decision logic, in order)
+
+1. **Reusable media** not tied to one campaign (b-roll, stock imagery, voice-over, end cards, GIFs)?
+   → **`_Asset Library`** (matching subfolder).
+2. **Evergreen brand / legal / compliance / reference** (brand kit, logos, fonts, FDA docs, COAs,
+   NDAs &amp; release forms, playbooks, personas, naming conventions, the company pricing sheet)? →
+   **`_Brand and Compliance`** (Brand Kit / FDA and Compliance / Reference Materials / Legal and
+   Agreements).
+3. **Otherwise it belongs to a specific Asana task** → its **project folder** → a folder **named
+   exactly like the task**. If that folder doesn't exist yet, tell the user to create it (name = the
+   task, verbatim) and paste the folder link onto the Asana task.
+4. **Match the folder name to the Asana task exactly** (character-for-character).
+5. **Dual-homed task** (in two Asana projects) → it lives under the **more specific / strategic**
+   project; the other project reaches it via the Asana task link. (E.g., an email+retention task →
+   Retention; an email+portal task → Patient Portal.)
+6. **Can't determine confidently?** → route to **`_Inbox (ToSort)`** and say what extra info would
+   place it.
+
+Several categories have their own filing quirks — funnels, testimonials vs. testimonial-*style* ads,
+content-library projects (Blog Articles, Social Media), Agency, and file-naming conventions. These are
+common enough to get wrong that they're worth checking: see `references/drive-map.md` before you
+finalize a Job 2 placement that touches any of those.
+
+## Job 3 — Gathering many files across the Drive
+
+Different shape of request: "give me every [static ad / UGC video] from the last N [days/weeks/
+months]," "pull the video assets we shipped this quarter," "show me recent ad creative across
+projects." Unlike Jobs 1–2, you don't know roughly where the files are — there's no folder that
+collects "all static ads" across projects, so this requires crawling the Drive tree rather than a
+single search.
+
+Before starting one of these, read `references/cross-folder-listing.md` in full — it covers how to
+scope the ask (asset type + time window, optionally narrowed to a named project), how to walk the
+tree without missing subfolders, which folders to skip by design, and the folder-level report format
+the user expects back. Don't improvise a crawl from the model above; the reference file has the
+mimeType/createdTime filters and exclusion list you need to get it right.
+
+## Reply format (Jobs 1–2)
+
+Keep it short — a destination (or location) and a link, not an essay:
+
+&gt; **Put it in / Find it in:** `&lt;full folder path&gt;`
+&gt; **Link:** &lt;live Drive link&gt;
+&gt; **Why:** &lt;one sentence&gt;
+&gt; *(If unsure)* **Or:** `&lt;alternative path&gt;` — &lt;one sentence&gt;
+
+If a file should be split, archived, or doesn't belong in the marketing Drive, say so plainly. If two
+projects genuinely fit, ask which Asana task/project it's for rather than guessing.
+
+(Job 3 has its own folder-level report format — see `references/cross-folder-listing.md`.)
+</pre>
+              </div>
+            </div>
+
+            <!-- Skill 04: linear-dev-handoff -->
+            <div class="prompt-deck-item">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">04</span>
+                <div>
+                  <h4 class="prompt-item-title">linear-dev-handoff &mdash; Marketing-to-Engineering Handoff Engine</h4>
+                  <p class="prompt-item-desc">
+                    Turns finished Asana marketing tasks into complete, self-contained Linear engineering tickets. Automatically extracts the Figma design link (<code>&lt;a href="..."&gt;Design&lt;/a&gt;</code>), linked Brief and Copy docs from Drive, CTA forward destinations, and quiz calculation logic so developers never need to ask back.
+                  </p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                    linear-dev-handoff / SKILL.md
+                  </span>
+                  <span class="badge badge-neutral" style="font-size: 0.68rem; margin-left: 0.75rem; margin-right: auto; letter-spacing: 0.03em; border: 1px solid var(--border);">245 lines &bull; Full Production Workflow</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('skill-linear-code', this)" title="Copy full skill file" aria-label="Copy full skill file">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre id="skill-linear-code" class="terminal-body terminal-scroll-20">---
+name: linear-dev-handoff
+description: "Create a Linear Engineering issue from a finished Marketing Marketing Asana task that's ready to hand off to dev. Use this skill whenever the user gives an Asana task link and says it's done/ready for dev, ready for engineering, needs a dev ticket, or wants to hand something off to engineering — even if they don't say 'Linear' by name. Also trigger on phrases like 'file this for eng', 'create the dev ticket for this', 'send this to engineering', or pasting an Asana task URL alongside any request to start engineering work. Pulls the Figma design link, campaign context, CTA destinations, and any quiz/calculation logic out of the Asana task (from its description or linked docs) so the Linear issue is self-contained and engineering never has to come back and ask for more information."
+---
+
+# linear-dev-handoff — Asana → Linear Dev Ticket Creator
+
+Turn a finished Marketing Marketing Asana task into a single, self-contained Linear issue for
+the Engineering team. The whole point of this skill is that engineering should be able to pick
+up the Linear issue and build without pinging anyone — so the real work here is *reading the
+Asana task carefully and completely*, not just copying a link across.
+
+**Golden rule: if something a developer would need isn't on the Asana task, ask the user for it
+— never invent it, and never ship the issue with a gap.**
+
+---
+
+## PHASE 1 — Pull the Asana task
+
+The user will give you an Asana task URL. Extract the task GID from it and fetch the full task:
+
+```
+asana_get_task(task_id, opt_fields: "name,notes,html_notes,permalink_url,projects.name,projects.gid,custom_fields.name,custom_fields.display_value")
+```
+
+You need `html_notes` specifically (not just `notes`) because the resource block — where the
+Figma link lives — is written as an `&lt;a href&gt;` inside a `&lt;ul&gt;`, which only shows up in
+`html_notes`.
+
+Note which project(s) the task belongs to (`Ads + LPs`, `Email Marketing`, `Website`, or
+something else) — this determines what extra content you need to go find in Phase 3.
+
+---
+
+## PHASE 2 — Find the Figma link
+
+The Design link lives on the 🎨 line of the task's resource block, e.g.:
+
+```html
+&lt;li&gt;🎨 &lt;a href="https://figma.com/..."&gt;Design&lt;/a&gt;&lt;/li&gt;
+```
+
+Parse `html_notes` for this line and pull the href. Two fallbacks, in order:
+1. If the resource block exists but 🎨 Design has no link yet (still a bare, unlinked label),
+   stop and ask the user for the Figma link — don't guess and don't proceed without it.
+2. If there's no resource block at all (task wasn't built from the usual template), scan the
+   full description for any `figma.com` URL. If you still can't find one, ask.
+
+Only the link itself is needed in the Linear issue — never pull actual frames/screenshots out
+of Figma for this. Engineering opens Figma directly; over-fetching design content just adds
+noise.
+
+---
+
+## PHASE 3 — Gather the context engineering needs, by project
+
+| Asana project | What the Linear description needs |
+|---|---|
+| **Ads + LPs** | Figma link + why this was built: campaign/channel context and the goal, pulled from the description **and** the linked Brief/Copy doc |
+| **Website** | Same as Ads + LPs — Figma link + campaign/channel context and the goal, from the description **and** the linked Brief/Copy doc |
+| **Email Marketing** | Figma link + context/goal (same sources) + **where every CTA forwards to** + **any quiz/calculation logic** |
+| Anything else | Whatever the task actually contains that engineering would need — use judgment. This mapping is new and will likely need a project-specific row added later; if you hit an unfamiliar project, say so and ask the user what engineering needs for it, rather than silently improvising a format. |
+
+**Context/goal** (all projects): don't stop at the description. Pull the initial context from the
+free-text part of the description — usually under an `Objective` or `Details` heading, outside
+the resource `&lt;ul&gt;` — but then also **open whichever doc is linked from the resource block (📋
+Brief, then ✍️ Copy)** and pull in anything there that adds to the picture: the actual campaign
+rationale, target audience, key message, etc. often lives in the Brief doc rather than the Asana
+description itself, which is frequently just a short pointer to it. Combine both sources into
+one coherent `Context` section — don't make engineering open the Brief doc themselves to
+understand what they're building. Carry the actual substance across, not just a one-line label.
+
+**CTA destinations** (Email Marketing only): check the description text first. If it's not
+there, it's most commonly written inside whichever doc is linked from the resource block
+(📋 Brief or ✍️ Copy) — read that doc. If you can't find CTA destinations anywhere, ask the user
+rather than leaving it out — a Linear issue for an email/LP without CTA targets is exactly the
+kind of gap that causes back-and-forth.
+
+**Quiz/calculation logic** (Email Marketing, when relevant — not every task has this): check in
+this order:
+1. The task description itself.
+2. The linked Brief doc (📋), then the linked Copy doc (✍️) from the resource block — this is
+   the most common home for it.
+3. If genuinely not found anywhere and the task clearly involves a quiz or calculated result,
+   ask the user for it or for a link to it. Don't skip this silently — either include the actual
+   logic inline, or a working link to the doc that has it. A vague "see design" is not enough.
+
+To read a linked Google Doc, use the Drive connector's `read_file_content` against the doc's
+file ID (extract it from the Drive URL).
+
+---
+
+## PHASE 4 — Ask for the due date
+
+Due date is never inferred — always ask the user directly, e.g. "What due date should I set on
+the Linear issue?" Accept whatever they say. If they say there isn't one ("none", "no rush", "no
+due date"), just leave the Linear issue's due date empty — don't push back on this.
+
+---
+
+## PHASE 5 — Build the Linear issue description
+
+**Title**: mirror the Asana task's name exactly. No prefix, no reformatting.
+
+**Description** (Markdown, passed to `save_issue`'s `description` field): start with the
+resource links, then the sections that apply for this project, then the subscriber mention at
+the very end so it doesn't interrupt the technical content:
+
+```markdown
+🧑‍💻 [Asana Ticket](&lt;asana permalink_url&gt;)
+🎨 [Figma Design](&lt;figma url&gt;)
+
+## Context
+&lt;why this was built — campaign/channel and the goal, in your own words based on the task&gt;
+
+## CTA destinations
+&lt;Email Marketing only — one line per CTA, e.g. "Primary CTA → /checkout?plan=monthly". Omit this
+whole section for other projects.&gt;
+
+## Calculation logic
+&lt;Email Marketing only, and only when the task involves a quiz/calculated result. Either the
+logic itself, or a working link to the doc that has it, e.g. 🧮 [Calculation Logic](&lt;doc url&gt;).
+Omit entirely if not applicable.&gt;
+
+## What to build
+&lt;concrete description of the deliverable, drawn from the Asana task's title and notes — enough
+that someone who has never seen the campaign could start work&gt;
+
+---
+cc @lead-engineer
+```
+
+The `@lead-engineer` mention is how subscription actually works here — Linear's connector has no
+direct "add subscriber" field, but @-mentioning a user in the description auto-subscribes them.
+Leave it as its own line at the bottom so it reads as a notification, not part of the spec.
+
+Drop any section that doesn't apply (don't leave empty headings). For an unfamiliar project
+(Phase 3's "anything else" row), use `Context` + `What to build` as the baseline and add whatever
+else the user told you was needed.
+
+---
+
+## PHASE 6 — Preview, then confirm
+
+Before creating or changing anything, show the user:
+
+```
+📋 PLAN
+
+[LINEAR ISSUE]  &lt;title&gt;
+                Team: Engineering | Status: Todo | Assignee: lead-dev@company.com
+                Due: &lt;date, or "none"&gt;
+                ── description preview ──
+                &lt;the full description you built in Phase 5&gt;
+
+[ASANA UPDATE]  Adding 🧑‍💻 Linear Ticket link to the top of the resource block
+                (link filled in once the Linear issue exists)
+
+Type "confirm" to create it, or tell me what to change.
+```
+
+Wait for explicit confirmation before writing anything. If the user asks for changes, update and
+re-show.
+
+---
+
+## PHASE 7 — Execute
+
+1. **Create the Linear issue**:
+   ```
+   save_issue(
+     team: "[ENGINEERING_TEAM_UUID]",   # Engineering
+     title: &lt;asana task name, verbatim&gt;,
+     description: &lt;markdown from Phase 5&gt;,
+     state: "[TODO_STATE_UUID]",  # Todo
+     assignee: "lead-dev@company.com",
+     dueDate: &lt;ISO date, or omit entirely if none given&gt;
+   )
+   ```
+   Leave every other field untouched — no priority, no labels, no Linear project/milestone, no
+   cycle, no estimate. The user was explicit that everything beyond what's listed above stays
+   empty.
+
+2. **Write the Linear link back onto the Asana task.** Fetch the task's current `html_notes`,
+   insert a new first line at the very top of the resource `&lt;ul&gt;` (above 🌐 Live — this line
+   always goes first, before anything else in the block):
+   ```html
+   &lt;li&gt;🧑‍💻 &lt;a href="&lt;linear issue url&gt;"&gt;Linear Ticket&lt;/a&gt;&lt;/li&gt;
+   ```
+   then `asana_update_task(task_id, html_notes: &lt;full reconstructed html_notes&gt;)`. Keep every
+   other line in the resource block exactly as it was — this is an insert, not a rewrite.
+   Remember `html_notes` is strict XML: single root `&lt;body&gt;`, only the allowed tags, and only
+   `&lt;a&gt;` may carry attributes.
+
+---
+
+## PHASE 8 — Report back
+
+Give the user both links:
+- The new Linear issue URL
+- Confirmation that the Asana task now links to it
+
+If anything had to be asked for in Phase 2–3 (missing Figma link, missing CTA destinations,
+missing calc logic, or an unfamiliar project), call that out explicitly in the summary so the
+user knows it's a genuine gap in the Asana task, not something you skipped.
+
+---
+
+## Reference — fixed values (verify if a call ever fails; these can change)
+
+```
+Linear team (Engineering):       [ENGINEERING_TEAM_UUID]   (key: COC)
+Linear status "Todo":            [TODO_STATE_UUID]
+Assignee (lead-dev):           [LEAD_DEV_UUID]
+Subscriber mention (lead-engineer):     @lead-engineer   (displayName — mention in description, not a field)
+```
+
+Asana projects checked and confirmed to share the same 5 custom fields (Channel, Discipline,
+Awareness, Product, Format) — none of them carry Figma/CTA/calc-logic as a structured field, so
+all of that always comes from reading the description and linked docs, never from custom fields:
+`Ads + LPs`, `Email Marketing`, `Website`.
+
+Asana resource block — fixed order, this skill's line always goes first:
+```
+🧑‍💻 Linear Ticket   ← this skill adds this, always at the top
+🌐 Live
+📂 Google Drive (Agency)
+📂 Google Drive (Marketing)
+🎨 Design
+✍️ Copy (or Script)
+📋 Brief
+💰 Pricing            ← always last
+```
+
+---
+
+## Things to never do
+
+- Never create the Linear issue or edit the Asana task before the user confirms the plan.
+- Never invent a Figma link, CTA destination, or calculation logic that isn't actually on the
+  task or its linked docs — ask instead.
+- Never set priority, labels, a Linear project/milestone, cycle, or estimate — those stay empty.
+- Never rewrite the Asana resource block wholesale — only insert the new Linear Ticket line and
+  leave every other line untouched.
+- Never pull Figma frames/screenshots into the issue — the link is enough.
+</pre>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Bidirectional Cross-Linking Architecture Card -->
+        <div class="workflow-card" style="border-top: 4px solid var(--accent); margin-bottom: 2.5rem;">
+          <div class="card-top" style="margin-bottom: 0.65rem;">
+            <span class="badge badge-accent">Toolchain Architecture</span>
+          </div>
+          <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Bidirectional Cross-Linking: Figma &harr; Asana &harr; Google Drive</h4>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin-bottom: 1rem;">
+            Eliminated context switching and asset-hunting across the 15-person distributed team by enforcing a strict bidirectional linking contract:
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+            <div style="background: var(--surface-subtle); padding: 0.85rem; border-radius: 6px; border: 1px solid var(--border);">
+              <strong style="color: var(--accent); font-size: 0.85rem;">Inside Figma:</strong>
+              <p style="font-size: 0.8rem; color: var(--ink-muted); margin: 0.35rem 0 0 0;">Every section frame and artboard contains embedded links jumping directly to the corresponding Asana task and Drive asset folder.</p>
+            </div>
+            <div style="background: var(--surface-subtle); padding: 0.85rem; border-radius: 6px; border: 1px solid var(--border);">
+              <strong style="color: var(--purple); font-size: 0.85rem;">Inside Asana:</strong>
+              <p style="font-size: 0.8rem; color: var(--ink-muted); margin: 0.35rem 0 0 0;">Custom fields store one-click links to the exact Figma frame, the prepped brief doc, and the finalized Drive export folder.</p>
+            </div>
+            <div style="background: var(--surface-subtle); padding: 0.85rem; border-radius: 6px; border: 1px solid var(--border);">
+              <strong style="color: var(--success); font-size: 0.85rem;">Figma Asset Clusters:</strong>
+              <p style="font-size: 0.8rem; color: var(--ink-muted); margin: 0.35rem 0 0 0;">Consolidated reusable UI clusters (headers, testimonials, trust seals) on a master page so designers stopped searching 20+ files.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Operational Duality Panel -->
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.75rem;">Operational Duality: Autonomous Scaffolding vs. Physical Guardrails</h3>
+        <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+          In regulated operations, applied AI must have clear boundaries. We maximized automation for admin scaffolding while locking down critical legal decisions with 100% human oversight:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-bottom: 2rem;">
+          <!-- Powered Column -->
+          <div style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 8px; padding: 1.25rem; box-shadow: var(--shadow-sm);">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+              <span style="font-size: 1.1rem;">⚡</span>
+              <h4 style="font-family: var(--font-display); font-size: 1rem; margin: 0; color: var(--ink);">How Powered It Is (Autonomous Scaffolding)</h4>
+            </div>
+            <ul style="font-size: 0.85rem; color: var(--ink); line-height: 1.6; padding-left: 1.2rem; margin: 0;">
+              <li><strong>Instant Project Provisioning:</strong> Creating an Asana task via <code>pm-asana</code> automatically provisions Google Drive folders and brief docs in &lt;2 seconds.</li>
+              <li><strong>Real-Time Pricing Synthesis:</strong> <code>pricing</code> queries live figures from the Master Sheet to draft ad copy with zero manual searching.</li>
+              <li><strong>Automated Dev Handoffs:</strong> <code>linear-dev-handoff</code> extracts Figma URLs, briefs, and quiz logic into self-contained Linear issues.</li>
+              <li><strong>Drive Search &amp; Asset Routing:</strong> <code>google-drive-filer-creatives</code> routes files to exact project folders based on the Asana mirror model.</li>
+            </ul>
+          </div>
+
+          <!-- Limited Column -->
+          <div style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--danger); border-radius: 8px; padding: 1.25rem; box-shadow: var(--shadow-sm);">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+              <span style="font-size: 1.1rem;">🛑</span>
+              <h4 style="font-family: var(--font-display); font-size: 1rem; margin: 0; color: var(--ink);">Where It Is Purposefully Limited (Physical Guardrails)</h4>
+            </div>
+            <ul style="font-size: 0.85rem; color: var(--ink); line-height: 1.6; padding-left: 1.2rem; margin: 0;">
+              <li><strong>Zero Autonomous Ad Publishing:</strong> No AI tool has publishing credentials or write access to Meta Ads, Google Ads, or production CMS.</li>
+              <li><strong>100% Mandatory Human Sign-Off:</strong> Karol personally reviews and approves every single customer-facing asset (70–100 assets/wk) before deployment.</li>
+              <li><strong>Manual Spoken Dialogue Audit:</strong> AI cannot evaluate tone, nuance, or spoken sarcasm in UGC; spoken audio and captions are verified by hand.</li>
+              <li><strong>Confined Folder Permissions:</strong> Contractors have access restricted to active project directories, preventing accidental brand asset overwrites.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 04: DETERMINISTIC QA GATES & MIGRATION -->
+    <!-- ========================================================================= -->
+    <section id="qa-gates" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // QUALITY CONTROL: SOLE GATEKEEPER &amp; MIGRATION</span>
+        <h2 class="section-title-modern">The Sole Pre-Deployment Gatekeeper &amp; 500-Task Migration</h2>
+        <p class="section-desc-modern">
+          While Claude skills automated initial pre-screening and handoffs, I personally served as the sole quality gatekeeper reviewing 70–100 assets per week. Concurrently, I orchestrated a zero-downtime migration of 500 active tasks from Linear to Asana.
+        </p>
+      </div>
+
+      <div class="section-body">
+
+        <!-- Inspection Pipeline Rail -->
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">The Multi-Stage Pre-Deployment Inspection Pipeline</h3>
+        <div class="pipeline-rail" style="margin-bottom: 2rem;">
+          <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+            <span class="badge badge-accent" style="align-self: flex-start;">Stage 01</span>
+            <h4 class="node-title">Creator Draft</h4>
+            <p class="node-desc">Distributed contractor completes initial creative draft using master pricing and brief guidelines.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--purple);">
+            <span class="badge badge-purple" style="align-self: flex-start;">Stage 02</span>
+            <h4 class="node-title">Claude Pre-Screen</h4>
+            <p class="node-desc">Automated first-line filter scans copy for unapproved medical claims, missing disclaimers, or invalid pricing.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Stage 03</span>
+            <h4 class="node-title">Karol HITL Gate</h4>
+            <p class="node-desc">Comprehensive manual review: spoken audio, video captions, disclaimer legibility, and pricing accuracy.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Stage 04</span>
+            <h4 class="node-title">6-Viewport Matrix</h4>
+            <p class="node-desc">Systematic responsive testing across 3 desktop and 3 mobile viewports covering 40 actively managed landing pages daily.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Stage 05</span>
+            <h4 class="node-title">Deployment Sign-Off</h4>
+            <p class="node-desc">Formal stamp of approval. Asset moved to approved production directory and staged for ad launch.</p>
+          </div>
+        </div>
+
+        <!-- Rejection Battlecard Table -->
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.75rem;">Quality Control Rejection Battlecard: What Got Sent Back</h3>
+        <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+          Clear, deterministic rejection criteria applied during personal QA runs to ensure zero compliance leaks reached live ad platforms:
+        </p>
+        <div class="table-frame" style="margin-bottom: 2.5rem;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 18%;">Category</th>
+                <th style="width: 32%;">Defect / Rejection Trigger</th>
+                <th style="width: 35%;">Remediation Action Required</th>
+                <th style="width: 15%; text-align: right;">Baseline Frequency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge badge-danger">Healthcare Regulatory</span></td>
+                <td>UGC creator states: <em>"I dropped 15 lbs in 3 weeks without dieting."</em></td>
+                <td><strong>Immediate Rejection.</strong> Re-cut or re-shoot video. Strict rule: no specific poundage claims tied to unrealistic timeframes.</td>
+                <td style="text-align: right;"><span class="badge badge-neutral">~12% of drafts</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-danger">Disclaimer Legibility</span></td>
+                <td>Static banner renders compounding disclosure with low color contrast (&lt;4.5:1 ratio).</td>
+                <td><strong>Design Revision.</strong> Add high-contrast backdrop or adjust font color to satisfy accessibility and legal legibility standards.</td>
+                <td style="text-align: right;"><span class="badge badge-neutral">~15% of drafts</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-accent">Pricing Drift</span></td>
+                <td>Copy lists Semaglutide at <em>"$179 Month 1"</em> based on old promotional material.</td>
+                <td><strong>Copy Revision.</strong> Run through <code>pricing</code>; correct price to $199 per live Master Pricing Sheet.</td>
+                <td style="text-align: right;"><span class="badge badge-success">0% (post-skill)</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-purple">Caption / Audio Drift</span></td>
+                <td>Video subtitles state <em>"FDA-approved GLP-1"</em> while voiceover says <em>"Compounded GLP-1."</em></td>
+                <td><strong>Subtitle Correction.</strong> Compounded drugs are not FDA-approved; subtitles must match exact legal compounding wording.</td>
+                <td style="text-align: right;"><span class="badge badge-neutral">~8% of videos</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-warning">Mobile Clipping</span></td>
+                <td>Checkout CTA button or dosage selector clips off-screen on iPhone SE (375px viewport).</td>
+                <td><strong>Front-End Fix.</strong> Adjust CSS flexbox wrap and padding to ensure 100% responsive tap target visibility.</td>
+                <td style="text-align: right;"><span class="badge badge-neutral">~10% of pages</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 6-Viewport Responsive QA Protocol -->
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.75rem;">The Systematic 6-Viewport Responsive QA Matrix</h3>
+        <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+          Because over 75% of patient acquisition traffic originates on mobile devices, every landing page update was tested across 6 standardized viewports daily:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2.5rem;">
+          <div style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 8px; padding: 1rem;">
+            <span class="badge badge-accent" style="margin-bottom: 0.4rem;">Viewport 01</span>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin: 0 0 0.35rem 0;">Desktop Large (1440px)</h4>
+            <p style="font-size: 0.8rem; color: var(--ink-muted); margin: 0;">Wide-screen monitors. Verifies multi-column comparison grids, hero margins, and high-res imagery.</p>
+          </div>
+          <div style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 8px; padding: 1rem;">
+            <span class="badge badge-accent" style="margin-bottom: 0.4rem;">Viewport 02</span>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin: 0 0 0.35rem 0;">Desktop Medium (1280px)</h4>
+            <p style="font-size: 0.8rem; color: var(--ink-muted); margin: 0;">Standard laptop baseline. Verifies navigation bars, sticky header triggers, and CTA button placement.</p>
+          </div>
+          <div style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 8px; padding: 1rem;">
+            <span class="badge badge-accent" style="margin-bottom: 0.4rem;">Viewport 03</span>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin: 0 0 0.35rem 0;">Desktop Small (1024px)</h4>
+            <p style="font-size: 0.8rem; color: var(--ink-muted); margin: 0;">Small laptops / tablet landscape. Ensures graceful grid wrapping without horizontal scroll overflow.</p>
+          </div>
+          <div style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--success); border-radius: 8px; padding: 1rem;">
+            <span class="badge badge-success" style="margin-bottom: 0.4rem;">Viewport 04</span>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin: 0 0 0.35rem 0;">Mobile Large (428px)</h4>
+            <p style="font-size: 0.8rem; color: var(--ink-muted); margin: 0;">Flagship smartphones (iPhone Pro Max, Android). Confirms sticky checkout footers and font scaling.</p>
+          </div>
+          <div style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--success); border-radius: 8px; padding: 1rem;">
+            <span class="badge badge-success" style="margin-bottom: 0.4rem;">Viewport 05</span>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin: 0 0 0.35rem 0;">Mobile Medium (390px)</h4>
+            <p style="font-size: 0.8rem; color: var(--ink-muted); margin: 0;">Core consumer mobile baseline (iPhone 14/15/16). Ensures tap targets exceed 44x44px and forms render smoothly.</p>
+          </div>
+          <div style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--success); border-radius: 8px; padding: 1rem;">
+            <span class="badge badge-success" style="margin-bottom: 0.4rem;">Viewport 06</span>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin: 0 0 0.35rem 0;">Mobile Small (375px)</h4>
+            <p style="font-size: 0.8rem; color: var(--ink-muted); margin: 0;">Compact mobile stress-test (iPhone SE). Guarantees legal footnotes and medication disclaimers never clip.</p>
+          </div>
+        </div>
+
+        <!-- Zero-Downtime Migration Story -->
+        <div class="workflow-card" style="border-top: 4px solid var(--purple);">
+          <div class="card-top" style="margin-bottom: 0.65rem;">
+            <span class="badge badge-purple">Operations Infrastructure</span>
+          </div>
+          <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Zero-Downtime Migration: 500 Tasks from Linear to Asana</h4>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+            When leadership mandated migrating the marketing operations from Linear to Asana to support visual Kanban boards and custom client approvals, dropping deliverables or delaying active ad launches was not an option:
+          </p>
+          <ul style="font-size: 0.88rem; color: var(--ink); line-height: 1.6; padding-left: 1.25rem; margin: 0;">
+            <li><strong>5-Week Foundation Runway Before Migration:</strong> Recognized that executing a migration inside a disorganized environment guarantees compounding failure. Dedicated five deliberate weeks to foundational clean-up: completely restructuring the marketing Google Drive, establishing the Master Pricing Sheet, building custom Claude skills, and codifying team SOPs before touching live work.</li>
+            <li><strong>Zero-Downtime Dual-Live Execution:</strong> Both Linear and Asana remained 100% live and operational throughout the cutover. Assisted by Claude, I migrated 500 active tasks into Asana with complete metadata, dependencies, and Drive brief links.</li>
+            <li><strong>Visual Redirects &amp; Bidirectional Pointers:</strong> To prevent contractors from mistakenly continuing work in deprecated tickets, every migrated Linear issue was branded with prominent visual indicators (e.g. 🔄 / ➡️ <code>MIGRATED TO ASANA</code>) containing direct hyperlinks jumping to the active Asana counterpart.</li>
+            <li><strong>Contractor Enablement &amp; Shadowing:</strong> Authored step-by-step SOPs for the 15 distributed contractors. Shadowed the incoming Project Manager through daily operations, had him shadow my review cycles, and verified operational independence before final handoff.</li>
+            <li><strong>The Result:</strong> Transferred all <strong>500 active tasks with zero dropped deliverables</strong>, zero missed ad launch deadlines, and complete team adoption on day one.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 05: EVALUATED ALTERNATIVES & TRADE-OFFS -->
+    <!-- ========================================================================= -->
+    <section id="tradeoffs" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // ARCHITECTURE: 3-COLUMN DIAGNOSTIC MATRIX</span>
+        <h2 class="section-title-modern">Evaluated Alternatives &amp; Hard Engineering Trade-Offs</h2>
+        <p class="section-desc-modern">
+          Engineering high-velocity operations is about making intentional compromises. Below is the diagnostic matrix evaluating the technical and architectural decisions made across the telehealth marketing pipeline.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <div class="tradeoff-grid tradeoff-grid-3col">
+
+          <!-- Card 01: Pricing Architecture -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="badge badge-accent">Decision 01</span>
+              <span style="font-size: 0.75rem; font-family: var(--mono); color: var(--ink-faint);">DATA CONTRACT</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--ink);">Master Google Sheet + Pricing Skill vs. Enterprise PIM Software</h4>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 0.5rem;">
+              <strong>Why Chosen:</strong> Deployed in 2 hours with zero software licensing costs. Allowed instant natural-language querying via Claude without forcing contractors to learn enterprise software.
+            </p>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin: 0;">
+              <strong>Trade-Off Accepted:</strong> Required strict cell-locking, version protection, and read-only access for contractors to prevent accidental schema corruption, routing all structural catalog updates through Ops.
+            </p>
+          </div>
+
+          <!-- Card 02: Human Sign-Off Gate -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="badge badge-danger">Decision 02</span>
+              <span style="font-size: 0.75rem; font-family: var(--mono); color: var(--ink-faint);">REGULATORY QA</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--ink);">100% Human Sign-Off vs. Autonomous AI Publishing</h4>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 0.5rem;">
+              <strong>Why Chosen:</strong> In telehealth, an FDA warning letter destroys patient trust and shuts down payment gateways. AI cannot reliably detect subtle spoken sarcasm or evaluate medical tone.
+            </p>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin: 0;">
+              <strong>Trade-Off Accepted:</strong> Karol remained a personal QA review bottleneck (70–100 assets/week), requiring structured daily time blocks to prevent launch delays.
+            </p>
+          </div>
+
+          <!-- Card 03: Bidirectional Cross-Linking -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--purple);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="badge badge-purple">Decision 03</span>
+              <span style="font-size: 0.75rem; font-family: var(--mono); color: var(--ink-faint);">TOOLCHAIN</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--ink);">Bidirectional Cross-Linking vs. Disconnected Slack Pings</h4>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 0.5rem;">
+              <strong>Why Chosen:</strong> Embedded hyperlinks across Figma, Asana, and Drive eliminated 20 minutes of asset-hunting per review and stopped creative briefs from getting lost in Slack threads.
+            </p>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin: 0;">
+              <strong>Trade-Off Accepted:</strong> Karol personally executed task creation and Drive provisioning via pm-asana for every deliverable rather than delegating unvetted task creation to contractors, guaranteeing 100% linking schema adherence.
+            </p>
+          </div>
+
+          <!-- Card 04: Centralized Components -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--success);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="badge badge-success">Decision 04</span>
+              <span style="font-size: 0.75rem; font-family: var(--mono); color: var(--ink-faint);">WEB ARCHITECTURE</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--ink);">Centralized Components vs. Hardcoded Web Page Edits</h4>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 0.5rem;">
+              <strong>Why Chosen:</strong> Centralized recurring data components across 40 actively managed landing pages (audited from 100 live pages) so pricing, customer milestone counters ("Over 25,000 patients served"), review tallies, and legal disclaimers updated once in master code and propagated across all live landers simultaneously.
+            </p>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin: 0;">
+              <strong>Trade-Off Accepted:</strong> Demanded an intensive upfront engineering collaboration to refactor legacy code across 40 pages and decommission 60 stale pages before operational savings materialized.
+            </p>
+          </div>
+
+          <!-- Card 05: Overhauled Claude Skill -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--warning);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="badge badge-warning">Decision 05</span>
+              <span style="font-size: 0.75rem; font-family: var(--mono); color: var(--ink-faint);">LEGAL STRATEGY</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--ink);">Overhauled Claude Filter vs. Constant External Legal Pings</h4>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 0.5rem;">
+              <strong>Why Chosen:</strong> Overhauling the stale regulatory skill enabled copywriters to catch 95% of basic compliance errors in seconds, saving expensive legal hours for novel campaign angles.
+            </p>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin: 0;">
+              <strong>Trade-Off Accepted:</strong> Required ongoing system prompt maintenance whenever FDA compounding policy or state telehealth regulations shifted.
+            </p>
+          </div>
+
+          <!-- Card 06: Zero-Downtime Migration -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="badge badge-accent">Decision 06</span>
+              <span style="font-size: 0.75rem; font-family: var(--mono); color: var(--ink-faint);">MIGRATION</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--ink);">Marketing Asana + linear-dev-handoff vs. Monolithic Linear</h4>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 0.5rem;">
+              <strong>Why Chosen:</strong> Asana provided visual Kanban approval stages and contractor guest permissions, while <code>linear-dev-handoff</code> kept engineering cleanly in Linear.
+            </p>
+            <p style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin: 0;">
+              <strong>Trade-Off Accepted:</strong> Required an upfront 5-week operational runway cleaning Drive taxonomy and standardizing pricing before migrating 500 active tasks, ensuring a pristine target environment rather than rushing a cutover.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 06: RETROSPECTIVE & OPERATOR LESSONS -->
+    <!-- ========================================================================= -->
+    <section id="retrospective" class="section-wrap">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // RETROSPECTIVE: CANDID OPERATOR HINDSIGHT</span>
+        <h2 class="section-title-modern">Senior Operator Lessons: Data Architecture Precedes Automation</h2>
+        <p class="section-desc-modern">
+          Reflections from the operations front lines on scaling creative throughput, deploying applied AI, and building resilient systems in heavily regulated environments.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+
+          <div class="workflow-card" style="border-top: 4px solid var(--accent);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-accent">Lesson 01</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Clean Data Architecture Must Precede AI Automation</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              The most common mistake in marketing ops is trying to automate a mess. If I had built Claude skills on top of the chaotic Google Drive and conflicting spreadsheets, the AI would have accelerated the chaos—hallucinating wrong prices and pointing creators to outdated asset folders. Cleaning the Drive taxonomy, setting up the Master Pricing Sheet, and centralizing web components was the unglamorous groundwork that made the AI skills work deterministically.
+            </p>
+          </div>
+
+          <div class="workflow-card" style="border-top: 4px solid var(--purple);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-purple">Lesson 02</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Make Compliance the Path of Least Resistance</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              Distributed freelance contractors work across multiple client accounts. If you hand them a 40-page PDF of compliance rules, they won't read it. By embedding the rules into an updated Claude skill, cross-linking Figma frames directly to Drive assets, and auto-provisioning folders in Asana via <code>pm-asana</code>, compliance became invisible. When doing things the right way is faster and easier than taking shortcuts, error rates drop to zero naturally.
+            </p>
+          </div>
+
+          <div class="workflow-card" style="border-top: 4px solid var(--success);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-success">Lesson 03</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">AI Accelerates Velocity; Humans Own Accountability</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              In regulated industries like telehealth, full AI autonomy is a disaster waiting to happen. The true leverage of applied AI is not replacing human judgment—it is stripping away the 15 hours of repetitive administrative sludge surrounding human judgment. By letting Claude handle folder provisioning, brief formatting, pricing retrieval, and dev ticket compilation, I could dedicate my full cognitive focus to what really mattered: listening to spoken UGC dialogue, auditing captions, and ensuring zero legal violations slipped into the wild across 70–100 assets a week.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CENTRALIZED SITE FOOTER (Inside container so it aligns with page margins and max-width) -->
+    <footer id="site-footer"></footer>
+
+  </div>
+
+</body>
+</html>
