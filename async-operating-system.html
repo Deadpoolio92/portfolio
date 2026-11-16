@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>15 Contractors, 10 Countries, Zero Daily Standups: How I Cut 15 Hours of Meeting Drag Every Week | Karol Jasztal</title>
+  <link rel="stylesheet" href="shared.css" />
+  <script src="shared.js"></script>
+  <style>
+    .decision-tree-shell {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--accent);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.25rem 0 1.75rem;
+    }
+    .decision-tree-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .decision-step-pill {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background: var(--accent-subtle);
+      padding: 0.28rem 0.65rem;
+      border-radius: 9999px;
+    }
+    .decision-question {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 0.45rem;
+    }
+    .decision-hint {
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      margin: 0 0 1.15rem;
+      line-height: 1.5;
+    }
+    .decision-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .decision-btn {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface-subtle);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.65rem 1.1rem;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+    }
+    .decision-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .decision-btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+    .decision-btn-primary:hover {
+      opacity: 0.92;
+      color: #ffffff;
+    }
+    .decision-outcome {
+      display: none;
+      border-radius: 10px;
+      padding: 1.15rem 1.25rem;
+      background: var(--surface-subtle);
+      border-left: 4px solid var(--success);
+    }
+    .decision-outcome.is-visible {
+      display: block;
+    }
+    .decision-outcome-title {
+      font-family: var(--font-display);
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: var(--ink);
+      margin: 0 0 0.35rem;
+    }
+    .decision-outcome-copy {
+      font-size: 0.88rem;
+      color: var(--ink-muted);
+      line-height: 1.55;
+      margin: 0;
+    }
+    .decision-print-map {
+      display: none;
+    }
+    @media print {
+      .decision-tree-interactive {
+        display: none !important;
+      }
+      .decision-print-map {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.85rem !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Top Navigation Header -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio Overview
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Async-First Operating System</span>
+      </div>
+      <div class="nav-actions">
+        <a href="async-operating-system.pdf" download class="btn-ghost" style="padding: 0.45rem 0.85rem; font-size: 0.82rem; gap: 0.35rem;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Download PDF
+        </a>
+        <button id="themeToggle" class="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 2. Sticky Chapter Anchor Bar (Option 2B) -->
+  <nav class="sticky-nav-bar" id="sticky-nav" aria-label="Case study sections">
+    <div class="nav-grid-track">
+      <a href="#section-1" class="nav-tag-pill active">01. Architecture &amp; Time Study</a>
+      <a href="#section-2" class="nav-tag-pill">02. Timezone SLA Matrix</a>
+      <a href="#section-3" class="nav-tag-pill">03. Anti-Ping-Pong Kit</a>
+      <a href="#section-4" class="nav-tag-pill">04. Meeting Decision Tree</a>
+      <a href="#section-5" class="nav-tag-pill">05. Trade-Off Matrix</a>
+      <a href="#section-6" class="nav-tag-pill">06. Retrospective</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO SECTION (Option 03C) -->
+    <header class="hero-banner hero-centered">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Operating Playbook &bull; Karol Jasztal
+      </div>
+      <h1 class="hero-title" style="max-width: 1140px; margin-left: auto; margin-right: auto;">15 Contractors, 10 Countries, Zero Daily Standups: <span class="headline-accent">How I Cut 15 Hours of Meeting Drag Every Week</span></h1>
+      <p class="hero-subtitle">
+        Running 15 contractors across 10 countries meant burning 2 to 3 hours every day on Zoom calls, WhatsApp ping-pong, and repetitive status questions. I built an async-first operating system with hard response windows and context-first handoffs that cut 15 hours of weekly meetings while keeping client delivery moving.
+      </p>
+
+      <!-- Option 03C Connected HUD Telemetry Bar -->
+      <div class="hud-telemetry-bar" style="margin-top: 2.25rem;">
+        <div class="hud-cell">
+          <div class="hud-label">Meetings Cut</div>
+          <div class="hud-num" style="color: var(--accent);">-15h/wk</div>
+          <span class="hud-delta delta-success">-90% Live Calls</span>
+          <div class="hud-sub">2–3h/day Baseline</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Team Footprint</div>
+          <div class="hud-num">15 People</div>
+          <span class="hud-delta delta-neutral">10+ Countries</span>
+          <div class="hud-sub">12h+ Timezone Spread</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Client Updates</div>
+          <div class="hud-num" style="color: var(--success);">1–3 Min</div>
+          <span class="hud-delta delta-success">Async Loom</span>
+          <div class="hud-sub">Zero Status Calls</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Response SLAs</div>
+          <div class="hud-num">1h / 12h / 24h</div>
+          <span class="hud-delta delta-neutral">P1 / P2 / P3</span>
+          <div class="hud-sub">Clear Handoff Windows</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Async Cadence</div>
+          <div class="hud-num" style="color: var(--success);">~90%</div>
+          <span class="hud-delta delta-success">100% Documented</span>
+          <div class="hud-sub">Written + Video</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Section 01: Architecture & Time Study -->
+    <section id="section-1" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // Architecture &amp; Empirical Time Study</span>
+        <h2 class="section-title-modern">How 2–3 Hours of Daily Call Drag Shrunk to 90 Minutes a Week</h2>
+        <p class="section-desc-modern">With editors in Vietnam, devs in India and Romania, designers in Brazil and New Zealand, and clients across 6 countries, we had under 2 hours of shared daylight. We were bleeding 2 to 3 hours every day on Zoom calls, WhatsApp ping-pong, and chasing half-baked drafts—so I built a self-serve async system to kill the noise.</p>
+      </div>
+
+      <div class="section-body">
+        <!-- 4 Non-Negotiable Constraints (Clean 2x2 Grid) -->
+        <div class="pipeline-rail" style="grid-template-columns: repeat(2, 1fr); margin: 0 0 1.5rem;">
+          <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+            <span class="badge badge-accent" style="align-self: flex-start;">Constraint 01</span>
+            <h3 class="node-title">Zero Headcount / Zero PM Layer</h3>
+            <p class="node-desc">No budget to hire a coordinator or scrum master. The 15-person team had to run on self-serve rules, not extra managers.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Constraint 02</span>
+            <h3 class="node-title">12+ Hour Timezone Spread</h3>
+            <p class="node-desc">With under 2 hours of overlap across 10+ countries, live daily standups were impossible without burning people out at midnight or 6 AM.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Constraint 03</span>
+            <h3 class="node-title">Client Velocity &amp; Zero Dropped Balls</h3>
+            <p class="node-desc">Agency and telehealth deliverables across 6 client countries couldn't slow down—clients still expected fast turnaround and clear status.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--purple);">
+            <span class="badge badge-purple" style="align-self: flex-start;">Constraint 04</span>
+            <h3 class="node-title">Tool Sprawl Lock-In</h3>
+            <p class="node-desc">Clients and contractors lived in different apps (WhatsApp, Telegram, Email vs. Slack, Asana, Linear, Loom), so the rules had to work across tools.</p>
+          </div>
+        </div>
+
+        <!-- Time Study Comparison Table -->
+        <div class="table-frame table-scroll-lg">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 28%;">Communication Category</th>
+                <th style="width: 24%;">Old Call-Heavy Way</th>
+                <th style="width: 24%;">Async-First OS</th>
+                <th style="width: 24%;">Time Saved</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">Internal Team Standups &amp; Syncs</td>
+                <td>5.0 hours / week</td>
+                <td>0.0 hours / week (ditched)</td>
+                <td class="text-success font-bold">-100.0%</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Client Weekly Status Calls</td>
+                <td>4.5 hours / week</td>
+                <td>0.5 hours / week (1–3 min Looms)</td>
+                <td class="text-success font-bold">-88.9%</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Ad-Hoc Q&amp;A &amp; Status Chasing</td>
+                <td>4.0 hours / week</td>
+                <td>0.5 hours / week (Standard Operating Procedure (SOP) rule)</td>
+                <td class="text-success font-bold">-87.5%</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Work-in-Progress (WIP) Draft Ping-Pong</td>
+                <td>3.0 hours / week</td>
+                <td>0.5 hours / week (Show, Don't Send)</td>
+                <td class="text-success font-bold">-83.3%</td>
+              </tr>
+              <tr class="table-row-total">
+                <td>Total Weekly Meeting &amp; Chat Drag</td>
+                <td>16.5 hours / week</td>
+                <td>1.5 hours / week</td>
+                <td class="text-success">-15.0 hours / week (-90.9%)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 02: Cross-Time-Zone SLA Matrix -->
+    <section id="section-2" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // Cross-Time-Zone SLA Matrix</span>
+        <h2 class="section-title-modern">Hard Response Clocks Across a 12-Hour Timezone Gap</h2>
+        <p class="section-desc-modern">Async breaks down when it means "reply whenever." Across 10+ countries, a 5-minute question with no clock turns into a 3-day stall—so every ping carries a hard Service Level Agreement (SLA) window: P1 (1h), P2 (12h), or P3 (24h).</p>
+      </div>
+
+      <div class="section-body">
+        <div class="table-frame table-scroll-lg">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 6%;">#</th>
+                <th style="width: 20%;">Tier / Rule</th>
+                <th style="width: 24%;">Channel &amp; Context</th>
+                <th style="width: 16%;">Response SLA</th>
+                <th style="width: 34%;">Handoff &amp; Escalation Rule</th>
+              </tr>
+            </thead>
+            <tbody id="sla-tbody">
+              <tr>
+                <td class="font-mono">01</td>
+                <td><span class="badge badge-danger">P1 — Live Blocker</span></td>
+                <td>Ad account down, broken checkout, live site bug</td>
+                <td class="font-bold text-danger">1 hour</td>
+                <td>Direct ping in WhatsApp/Slack + 15-min huddle only if &gt;2 people needed</td>
+              </tr>
+              <tr>
+                <td class="font-mono">02</td>
+                <td><span class="badge badge-warning">P2 — Active Sprint</span></td>
+                <td>Blocking question on today's work or QA revision</td>
+                <td class="font-bold">12 hours</td>
+                <td>Annotated ticket + Loom link; picked up cleanly on next timezone shift</td>
+              </tr>
+              <tr>
+                <td class="font-mono">03</td>
+                <td><span class="badge badge-accent">P3 — Routine Async</span></td>
+                <td>New brief, Request for Comments (RFC), SOP update</td>
+                <td class="font-bold">24 hours</td>
+                <td>Written brief in Asana/Linear/ClickUp; silent approval if no pushback</td>
+              </tr>
+              <tr>
+                <td class="font-mono">04</td>
+                <td><span class="tag-pill">Weekly Client Update</span></td>
+                <td>Client Key Performance Indicator (KPI) &amp; sprint status</td>
+                <td class="font-bold text-success">Weekly (Fri)</td>
+                <td>1–3 min Loom + Google Looker Studio link; zero live status call</td>
+              </tr>
+              <tr>
+                <td class="font-mono">05</td>
+                <td><span class="tag-pill">Delivery Buffer</span></td>
+                <td>Client-facing deadline commitment</td>
+                <td class="font-bold">+2 days buffer</td>
+                <td>5-day internal estimate quoted as 7-day client delivery</td>
+              </tr>
+              <tr>
+                <td class="font-mono">06</td>
+                <td><span class="tag-pill">Agency Comms</span></td>
+                <td>Contractor ops (editors, copywriters, designers, devs)</td>
+                <td class="font-bold">Per P1/P2/P3</td>
+                <td>WhatsApp (zero-friction mobile adoption) + Loom + ClickUp/Notion</td>
+              </tr>
+              <tr>
+                <td class="font-mono">07</td>
+                <td><span class="tag-pill">Telehealth Comms</span></td>
+                <td>Cross-functional creative, dev &amp; media-buyer sync</td>
+                <td class="font-bold">Per P1/P2/P3</td>
+                <td>10 dedicated Slack channels + Notion + Asana/Linear</td>
+              </tr>
+
+              <!-- Hidden Rows (08 to 10) unrolled on click or in print -->
+              <tr class="table-row-hidden">
+                <td class="font-mono">08</td>
+                <td><span class="tag-pill">Time Telemetry</span></td>
+                <td>Contractor hours &amp; capacity audits</td>
+                <td class="font-bold">Real-time</td>
+                <td>Clockify play/pause tracking per task for clean billing</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td class="font-mono">09</td>
+                <td><span class="tag-pill">Access Security</span></td>
+                <td>Client &amp; ad-account credentials</td>
+                <td class="font-bold">Least-privilege</td>
+                <td>LastPass role-based sharing; zero raw passwords in chat</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td class="font-mono">10</td>
+                <td><span class="tag-pill">Question-to-SOP</span></td>
+                <td>Any team question asked twice</td>
+                <td class="font-bold">Same day</td>
+                <td>Turn the answer into a permanent SOP lesson and link it</td>
+              </tr>
+
+              <tr class="table-expand-row" id="sla-toggle-row">
+                <td colspan="5">
+                  <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'sla-tbody', 'SLA &amp; Channel Rules', 10, 7)">
+                    <span class="btn-table-text">Show All 10 SLA &amp; Channel Rules (3 More)</span>
+                    <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  </button>
+                </td>
+              </tr>
+
+              <tr class="table-summary-row">
+                <td colspan="2" style="font-weight: 800; text-transform: uppercase;">SLA Contract</td>
+                <td style="font-weight: 700;">10 Codified Rules</td>
+                <td class="font-mono text-accent" style="font-weight: 700;">1h / 12h / 24h</td>
+                <td style="color: var(--success); font-weight: 700;">~90% Async Cadence Across 10+ Countries</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 03: Anti-Ping-Pong Kit -->
+    <section id="section-3" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // Anti-Ping-Pong Kit &amp; "Show, Don't Send" Protocol</span>
+        <h2 class="section-title-modern">Copy-Paste Templates That Kill Status Calls and Draft Confusion</h2>
+        <p class="section-desc-modern">Most async threads blow up when someone drops a naked Google Doc or Figma link in chat with "thoughts?" Our "Show, Don't Send" rule bans naked links—every handoff ships with one of these copy-paste wrappers.</p>
+      </div>
+
+      <div class="section-body">
+        <!-- Operational Duality Panel -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; margin: 0 0 1.25rem;">
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--accent); padding: 0.65rem 0.85rem; border-radius: 6px;">
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 0.25rem;">⚡ How Powered It Is (Async Engine)</div>
+            <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+              &bull; <strong>Zero-Call Client Updates:</strong> Looker Studio + 1–3 min Loom replaces 1 hr/wk status calls per client.<br>
+              &bull; <strong>Silent-Approval RFCs:</strong> Work ships on time even when half the team is asleep 12 hours away.
+            </div>
+          </div>
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px;">
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin-bottom: 0.25rem;">🛑 Where It Is Purposefully Limited (Hard Guardrails)</div>
+            <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+              &bull; <strong>No Naked WIP Dumps:</strong> Unannotated drafts never go out to clients via email or chat.<br>
+              &bull; <strong>P1 Escalation Override:</strong> Live outages (&lt;1h SLA) or tense negotiations still get a 15-min call.
+            </div>
+          </div>
+        </div>
+
+        <!-- Copyable Template Deck -->
+        <div class="prompt-deck-container">
+          <div class="prompt-deck-body">
+
+            <!-- Template 01 -->
+            <div class="prompt-deck-item">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">01</span>
+                <div>
+                  <h4 class="prompt-item-title">3-Minute Weekly Async Client Update (Loom + Looker Studio)</h4>
+                  <p class="prompt-item-desc"><strong>Execution Directive:</strong> Sent every Friday with a live Looker Studio link and a 1–3 minute Loom walkthrough. Kills the weekly 45-minute client status call.</p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">TEMPLATE_01_WEEKLY_CLIENT_UPDATE.txt</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('tpl-01-code', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre class="terminal-body" id="tpl-01-code">Subject: Weekly Update — [Client / Project] ([Date])
+
+1. Dashboard &amp; Numbers (30 sec):
+   Live metrics: [Looker Studio Link]
+   - Key win this week: [1 metric + plain-English takeaway]
+   - Watch item: [1 bottleneck + what we are fixing]
+
+2. Shipped This Week (60 sec):
+   - [Deliverable 01] — [Link / Loom preview]
+   - [Deliverable 02] — [Link / Loom preview]
+
+3. Next Week's Plan &amp; Anything Needed From You (60 sec):
+   - Priority 01: [Task + target date]
+   - Priority 02: [Task + target date]
+   - Decision needed by [Day, Time]: [Yes/No question — if no reply by SLA, we ship Option A]
+
+3-Min Loom Walkthrough: [Loom Link]</pre>
+              </div>
+            </div>
+
+            <!-- Template 02 -->
+            <div class="prompt-deck-item">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">02</span>
+                <div>
+                  <h4 class="prompt-item-title">Async Decision Brief / RFC (Silent-Approval Format)</h4>
+                  <p class="prompt-item-desc"><strong>Execution Directive:</strong> Used when a decision needs cross-timezone sign-off. States the default move upfront so work never stalls waiting for a rubber-stamp.</p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">TEMPLATE_02_ASYNC_RFC_DECISION.txt</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('tpl-02-code', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre class="terminal-body" id="tpl-02-code">[DECISION NEEDED] [Short Title] — Reply by [Day, HH:MM TZ]
+
+Context (2 sentences max):
+- [Why this came up and what breaks if we do nothing.]
+
+Options Evaluated:
+- Option A (Recommended): [What it is] — Pros: [X] | Cons: [Y]
+- Option B: [What it is] — Pros: [X] | Cons: [Y]
+
+Default Action (Silent Approval):
+If no P2 pushback lands before [Day, HH:MM TZ], we ship Option A.</pre>
+              </div>
+            </div>
+
+            <!-- Template 03 -->
+            <div class="prompt-deck-item">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">03</span>
+                <div>
+                  <h4 class="prompt-item-title">"Show, Don't Send" Card 01 — Creative &amp; Landing Page Loom Wrapper</h4>
+                  <p class="prompt-item-desc"><strong>Execution Directive:</strong> Mandatory wrapper for every Figma mockup, video cut, or landing page sent for review. Stops clients from freaking out over placeholder copy.</p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">TEMPLATE_03_SHOW_DONT_SEND_LOOM.txt</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('tpl-03-code', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre class="terminal-body" id="tpl-03-code">Ready for Review: [Asset / Page Name] (2-Min Walkthrough)
+
+Watch the 2-min Loom before clicking around: [Loom Link]
+- What changed: [1–2 bullets]
+- Still placeholder / WIP: [Explicitly mark unfinished pieces]
+- Exact feedback needed: [Approve copy / Check mobile view / Pick Hook A vs. B]
+- Reply window: P2 (12h) — drop timestamped notes in Loom or [Ticket Link].</pre>
+              </div>
+            </div>
+
+            <!-- Template 04 -->
+            <div class="prompt-deck-item">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">04</span>
+                <div>
+                  <h4 class="prompt-item-title">"Show, Don't Send" Card 02 — Cross-Timezone Shift Baton Pass</h4>
+                  <p class="prompt-item-desc"><strong>Execution Directive:</strong> Posted at the end of a contractor's shift so the next timezone starts working in 2 minutes instead of burning 30 minutes hunting for links.</p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">TEMPLATE_04_TIMEZONE_BATON_PASS.txt</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('tpl-04-code', this)" title="Copy to clipboard" aria-label="Copy to clipboard">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre class="terminal-body" id="tpl-04-code">[HANDOFF] [Project / Sprint] — [Your Name] -&gt; [Next Timezone Owner]
+
+1. Done today: [Link to merged Pull Request (PR) / approved Figma / Drive folder]
+2. Blocked / Needs eyes: [Exact blocker + what you already tried]
+3. Next single action for your shift: [1 clear step]
+4. Priority tier: [P1: 1h | P2: 12h | P3: 24h]</pre>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 04: Interactive Meeting Elimination Decision Tree -->
+    <section id="section-4" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // Meeting Elimination Decision Tree</span>
+        <h2 class="section-title-modern">Should This Be a Meeting? Test Any Request in 3 Clicks</h2>
+        <p class="section-desc-modern">Nobody got to drop a 30-minute Zoom on the calendar by default. Every call request had to pass this 3-step gate first—routing 90% of requests into tickets, RFCs, or 3-minute Looms.</p>
+      </div>
+
+      <div class="section-body">
+        <!-- Interactive Widget (Screen) -->
+        <div class="decision-tree-shell decision-tree-interactive" id="decision-tree-widget">
+          <div class="decision-tree-top">
+            <span class="decision-step-pill" id="dt-step-label">Gate 01 of 03</span>
+            <button type="button" class="decision-btn" onclick="resetDecisionTree()" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;">Reset Gate</button>
+          </div>
+
+          <div id="dt-question-wrap">
+            <h3 class="decision-question" id="dt-question-text">Is this a P1 live outage (ad account banned, checkout broken, live site down)?</h3>
+            <p class="decision-hint" id="dt-question-hint">P1 means revenue or compliance is bleeding right now and needs a &lt;1 hour fix.</p>
+            <div class="decision-actions">
+              <button type="button" class="decision-btn decision-btn-primary" onclick="answerDecisionTree(true)">Yes</button>
+              <button type="button" class="decision-btn" onclick="answerDecisionTree(false)">No</button>
+            </div>
+          </div>
+
+          <div class="decision-outcome" id="dt-outcome-box">
+            <h3 class="decision-outcome-title" id="dt-outcome-title"></h3>
+            <p class="decision-outcome-copy" id="dt-outcome-copy"></p>
+          </div>
+        </div>
+
+        <!-- Print-Only Unrolled Decision Map -->
+        <div class="decision-print-map" style="margin: 0 0 1.5rem;">
+          <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Gate 01 &rarr; P1 Outage</span>
+            <h3 class="tradeoff-title">15-Min Emergency Huddle</h3>
+            <p class="tradeoff-desc">Triggered only for live P1 blockers (&lt;1h SLA) when &gt;2 people must coordinate live. Post root cause in ticket right after.</p>
+          </div>
+          <div class="tradeoff-card" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Gate 02 &rarr; Negotiation</span>
+            <h3 class="tradeoff-title">15-Min Sync (Brief First)</h3>
+            <p class="tradeoff-desc">Allowed for live negotiation or tense alignment, but only after a 5-line written brief is posted first. No brief, no call.</p>
+          </div>
+          <div class="tradeoff-card" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Gate 03 &rarr; Kill the Call</span>
+            <h3 class="tradeoff-title">3-Min Loom or Annotated Ticket</h3>
+            <p class="tradeoff-desc">Visual walkthroughs get a 1–3 min Loom; everything else becomes an annotated ticket or silent-approval RFC (12h–24h SLA).</p>
+          </div>
+        </div>
+
+        <!-- 4 Meeting-Killer Gates -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">Gate 01</div>
+            <div class="metric-val">No Brief, No Call</div>
+            <div class="metric-desc">Every sync requires a 5-line agenda beforehand</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Gate 02</div>
+            <div class="metric-val">3-Minute Loom Cap</div>
+            <div class="metric-desc">Video updates stay punchy and timestamped</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Gate 03</div>
+            <div class="metric-val">Silent-Approval RFC</div>
+            <div class="metric-desc">Default option ships if no P2 pushback</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Gate 04</div>
+            <div class="metric-val">Question-to-SOP</div>
+            <div class="metric-desc">Any question asked twice becomes a doc</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 05: Evaluated Alternatives & Decision Matrix -->
+    <section id="section-5" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // Evaluated Alternatives &amp; Trade-Off Matrix</span>
+        <h2 class="section-title-modern">Why We Ditched Daily Standups and Single-Tool Mandates</h2>
+        <p class="section-desc-modern">Most remote teams fail at async because they either force live standups at awful hours or waste months migrating everyone into one paid app. Here is what we scrapped and what held up.</p>
+      </div>
+
+      <div class="section-body">
+        <div class="tradeoff-grid tradeoff-grid-3col">
+          <!-- Row 1: 3 Alternatives (Approved on Right Side) -->
+          <div class="tradeoff-card rejected" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Alternative 01: Rejected</span>
+            <h3 class="tradeoff-title">Mandatory Daily Standups Across Timezones</h3>
+            <p class="tradeoff-desc">Forcing 15 contractors in Asia, New Zealand, Europe, and the US onto a daily 30-minute video call.</p>
+            <div class="tradeoff-reason"><strong>Why Rejected:</strong> Burned out offshore talent at midnight/6 AM and wasted 5+ hours/week on status theater where 80% of the room waited their turn.</div>
+          </div>
+
+          <div class="tradeoff-card rejected" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Alternative 02: Rejected</span>
+            <h3 class="tradeoff-title">Forcing Everyone Into One Paid Tool</h3>
+            <p class="tradeoff-desc">Making all external clients and freelance specialists drop WhatsApp and Email for a single enterprise suite.</p>
+            <div class="tradeoff-reason"><strong>Why Rejected:</strong> We tested Slack, Telegram, and ClickUp for agency contractors—WhatsApp won on zero-friction mobile adoption. Wrapping existing tools worked on day one.</div>
+          </div>
+
+          <div class="tradeoff-card accepted" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Chosen Architecture: Approved</span>
+            <h3 class="tradeoff-title">Async-First OS + 1h/12h/24h SLAs + Loom</h3>
+            <p class="tradeoff-desc">Tool-agnostic async rules pairing written RFCs, 1–3 min Loom updates, and Looker Studio dashboards.</p>
+            <div class="tradeoff-reason"><strong>Result:</strong> Cut 15 hours/week of meeting drag (-90% live calls) and kept 15 contractors shipping across 10+ countries with zero added PMs.</div>
+          </div>
+
+          <!-- Row 2: 3 Failure Modes -->
+          <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Failure Mode 01</span>
+            <h3 class="tradeoff-title">Unannotated WIP Dumps</h3>
+            <p class="tradeoff-desc">Sending raw unfinished landing pages or ad cuts to clients without context, causing panic over placeholder copy.</p>
+            <div class="tradeoff-reason"><strong>Mitigation Gate:</strong> Enforced the "Show, Don't Send" protocol—every draft ships with a 2-min Loom or explicit WIP callout.</div>
+          </div>
+
+          <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Failure Mode 02</span>
+            <h3 class="tradeoff-title">Silent Timezone Deadlock</h3>
+            <p class="tradeoff-desc">A developer in India or Vietnam waiting 24+ hours for a simple yes/no decision from Europe or the US.</p>
+            <div class="tradeoff-reason"><strong>Mitigation Gate:</strong> Silent-Approval RFCs + P2 (12h) response windows let the next shift move forward automatically.</div>
+          </div>
+
+          <div class="tradeoff-card" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Failure Mode 03: Resolved</span>
+            <h3 class="tradeoff-title">Client Status Anxiety Without Calls</h3>
+            <p class="tradeoff-desc">Clients asking for weekly Zooms because they can't see progress between deliverables.</p>
+            <div class="tradeoff-reason"><strong>Mitigation Gate:</strong> Live Google Looker Studio dashboards + Friday 1–3 min Looms + 5-to-7-day delivery buffers killed status anxiety.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 06: Retrospective & Learnings (3-Card Grid) -->
+    <section id="section-6" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // Retrospective &amp; Candid Operator Hindsight</span>
+        <h2 class="section-title-modern">What Held Up in Production and What I'd Lock Down Earlier</h2>
+        <p class="section-desc-modern">Three hard-won lessons from running a ~90% async machine across 10+ countries with zero added PM headcount.</p>
+      </div>
+
+      <div class="section-body">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+
+          <div class="workflow-card" style="border-top: 4px solid var(--accent);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-accent">Lesson 01</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Live Dashboards + 3-Min Looms Kill Client Status Calls</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              Clients only ask for weekly Zooms when they feel blind. Pairing a live Google Looker Studio dashboard with a tight 1–3 minute Friday Loom gave them total visibility, saving roughly an hour per week per client without losing trust.
+            </p>
+          </div>
+
+          <div class="workflow-card" style="border-top: 4px solid var(--purple);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-purple">Lesson 02</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Async Without Clocks Turns Into Slower Ping-Pong</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              "We're async" fails if people reply whenever they feel like it. Hard P1 (1h), P2 (12h), and P3 (24h) response windows plus Silent-Approval RFCs kept work moving overnight across 12-hour timezone gaps.
+            </p>
+          </div>
+
+          <div class="workflow-card" style="border-top: 4px solid var(--success);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-success">Lesson 03</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Turn Every Direct Message (DM) Question Into a Doc</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              I'd lock down the Question-to-SOP Rule and No-Brief-No-Call Gate from day one. Every time you answer a routine question in a Direct Message (DM) without turning it into a linkable SOP, you guarantee you'll answer it three more times next month.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Centralized Footer Component -->
+    <footer id="site-footer"></footer>
+
+  </div>
+
+  <script>
+    const dtSteps = [
+      {
+        label: 'Gate 01 of 03',
+        question: 'Is this a P1 live outage (ad account banned, checkout broken, live site down)?',
+        hint: 'P1 means revenue or compliance is bleeding right now and needs a <1 hour fix.',
+        yesOutcome: {
+          title: 'Book a 15-Minute Emergency Huddle (P1 — 1h SLA)',
+          copy: 'Jump on a quick call only if >2 people are needed to fix it right now. Otherwise, ping @here in Slack/WhatsApp, fix it, and post the root cause in the ticket right after.',
+          color: 'var(--danger)'
+        }
+      },
+      {
+        label: 'Gate 02 of 03',
+        question: 'Does this require real-time negotiation or tense stakeholder alignment?',
+        hint: 'Examples: scope change pushback, sensitive client feedback, or complex multi-team trade-offs.',
+        yesOutcome: {
+          title: 'Book a 15-Minute Sync — Written Brief Required First',
+          copy: 'Calls are allowed for live negotiation, but only after a 5-line written brief is posted beforehand. No brief, no call. Record the final decision in the ticket.',
+          color: 'var(--warning)'
+        }
+      },
+      {
+        label: 'Gate 03 of 03',
+        question: 'Is this a visual walkthrough, creative review, or weekly client status?',
+        hint: 'Examples: landing page QA, video ad review, Figma walkthrough, or Friday KPI update.',
+        yesOutcome: {
+          title: 'Kill the Meeting: Send a 1–3 Minute Loom + Dashboard Link',
+          copy: 'Wrap the deliverable with a short Loom showing what changed, what is still WIP, and the exact feedback needed under a P2 (12h) window.',
+          color: 'var(--success)'
+        },
+        noOutcome: {
+          title: 'Kill the Meeting: Write an Annotated Ticket or Silent-Approval RFC',
+          copy: 'Put the context, options, and default action in Asana/Linear/ClickUp with a P2 (12h) or P3 (24h) clock. If nobody pushes back by the deadline, ship Option A.',
+          color: 'var(--accent)'
+        }
+      }
+    ];
+
+    let dtCurrentIndex = 0;
+
+    function renderDecisionStep() {
+      const step = dtSteps[dtCurrentIndex];
+      document.getElementById('dt-step-label').textContent = step.label;
+      document.getElementById('dt-question-text').textContent = step.question;
+      document.getElementById('dt-question-hint').textContent = step.hint;
+      document.getElementById('dt-question-wrap').style.display = 'block';
+      document.getElementById('dt-outcome-box').classList.remove('is-visible');
+    }
+
+    function showDecisionOutcome(outcome) {
+      document.getElementById('dt-question-wrap').style.display = 'none';
+      const box = document.getElementById('dt-outcome-box');
+      box.style.borderLeftColor = outcome.color;
+      document.getElementById('dt-outcome-title').textContent = outcome.title;
+      document.getElementById('dt-outcome-copy').textContent = outcome.copy;
+      document.getElementById('dt-step-label').textContent = 'Decision Routed';
+      box.classList.add('is-visible');
+    }
+
+    function answerDecisionTree(isYes) {
+      const step = dtSteps[dtCurrentIndex];
+      if (isYes) {
+        showDecisionOutcome(step.yesOutcome);
+        return;
+      }
+      if (dtCurrentIndex < dtSteps.length - 1) {
+        dtCurrentIndex += 1;
+        renderDecisionStep();
+      } else {
+        showDecisionOutcome(step.noOutcome);
+      }
+    }
+
+    function resetDecisionTree() {
+      dtCurrentIndex = 0;
+      renderDecisionStep();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      if (typeof initScrollSpy === 'function') {
+        initScrollSpy();
+      }
+    });
+  </script>
+</body>
+</html>
