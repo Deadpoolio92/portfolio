@@ -346,7 +346,7 @@ footer {
 /* --- 5. Portfolio Hub Index Elements --- */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 1.5rem;
   margin-bottom: 4rem;
 }
@@ -3459,4 +3459,42 @@ html.dark .segmented-item-pill.active {
   color: var(--accent);
   border-bottom-color: var(--accent);
   font-weight: 700;
+}
+
+/* --- Operational Duality Panel --- */
+.duality-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 1.25rem;
+}
+.duality-card {
+  background: var(--surface-subtle);
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+}
+.duality-card.is-power {
+  border-left: 3px solid var(--accent);
+}
+.duality-card.is-limit {
+  border-left: 3px solid var(--danger);
+}
+.duality-header {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+.duality-card.is-power .duality-header {
+  color: var(--accent);
+}
+.duality-card.is-limit .duality-header {
+  color: var(--danger);
+}
+.duality-copy {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  line-height: 1.45;
+  margin: 0;
 }
