@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>200+ Contractors, Zero Live Training Calls: How I Saved 10–20 Hours Per Hire With a Self-Serve SOP Library | Karol Jasztal</title>
+  <link rel="stylesheet" href="shared.css" />
+  <script src="shared.js"></script>
+  <style>
+    .consolidation-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1rem;
+      align-items: stretch;
+      margin: 1.5rem 0 1.75rem;
+    }
+    .consolidation-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .consolidation-box.is-legacy {
+      border-top: 4px solid var(--danger);
+    }
+    .consolidation-box.is-unified {
+      border-top: 4px solid var(--success);
+    }
+    .consolidation-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+      padding: 0 0.25rem;
+    }
+    .tool-chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin: 0.75rem 0;
+    }
+    .tool-chip {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 0.28rem 0.6rem;
+      border-radius: 6px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--ink);
+    }
+    .kaizen-loop-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.85rem;
+      margin: 1.25rem 0 1.75rem;
+    }
+    .kaizen-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--accent);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .kaizen-step-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.35rem;
+    }
+    .kaizen-step-title {
+      font-family: var(--font-display);
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 0.35rem;
+    }
+    .kaizen-step-copy {
+      font-size: 0.84rem;
+      color: var(--ink-muted);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .role-switcher-shell {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--accent);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.25rem 0 1.75rem;
+    }
+    .role-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+    .role-tab-btn {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface-subtle);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+    }
+    .role-tab-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .role-tab-btn.is-active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+    .role-panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .role-module-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+    }
+    .role-module-card {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+    }
+    .role-module-card.is-inherited {
+      border-left: 4px solid var(--purple);
+    }
+    .role-module-card.is-manager {
+      border-left: 4px solid var(--success);
+    }
+    .role-module-card.is-core {
+      border-left: 4px solid var(--accent);
+    }
+    .role-print-all {
+      display: none;
+    }
+    .sop-anatomy-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    .sop-field-list {
+      margin: 0.75rem 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      font-size: 0.86rem;
+      color: var(--ink-muted);
+      line-height: 1.5;
+    }
+    .sop-field-list li strong {
+      color: var(--ink);
+    }
+    @media (max-width: 820px) {
+      .consolidation-grid,
+      .kaizen-loop-bar,
+      .role-module-grid,
+      .sop-anatomy-grid,
+      .constraints-4col {
+        grid-template-columns: 1fr !important;
+      }
+      .consolidation-arrow {
+        transform: rotate(90deg);
+        padding: 0.25rem 0;
+      }
+    }
+    @media print {
+      .role-interactive-only {
+        display: none !important;
+      }
+      .role-print-all {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.85rem !important;
+      }
+      tbody .table-row-hidden,
+      tbody:not(.is-expanded) .table-row-hidden,
+      .table-row-hidden {
+        display: table-row !important;
+      }
+      .table-expand-row,
+      .btn-table-toggle {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Top Navigation Header (Option 2B Normal Flow) -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio Overview
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">SOP Library &amp; Zero-Touch Onboarding</span>
+      </div>
+      <div class="nav-actions">
+        <a href="sop-library-onboarding.pdf" download class="btn-ghost" style="padding: 0.45rem 0.85rem; font-size: 0.82rem; gap: 0.35rem;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          Download PDF
+        </a>
+        <button id="themeToggle" class="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 2. Sticky Chapter Anchor Bar (Option 2B) -->
+  <nav class="sticky-nav-bar" id="sticky-nav" aria-label="Case study sections">
+    <div class="nav-grid-track">
+      <a href="#section-1" class="nav-tag-pill active">01. Consolidation &amp; Time Study</a>
+      <a href="#section-2" class="nav-tag-pill">02. Role Inheritance Tree</a>
+      <a href="#section-3" class="nav-tag-pill">03. SOP Anatomy &amp; Kit</a>
+      <a href="#section-4" class="nav-tag-pill">04. Kaizen Quality Gates</a>
+      <a href="#section-5" class="nav-tag-pill">05. Trade-Off Matrix</a>
+      <a href="#section-6" class="nav-tag-pill">06. Retrospective</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO SECTION (Option 03C Centered) -->
+    <header class="hero-banner hero-centered">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Knowledge Architecture &bull; Karol Jasztal
+      </div>
+      <h1 class="hero-title" style="max-width: 1140px; margin-left: auto; margin-right: auto;">200+ Contractors, Zero Live Training Calls: <span class="headline-accent">How I Saved 10–20 Hours Per Hire With a Self-Serve SOP Library</span></h1>
+      <p class="hero-subtitle">
+        Every new hire used to burn 10 to 20 hours of live 1-on-1 training before they shipped anything useful. Consolidating scattered docs into a role-gated GoHighLevel hub with manager inheritance and a Kaizen lesson loop scaled the team from one operator to 15 active freelancers.
+      </p>
+
+      <!-- Option 03C Connected HUD Telemetry Bar -->
+      <div class="hud-telemetry-bar" style="margin-top: 2.25rem;">
+        <div class="hud-cell">
+          <div class="hud-label">Training Saved</div>
+          <div class="hud-num" style="color: var(--accent);">10–20 hrs</div>
+          <span class="hud-delta delta-success">Per New Hire</span>
+          <div class="hud-sub">Zero Live 1-on-1 Calls</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Contractors Vetted</div>
+          <div class="hud-num">200+</div>
+          <span class="hud-delta delta-neutral">Hire-Then-Onboard</span>
+          <div class="hud-sub">Self-Serve Filter</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Team Scale</div>
+          <div class="hud-num" style="color: var(--success);">1 &rarr; 15</div>
+          <span class="hud-delta delta-success">Active Specialists</span>
+          <div class="hud-sub">10+ Countries</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Tool Consolidation</div>
+          <div class="hud-num">4 &rarr; 1</div>
+          <span class="hud-delta delta-neutral">GoHighLevel Hub</span>
+          <div class="hud-sub">1 Login, Auto-Tagged</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Role Architecture</div>
+          <div class="hud-num" style="color: var(--accent);">4 Tracks</div>
+          <span class="hud-delta delta-success">Manager Inheritance</span>
+          <div class="hud-sub">SOPs + KPIs + Kaizen</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Section 01: Consolidation & Time Study -->
+    <section id="section-1" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // Consolidation Blueprint &amp; Empirical Time Study</span>
+        <h2 class="section-title-modern">How 15 Hours of Live Hand-Holding Shrank to a Self-Serve Hub</h2>
+        <p class="section-desc-modern">When you hire 200+ freelancers over time, plenty wash out in the first two weeks. Spending 10–20 hours on live Zoom training per person—while docs sat scattered across Notion, Loom, ClickUp, and WordPress—was burning daylight fast.</p>
+      </div>
+
+      <div class="section-body">
+        <!-- 4 Non-Negotiable Constraints -->
+        <div class="pipeline-rail constraints-4col" style="grid-template-columns: repeat(4, 1fr); margin: 0 0 1.5rem;">
+          <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Constraint 01</span>
+            <h3 class="node-title">Zero HR or Trainer Headcount</h3>
+            <p class="node-desc">No dedicated onboarding coordinator. The moment a hire was marked active, the system had to welcome, provision, and train them without live calls.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Constraint 02</span>
+            <h3 class="node-title">Near-Zero Sunk Cost on Early Washouts</h3>
+            <p class="node-desc">Everyone was hired first and onboarded immediately. Because weak fits often washed out in weeks, personal founder time spent per hire had to stay near zero.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Constraint 03</span>
+            <h3 class="node-title">Single-Login, Role-Gated Access</h3>
+            <p class="node-desc">No multi-tool scavenger hunts and no dumping 80 unrelated docs on new hires. Every role had to log into one hub and see only what they needed.</p>
+          </div>
+          <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Constraint 04</span>
+            <h3 class="node-title">Automated Proof &amp; Manager Inheritance</h3>
+            <p class="node-desc">Operations Managers needed real-time completion tags (who finished what and when) plus full visibility into subordinate role SOPs—without pinging the founder.</p>
+          </div>
+        </div>
+
+        <!-- 4 Tools -> 1 Hub Consolidation Visual -->
+        <div class="consolidation-grid">
+          <div class="consolidation-box is-legacy">
+            <span class="badge badge-danger">Legacy Sprawl (Before)</span>
+            <h3 class="node-title" style="margin-top: 0.65rem;">4 Scattered Tools, 0 Tracking</h3>
+            <div class="tool-chip-list">
+              <span class="tool-chip">Notion Docs</span>
+              <span class="tool-chip">Loom Links</span>
+              <span class="tool-chip">ClickUp Tasks</span>
+              <span class="tool-chip">WordPress LMS</span>
+            </div>
+            <p class="node-desc">Multiple logins, stale links, manual email invites, and zero automated proof that a new hire actually read the Standard Operating Procedure (SOP) before touching client work.</p>
+          </div>
+
+          <div class="consolidation-arrow">&rarr;</div>
+
+          <div class="consolidation-box is-unified">
+            <span class="badge badge-success">Unified Architecture (After)</span>
+            <h3 class="node-title" style="margin-top: 0.65rem;">1 GoHighLevel Hub, Auto-Tagged</h3>
+            <div class="tool-chip-list">
+              <span class="tool-chip">Single Login Portal</span>
+              <span class="tool-chip">Auto-Unlock by Role</span>
+              <span class="tool-chip">Auto Welcome Emails</span>
+              <span class="tool-chip">Completion Tags</span>
+            </div>
+            <p class="node-desc">One place for every course, SOP, bonus rule, and KPI guide. Management sees exact completion tags in real time with zero manual follow-up.</p>
+          </div>
+        </div>
+
+        <!-- Time Study Comparison Table -->
+        <div class="table-frame table-scroll-lg">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 30%;">Onboarding Phase</th>
+                <th style="width: 22%;">Legacy Live Calls</th>
+                <th style="width: 26%;">GoHighLevel Self-Serve Hub</th>
+                <th style="width: 22%;">Time Saved</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">Access, Login &amp; Welcome Setup</td>
+                <td>1.0 hours / hire</td>
+                <td>0.5 hours (auto-email + auto-unlock)</td>
+                <td class="text-success font-bold">-50.0%</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Mission, KPIs &amp; Bonus Structure</td>
+                <td>0.5 hours / hire</td>
+                <td>0.0 hours (self-paced Module 01)</td>
+                <td class="text-success font-bold">-100.0%</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Role SOPs &amp; Tool Walkthroughs</td>
+                <td>10.0 hours / hire</td>
+                <td>0.0 hours (role-gated video + checklists)</td>
+                <td class="text-success font-bold">-100.0%</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Recurring Q&amp;A &amp; Mistake Fixes</td>
+                <td>3.5 hours / hire</td>
+                <td>0.5 hours (lesson link + Kaizen update)</td>
+                <td class="text-success font-bold">-85.7%</td>
+              </tr>
+              <tr class="table-row-total">
+                <td>Total Personal Training Per Hire</td>
+                <td>15.0 hours (10–20h range)</td>
+                <td>1.0 hours / hire</td>
+                <td class="text-success">-93.3% (10–20h saved)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 02: Role Inheritance & GoHighLevel Automation -->
+    <section id="section-2" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // Modular Curriculum &amp; Role Inheritance</span>
+        <h2 class="section-title-modern">Four Role Tracks With Built-In Manager Inheritance</h2>
+        <p class="section-desc-modern">Specialists only saw the modules for their own seat so they never drowned in irrelevant noise. Operations Managers automatically inherited every subordinate track on top of their own management playbook.</p>
+      </div>
+
+      <div class="section-body">
+        <!-- Interactive Role Inheritance Switcher -->
+        <div class="role-switcher-shell role-interactive-only">
+          <div class="role-tabs" role="tablist" aria-label="Select Role Curriculum">
+            <button type="button" class="role-tab-btn is-active" onclick="selectRoleTrack('content', this)">Track 01: Content Creator</button>
+            <button type="button" class="role-tab-btn" onclick="selectRoleTrack('copy', this)">Track 02: Copywriter</button>
+            <button type="button" class="role-tab-btn" onclick="selectRoleTrack('crm', this)">Track 03: CRM Specialist</button>
+            <button type="button" class="role-tab-btn" onclick="selectRoleTrack('manager', this)">Track 04: Operations Manager (Inherited)</button>
+          </div>
+          <div id="role-track-output"></div>
+        </div>
+
+        <!-- Print-Only Unrolled Fallback for All 4 Tracks -->
+        <div class="role-print-all">
+          <div class="workflow-card" style="border-top: 4px solid var(--accent);">
+            <span class="badge badge-accent">Track 01 // Content Creator</span>
+            <h4 style="margin: 0.5rem 0 0.35rem;">Core Execution &amp; Handoff</h4>
+            <p style="font-size: 0.84rem; color: var(--ink-muted); margin: 0;">Brand voice &amp; visual specs, Google Drive naming, Loom handoff prep, and on-time delivery bonus rules.</p>
+          </div>
+          <div class="workflow-card" style="border-top: 4px solid var(--accent);">
+            <span class="badge badge-accent">Track 02 // Copywriter</span>
+            <h4 style="margin: 0.5rem 0 0.35rem;">Direct Response &amp; Compliance</h4>
+            <p style="font-size: 0.84rem; color: var(--ink-muted); margin: 0;">Hook formulas, banned-claims QA checks, headline variants, client tone matching, and revision-rate KPIs.</p>
+          </div>
+          <div class="workflow-card" style="border-top: 4px solid var(--accent);">
+            <span class="badge badge-accent">Track 03 // CRM Specialist</span>
+            <h4 style="margin: 0.5rem 0 0.35rem;">Pipeline Hygiene &amp; Automation</h4>
+            <p style="font-size: 0.84rem; color: var(--ink-muted); margin: 0;">Customer Relationship Management (CRM) tagging, duplicate prevention, automated follow-up triggers, and data-accuracy bonuses.</p>
+          </div>
+          <div class="workflow-card" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success">Track 04 // Operations Manager</span>
+            <h4 style="margin: 0.5rem 0 0.35rem;">Inherits Tracks 01–03 + Management</h4>
+            <p style="font-size: 0.84rem; color: var(--ink-muted); margin: 0;">Full read access to all 3 specialist tracks, plus QA audit rubrics, bonus verification, difficult-client escalation, and Kaizen lesson publishing.</p>
+          </div>
+        </div>
+
+        <!-- 10-Row GoHighLevel Auto-Provisioning & Telemetry Table -->
+        <div class="table-frame table-scroll-lg">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 6%;">#</th>
+                <th style="width: 24%;">Trigger Event</th>
+                <th style="width: 36%;">GoHighLevel Automation</th>
+                <th style="width: 34%;">Management Telemetry Tag</th>
+              </tr>
+            </thead>
+            <tbody id="ghl-tbody">
+              <tr>
+                <td class="font-mono">01</td>
+                <td class="font-bold">Hire marked Active</td>
+                <td>Send welcome email + single portal login link</td>
+                <td><span class="tag-pill">onboard:started</span></td>
+              </tr>
+              <tr>
+                <td class="font-mono">02</td>
+                <td class="font-bold">Specialist role tag added</td>
+                <td>Auto-unlock only that role's course modules</td>
+                <td><span class="tag-pill">role:specialist-[name]</span></td>
+              </tr>
+              <tr>
+                <td class="font-mono">03</td>
+                <td class="font-bold">Manager role tag added</td>
+                <td>Auto-unlock Manager track + Tracks 01–03</td>
+                <td><span class="tag-pill">role:ops-manager</span></td>
+              </tr>
+              <tr>
+                <td class="font-mono">04</td>
+                <td class="font-bold">Module 01 completed</td>
+                <td>Unlock role execution SOPs &amp; QA checklists</td>
+                <td><span class="tag-pill">onboard:module-01-done</span></td>
+              </tr>
+              <tr>
+                <td class="font-mono">05</td>
+                <td class="font-bold">Core SOPs acknowledged</td>
+                <td>Unlock live project folders &amp; task board</td>
+                <td><span class="tag-pill">onboard:sops-signed</span></td>
+              </tr>
+              <tr>
+                <td class="font-mono">06</td>
+                <td class="font-bold">48h inactivity window</td>
+                <td>Send automated nudge email + alert manager</td>
+                <td><span class="tag-pill">onboard:stalled-48h</span></td>
+              </tr>
+              <tr>
+                <td class="font-mono">07</td>
+                <td class="font-bold">100% track completed</td>
+                <td>Fire production-ready alert to Ops Manager</td>
+                <td><span class="tag-pill">onboard:completed</span></td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td class="font-mono">08</td>
+                <td class="font-bold">First 3 tasks pass QA</td>
+                <td>Log probation milestone for bonus eligibility</td>
+                <td><span class="tag-pill">onboard:probation-passed</span></td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td class="font-mono">09</td>
+                <td class="font-bold">Kaizen lesson updated</td>
+                <td>Notify affected role tags of updated SOP rule</td>
+                <td><span class="tag-pill">sop:update-notified</span></td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td class="font-mono">10</td>
+                <td class="font-bold">Contractor offboarded</td>
+                <td>Revoke GoHighLevel portal &amp; role tags</td>
+                <td><span class="tag-pill">onboard:access-revoked</span></td>
+              </tr>
+              <tr class="table-expand-row" id="ghl-toggle-row">
+                <td colspan="4">
+                  <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'ghl-tbody', 'Automation Rules', 10, 7)">
+                    <span class="btn-table-text">Show All 10 Automation Rules (3 More)</span>
+                    <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 03: Standardized SOP Anatomy & Copyable Kit -->
+    <section id="section-3" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // Standardized SOP Anatomy &amp; Copyable Kit</span>
+        <h2 class="section-title-modern">Every SOP Answered "Why, How, Edge Cases, and Bonus Math"</h2>
+        <p class="section-desc-modern">Vague docs create guesswork. Every SOP in the library followed one strict 7-part structure—purpose, revenue impact, prerequisites, numbered steps, edge cases, binary QA checklist, and KPI bonus rules.</p>
+      </div>
+
+      <div class="section-body">
+        <!-- 4 Role SOP Anatomy Cards (Clean .workflow-card, ZERO copy buttons on human SOPs) -->
+        <div class="sop-anatomy-grid">
+          <div class="workflow-card" style="border-top: 4px solid var(--accent);">
+            <div class="card-top" style="margin-bottom: 0.5rem;">
+              <span class="badge badge-accent">SOP 01 // Content Creator</span>
+            </div>
+            <h3 class="node-title">Ad Creative Assembly &amp; Drive Handoff</h3>
+            <ul class="sop-field-list">
+              <li><strong>Purpose &amp; Revenue Impact:</strong> Deliver thumb-stopping video/static cuts on time so media buyers never stall ad spend.</li>
+              <li><strong>Prerequisites:</strong> Approved creative brief, raw footage folder, brand font/color kit.</li>
+              <li><strong>Steps &amp; Edge Cases:</strong> Cut 3 hook variants &rarr; export 9:16 + 1:1 &rarr; name <code>YYYY-MM-DD_Client_HookA</code>. If raw audio clips, flag P2 before editing.</li>
+              <li><strong>QA &amp; Bonus Rule:</strong> Zero typos, safe-zone captions checked; <strong>&ge;95% on-time delivery</strong> unlocks monthly speed bonus.</li>
+            </ul>
+          </div>
+
+          <div class="workflow-card" style="border-top: 4px solid var(--purple);">
+            <div class="card-top" style="margin-bottom: 0.5rem;">
+              <span class="badge badge-purple">SOP 02 // Copywriter</span>
+            </div>
+            <h3 class="node-title">Landing Page &amp; Direct-Response QA</h3>
+            <ul class="sop-field-list">
+              <li><strong>Purpose &amp; Revenue Impact:</strong> Ship compliant, high-converting copy that passes legal review on the first pass.</li>
+              <li><strong>Prerequisites:</strong> Offer sheet, banned-claims list, target avatar pain points.</li>
+              <li><strong>Steps &amp; Edge Cases:</strong> Draft 3 headline angles &rarr; run banned-claims scan &rarr; attach 2-min Loom context. If offer terms conflict, escalate P2 before writing.</li>
+              <li><strong>QA &amp; Bonus Rule:</strong> Zero unverified claims, 4th–6th grade readability; <strong>&le;1 revision round</strong> average earns quarterly quality bonus.</li>
+            </ul>
+          </div>
+
+          <div class="workflow-card" style="border-top: 4px solid var(--warning);">
+            <div class="card-top" style="margin-bottom: 0.5rem;">
+              <span class="badge badge-warning">SOP 03 // CRM Specialist</span>
+            </div>
+            <h3 class="node-title">Pipeline Hygiene &amp; Automation Triggering</h3>
+            <ul class="sop-field-list">
+              <li><strong>Purpose &amp; Revenue Impact:</strong> Keep leads moving cleanly so zero paid-traffic inquiries fall through the cracks.</li>
+              <li><strong>Prerequisites:</strong> GoHighLevel pipeline access, field dictionary, duplicate-merge checklist.</li>
+              <li><strong>Steps &amp; Edge Cases:</strong> Validate phone/email format &rarr; apply source tag &rarr; verify workflow fire. If duplicate contact exists, merge older record into newest.</li>
+              <li><strong>QA &amp; Bonus Rule:</strong> 99%+ clean required fields, zero orphaned leads &gt;24h; <strong>zero missed-lead audits</strong> unlocks monthly accuracy bonus.</li>
+            </ul>
+          </div>
+
+          <div class="workflow-card" style="border-top: 4px solid var(--success);">
+            <div class="card-top" style="margin-bottom: 0.5rem;">
+              <span class="badge badge-success">SOP 04 // Operations Manager</span>
+            </div>
+            <h3 class="node-title">Subordinate QA Audit &amp; Kaizen Publishing</h3>
+            <ul class="sop-field-list">
+              <li><strong>Purpose &amp; Revenue Impact:</strong> Catch defects before clients see them and turn recurring team friction into permanent lessons.</li>
+              <li><strong>Prerequisites:</strong> Inherited access to Tracks 01–03, GoHighLevel completion tag view, client SLA matrix.</li>
+              <li><strong>Steps &amp; Edge Cases:</strong> Check <code>onboard:completed</code> tag &rarr; spot-check first 3 deliverables &rarr; log recurring questions into Kaizen queue. Escalate P1 client issues within 1h.</li>
+              <li><strong>QA &amp; Bonus Rule:</strong> Zero client-facing escapes, KPI scorecard updated every Friday; <strong>team first-pass QA &ge;92%</strong> drives manager bonus.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Operational Duality Panel -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; margin: 0 0 1.25rem;">
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--accent); padding: 0.65rem 0.85rem; border-radius: 6px;">
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 0.25rem;">&#9889; How Powered It Is (Zero-Touch Engine)</div>
+            <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+              &bull; <strong>Automated Provisioning:</strong> One GoHighLevel login auto-unlocks role training on hire, fires welcome emails, and tags every completed module.<br>
+              &bull; <strong>10–20h Saved Per Hire:</strong> Eliminates repeated Zoom walkthroughs while giving managers instant completion telemetry.
+            </div>
+          </div>
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px;">
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin-bottom: 0.25rem;">&#128721; Where It Is Purposefully Limited (Hard Guardrails)</div>
+            <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+              &bull; <strong>Gated Live Access:</strong> Never unlocks live client ad accounts or billing until <code>onboard:completed</code> fires.<br>
+              &bull; <strong>Human QA + Living Docs:</strong> Never replaces human QA sign-off on first deliverables, and never lets a question asked twice stay undocumented.
+            </div>
+          </div>
+        </div>
+
+        <!-- Copyable Onboarding & Kaizen Templates -->
+        <div class="prompt-deck-container">
+          <div class="prompt-deck-body">
+
+            <div class="prompt-deck-item">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">01</span>
+                <div>
+                  <h4 class="prompt-item-title">Standardized 7-Part SOP Lesson Blueprint</h4>
+                  <p class="prompt-item-desc"><strong>Execution Directive:</strong> Every new lesson added to GoHighLevel must fill all 7 blocks below before publishing—no bare Loom videos without edge cases or QA checks.</p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">TEMPLATE_01_SOP_LESSON_BLUEPRINT.txt</span>
+                  <button type="button" class="btn-copy-icon" onclick="copySnippet('tpl-sop', this)" aria-label="Copy SOP Blueprint" title="Copy to clipboard">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre class="terminal-body" id="tpl-sop">1. Purpose: [1 sentence — what this deliverable accomplishes]
+2. Revenue Impact: [Why it matters to client retention, ROAS, or pipeline speed]
+3. Prerequisites: [Required brief, folder link, and tool access]
+4. Step-by-Step Runbook:
+   - Step 01: [Action + exact click path]
+   - Step 02: [Action + naming convention]
+   - Step 03: [Handoff format + Loom wrapper]
+5. Edge Cases &amp; Escalation:
+   - If [missing asset / unclear brief] -&gt; Flag P2 in task card; do not guess.
+6. Binary QA Checklist (Pass All Before Review):
+   - [ ] Naming convention matches [YYYY-MM-DD_Client_Asset]
+   - [ ] Zero placeholder text or broken links
+   - [ ] Context note or short Loom attached
+7. KPI &amp; Bonus Target: [e.g., &gt;=95% first-pass QA approval = monthly accuracy bonus]</pre>
+              </div>
+            </div>
+
+            <div class="prompt-deck-item">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">02</span>
+                <div>
+                  <h4 class="prompt-item-title">GoHighLevel Zero-Touch Welcome &amp; Auto-Unlock Email</h4>
+                  <p class="prompt-item-desc"><strong>Execution Directive:</strong> Triggered automatically when a new contractor is tagged <code>onboard:started</code> + their role tag.</p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">TEMPLATE_02_WELCOME_AUTO_UNLOCK.txt</span>
+                  <button type="button" class="btn-copy-icon" onclick="copySnippet('tpl-welcome', this)" aria-label="Copy Welcome Email" title="Copy to clipboard">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre class="terminal-body" id="tpl-welcome">Subject: Welcome aboard — your [Role Name] training &amp; portal login
+
+Hey [First Name],
+
+You're officially set up. Instead of booking hours of live calls, everything you need lives in one place:
+
+1. Log in here (single login for all SOPs &amp; guides): [GoHighLevel Portal Link]
+2. Complete your unlocked [Role Name] track (covers SOPs, KPIs, bonus rules, and escalation).
+3. As soon as you finish the final module, our system tags you Ready for Production and notifies your manager to assign your first live task.
+
+Stuck on a step? Drop the lesson name and timestamp in chat so we can fix the guide for everyone.</pre>
+              </div>
+            </div>
+
+            <div class="prompt-deck-item">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">03</span>
+                <div>
+                  <h4 class="prompt-item-title">Kaizen "Question-to-SOP" Reply Macro</h4>
+                  <p class="prompt-item-desc"><strong>Execution Directive:</strong> Whenever a contractor asks a repeat question, answer with the exact lesson link—never type a fresh one-off explanation that disappears in chat.</p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">TEMPLATE_03_KAIZEN_REPLY_MACRO.txt</span>
+                  <button type="button" class="btn-copy-icon" onclick="copySnippet('tpl-kaizen', this)" aria-label="Copy Kaizen Macro" title="Copy to clipboard">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre class="terminal-body" id="tpl-kaizen">Good question—here is the exact rule for that:
+
+[Direct GoHighLevel Lesson Link] (see Step [X] &amp; Edge Case [Y])
+
+I just updated this lesson with the edge case you ran into so nobody else hits the same snag. Check it out and let me know if anything in that step is still unclear.</pre>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 04: Kaizen Continuous Improvement Loop -->
+    <section id="section-4" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // Kaizen Continuous Improvement Loop</span>
+        <h2 class="section-title-modern">How Every Repeated Question Upgraded the Library Automatically</h2>
+        <p class="section-desc-modern">Static handbooks rot in a month. Pairing IT Information Technology Infrastructure Library (ITIL) knowledge discipline with Kaizen continuous improvement kept every GoHighLevel lesson sharp without scheduled doc-review meetings.</p>
+      </div>
+
+      <div class="section-body">
+        <div class="kaizen-loop-bar">
+          <div class="kaizen-step" style="border-top-color: var(--accent);">
+            <div class="kaizen-step-num">Step 01 // Signal</div>
+            <h3 class="kaizen-step-title">Question or Mistake Hits Chat</h3>
+            <p class="kaizen-step-copy">A contractor asks how to handle an edge case or fails a QA check on a deliverable.</p>
+          </div>
+          <div class="kaizen-step" style="border-top-color: var(--warning);">
+            <div class="kaizen-step-num">Step 02 // Triage</div>
+            <h3 class="kaizen-step-title">Check Telemetry vs. Clarity</h3>
+            <p class="kaizen-step-copy">Check GoHighLevel tags: did they skip the lesson, or was the lesson missing this edge case?</p>
+          </div>
+          <div class="kaizen-step" style="border-top-color: var(--purple);">
+            <div class="kaizen-step-num">Step 03 // Patch</div>
+            <h3 class="kaizen-step-title">Update Lesson Same Day</h3>
+            <p class="kaizen-step-copy">Add the missing step, screenshot, or edge-case rule directly to the GoHighLevel module.</p>
+          </div>
+          <div class="kaizen-step" style="border-top-color: var(--success);">
+            <div class="kaizen-step-num">Step 04 // Close Loop</div>
+            <h3 class="kaizen-step-title">Reply With Lesson URL</h3>
+            <p class="kaizen-step-copy">Send the direct lesson link instead of a long chat wall—never answer the same question twice.</p>
+          </div>
+        </div>
+
+        <div class="metrics-strip">
+          <div class="metric-card">
+            <div class="metric-label">Gate 01</div>
+            <div class="metric-val">Asked Twice = Doc</div>
+            <div class="metric-desc">Repeat chat answers banned</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Gate 02</div>
+            <div class="metric-val">Tag Before Blame</div>
+            <div class="metric-desc">Verify completion telemetry first</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Gate 03</div>
+            <div class="metric-val">Role-Scoped Updates</div>
+            <div class="metric-desc">Notify only impacted role tags</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Gate 04</div>
+            <div class="metric-val">Link-First Habit</div>
+            <div class="metric-desc">Train team to check hub first</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 05: Evaluated Alternatives & Trade-Off Matrix -->
+    <section id="section-5" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // Evaluated Alternatives &amp; Trade-Off Matrix</span>
+        <h2 class="section-title-modern">Why We Ditched Live Calls and Scattered Docs for One Hub</h2>
+        <p class="section-desc-modern">Most small teams stay trapped in live training because building a real academy feels slow—until churn hits. Here is what we tested, what broke, and what scaled.</p>
+      </div>
+
+      <div class="section-body">
+        <div class="tradeoff-grid tradeoff-grid-3col">
+          <div class="tradeoff-card rejected" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Alternative 01: Rejected</span>
+            <h3 class="tradeoff-title">Live 1-on-1 Zoom Onboarding</h3>
+            <p class="tradeoff-desc">Walking every new freelancer through tools, SOPs, and client expectations on live calls.</p>
+            <div class="tradeoff-reason"><strong>Why Rejected:</strong> Burned 10–20 hours per hire; completely broke down across 200+ contractor evaluations and normal early turnover.</div>
+          </div>
+
+          <div class="tradeoff-card rejected" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Alternative 02: Rejected</span>
+            <h3 class="tradeoff-title">4-Tool Stack (Notion + Loom + ClickUp + WP)</h3>
+            <p class="tradeoff-desc">Keeping SOPs in Notion/WordPress, videos in Loom, and tasks in ClickUp with manual invites.</p>
+            <div class="tradeoff-reason"><strong>Why Rejected:</strong> Too many logins, broken links, zero automated completion tracking, and constant "where is that doc?" pings.</div>
+          </div>
+
+          <div class="tradeoff-card accepted" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Chosen Architecture: Approved</span>
+            <h3 class="tradeoff-title">Unified GoHighLevel Academy + Kaizen</h3>
+            <p class="tradeoff-desc">One portal with role-gated tracks, manager inheritance, auto-unlock/welcome/tagging, and living SOPs.</p>
+            <div class="tradeoff-reason"><strong>Result:</strong> Saved 10–20 hours per hire, tracked completion automatically, and scaled to 15 active freelancers across 10+ countries.</div>
+          </div>
+
+          <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Failure Mode 01</span>
+            <h3 class="tradeoff-title">Dumping Every SOP on Every Hire</h3>
+            <p class="tradeoff-desc">Giving a Copywriter or Content Creator access to 80 unrelated CRM and management lessons.</p>
+            <div class="tradeoff-reason"><strong>Mitigation Gate:</strong> Strict role-tag gating unlocked only their track—while Operations Managers inherited all subordinate tracks.</div>
+          </div>
+
+          <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Failure Mode 02</span>
+            <h3 class="tradeoff-title">"Read-Only" Docs Without Why or QA</h3>
+            <p class="tradeoff-desc">Writing dry step lists without explaining revenue impact, edge cases, or bonus math.</p>
+            <div class="tradeoff-reason"><strong>Mitigation Gate:</strong> Enforced the 7-part SOP Anatomy so every contractor knew why the rule mattered and how QA tied to bonuses.</div>
+          </div>
+
+          <div class="tradeoff-card" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Failure Mode 03: Resolved</span>
+            <h3 class="tradeoff-title">Stale Handbooks Nobody Opens Twice</h3>
+            <p class="tradeoff-desc">PDF manuals that go out of date the week after launch and get ignored by the team.</p>
+            <div class="tradeoff-reason"><strong>Mitigation Gate:</strong> The Kaizen Question-to-SOP rule kept lessons live and turned every chat question into a direct portal visit.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 06: Retrospective & Learnings -->
+    <section id="section-6" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // Retrospective &amp; Candid Operator Hindsight</span>
+        <h2 class="section-title-modern">What Paid Back Multiplicatively and What I'd Start Earlier</h2>
+        <p class="section-desc-modern">Four hard-won lessons from spending 1+ year turning tribal founder knowledge into a self-serve onboarding machine.</p>
+      </div>
+
+      <div class="section-body">
+        <div class="constraints-4col" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;">
+          <div class="workflow-card" style="border-top: 4px solid var(--accent);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-accent">Lesson 01</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Treat Onboarding Like a Product, Not a Call</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              Spending a year documenting SOPs felt slow at the start, but it paid back every single time a new contractor joined—saving 10–20 hours per hire across 200+ evaluations.
+            </p>
+          </div>
+
+          <div class="workflow-card" style="border-top: 4px solid var(--purple);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-purple">Lesson 02</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">One Login + Auto-Tagging Beats 4 Best-in-Class Apps</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              Moving everything from Notion, Loom, ClickUp, and WordPress into GoHighLevel killed login friction and gave management instant visibility into who finished what and when.
+            </p>
+          </div>
+
+          <div class="workflow-card" style="border-top: 4px solid var(--success);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-success">Lesson 03</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Manager Inheritance Eliminates Escalation Bottlenecks</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              Giving Operations Managers automatic access to every subordinate role's course meant they could audit Copywriters, Creators, and CRM Specialists without coming back to me.
+            </p>
+          </div>
+
+          <div class="workflow-card" style="border-top: 4px solid var(--danger);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-danger">Lesson 04 // Next Time</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Pick One Hub and Enforce Kaizen From Hire #1</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              I wasted months keeping SOPs scattered across Notion, Loom, ClickUp, and WordPress before migrating everything into GoHighLevel—and even longer answering repeat questions in chat instead of turning them into lessons the same day. Next time, I'd lock in one hub and the Question-to-SOP rule from contractor #1.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Centralized Footer Component -->
+    <footer id="site-footer"></footer>
+
+  </div>
+
+  <script>
+    const roleTracks = {
+      content: {
+        badge: 'Track 01 // Specialist',
+        title: 'Content Creator Onboarding Track',
+        meta: 'Auto-unlocked via role:specialist-content-creator | 4 Core Modules',
+        modules: [
+          { type: 'core', tag: 'Module 01', name: 'Company Mission, KPIs & Speed Bonus', desc: 'How creative velocity drives client ROAS and how >=95% on-time delivery unlocks monthly bonuses.' },
+          { type: 'core', tag: 'Module 02', name: 'Visual Specs & Hook Variants', desc: 'Export ratios (9:16, 1:1), safe-zone caption rules, and cutting 3 hook variants per brief.' },
+          { type: 'core', tag: 'Module 03', name: 'Google Drive Naming & Loom Handoff', desc: 'Strict YYYY-MM-DD_Client_Asset naming and attaching a 60-second Loom context note.' },
+          { type: 'core', tag: 'Module 04', name: 'Edge Cases & Escalation Protocol', desc: 'What to do when raw footage or audio clips are broken—flag P2 instead of guessing.' }
+        ]
+      },
+      copy: {
+        badge: 'Track 02 // Specialist',
+        title: 'Copywriter Onboarding Track',
+        meta: 'Auto-unlocked via role:specialist-copywriter | 4 Core Modules',
+        modules: [
+          { type: 'core', tag: 'Module 01', name: 'Direct-Response Voice & Revenue Impact', desc: '4th–6th grade plain English, operator punch, and why first-pass accuracy protects launch schedules.' },
+          { type: 'core', tag: 'Module 02', name: 'Compliance & Banned-Claims QA', desc: 'Pre-submission checklist catching exaggerated claims and missing disclaimers before legal review.' },
+          { type: 'core', tag: 'Module 03', name: 'Headline Variants & Client Tone Matching', desc: 'Writing 3 distinct angles per page and matching DACH vs. US/AU client expectations.' },
+          { type: 'core', tag: 'Module 04', name: 'Revision-Rate KPI & Quality Bonus', desc: 'Tracking first-pass approval rate (<=1 revision round average) tied to quarterly performance bonuses.' }
+        ]
+      },
+      crm: {
+        badge: 'Track 03 // Specialist',
+        title: 'CRM Specialist Onboarding Track',
+        meta: 'Auto-unlocked via role:specialist-crm | 4 Core Modules',
+        modules: [
+          { type: 'core', tag: 'Module 01', name: 'Pipeline Revenue Math & Data Hygiene', desc: 'Why clean tags and zero orphaned leads directly protect paid-traffic conversion rates.' },
+          { type: 'core', tag: 'Module 02', name: 'GoHighLevel Tagging & Trigger Rules', desc: 'Standardized source tags, pipeline stage transitions, and automated welcome/nudge sequences.' },
+          { type: 'core', tag: 'Module 03', name: 'Duplicate Prevention & Merge SOP', desc: 'Validating phone/email formats and safely merging duplicate records without losing history.' },
+          { type: 'core', tag: 'Module 04', name: 'Zero-Missed-Lead Audit & Bonus', desc: 'Daily 24h SLA check on stuck contacts; 99%+ clean required fields unlocks monthly accuracy bonus.' }
+        ]
+      },
+      manager: {
+        badge: 'Track 04 // Manager Inheritance',
+        title: 'Operations Manager Track (Inherits Tracks 01–03)',
+        meta: 'Auto-unlocked via role:ops-manager | 3 Inherited Tracks + 3 Manager Modules',
+        modules: [
+          { type: 'inherited', tag: 'Inherited Track 01', name: 'Full Content Creator Curriculum', desc: 'Complete visibility into all Creator SOPs, naming rules, and delivery bonus criteria.' },
+          { type: 'inherited', tag: 'Inherited Track 02', name: 'Full Copywriter Curriculum', desc: 'Complete visibility into all Copywriter SOPs, compliance gates, and revision-rate KPIs.' },
+          { type: 'inherited', tag: 'Inherited Track 03', name: 'Full CRM Specialist Curriculum', desc: 'Complete visibility into all CRM hygiene rules, pipeline tags, and merge SOPs.' },
+          { type: 'manager', tag: 'Manager Module 01', name: 'Telemetry Audits & Probation Sign-Off', desc: 'Reading GoHighLevel completion tags (onboard:completed, onboard:probation-passed) and auditing first 3 deliverables.' },
+          { type: 'manager', tag: 'Manager Module 02', name: 'Difficult-Client Escalation & P1/P2 SLAs', desc: 'Handling scope pushback, client escalations, and bonus verification without founder intervention.' },
+          { type: 'manager', tag: 'Manager Module 03', name: 'Kaizen Lesson Publishing', desc: 'Turning recurring team questions into updated GoHighLevel lessons and notifying affected role tags.' }
+        ]
+      }
+    };
+
+    function selectRoleTrack(key, btnEl) {
+      document.querySelectorAll('.role-tab-btn').forEach((btn) => btn.classList.remove('is-active'));
+      if (btnEl) btnEl.classList.add('is-active');
+      const data = roleTracks[key];
+      if (!data) return;
+
+      const cardsHtml = data.modules.map((m) => {
+        const cls = m.type === 'inherited' ? 'is-inherited' : (m.type === 'manager' ? 'is-manager' : 'is-core');
+        const badgeCls = m.type === 'inherited' ? 'badge-purple' : (m.type === 'manager' ? 'badge-success' : 'badge-accent');
+        return `
+          <div class="role-module-card ${cls}">
+            <span class="badge ${badgeCls}" style="margin-bottom: 0.45rem; display: inline-block;">${m.tag}</span>
+            <h4 style="font-family: var(--font-display); font-size: 0.96rem; margin: 0 0 0.3rem; color: var(--ink);">${m.name}</h4>
+            <p style="font-size: 0.84rem; color: var(--ink-muted); line-height: 1.5; margin: 0;">${m.desc}</p>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('role-track-output').innerHTML = `
+        <div class="role-panel-head">
+          <div>
+            <span class="badge ${key === 'manager' ? 'badge-success' : 'badge-accent'}" style="margin-bottom: 0.4rem; display: inline-block;">${data.badge}</span>
+            <h3 class="node-title" style="margin: 0;">${data.title}</h3>
+          </div>
+          <span class="font-mono" style="font-size: 0.78rem; color: var(--ink-muted);">${data.meta}</span>
+        </div>
+        <div class="role-module-grid">${cardsHtml}</div>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof initScrollSpy === 'function') {
+        initScrollSpy();
+      }
+      selectRoleTrack('content', document.querySelector('.role-tab-btn.is-active'));
+    });
+  </script>
+</body>
+</html>
