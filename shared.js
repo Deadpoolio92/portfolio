@@ -215,12 +215,14 @@ if (document.readyState === 'loading') {
     renderSiteFooter();
     initTabs();
     initScrollSpy();
+    initDirectDownloads();
   });
 } else {
   initTheme();
   renderSiteFooter();
   initTabs();
   initScrollSpy();
+  initDirectDownloads();
 }
 
 
@@ -303,4 +305,147 @@ function initScrollSpy() {
 
   window.addEventListener('scroll', updateActivePill, { passive: true });
   updateActivePill();
+}
+
+// 11. Floating Tooltip Helper for Header Action Buttons
+function showNavTooltip(btn, message, duration = 2000) {
+  if (!btn) return;
+  let tip = btn.querySelector('.nav-tooltip');
+  if (!tip) {
+    tip = document.createElement('span');
+    tip.className = 'nav-tooltip';
+    tip.setAttribute('role', 'status');
+    btn.appendChild(tip);
+  }
+  tip.textContent = message;
+  // Force reflow so transition plays if re-triggered
+  void tip.offsetWidth;
+  tip.classList.add('visible');
+  clearTimeout(btn._tooltipTimer);
+  btn._tooltipTimer = setTimeout(() => {
+    tip.classList.remove('visible');
+  }, duration);
+}
+
+// 12. Copy Case Study Markdown to Clipboard
+function copyMarkdown(mdPath, btn) {
+  if (!mdPath || !btn) return;
+  const copySvg = btn.querySelector('.copy-icon-svg');
+  const checkSvg = btn.querySelector('.check-icon-svg');
+
+  function onCopySuccess() {
+    btn.classList.add('copied');
+    if (copySvg && checkSvg) {
+      copySvg.style.display = 'none';
+      checkSvg.style.display = 'inline-block';
+    }
+    showNavTooltip(btn, 'Copied!');
+    clearTimeout(btn._copyTimer);
+    btn._copyTimer = setTimeout(() => {
+      btn.classList.remove('copied');
+      if (copySvg && checkSvg) {
+        copySvg.style.display = 'inline-block';
+        checkSvg.style.display = 'none';
+      }
+    }, 2000);
+  }
+
+  function onCopyFailure(msg) {
+    btn.classList.add('copy-failed');
+    showNavTooltip(btn, msg || 'Copy failed');
+    clearTimeout(btn._copyTimer);
+    btn._copyTimer = setTimeout(() => {
+      btn.classList.remove('copy-failed');
+    }, 2000);
+  }
+
+  fetch(mdPath)
+    .then(res => {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.text();
+    })
+    .then(text => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text)
+          .then(onCopySuccess)
+          .catch(() => tryFallbackCopy(text, onCopySuccess, () => onCopyFailure('Copy failed')));
+      }
+      tryFallbackCopy(text, onCopySuccess, () => onCopyFailure('Copy failed'));
+    })
+    .catch(() => {
+      onCopyFailure('Use live site to copy');
+    });
+}
+
+// 13. Language Switcher (EN <-> DE using /de/ subfolder)
+function getLanguageTargetUrl() {
+  const path = window.location.pathname;
+  const isGerman = document.documentElement.lang === 'de' || /\/de(\/|$)/.test(path);
+
+  if (isGerman) {
+    return path.replace(/\/de(\/|$)/, '$1') || './';
+  }
+
+  if (path.endsWith('/')) {
+    return path + 'de/index.html';
+  }
+  const lastSlash = path.lastIndexOf('/');
+  const dir = lastSlash >= 0 ? path.slice(0, lastSlash + 1) : '';
+  const file = lastSlash >= 0 ? path.slice(lastSlash + 1) : path;
+  return dir + 'de/' + (file || 'index.html');
+}
+
+function switchLanguage(btn) {
+  const targetUrl = getLanguageTargetUrl();
+  const isGerman = document.documentElement.lang === 'de' || /\/de(\/|$)/.test(window.location.pathname);
+
+  if (isGerman) {
+    window.location.href = targetUrl;
+    return;
+  }
+
+  // Check if German page exists; show "Coming soon" tooltip until /de/ pages are published
+  fetch(targetUrl, { method: 'HEAD' })
+    .then(res => {
+      if (res.ok) {
+        window.location.href = targetUrl;
+      } else {
+        showNavTooltip(btn, 'Coming soon');
+      }
+    })
+    .catch(() => {
+      showNavTooltip(btn, 'Coming soon');
+    });
+}
+
+// 14. Force Immediate Blob Download for Header PDF/MD Links
+function initDirectDownloads() {
+  document.querySelectorAll('a.nav-action-btn[download]').forEach(link => {
+    if (link.dataset.downloadBound) return;
+    link.dataset.downloadBound = 'true';
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (!href || window.location.protocol === 'file:') return;
+      e.preventDefault();
+      const filename = link.getAttribute('download') || href.split('/').pop().split('?')[0];
+      fetch(href)
+        .then(res => {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.blob();
+        })
+        .then(blob => {
+          const blobUrl = URL.createObjectURL(blob);
+          const tmp = document.createElement('a');
+          tmp.href = blobUrl;
+          tmp.download = filename;
+          document.body.appendChild(tmp);
+          tmp.click();
+          document.body.removeChild(tmp);
+          setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+        })
+        .catch(() => {
+          window.location.href = href;
+        });
+    });
+  });
 }

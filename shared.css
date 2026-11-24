@@ -94,6 +94,8 @@ body {
 
 /* --- 3. Top Navigation & Sticky Chapter Bar --- */
 .site-header {
+  position: relative;
+  z-index: 1001;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   transition: background-color 0.2s ease, border-color 0.2s ease;
@@ -197,7 +199,96 @@ html.dark .sticky-header-container {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
+}
+
+.nav-action-btn {
+  position: relative;
+  height: 36px;
+  padding: 0 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border-radius: 6px;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nav-action-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.nav-action-btn.copied {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.nav-action-btn.copy-failed {
+  border-color: var(--danger, #ef4444);
+  color: var(--danger, #ef4444);
+}
+
+.lang-toggle-btn {
+  min-width: 38px;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.nav-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--ink);
+  color: var(--surface);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  z-index: 1100;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.nav-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .top-nav {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .nav-actions {
+    gap: 0.35rem;
+  }
+  .nav-action-btn {
+    height: 32px;
+    padding: 0 0.55rem;
+    font-size: 0.75rem;
+  }
+  .theme-toggle-btn {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .btn-nav {
