@@ -121,22 +121,18 @@
     <!-- ========================================================================= -->
     <!-- SECTION 01: DEFINE — THE 500k CRISIS & HEALTHCARE BOUNDS -->
     <!-- ========================================================================= -->
-    <section id="define" class="section-wrap">
+    <section id="define" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">01 // DEFINE: THE 500,000-RECORD CRISIS</span>
         <h2 class="section-title-modern">The Unplanned Disaster: When "Rollback Import" Is Off the Table</h2>
         <p class="section-desc-modern">
-          It is every Operations Leader's worst CRM nightmare: an external vendor delivers a raw list of 750,000 contacts. Someone clicks "Import CSV" directly into the live Pipedrive CRM without pre-flight deduplication. Within minutes, half a million duplicates collided with live customer accounts, creating massive chaos across sales pipelines and patient consult queues.
+          When an external vendor list of 750,000 contacts was bulk-imported into the live healthcare Pipedrive CRM without pre-flight deduplication, roughly 500,000 duplicates collided with active accounts. Two out of every three rows became duplicate, contradictory, or missing vital medical qualification data—creating a direct revenue and compliance hazard across sales pipelines and patient consult queues.
         </p>
       </div>
 
       <div class="section-body">
-        <p style="font-size: 0.95rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1.5rem;">
-          In high-volume sales operations, duplicate data is not just an aesthetic blemish—it is a direct revenue and compliance hazard. At this healthcare organization, the newly imported list overlapped with their existing database by approximately <strong>500,000 records</strong>. Two out of every three rows in the CRM were duplicate, contradictory, or missing vital medical qualification data.
-        </p>
-
         <!-- Crisis Breakdown Card -->
-        <div style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--danger); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+        <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--danger); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
           <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Why We Couldn't Just Hit "Undo"</h3>
           <p style="font-size: 0.9rem; color: var(--ink-muted); line-height: 1.55; margin-bottom: 0.75rem;">
             In normal software mishaps, an engineer rolls back the database to the prior backup. Here, that was completely out of the question:
@@ -173,7 +169,7 @@
         <!-- Six Sigma DMAIC Pipeline Rail -->
         <div>
           <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">The Six Sigma DMAIC Execution Spine</h3>
-          <div class="pipeline-rail">
+          <div class="pipeline-rail" style="grid-template-columns: repeat(3, 1fr);">
             <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
               <span class="badge badge-accent" style="align-self: flex-start;">Stage 01: Define</span>
               <h4 class="node-title">Crisis Bounds</h4>
@@ -207,7 +203,7 @@
     <!-- ========================================================================= -->
     <!-- SECTION 02: MEASURE — THE 50-RECORD PILOT AUDIT -->
     <!-- ========================================================================= -->
-    <section id="measure" class="section-wrap">
+    <section id="measure" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">02 // MEASURE: QUANTIFYING DEFECT PATTERNS</span>
         <h2 class="section-title-modern">The 50-Record Pilot: Finding the 87% Root Pattern Before Touching a Row</h2>
@@ -217,7 +213,7 @@
       </div>
 
       <div class="section-body">
-        <div style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--purple); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+        <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--purple); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
           <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">The 87% Pareto Discovery</h3>
           <p style="font-size: 0.9rem; color: var(--ink-muted); line-height: 1.55;">
             The 50-record pilot paid off immediately: <strong>approximately 87% of all deduplication failures were driven by the exact same root issue</strong>. Automated deduplication in Pipedrive failed because of slight naming discrepancies between the imported contacts and existing CRM entries:
@@ -240,11 +236,11 @@
           <table>
             <thead>
               <tr>
-                <th style="width: 6%;">#</th>
-                <th style="width: 24%;">Defect Category</th>
-                <th style="width: 14%;">Impact Share</th>
-                <th style="width: 28%;">Observed Error Example</th>
-                <th style="width: 28%;">Resolution Mechanism</th>
+                <th style="width: 5%;">#</th>
+                <th style="width: 22%;">Defect Category</th>
+                <th style="width: 12%;">Impact Share</th>
+                <th style="width: 25%;">Observed Error Example</th>
+                <th style="width: 36%;">Resolution Mechanism</th>
               </tr>
             </thead>
             <tbody id="defect-tbody">
@@ -362,7 +358,7 @@
     <!-- ========================================================================= -->
     <!-- SECTION 03: ANALYZE — ROOT CAUSE DIAGNOSTICS -->
     <!-- ========================================================================= -->
-    <section id="analyze" class="section-wrap">
+    <section id="analyze" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">03 // ANALYZE: ROOT CAUSE DIAGNOSTICS</span>
         <h2 class="section-title-modern">The 5-Whys Diagnostic Chain &amp; Clean Data Contract</h2>
@@ -480,20 +476,16 @@
     <!-- ========================================================================= -->
     <!-- SECTION 04: IMPROVE — ASYNC SPRINT & TOOL-ASSISTED MERGING -->
     <!-- ========================================================================= -->
-    <section id="improve" class="section-wrap">
+    <section id="improve" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">04 // IMPROVE: ASYNC SPRINT &amp; TOOL-ASSISTED MERGING</span>
         <h2 class="section-title-modern">Distributed Execution: Foolproof Checklists, Chrome Extensions &amp; Helper Scripts</h2>
         <p class="section-desc-modern">
-          How do you clean 500,000 records without burning out your core team or leaking patient data? You build an async assembly line. I organized a distributed sprint team across global time zones, gave them a foolproof visual decision tree, and equipped them with browser highlighting tools and candidate-matching scripts.
+          Blind algorithmic deduplication risked merging distinct patients under healthcare privacy rules, while purely manual clicking would have taken over a year. To clean 500,000 records safely, we built a Tool-Assisted Human-in-the-Loop (HITL) async assembly line—equipping a global sprint team with visual decision checklists, browser highlighting tools, and candidate-matching scripts.
         </p>
       </div>
 
       <div class="section-body">
-        <p style="font-size: 0.95rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1.5rem;">
-          Because the client operated in healthcare, 100% blind algorithmic deduplication was too reckless—one bad merge could combine two distinct patients. On the other hand, purely manual row-by-row clicking would have taken over a year. We built a <strong>Tool-Assisted Human-in-the-Loop (HITL) system</strong> that gave our async team superpowers:
-        </p>
-
         <!-- 3 Pillars of the Sprint Engine -->
         <div class="pipeline-rail" style="margin-bottom: 2rem;">
           <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
@@ -558,7 +550,7 @@
     <!-- ========================================================================= -->
     <!-- SECTION 05: CONTROL — PERMANENT PIPEDRIVE CONTROLS -->
     <!-- ========================================================================= -->
-    <section id="control" class="section-wrap">
+    <section id="control" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">05 // CONTROL: POINT-OF-ENTRY PREVENTION &amp; AUTOMATION</span>
         <h2 class="section-title-modern">Locking the Front Door: Permanent Pipedrive Automations &amp; 10 Hours Saved Weekly</h2>
@@ -590,7 +582,7 @@
         </div>
 
         <!-- 10 Hours Per Week Automations (Additional Value-Add Service) -->
-        <div style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--success); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+        <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--success); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
           <div class="badge badge-success" style="margin-bottom: 0.5rem; display: inline-block;">Proactive Value-Add Service</div>
           <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Automating Rep Grunt Work: 10 Additional Hours Saved Every Week</h3>
           <p style="font-size: 0.9rem; color: var(--ink-muted); line-height: 1.55; margin-bottom: 0.75rem;">
@@ -634,7 +626,7 @@
     <!-- ========================================================================= -->
     <!-- SECTION 06: TRADE-OFFS & RETROSPECTIVE -->
     <!-- ========================================================================= -->
-    <section id="tradeoffs" class="section-wrap">
+    <section id="tradeoffs" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">06 // EVALUATED ALTERNATIVES &amp; RETROSPECTIVE</span>
         <h2 class="section-title-modern">Architectural Trade-Offs, Failure Modes &amp; Operator Retrospective</h2>
@@ -710,7 +702,7 @@
         </div>
 
         <!-- Senior Operator Retrospective -->
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem 1.75rem;">
+        <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem 1.75rem;">
           <div style="font-family: var(--mono); font-size: 0.75rem; color: var(--accent); text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem;">Senior Operator Hindsight</div>
           <h3 style="font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 0.85rem; color: var(--ink);">Why Six Sigma DMAIC Saved the Organization</h3>
           <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1rem;">

@@ -119,7 +119,7 @@
     </header>
 
     <!-- SECTION 1: THREAT BLUEPRINT -->
-    <section id="threat-blueprint" class="section-wrap">
+    <section id="threat-blueprint" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">01 // Threat Landscape &amp; Attack Vectors</span>
         <h2 class="section-title-modern">The Enterprise Autonomous Agent Dilemma: Why Asking AI Nicely Fails</h2>
@@ -128,8 +128,9 @@
         </p>
       </div>
 
+      <div class="section-body">
       <!-- 4 Threat Vectors in Diagnostic Cards -->
-      <div class="tradeoff-grid">
+      <div class="tradeoff-grid" style="grid-template-columns: repeat(2, 1fr);">
         <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
           <span class="badge badge-danger" style="align-self: flex-start;">Threat Vector 01</span>
           <h3 class="tradeoff-title">Remote Code Execution &amp; Disk Wiping</h3>
@@ -202,7 +203,7 @@
       <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--ink);">
         Four Concentric Rings of Defense: End-to-End Operational Pipeline
       </h3>
-      <div class="tradeoff-grid">
+      <div class="tradeoff-grid" style="grid-template-columns: repeat(2, 1fr);">
         <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
           <span class="badge badge-accent" style="align-self: flex-start;">Ring 01: Ingestion Gate</span>
           <h4 class="tradeoff-title">Static AST &amp; Encoding Gate</h4>
@@ -224,10 +225,11 @@
           <p class="tradeoff-desc">Monitors 25+ upstream GitHub repos, flags unauthorized changes via AST delta briefs, and prevents unvetted code from polluting production systems.</p>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- SECTION 2: INGESTION GATE & REJECTION TAXONOMY -->
-    <section id="ingestion-gate" class="section-wrap">
+    <section id="ingestion-gate" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">02 // Ingestion &amp; Static Linter Gate</span>
         <h2 class="section-title-modern">Auditing 11,000+ Files: Static Linters &amp; The Rejection Taxonomy</h2>
@@ -236,6 +238,7 @@
         </p>
       </div>
 
+      <div class="section-body">
       <!-- Rejection Taxonomy Table -->
       <div class="table-frame">
         <table>
@@ -376,7 +379,7 @@ if (-not (Test-HarnessNeutrality $TargetFile $FileContent) -or -not (Test-Mojiba
                 prompts/code-reviewer.md (20 Lines)
               </span>
             </div>
-            <pre class="terminal-body" style="font-size: 0.78rem; line-height: 1.45; max-height: 380px; overflow-y: auto;"># Generic Toy Skill (Single File: prompts/code-reviewer.md)
+            <pre class="terminal-body" style="font-size: 0.78rem; line-height: 1.45; max-height: 380px;"># Generic Toy Skill (Single File: prompts/code-reviewer.md)
 Role: You are an expert code reviewer.
 Instructions:
 - Read all files in the current repository.
@@ -434,7 +437,7 @@ Instructions:
                 <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </button>
             </div>
-            <pre id="codeSubsystemTree" class="terminal-body" style="font-size: 0.76rem; line-height: 1.4; max-height: 480px; overflow-y: auto;">review-fix-technical-code/ (Unabridged 46-File Production Subsystem Tree)
+            <pre id="codeSubsystemTree" class="terminal-body terminal-scroll-20" style="font-size: 0.76rem; line-height: 1.4; max-height: 480px;">review-fix-technical-code/ (Unabridged 46-File Production Subsystem Tree)
 ├── SKILL.md                              # 634-line core engine: 6 operational modes & state machine orchestrator
 ├── _arsenal.yml                          # Package metadata, semver, provenance & multi-harness target mappings
 ├── changelog.md                          # Immutable audit ledger of subsystem modifications across releases
@@ -504,15 +507,16 @@ Instructions:
             </li>
             <li class="feature-row good" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-              <span style="color: var(--ink); line-height: 1.5;">Persistent <code style="font-family: var(--font-mono); font-size: 0.82rem; background: var(--surface-code); padding: 0.15rem 0.35rem; border-radius: 4px;">evidence.md</code> and immutable test logs verifying every code fix</span>
+              <span style="color: var(--ink); line-height: 1.5;">Persistent <code style="font-family: var(--font-mono); font-size: 0.82rem; background: var(--surface-subtle); padding: 0.15rem 0.35rem; border-radius: 4px;">evidence.md</code> and immutable test logs verifying every code fix</span>
             </li>
           </ul>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- SECTION 3: RUNTIME PRETOOLUSE HOOKS -->
-    <section id="runtime-hooks" class="section-wrap">
+    <section id="runtime-hooks" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">03 // Runtime Execution Firewall</span>
         <h2 class="section-title-modern">PreToolUse Lifecycle Interception: Killing Dangerous Commands Out-of-Band</h2>
@@ -521,6 +525,7 @@ Instructions:
         </p>
       </div>
 
+      <div class="section-body">
       <!-- Hook 1: Write-Decision Multi-Dialect Adapter -->
       <div class="prompt-deck-container">
         <div class="prompt-deck-header">
@@ -744,10 +749,11 @@ exit 0</pre>
           </div>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- SECTION 4: SUBAGENT BOUNDARY ISOLATION -->
-    <section id="subagent-isolation" class="section-wrap">
+    <section id="subagent-isolation" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">04 // Subagent Boundary Matrix</span>
         <h2 class="section-title-modern">Principle of Least Privilege: Confining Autonomous Subagents</h2>
@@ -756,6 +762,7 @@ exit 0</pre>
         </p>
       </div>
 
+      <div class="section-body">
       <!-- Subagent Tool Boundary Matrix Table -->
       <div class="table-frame">
         <table>
@@ -801,10 +808,11 @@ exit 0</pre>
           </tbody>
         </table>
       </div>
+      </div>
     </section>
 
     <!-- SECTION 5: SUPPLY-CHAIN PROVENANCE & RADAR V2 -->
-    <section id="provenance-radar" class="section-wrap">
+    <section id="provenance-radar" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">05 // Supply-Chain Provenance &amp; Upstream Radar</span>
         <h2 class="section-title-modern">Radar v2: Automated Upstream Drift Detection &amp; 3-Way Merge Reviews</h2>
@@ -813,8 +821,9 @@ exit 0</pre>
         </p>
       </div>
 
+      <div class="section-body">
       <!-- Radar v2 Workflow Cards -->
-      <div class="tradeoff-grid">
+      <div class="tradeoff-grid" style="grid-template-columns: repeat(2, 1fr);">
         <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
           <span class="badge badge-accent" style="align-self: flex-start;">Stage 01: Drift Scan</span>
           <h4 class="tradeoff-title">Watch-Universe Delta Detection</h4>
@@ -886,10 +895,11 @@ exit 0</pre>
           </div>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- SECTION 6: VETTING REGISTRY & ROI SCORECARD -->
-    <section id="vetting-dossier" class="section-wrap">
+    <section id="vetting-dossier" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">06 // Empirical Vetting Registry &amp; ROI</span>
         <h2 class="section-title-modern">Forensic Case Studies &amp; Executive Risk Reduction Scorecard</h2>
@@ -898,6 +908,7 @@ exit 0</pre>
         </p>
       </div>
 
+      <div class="section-body">
       <!-- Real-World Forensic Case Studies in Battlecards -->
       <div class="battlecard-grid">
         <div class="battlecard legacy" style="border-top: 4px solid var(--danger);">
@@ -971,7 +982,7 @@ exit 0</pre>
       <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin: 3rem 0 1rem; color: var(--ink);">
         The Security Retrospective: 3 Rules We Learned the Hard Way
       </h3>
-      <div class="tradeoff-grid">
+      <div class="tradeoff-grid tradeoff-grid-3col">
         <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
           <span class="badge badge-accent" style="align-self: flex-start;">Rule 01</span>
           <h4 class="tradeoff-title">Never Let a Model Police Itself</h4>
@@ -987,6 +998,7 @@ exit 0</pre>
           <h4 class="tradeoff-title">Never Trust Upstream Without a Diff</h4>
           <p class="tradeoff-desc">Open-source AI packages change overnight. Blindly running <code>git pull</code> on external agent repositories is an open invitation for supply-chain attacks. Always inspect AST delta briefs before promoting code.</p>
         </div>
+      </div>
       </div>
     </section>
 

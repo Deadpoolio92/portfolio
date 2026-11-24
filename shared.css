@@ -3011,6 +3011,16 @@ tbody.is-expanded .table-row-hidden {
     break-inside: avoid;
     page-break-inside: avoid;
     padding: 1rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  section.doc-section:last-of-type {
+    margin-bottom: 0.75rem !important;
+  }
+
+  footer {
+    margin-top: 0.75rem !important;
+    padding: 0.75rem 0 !important;
   }
 
   thead {
@@ -3029,6 +3039,126 @@ tbody.is-expanded .table-row-hidden {
 
   td {
     color: #111111 !important;
+  }
+
+  .table-frame {
+    overflow-x: visible !important;
+  }
+
+  th, td {
+    padding: 0.45rem 0.55rem !important;
+    font-size: 7.5pt !important;
+    line-height: 1.35 !important;
+  }
+
+  td code {
+    font-size: 7pt !important;
+    overflow-wrap: anywhere;
+  }
+
+  td .badge,
+  th .badge,
+  .tradeoff-card .tradeoff-badge,
+  .tradeoff-card .badge,
+  .pipeline-node .badge,
+  .battlecard .badge,
+  .battlecard .tradeoff-badge {
+    white-space: normal !important;
+    font-size: 6.5pt !important;
+    padding: 0.2rem 0.45rem !important;
+    line-height: 1.25 !important;
+    max-width: 100%;
+  }
+
+  .pipeline-node {
+    min-width: 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .print-avoid-break {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Prevent orphaned headings across print page breaks */
+  h1, h2, h3, h4, .section-header-modern {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Tighten prompt deck spacing & prevent empty container slivers */
+  .prompt-deck-container {
+    margin: 0.75rem 0 !important;
+    overflow: visible !important;
+  }
+  .prompt-deck-container:has(> .prompt-deck-body > .prompt-deck-item:only-child):not(:has(.terminal-scroll-20)):not(:has(.code-box-scroll-sm)) {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .prompt-deck-header {
+    padding: 0.75rem 1rem !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+  .prompt-item-header {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+  .prompt-deck-body {
+    padding: 1rem !important;
+    gap: 1rem !important;
+  }
+  .prompt-deck-item {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .prompt-deck-item:not(:last-child) {
+    padding-bottom: 1rem !important;
+  }
+  .terminal-card {
+    margin: 0.5rem 0 0 !important;
+  }
+  .terminal-header {
+    padding: 0.5rem 0.9rem !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+  .terminal-body {
+    padding: 0.85rem 1rem !important;
+    font-size: 7pt !important;
+    line-height: 1.38 !important;
+    overflow-wrap: anywhere;
+  }
+
+  /* Print grid parity & overflow safety for linters, tradeoff cards, and battlecards */
+  .linters-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.85rem !important;
+  }
+  .tradeoff-card {
+    min-width: 0 !important;
+  }
+  .battlecard-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1rem !important;
+  }
+  .battlecard {
+    min-width: 0 !important;
+    padding: 1rem !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .feature-row {
+    grid-template-columns: 16px 1fr !important;
+    gap: 0.5rem !important;
+    font-size: 7.5pt !important;
+  }
+  .feature-col-label {
+    white-space: normal !important;
+  }
+  .feature-col-desc {
+    grid-column: 2 / -1 !important;
   }
 
   /* Print Grace: Unroll all tab panels sequentially */
@@ -3103,9 +3233,22 @@ tbody.is-expanded .table-row-hidden {
     color: #555555 !important;
   }
 
-  .terminal-scroll-20 {
-    max-height: 380px !important;
-    overflow: hidden !important;
+  .terminal-scroll-20,
+  .code-box-scroll-sm,
+  .table-scroll-lg {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .terminal-card:has(.terminal-scroll-20),
+  .terminal-card:has(.code-box-scroll-sm),
+  .prompt-deck-item:has(.terminal-scroll-20),
+  .prompt-deck-item:has(.code-box-scroll-sm),
+  .battlecard:has(.terminal-scroll-20),
+  .battlecard:has(.code-box-scroll-sm) {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    overflow: visible !important;
   }
 
   /* Executive 8-Page Structure for HubSpot Case Study */

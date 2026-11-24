@@ -121,7 +121,7 @@
     <!-- ========================================================================= -->
     <!-- SECTION 1: ARCHITECTURE & DECOMPOSITION -->
     <!-- ========================================================================= -->
-    <section id="architecture" class="section-wrap">
+    <section id="architecture" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">01 // Architecture &amp; Decomposition</span>
         <h2 class="section-title-modern">Ditching the "God Prompt": Why Monolithic Prompts Break Down</h2>
@@ -130,6 +130,7 @@
         </p>
       </div>
 
+      <div class="section-body">
       <!-- Symmetrical Side-by-Side Battlecards (2 Columns) -->
       <div class="battlecard-grid">
         <!-- Negative Card: Monolithic Prompt Trap -->
@@ -189,7 +190,7 @@
       <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
         The 4-Stage Lifecycle: How the Conductor Ships Code
       </h3>
-      <div class="pipeline-rail">
+      <div class="pipeline-rail" style="grid-template-columns: repeat(2, 1fr);">
         <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
           <span class="badge badge-accent" style="align-self: flex-start;">Stage 01</span>
           <h4 class="node-title">Task Pickup &amp; Scoping</h4>
@@ -248,12 +249,13 @@
           </tbody>
         </table>
       </div>
+      </div>
     </section>
 
     <!-- ========================================================================= -->
     <!-- SECTION 2: SUBAGENT TOOL RBAC -->
     <!-- ========================================================================= -->
-    <section id="subagent-isolation" class="section-wrap">
+    <section id="subagent-isolation" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">02 // Least Privilege &amp; Sandboxing</span>
         <h2 class="section-title-modern">Physical Tool Stripping: Why Telling Agents "Don't Edit Files" Fails</h2>
@@ -262,6 +264,7 @@
         </p>
       </div>
 
+      <div class="section-body">
       <!-- Subagent Permission Matrix Table -->
       <div class="table-frame">
         <table>
@@ -349,7 +352,7 @@
 
             <!-- Architecture Duality Panel: Power vs. Limitation -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; margin: 0.4rem 0 0.85rem;">
-              <div style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--success); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--success); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
                 <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--success); text-transform: uppercase; margin-bottom: 0.25rem;">⚡ How Powered It Is (Autonomous Engine)</div>
                 <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
                   &bull; <strong>Parallel Specialist Swarms:</strong> Dispatches up to 12 domain subagents in one turn with strict JSON output schemas.<br>
@@ -357,7 +360,7 @@
                   &bull; <strong>Systemic Pattern Sweeps:</strong> Auto-greps whole repo for defect classes the second a regex or O(n²) bug is found.
                 </div>
               </div>
-              <div style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
                 <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin-bottom: 0.25rem;">🛑 Where It Is Purposefully Limited (Hard Guardrails)</div>
                 <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
                   &bull; <strong>Physical Tool Stripping:</strong> <code>write_to_file</code> and <code>replace_file_content</code> are literally deleted from allowed tools.<br>
@@ -434,7 +437,7 @@ When a prior report is supplied, track state transitions explicitly:
 
             <!-- Architecture Duality Panel: Power vs. Limitation -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; margin: 0.4rem 0 0.85rem;">
-              <div style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
                 <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 0.25rem;">⚡ How Powered It Is (Autonomous Engine)</div>
                 <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
                   &bull; <strong>Live Questimus API Ingestion:</strong> First step is fetching the authoritative task directly via <code>node questimus.js get &lt;id&gt;</code>.<br>
@@ -442,7 +445,7 @@ When a prior report is supplied, track state transitions explicitly:
                   &bull; <strong>Strict DoD Gate:</strong> Non-negotiable typecheck, lint, and test pass; failure of any linter is an immediate task failure.
                 </div>
               </div>
-              <div style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
                 <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin-bottom: 0.25rem;">🛑 Where It Is Purposefully Limited (Hard Guardrails)</div>
                 <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
                   &bull; <strong>Absolute Git Lockdown:</strong> Explicitly forbidden: <code>NEVER git add</code>, <code>NEVER git commit</code>, <code>NEVER push</code>. Changes left unstaged.<br>
@@ -520,7 +523,7 @@ End every single run with exactly this structured block:
 
             <!-- Architecture Duality Panel: Power vs. Limitation -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; margin: 0.4rem 0 0.85rem;">
-              <div style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--purple); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--purple); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
                 <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--purple); text-transform: uppercase; margin-bottom: 0.25rem;">⚡ How Powered It Is (12 Deep Domain Engines)</div>
                 <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
                   &bull; <strong>12 Atomic Domain Checklists:</strong> <code>security.md</code>, <code>red-team.md</code>, <code>performance.md</code>, <code>api-contract.md</code>, <code>data-migration.md</code>, <code>error-handling.md</code>, etc.<br>
@@ -528,7 +531,7 @@ End every single run with exactly this structured block:
                   &bull; <strong>Machine-Parsable JSON:</strong> Specialists return pure JSON lines with confidence scores (1-10) for automated deduplication.
                 </div>
               </div>
-              <div style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
                 <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin-bottom: 0.25rem;">🛑 Where It Is Purposefully Limited (Hard Guardrails)</div>
                 <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
                   &bull; <strong>Strict Domain Scope:</strong> Specialists cannot wander into other areas; they execute only their declared checklist.<br>
@@ -577,12 +580,13 @@ Think like an attacker, a chaos engineer, and a hostile QA tester simultaneously
 
         </div>
       </div>
+      </div>
     </section>
 
     <!-- ========================================================================= -->
     <!-- SECTION 3: DETERMINISTIC SAFETY GATES -->
     <!-- ========================================================================= -->
-    <section id="safety-gates" class="section-wrap">
+    <section id="safety-gates" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">03 // Operating System Defense</span>
         <h2 class="section-title-modern">Non-Bypassable OS Hooks: Stopping Disasters Before the Shell Spawns</h2>
@@ -591,11 +595,12 @@ Think like an attacker, a chaos engineer, and a hostile QA tester simultaneously
         </p>
       </div>
 
+      <div class="section-body">
       <!-- PreToolUse Interception Flow Rail (Visual Color Progression: Blue -> Yellow -> Orange -> Red) -->
       <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 2rem 0 1rem;">
         PreToolUse Interception Architecture (JSON IPC Hook)
       </h3>
-      <div class="pipeline-rail">
+      <div class="pipeline-rail" style="grid-template-columns: repeat(2, 1fr);">
         <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
           <span class="badge badge-accent" style="align-self: flex-start;">Stage 01</span>
           <h4 class="node-title">Tool Call Request</h4>
@@ -737,12 +742,13 @@ foreach ($pat in $patterns) {
 if ($isAntigravity) { @{ decision = "allow" } | ConvertTo-Json -Compress }
 exit 0 # Verified clean: tool allowed</pre>
       </div>
+      </div>
     </section>
 
     <!-- ========================================================================= -->
     <!-- SECTION 4: TOKEN ECONOMICS (-76.8%) -->
     <!-- ========================================================================= -->
-    <section id="token-economics" class="section-wrap">
+    <section id="token-economics" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">04 // FinOps &amp; Context Modeling</span>
         <h2 class="section-title-modern">Slashing 76.8% of API Waste: Dynamic Injection vs. Prompt Stuffing</h2>
@@ -751,6 +757,7 @@ exit 0 # Verified clean: tool allowed</pre>
         </p>
       </div>
 
+      <div class="section-body">
       <!-- 3-Column Bento FinOps Strips -->
       <div class="tradeoff-grid tradeoff-grid-3col" style="margin-top: 1.5rem;">
         <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
@@ -836,12 +843,13 @@ exit 0 # Verified clean: tool allowed</pre>
           </tbody>
         </table>
       </div>
+      </div>
     </section>
 
     <!-- ========================================================================= -->
     <!-- SECTION 5: EXTERNAL STATE MACHINE -->
     <!-- ========================================================================= -->
-    <section id="state-machine" class="section-wrap">
+    <section id="state-machine" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">05 // State Persistence &amp; Resumption</span>
         <h2 class="section-title-modern">Stateless LLMs, Persistent Memory: Wiping Context to 0 Tokens Without Losing Progress</h2>
@@ -850,6 +858,7 @@ exit 0 # Verified clean: tool allowed</pre>
         </p>
       </div>
 
+      <div class="section-body">
       <!-- Two-Level State Continuity Hierarchy (Both Cards with Matching Callout Boxes) -->
       <div class="tradeoff-grid tradeoff-grid-2col" style="margin-top: 1.5rem;">
         <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
@@ -899,12 +908,13 @@ node .agents/skills/questimus-arsenal/scripts/questimus.js update TASK-104 --des
 # 3. Serialize end-of-session run state to persistent database
 node .agents/skills/questimus-arsenal/scripts/questimus.js handoff --write-file .tmp/handoff-state.md</pre>
       </div>
+      </div>
     </section>
 
     <!-- ========================================================================= -->
     <!-- SECTION 6: VIDEO RUNBOOK & LIVE PROOF -->
     <!-- ========================================================================= -->
-    <section id="video-walkthrough" class="section-wrap">
+    <section id="video-walkthrough" class="doc-section">
       <div class="section-header-modern">
         <span class="section-eyebrow">06 // Video Walkthrough &amp; Live Proof</span>
         <h2 class="section-title-modern">Live Screencast Walkthrough: Multi-Agent Systems in Action</h2>
@@ -913,13 +923,14 @@ node .agents/skills/questimus-arsenal/scripts/questimus.js handoff --write-file 
         </p>
       </div>
 
+      <div class="section-body">
       <!-- COMING SOON VIDEO CONTAINER -->
-      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem 1.5rem; text-align: center; margin-top: 1.5rem; position: relative; overflow: hidden; box-shadow: var(--shadow-sm);">
+      <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem 1.5rem; text-align: center; margin-top: 1.5rem; position: relative; overflow: hidden; box-shadow: var(--shadow-sm);">
         <!-- Subtle Grid Backdrop Accent -->
         <div style="position: absolute; inset: 0; opacity: 0.04; background-image: radial-gradient(var(--ink) 1px, transparent 1px); background-size: 16px 16px; pointer-events: none;"></div>
 
         <!-- Video Frame Preview Box -->
-        <div style="max-width: 720px; margin: 0 auto; background: var(--surface-code); border: 1px solid var(--border-highlight, var(--border)); border-radius: 12px; padding: 3rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+        <div style="max-width: 720px; margin: 0 auto; background: var(--surface-subtle); border: 1px solid var(--border-highlight, var(--border)); border-radius: 12px; padding: 3rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
           
           <!-- Coming Soon Status Pill -->
           <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(217, 119, 6, 0.12); color: var(--warning); border: 1px solid rgba(217, 119, 6, 0.25); padding: 0.35rem 0.85rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.25rem;">
@@ -1051,6 +1062,7 @@ node .agents/skills/questimus-arsenal/scripts/questimus.js handoff --write-file 
           <h4 class="tradeoff-title">Non-Bypassable OS Security</h4>
           <p class="tradeoff-desc">Stripping unneeded tools from subagents and running real OS hooks so an AI can never break production or wipe a drive.</p>
         </div>
+      </div>
       </div>
     </section>
 
