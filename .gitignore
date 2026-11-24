@@ -4,9 +4,6 @@ _artifact-preferences.md
 # Video production runbooks and drafts
 *-video-runbook.md
 
-# All Markdown source files (only deploy finished HTML & PDF)
-*.md
-
 # Skills etc.
 .agents/
 .claude/
