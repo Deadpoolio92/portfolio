@@ -215,6 +215,7 @@ if (document.readyState === 'loading') {
     renderSiteFooter();
     initTabs();
     initScrollSpy();
+    initStickyHeaderReveal();
     initDirectDownloads();
   });
 } else {
@@ -222,6 +223,7 @@ if (document.readyState === 'loading') {
   renderSiteFooter();
   initTabs();
   initScrollSpy();
+  initStickyHeaderReveal();
   initDirectDownloads();
 }
 
@@ -447,5 +449,106 @@ function initDirectDownloads() {
           window.location.href = href;
         });
     });
+  });
+}
+
+// 15. Reveal Top Navigation Bar on Scroll Up, Hide on Scroll Down
+function initStickyHeaderReveal() {
+  const header = document.querySelector('header.site-header');
+  const stickyNav = document.getElementById('sticky-nav') || document.querySelector('.sticky-nav-bar');
+  if (!header || !stickyNav) return;
+
+  const root = document.documentElement;
+  let headerHeight = header.getBoundingClientRect().height;
+  let isHidden = false;
+  let anchorY = Math.max(0, window.scrollY || 0);
+  let lastY = anchorY;
+  let lastDir = 0; // 1 = down, -1 = up
+  let rafPending = false;
+
+  function syncDimensions() {
+    headerHeight = header.getBoundingClientRect().height;
+    const stickyNavHeight = stickyNav.getBoundingClientRect().height;
+    root.style.setProperty('--site-header-height', `${Math.round(headerHeight)}px`);
+    root.style.setProperty('--sticky-nav-height', `${Math.round(stickyNavHeight)}px`);
+    root.style.setProperty('--sticky-nav-top', isHidden ? '0px' : `${Math.round(headerHeight)}px`);
+  }
+
+  function applyState(hide) {
+    if (hide === isHidden) return;
+    isHidden = hide;
+    if (isHidden && document.activeElement && header.contains(document.activeElement)) {
+      try {
+        if (!document.activeElement.matches(':focus-visible')) {
+          document.activeElement.blur();
+        }
+      } catch (e) {
+        document.activeElement.blur();
+      }
+    }
+    header.classList.toggle('is-hidden', isHidden);
+    root.style.setProperty('--sticky-nav-top', isHidden ? '0px' : `${Math.round(headerHeight)}px`);
+  }
+
+  function updateOnScroll() {
+    rafPending = false;
+    const currentY = Math.max(0, window.scrollY || 0);
+
+    // Always reveal when back near the top of the document
+    if (currentY <= headerHeight + 8) {
+      applyState(false);
+      anchorY = currentY;
+      lastY = currentY;
+      lastDir = 0;
+      return;
+    }
+
+    const stepDelta = currentY - lastY;
+    if (stepDelta === 0) return;
+
+    const dir = stepDelta > 0 ? 1 : -1;
+    if (dir !== lastDir) {
+      anchorY = lastY;
+      lastDir = dir;
+    }
+    lastY = currentY;
+
+    const travel = currentY - anchorY;
+    if (!isHidden && travel > 10) {
+      applyState(true);
+    } else if (isHidden && travel < -8) {
+      applyState(false);
+    }
+  }
+
+  syncDimensions();
+
+  window.addEventListener('scroll', () => {
+    if (!rafPending) {
+      rafPending = true;
+      window.requestAnimationFrame(updateOnScroll);
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', syncDimensions, { passive: true });
+
+  if (typeof ResizeObserver === 'function') {
+    const ro = new ResizeObserver(syncDimensions);
+    ro.observe(header);
+    ro.observe(stickyNav);
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncDimensions);
+  }
+
+  header.addEventListener('focusin', (e) => {
+    try {
+      if (e.target && e.target.matches(':focus-visible')) {
+        applyState(false);
+      }
+    } catch (err) {
+      applyState(false);
+    }
   });
 }
