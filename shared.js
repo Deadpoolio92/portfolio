@@ -278,6 +278,15 @@ function initScrollSpy() {
 
   if (!sections.length) return;
 
+  function getTriggerLine() {
+    const header = document.querySelector('header.site-header');
+    const stickyNav = document.getElementById('sticky-nav') || document.querySelector('.sticky-nav-bar');
+    if (header && stickyNav) {
+      return Math.max(130, header.getBoundingClientRect().height + stickyNav.getBoundingClientRect().height + 40);
+    }
+    return 130;
+  }
+
   function updateActivePill() {
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
@@ -290,11 +299,12 @@ function initScrollSpy() {
       return;
     }
 
-    // Active section detection: find the latest section whose top is at or above viewport trigger line (120px)
+    // Active section detection synced with dynamic header + sticky nav scroll-margin-top
+    const triggerLine = getTriggerLine();
     let current = sections[0];
     for (let i = 0; i < sections.length; i++) {
       const rect = sections[i].target.getBoundingClientRect();
-      if (rect.top <= 130) {
+      if (rect.top <= triggerLine) {
         current = sections[i];
       }
     }

@@ -2048,7 +2048,7 @@ tr:hover td {
 /* Stacked Editorial Section Headers */
 .section-wrap {
   margin-bottom: 4.5rem;
-  scroll-margin-top: 6.5rem;
+  scroll-margin-top: max(6.5rem, calc(var(--site-header-height, 0px) + var(--sticky-nav-height, 0px) + 1rem));
 }
 
 .section-header-modern {
