@@ -1,0 +1,12 @@
+# Enforce LF line endings across all OSes (Windows, macOS, Linux).
+* text=auto eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.zip binary
