@@ -373,7 +373,11 @@ function copyMarkdown(mdPath, btn) {
 
   fetch(mdPath)
     .then(res => {
-      if (!res.ok) throw new Error('HTTP ' + res.status);
+      if (!res.ok) {
+        const err = new Error('HTTP ' + res.status);
+        err.status = res.status;
+        throw err;
+      }
       return res.text();
     })
     .then(text => {
@@ -384,8 +388,14 @@ function copyMarkdown(mdPath, btn) {
       }
       tryFallbackCopy(text, onCopySuccess, () => onCopyFailure('Copy failed'));
     })
-    .catch(() => {
-      onCopyFailure('Use live site to copy');
+    .catch((err) => {
+      if (window.location.protocol === 'file:') {
+        onCopyFailure('Use live site to copy');
+      } else if (err && err.status === 404) {
+        onCopyFailure('Markdown unavailable');
+      } else {
+        onCopyFailure('Copy failed');
+      }
     });
 }
 
@@ -442,7 +452,11 @@ function initDirectDownloads() {
       const filename = link.getAttribute('download') || href.split('/').pop().split('?')[0];
       fetch(href)
         .then(res => {
-          if (!res.ok) throw new Error('HTTP ' + res.status);
+          if (!res.ok) {
+            const err = new Error('HTTP ' + res.status);
+            err.status = res.status;
+            throw err;
+          }
           return res.blob();
         })
         .then(blob => {
@@ -455,8 +469,12 @@ function initDirectDownloads() {
           document.body.removeChild(tmp);
           setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
         })
-        .catch(() => {
-          window.location.href = href;
+        .catch((err) => {
+          if (err && err.status === 404) {
+            showNavTooltip(link, 'File unavailable');
+          } else {
+            window.location.href = href;
+          }
         });
     });
   });
