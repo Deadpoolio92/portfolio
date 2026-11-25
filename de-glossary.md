@@ -65,6 +65,7 @@ These terms are standard in German senior tech/ops teams and stay English (with 
 - **Token-Burn**
 - **Subagent** *(Pl. Subagenten)*
 - **Tool-Stripping** *(physisches Tool-Stripping)*
+- **Creative-Assets** / **Creative-Ops**
 
 ---
 
@@ -90,3 +91,5 @@ These terms are standard in German senior tech/ops teams and stay English (with 
 | Latency | Latenz | KPI label |
 | Single-Intent Ad Groups | Single-Intent-Anzeigengruppen | Paid search structure |
 | Payroll | Lohnkosten *(Prose)* / Payroll *(compact HUD)* | |
+| Landing Page | Landingpage | One word in German |
+| Compounded (Drugs) | individuell hergestellte (compounded) Präparate / Compounded Drugs | Healthcare Compliance context |
