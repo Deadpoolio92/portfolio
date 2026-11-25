@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karol Jasztal | AI Systems Engineering &amp; Operations Portfolio</title>
+  <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css" />
+  <script src="../shared.js"></script>
+</head>
+<body>
+
+  <!-- Sticky Top Navigation Frame -->
+  <div class="sticky-header-container">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="brand-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
+          Karol Jasztal
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Fallstudien-Übersicht</span>
+      </div>
+      <div class="nav-actions">
+        <button type="button" class="nav-action-btn lang-toggle-btn" onclick="switchLanguage(this)" title="Switch to English" aria-label="Auf Englisch wechseln">EN</button>
+        <button id="themeToggle" class="theme-toggle-btn" title="Hell-/Dunkel-Modus umschalten" aria-label="Hell-/Dunkel-Modus umschalten">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container">
+
+    <!-- HERO SECTION -->
+    <header class="hero-banner hero-centered" style="margin-bottom: 2.5rem; padding-bottom: 2.5rem;">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Karol Jasztal &middot; Head of Operations &amp; AI Systems
+      </div>
+      <h1 class="hero-title">
+        AI Systems Engineering &amp; Operations:
+        <span class="headline-accent">Praxisbeweise &amp; Autonome Workflows</span>
+      </h1>
+      <p class="hero-subtitle">
+        Erprobte Systeme, echter Produktionscode und operative Telemetrie ohne Bullshit. Hier zeige ich, wie ich 82 % Setup-Ballast in Marketing-Pipelines streiche, fehlerhafte KI-Ausführung mit Out-of-Band-OS-Firewalls auf 11.000+ Dateien blocke und API-Kosten mit entkoppelten Subagent-Architekturen um 76,8 % senke.
+      </p>
+    </header>
+
+    <!-- SECTION 1: VERIFIED PRODUCTION CASE STUDIES -->
+    <section class="section-wrap" style="padding-top: 0;">
+      <div class="section-header-modern" style="margin-bottom: 2rem;">
+        <span class="section-eyebrow">01 // Operative Fallstudien</span>
+        <h2 class="section-title-modern">Produktive Fallstudien</h2>
+        <p class="section-desc-modern">
+          Detaillierte technische Dossiers mit echten Primärartefakten: geprüfte Schemas, Testnachweise, Live-Terminal-Logs und Architektur-Spezifikationen.
+        </p>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- Case Study 1: Google Ads -->
+        <article class="card card-accent" style="border-top: 4px solid var(--accent); --card-hover-border: var(--accent);">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-accent">Autonome Marketing-Ops</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">
+              <a href="../gads-workflow.html" class="card-title-link" style="color: inherit; text-decoration: none;">
+                Von 40 Stunden Tabellen-Chaos zur 7-Stunden-Maschine:
+                <span class="headline-accent">Wie ich 82 % der Google-Ads-Fleißarbeit gestrichen habe</span>
+              </a>
+            </h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Wie strikte 50-Felder-Schemas und automatisierte QA-Linter Copy-Paste-Fehler und Ad-Policy-Sperren beendet haben.
+            </p>
+
+            <!-- Mini-KPI Stat Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Durchlaufzeit</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--accent); margin: 0.15rem 0;">40h &rarr; 7h</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">-82,5 %</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Compliance</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--success); margin: 0.15rem 0;">100 %</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">0 Verstöße</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Jahres-ROI</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">1.320h</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Zeitersparnis</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions" style="display: flex; gap: 0.65rem; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <a class="btn btn-secondary" href="../gads-workflow.pdf" download style="flex: 0 0 auto; padding: 0.5rem 0.85rem; justify-content: center; text-align: center; white-space: nowrap;" title="PDF herunterladen (EN)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              PDF
+            </a>
+            <a class="btn btn-primary" href="../gads-workflow.html" style="flex: 1; justify-content: center; text-align: center; white-space: nowrap;">
+              Fallstudie ansehen (EN)
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Case Study 2: Zero-Trust Security -->
+        <article class="card card-danger" style="border-top: 4px solid var(--danger); --card-hover-border: var(--danger);">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-danger">Zero-Trust AI Security</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">
+              <a href="../zero-trust-agent-architecture.html" class="card-title-link" style="color: inherit; text-decoration: none;">
+                Warum &bdquo;Sei vorsichtig&ldquo; bei KI scheitert:
+                <span class="headline-accent" style="color: var(--danger);">Wie ich 11.000+ Dateien geprüft und echte OS-Firewalls für autonome Agenten gebaut habe</span>
+              </a>
+            </h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Warum Prompt-Guardrails versagen, sobald autonome Agenten auf echte Dateisysteme zugreifen.
+            </p>
+
+            <!-- Mini-KPI Stat Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Sicherheit</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--danger); margin: 0.15rem 0;">0 Escapes</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">0 Vorfälle</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Abdeckung</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">11.000+</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Dateien geprüft</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">OS-Firewall</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--danger); margin: 0.15rem 0;">Exit 2</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--danger); font-weight: 600;">Harte Blocks</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions" style="display: flex; gap: 0.65rem; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <a class="btn btn-secondary" href="../zero-trust-agent-architecture.pdf" download style="flex: 0 0 auto; padding: 0.5rem 0.85rem; justify-content: center; text-align: center; white-space: nowrap;" title="PDF herunterladen (EN)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              PDF
+            </a>
+            <a class="btn btn-primary" href="../zero-trust-agent-architecture.html" style="flex: 1; justify-content: center; text-align: center; white-space: nowrap;">
+              Fallstudie ansehen (EN)
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Case Study 3: Multi-Agent System -->
+        <article class="card card-success" style="border-top: 4px solid var(--success); --card-hover-border: var(--success);">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-success">Multi-Agent-Systeme &amp; FinOps</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">
+              <a href="../multi-agent-system.html" class="card-title-link" style="color: inherit; text-decoration: none;">
+                Einblick in ein produktives Multi-Agent-System:
+                <span class="headline-accent" style="color: var(--success);">Wie ich ein autonomes Subagent-System gebaut und den Token-Verbrauch um 76,8 % gesenkt habe</span>
+              </a>
+            </h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Riesige 80k-Token-&bdquo;God-Prompts&ldquo; ersetzt durch einen schlanken Conductor, der an frische Subagenten delegiert.
+            </p>
+
+            <!-- Mini-KPI Stat Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Token-Burn</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--success); margin: 0.15rem 0;">-76,8 %</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">5,26M gespart</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Latenz</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--accent); margin: 0.15rem 0;">4,8s</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">-80,2 % Zeit</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Skalierung</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">700+</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Sessions</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions" style="display: flex; gap: 0.65rem; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <a class="btn btn-secondary" href="../multi-agent-system.pdf" download style="flex: 0 0 auto; padding: 0.5rem 0.85rem; justify-content: center; text-align: center; white-space: nowrap;" title="PDF herunterladen (EN)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              PDF
+            </a>
+            <a class="btn btn-primary" href="../multi-agent-system.html" style="flex: 1; justify-content: center; text-align: center; white-space: nowrap;">
+              Fallstudie ansehen (EN)
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Case Study 4: Marketing Ops & Zero-Defect QA Pipeline -->
+        <article class="card card-purple" style="border-top: 4px solid var(--purple); --card-hover-border: var(--purple);">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-purple">Marketing-Ops &amp; Healthcare-QA</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">
+              <a href="../marketing-ai-ops-qa.html" class="card-title-link" style="color: inherit; text-decoration: none;">
+                15 Creative-Freelancer, 70–100 Assets pro Woche, null Fehler:
+                <span class="headline-accent" style="color: var(--purple);">Wie ich die Marketing-QA-Maschine für schnelles Telehealth aufgebaut habe</span>
+              </a>
+            </h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Wie eigene Claude-Skills und eine lückenlose menschliche Freigabe riskante Werbeaussagen abfingen, bevor Ad-Netzwerke uns sperren konnten.
+            </p>
+
+            <!-- Mini-KPI Stat Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Durchsatz</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--purple); margin: 0.15rem 0;">70–100</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Assets / Woche</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Compliance</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--success); margin: 0.15rem 0;">0 Leaks</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">FDA-konform</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Migration</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">500 Tasks</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">0 Verluste</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions" style="display: flex; gap: 0.65rem; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <a class="btn btn-secondary" href="../marketing-ai-ops-qa.pdf" download style="flex: 0 0 auto; padding: 0.5rem 0.85rem; justify-content: center; text-align: center; white-space: nowrap;" title="PDF herunterladen (EN)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              PDF
+            </a>
+            <a class="btn btn-primary" href="../marketing-ai-ops-qa.html" style="flex: 1; justify-content: center; text-align: center; white-space: nowrap;">
+              Fallstudie ansehen (EN)
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Case Study 5: HubSpot Revenue Engine -->
+        <article class="card card-warning">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-warning">RevOps &amp; CRM-Architektur</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">
+              <a href="../hubspot-revenue-engine.html" class="card-title-link" style="color: inherit; text-decoration: none;">
+                Verlorene Deals und Kalender-Chaos gestoppt:
+                <span class="headline-accent" style="color: var(--warning);">Wie ich HubSpot &amp; Calendly neu gebaut und 500+ Stunden für ein 50-köpfiges Maklerteam gespart habe</span>
+              </a>
+            </h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Termin-Ping-Pong und vergessene Rückrufe durch automatische 3-Strike-Cadences und Sofort-Routing ersetzt.
+            </p>
+
+            <!-- Mini-KPI Stat Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Kapazität</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--warning); margin: 0.15rem 0;">500+ Std.</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">Jahres-ROI</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Architektur</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">2 Tracks</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Leads &amp; Sales</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Calendly-Sync</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--success); margin: 0.15rem 0;">100 %</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">Automatisiert</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions" style="display: flex; gap: 0.65rem; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <a class="btn btn-secondary" href="../hubspot-revenue-engine.pdf" download style="flex: 0 0 auto; padding: 0.5rem 0.85rem; justify-content: center; text-align: center; white-space: nowrap;" title="PDF herunterladen (EN)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              PDF
+            </a>
+            <a class="btn btn-primary" href="../hubspot-revenue-engine.html" style="flex: 1; justify-content: center; text-align: center; white-space: nowrap;">
+              Fallstudie ansehen (EN)
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Case Study 6: 500,000-Record CRM Data Cleanup -->
+        <article class="card card-accent" style="border-top: 4px solid var(--accent); --card-hover-border: var(--accent);">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-accent">Data Governance &amp; Hygiene</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">
+              <a href="../crm-data-cleanup.html" class="card-title-link" style="color: inherit; text-decoration: none;">
+                Von 500.000 kaputten Datensätzen auf 99,8 % Genauigkeit:
+                <span class="headline-accent" style="color: var(--accent);">Wie ich eine massive CRM-Krise mit Six Sigma DMAIC bereinigt habe</span>
+              </a>
+            </h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Wie ein 50-Datensätze-Pilot-Audit die Kernursache fand, bevor unser Async-Sprint-Team auch nur einen Live-Datensatz zusammengeführt hat.
+            </p>
+
+            <!-- Mini-KPI Stat Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Bereinigt</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--accent); margin: 0.15rem 0;">500k</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">Kein Rollback</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Genauigkeit</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--success); margin: 0.15rem 0;">99,8 %</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">0 Fehl-Merges</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Routinekram</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">10h/Wo.</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Automatisiert</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions" style="display: flex; gap: 0.65rem; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <a class="btn btn-secondary" href="../crm-data-cleanup.pdf" download style="flex: 0 0 auto; padding: 0.5rem 0.85rem; justify-content: center; text-align: center; white-space: nowrap;" title="PDF herunterladen (EN)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              PDF
+            </a>
+            <a class="btn btn-primary" href="../crm-data-cleanup.html" style="flex: 1; justify-content: center; text-align: center; white-space: nowrap;">
+              Fallstudie ansehen (EN)
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Case Study 7: Async-First Operating System -->
+        <article class="card card-accent" style="border-top: 4px solid var(--accent); --card-hover-border: var(--accent);">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-accent">Async-Operating-Cadence</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">
+              <a href="../async-operating-system.html" class="card-title-link" style="color: inherit; text-decoration: none;">
+                15 Freelancer, 10 Länder, null Daily Standups:
+                <span class="headline-accent" style="color: var(--accent);">Wie ich 15 Stunden Meeting-Ballast pro Woche gestrichen habe</span>
+              </a>
+            </h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Wie ein 3-Stufen-Meeting-Gate und 3-Minuten-Loom-Updates tägliche Standups über 12 Zeitzonen hinweg abgeschafft haben.
+            </p>
+
+            <!-- Mini-KPI Stat Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Meetings</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--accent); margin: 0.15rem 0;">-15h/Wo.</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">Zeit gewonnen</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Taktung</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--success); margin: 0.15rem 0;">Async RFC</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">Silent Reviews</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Kultur</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">100 %</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Dokumentiert</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions" style="display: flex; gap: 0.65rem; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <a class="btn btn-secondary" href="../async-operating-system.pdf" download style="flex: 0 0 auto; padding: 0.5rem 0.85rem; justify-content: center; text-align: center; white-space: nowrap;" title="PDF herunterladen (EN)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              PDF
+            </a>
+            <a class="btn btn-primary" href="../async-operating-system.html" style="flex: 1; justify-content: center; text-align: center; white-space: nowrap;">
+              Fallstudie ansehen (EN)
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Case Study 8: SOP Library & Zero-Touch Onboarding -->
+        <article class="card card-success" style="border-top: 4px solid var(--success); --card-hover-border: var(--success);">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-success">Wissensarchitektur</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">
+              <a href="../sop-library-onboarding.html" class="card-title-link" style="color: inherit; text-decoration: none;">
+                200+ Freelancer, null Live-Trainings-Calls:
+                <span class="headline-accent" style="color: var(--success);">Wie ich mit einer Self-Serve-SOP-Bibliothek 10–20 Stunden pro Onboarding gespart habe</span>
+              </a>
+            </h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Verstreute Dokumente und Live-Einarbeitung durch einen rollenbasierten GoHighLevel-Trainingshub auf Autopilot ersetzt.
+            </p>
+
+            <!-- Mini-KPI Stat Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Training</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--success); margin: 0.15rem 0;">-10–20h</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--success); font-weight: 600;">Pro Hire</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Geprüft</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--accent); margin: 0.15rem 0;">200+</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Freelancer</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Team-Scale</div>
+                <div style="font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); margin: 0.15rem 0;">1 &rarr; 15</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Ohne HR</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions" style="display: flex; gap: 0.65rem; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <a class="btn btn-secondary" href="../sop-library-onboarding.pdf" download style="flex: 0 0 auto; padding: 0.5rem 0.85rem; justify-content: center; text-align: center; white-space: nowrap;" title="PDF herunterladen (EN)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              PDF
+            </a>
+            <a class="btn btn-primary" href="../sop-library-onboarding.html" style="flex: 1; justify-content: center; text-align: center; white-space: nowrap;">
+              Fallstudie ansehen (EN)
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: SYSTEMS ROADMAP & IN-FLIGHT ARCHITECTURES -->
+    <section class="section-wrap" style="padding-top: 2rem;">
+      <div class="section-header-modern" style="margin-bottom: 2rem;">
+        <span class="section-eyebrow">02 // Systems-Roadmap &amp; Pipeline-Blueprints</span>
+        <h2 class="section-title-modern">Operative Architektur-Pipeline</h2>
+        <p class="section-desc-modern">
+          Aktive operative Pipelines, Data-Governance-Architekturen und Revenue-Infrastruktur im Produktivbetrieb und Staging.
+        </p>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- Blueprint 07: State Machine -->
+        <article class="card wip">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-neutral">Verteilte Systeme &amp; FSM</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">Systems-Architektur &amp; Pipeline-Zustandsautomat</h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              Strikt typisierter Zustandsautomat (FSM) zur Steuerung asynchroner plattformübergreifender Webhooks.
+            </p>
+
+            <!-- Blueprint Target Metric Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Engine</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">FSM Core</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Strikt typisiert</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Stabilität</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">Idempotent</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Keine Duplikate</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Recovery</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">Backoffs</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Self-Healing</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions" style="border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <span class="btn btn-disabled" style="width: 100%; justify-content: center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Demnächst
+            </span>
+          </div>
+        </article>
+
+        <!-- Blueprint 10: German Bookkeeping -->
+        <article class="card wip">
+          <div style="display: flex; flex-direction: column;">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-neutral">Kryptografische GoBD-Ledger</span>
+            </div>
+            <h2 class="card-title" style="margin-bottom: 0.75rem;">GoBD-konforme Buchhaltung &amp; Unveränderliches Hash-Chain-Ledger</h2>
+            <p class="card-prose" style="margin-bottom: 1.25rem;">
+              GoBD-konforme Buchhaltungs-Pipeline mit kryptografischen Hash-Ketten und automatischem Kontenabgleich.
+            </p>
+
+            <!-- Blueprint Target Metric Boxes -->
+            <div class="mini-kpi-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Standard</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">GoBD</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Steuerrecht DE</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Ledger</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">SHA-256</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Hash-Ketten</div>
+              </div>
+              <div style="background: var(--surface-subtle); border: 1px dashed var(--border-subtle); border-radius: 8px; padding: 0.55rem 0.45rem; text-align: center;">
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint); text-transform: uppercase;">Abgleich</div>
+                <div style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--ink-muted); margin: 0.15rem 0;">Auto-Match</div>
+                <div style="font-family: var(--mono); font-size: 0.65rem; color: var(--ink-faint);">Bank/Belege</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions" style="border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: auto;">
+            <span class="btn btn-disabled" style="width: 100%; justify-content: center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Demnächst
+            </span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Modern Site Footer (Rendered automatically by shared.js) -->
+    <footer id="site-footer"></footer>
+  </div>
+
+</body>
+</html>

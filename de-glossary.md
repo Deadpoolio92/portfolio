@@ -74,3 +74,7 @@ These terms are standard in German senior tech/ops teams and stay English (with 
 | Decision Trade-Offs | Architektur-Trade-offs | Section title |
 | Retrospective & Principles | Retrospektive & Prinzipien | Section title |
 | Operational Dossiers | Operative Fallstudien | Eyebrow / subtitle |
+| Production Proof | Praxisbeweise / Beweise aus dem Produktivbetrieb | Avoid literal *"Produktive Beweise"* |
+| Throughput | Durchsatz | KPI label |
+| Capacity Saved | Kapazität | KPI label |
+| Latency | Latenz | KPI label |
