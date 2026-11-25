@@ -62,6 +62,9 @@ These terms are standard in German senior tech/ops teams and stay English (with 
 - **Denylist**
 - **Primitives / Produktions-Primitives**
 - **Upstream-Drift**
+- **Token-Burn**
+- **Subagent** *(Pl. Subagenten)*
+- **Tool-Stripping** *(physisches Tool-Stripping)*
 
 ---
 

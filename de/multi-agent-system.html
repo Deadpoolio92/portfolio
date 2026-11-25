@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produktives Multi-Agent-System: Wie ich mit Subagenten 76,8 % Token-Burn gesenkt habe | Karol Jasztal</title>
+  <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css" />
+  <script src="../shared.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Header (Normal Flow / Not Sticky) -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio-Übersicht
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Autonomes Multi-Agent-System</span>
+      </div>
+      <div class="nav-actions">
+        <a href="multi-agent-system.pdf" download class="nav-action-btn" title="PDF herunterladen" aria-label="PDF herunterladen">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          PDF
+        </a>
+        <a href="multi-agent-system.md" download class="nav-action-btn" title="Markdown herunterladen" aria-label="Markdown herunterladen">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          MD
+        </a>
+        <button type="button" class="nav-action-btn" onclick="copyMarkdown('multi-agent-system.md', this)" title="Markdown in Zwischenablage kopieren" aria-label="Markdown in Zwischenablage kopieren">
+          <svg class="copy-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <svg class="check-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polyline points="20 6 9 17 4 12"/></svg>
+          MD
+        </button>
+        <button type="button" class="nav-action-btn lang-toggle-btn" onclick="switchLanguage(this)" title="Switch to English" aria-label="Auf Englisch wechseln">EN</button>
+        <button id="themeToggle" class="theme-toggle-btn" title="Hell-/Dunkel-Modus umschalten" aria-label="Hell-/Dunkel-Modus umschalten">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Sticky Chapter Anchor Bar (Option 2B Decoupled Sticky Navigation) -->
+  <nav class="sticky-nav-bar" id="sticky-nav">
+    <div class="nav-grid-track">
+      <a href="#architecture" class="nav-tag-pill active">1. Conductor-Architektur</a>
+      <a href="#subagent-isolation" class="nav-tag-pill">2. Subagent-Tool-RBAC</a>
+      <a href="#safety-gates" class="nav-tag-pill">3. Deterministische Safety-Gates</a>
+      <a href="#token-economics" class="nav-tag-pill">4. Token-Ökonomie (-76,8 %)</a>
+      <a href="#state-machine" class="nav-tag-pill">5. Externer Zustandsautomat</a>
+      <a href="#video-walkthrough" class="nav-tag-pill">6. Live-Screencast-Runbook</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO SECTION -->
+    <header class="hero-banner hero-centered">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Multi-Agent-Blueprint &bull; Karol Jasztal
+      </div>
+      <h1 class="hero-title">
+        Produktives Multi-Agent-System:
+        <span class="headline-accent">Wie ich mit Subagenten 76,8 % Token-Burn gesenkt habe</span>
+      </h1>
+      <p class="hero-subtitle">
+        Statt 80.000 Tokens pro Aufruf in einem trägen Prompt zu verbrennen, habe ich ein modulares Mesh aus sechs spezialisierten Subagenten unter einem autonomen Conductor gebaut. Jeder Subagent startet mit sauberem Kontext und reduzierten Tools – das senkt die Latenz um 80,2 % und die Token-Kosten um 76,8 % über 700+ Live-Runs.
+      </p>
+
+            <!-- Option 03C • Centered Connected HUD Telemetry Bar (Zero Progress Bar) -->
+      <div class="hud-telemetry-bar" id="bento-metrics">
+        <!-- Cell 1: Token Cut -->
+        <div class="hud-cell">
+          <div class="hud-label">Token-Effizienz</div>
+          <div class="hud-num" style="color: var(--success);">&minus;76,8 % Burn</div>
+          <span class="hud-delta delta-success">&minus;5,26M Tokens</span>
+          <div class="hud-sub">6,85M &rarr; 1,59M Turn-Delta</div>
+        </div>
+
+        <!-- Cell 2: Context Window -->
+        <div class="hud-cell">
+          <div class="hud-label">Kontextfenster</div>
+          <div class="hud-num">4.200 Tokens</div>
+          <span class="hud-delta delta-success">&minus;94,9 % kleiner</span>
+          <div class="hud-sub">Flaches Arbeitsgedächtnis</div>
+        </div>
+
+        <!-- Cell 3: Latency -->
+        <div class="hud-cell">
+          <div class="hud-label">Antwort-Latenz</div>
+          <div class="hud-num" style="color: var(--success);">4,8s vs. 24,2s</div>
+          <span class="hud-delta delta-success">&minus;80,2 % schneller</span>
+          <div class="hud-sub">Sofortiger Developer-Flow</div>
+        </div>
+
+        <!-- Cell 4: Safety Record -->
+        <div class="hud-cell">
+          <div class="hud-label">Sicherheitsbilanz</div>
+          <div class="hud-num" style="color: var(--success);">0 Vorfälle</div>
+          <span class="hud-delta delta-success">100 % PreToolUse Blocks</span>
+          <div class="hud-sub">Gehärtete Out-of-Band-Hooks</div>
+        </div>
+
+        <!-- Cell 5: Subagent Mesh -->
+        <div class="hud-cell">
+          <div class="hud-label">Subagent-Mesh</div>
+          <div class="hud-num">6 Sandboxes</div>
+          <span class="hud-delta delta-neutral">Strikte Tool-Scopes</span>
+          <div class="hud-sub">Conductor &bull; 700+ Runs</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 1: ARCHITECTURE & DECOMPOSITION -->
+    <!-- ========================================================================= -->
+    <section id="architecture" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // Architektur &amp; Zerlegung</span>
+        <h2 class="section-title-modern">Weg mit dem &bdquo;God-Prompt&ldquo;: Warum monolithische Prompts scheitern</h2>
+        <p class="section-desc-modern">
+          Die meisten Enterprise-KI-Workflows versuchen, einen einzigen &bdquo;God-Prompt&ldquo; zu bauen. Sie kleben ein 50-Seiten-Handbuch, 20 API-Schemas und tausende Zeilen Code in einen riesigen Prompt und hoffen, dass die KI nichts kaputtmacht. In der Praxis knallt das gewaltig: Das Modell verliert den Faden und vergisst Regeln, die Kosten explodieren auf 34+ $ pro Session, und es nett zu bitten, keine Dateien zu löschen, ist Wunschdenken. So löst mein Conductor-Subagent-Mesh das Problem.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- Symmetrical Side-by-Side Battlecards (2 Columns) -->
+      <div class="battlecard-grid">
+        <!-- Negative Card: Monolithic Prompt Trap -->
+        <div class="battlecard legacy" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Die monolithische &bdquo;God-Prompt&ldquo;-Falle</span>
+          <h3 style="margin-top: 0.5rem;">Ein riesiger Kontext (80k–120k Tokens bei jedem Turn neu)</h3>
+          <div class="callout-box callout-danger" style="margin: 0.75rem 0;">
+            <div class="callout-text font-mono font-bold">Ein Generalist &bull; 300 KB Instruktionen beim Start geladen</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin-bottom: 0.75rem;">
+            <strong>Wie es die meisten machen:</strong> Eine einzige Generalisten-KI muss Produkt-Specs, Coding-Standards, Datenbank-Schemas und Terminal-Befehle gleichzeitig jonglieren. Jeder Follow-up-Turn sendet 80.000+ Tokens Ballast neu – das treibt die Kosten auf 34+ $ pro Session und löst Halluzinations-Schleifen aus.
+          </p>
+          <ul class="feature-list" style="margin-top: 1.25rem; gap: 0.75rem;">
+            <li class="feature-row bad" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--danger); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;"><strong>Aufmerksamkeitsverlust:</strong> Die KI vergisst Regeln in der Mitte langer Prompts und fängt an zu halluzinieren.</span>
+            </li>
+            <li class="feature-row bad" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--danger); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;"><strong>Geld verbrennen:</strong> 50 Turns verbrauchen 6,85M Tokens – das kostet 34,25+ $ bei zähen 24 Sekunden Wartezeit.</span>
+            </li>
+            <li class="feature-row bad" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--danger); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;"><strong>Scheinsicherheit:</strong> Einen Agenten anzuflehen <em>&bdquo;bitte mach die Produktion nicht kaputt&ldquo;</em> scheitert im Fehlerfall.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Positive Card: Karol's Conductor-Subagent Mesh -->
+        <div class="battlecard transformed" style="border-top: 4px solid var(--success);">
+          <span class="badge badge-success" style="align-self: flex-start;">Karols Produktions-Standard</span>
+          <h3 style="margin-top: 0.5rem;">Autonomer Conductor + ephemere Single-Job-Subagenten</h3>
+          <div class="callout-box callout-success" style="margin: 0.75rem 0;">
+            <div class="callout-text font-mono font-bold">1 Task = 1 sauberes Fenster &bull; Physisch entzogene Tools &bull; Echte OS-Hooks</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin-bottom: 0.75rem;">
+            <strong>Wie Karol es baut:</strong> Ein autonomer Conductor zerlegt Arbeit in handliche Tasks, startet Single-Purpose-Subagenten mit physisch gekürzten Tool-Manifesten und verlangt zwei saubere Review-Durchläufe in Folge, bevor irgendetwas gemergt wird.
+          </p>
+          <ul class="feature-list" style="margin-top: 1.25rem; gap: 0.75rem;">
+            <li class="feature-row good" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;"><strong>Frische Kontexte:</strong> Subagenten starten mit 0 Vor-Turns, fassen nur gebriefte Dateien an und enden danach.</span>
+            </li>
+            <li class="feature-row good" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;"><strong>76,8 % weniger Tokens:</strong> Speicher bleibt flach bei ~4,2k Tokens, Session-Kosten sinken auf 7,95 $ und Latenz auf 4,8s.</span>
+            </li>
+            <li class="feature-row good" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;"><strong>Harte OS-Gates:</strong> Out-of-Band-PowerShell-Hooks stoppen gefährliche Befehle, bevor überhaupt eine Shell startet.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Conductor-Subagent Topology Rail (4 Stages) -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Der 4-Stufen-Lebenszyklus: Wie der Conductor Code ausliefert
+      </h3>
+      <div class="pipeline-rail" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 01</span>
+          <h4 class="node-title">Task-Aufnahme &amp; Scoping</h4>
+          <p class="node-desc">Der Conductor zieht den nächsten Task per Questimus-REST-API, prüft Abhängigkeiten und erstellt ein klares Briefing.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 02</span>
+          <h4 class="node-title">Frischer Builder-Spawn</h4>
+          <p class="node-desc">Code Builder startet in einem frischen 0-Turn-Fenster, schreibt zuerst einen roten Test, implementiert sauber und beweist Grün.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 03</span>
+          <h4 class="node-title">Consecutive Clean Pass Review</h4>
+          <p class="node-desc">Zwei Review-Runden in Folge müssen 100 % fehlerfrei bestehen. Egal ob 2 oder 10 Runden – nichts wird gemergt, bis zwei Reviews am Stück komplett grün sind.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 04</span>
+          <h4 class="node-title">Deterministisches Push-Gate</h4>
+          <p class="node-desc">PreToolUse-Hooks prüfen Linter und Branch-Regeln vor dem atomaren Git-Commit und dem Schließen des Tickets.</p>
+        </div>
+      </div>
+
+      <!-- Multi-Harness Governance Table -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Betrieb über 3 verschiedene Tools: Antigravity, Claude Code und DSH
+      </h3>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 20%;">Harness-Umgebung</th>
+              <th style="width: 32%;">Getestete &amp; eingesetzte Frontier-Modelle</th>
+              <th style="width: 24%;">Primäre operative Rolle</th>
+              <th style="width: 24%;">Hook-Durchsetzungsmechanismus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Google Antigravity</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--ink-muted);">Gemini 4 Argon, Gemini 3.8 Flash / Pro, Google AI Studio Reasoning-Engines sowie frühere Modell-Generationen (Gemini 1.5 Pro und ältere)</td>
+              <td style="color: var(--ink); line-height: 1.5;">Visuelle App-Entwicklung, Multi-Workspace-Refactoring und interaktive Agenten-Kollaboration</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">PreToolUse &amp; PostToolUse JSON-IPC via <code>.agents/hooks.json</code></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Claude Code (Anthropic)</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--ink-muted);">Sonnet 5, Sonnet 5.5, Opus 4.8, Opus 5, Opus 5.5, Fable 5 sowie frühere Frontier-Baselines (Claude 3 Opus und ältere)</td>
+              <td style="color: var(--ink); line-height: 1.5;">Tiefe Logik-Reviews, komplexe Test-Suites und autonome Conductor-Läufe</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">PowerShell-Skripte registriert in <code>.claude/settings.json</code></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">DeepSeek Harness (DSH)</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--ink-muted);">DeepSeek v4 Pro, DeepSeek v4 Flash, DeepSeek v3, GLM 5.3, GLM 5.3 Flash, lokale Ollama/Unsloth-Setups sowie frühere Open-Weight-Baselines</td>
+              <td style="color: var(--ink); line-height: 1.5;">Schnelle Hintergrund-Checks, lokale Testläufe und zügige Code-Reviews</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">Headless-CLI-Wrapper mit strikter Standard-Output-Validierung</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 2: SUBAGENT TOOL RBAC -->
+    <!-- ========================================================================= -->
+    <section id="subagent-isolation" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // Least Privilege &amp; Sandboxing</span>
+        <h2 class="section-title-modern">Physisches Tool-Stripping: Warum &bdquo;Dateien nicht bearbeiten&ldquo; scheitert</h2>
+        <p class="section-desc-modern">
+          Anfänger-Setups geben jedem Modell vollen Systemzugriff (Read, Write, Bash, Git, Netzwerk) und schreiben dann höflich in den Prompt: <em>&bdquo;Bitte Code nur prüfen, keine Dateien bearbeiten.&ldquo;</em> Das ist ein schlechter Witz. Sobald ein Agent halluziniert oder auf einen Sonderfall stößt, bearbeitet er die Dateien trotzdem. Bei mir gilt physisches Tool-Stripping: Wenn ein Auditor-Agent nichts schreiben muss, wird <code>write_file</code> komplett aus seinem Manifest gestrichen. Selbst bei einer Prompt-Injection existiert das Tool für ihn schlicht nicht.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- Subagent Permission Matrix Table -->
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 18%;">Subagenten-Rolle</th>
+              <th style="width: 18%;">Ziel-Modelle</th>
+              <th style="width: 24%;">Erlaubte Sandbox-Tools</th>
+              <th style="width: 24%;">Physisch entzogene Tools</th>
+              <th style="width: 16%;">Lebenszyklus-Modell</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Conductor</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">Gemini Flash / Sonnet / Opus</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">Task-Planung, Questimus REST, Subagent-Aufruf</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--danger);">Direktes Code-Schreiben, rohe Git-Commits</td>
+              <td style="font-size: 0.82rem;">Persistent (Issue-Supervisor)</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--accent);">Code Builder</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">Modell-geerbt (Sonnet/Flash)</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">Begrenztes Read/Write, Test-Runner</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--danger);">Git push, Branch-Wechsel, externes HTTP</td>
+              <td style="font-size: 0.82rem; color: var(--success); font-weight: 600;">Single-Task (1 Task = 1 frischer Turn)</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--purple);">Code Reviewer</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">Modell-geerbt (Opus/Sonnet)</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">File Read, Git Diff, Grep/Glob-Suche</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--danger);">File Write, File Edit, Shell exec, Git push</td>
+              <td style="font-size: 0.82rem; color: var(--success); font-weight: 600;">Throwaway (Read-only Review-Fork)</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--danger);">Security Reviewer</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">Frontier Reasoning Engine</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">AST-Inspektor, File Read, Secrets-Scanner</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--danger);">File Write, File Edit, Shell, Network Egress</td>
+              <td style="font-size: 0.82rem; color: var(--success); font-weight: 600;">Throwaway (Read-only Pre-Commit)</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Test Writer</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">High-Speed Reasoning Modell</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">File Read, Test-Ordner File Write</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--danger);">Produktiv-Code-Edits, Git-Operationen</td>
+              <td style="font-size: 0.82rem; color: var(--success); font-weight: 600;">Single-Task (Sandbox-Generator)</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Research Subagent</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">High-Efficiency Modell</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">Web-Suche, Doku-Lesen, Grep</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--danger);">File Write, Shell exec, Git-Operationen</td>
+              <td style="font-size: 0.82rem; color: var(--success); font-weight: 600;">Hintergrund (Endet nach Suche)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Production Manifests in Prompt Decks -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Produktive Betriebs-Verträge: Exakte eingesetzte Direktiven
+      </h3>
+      <div class="prompt-deck-container">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Least-Privilege-Durchsetzung &amp; autonome Spezialisierung</span>
+            <h4 class="prompt-deck-title">Produktive Agenten-Direktiven: Maximale Autonomie vs. bewusste Grenzen</h4>
+            <p class="prompt-deck-desc">
+              Echte Produktions-Spezifikationen aus <code>AGENT.md</code> und atomaren Spezialisten-Dateien. Die Architektur verbindet gezielt maximale Schlagkraft (parallele Spezialisten-Swarms, Red-before-Green-TDD, Questimus-REST-State) mit unknackbaren Grenzen (physisch entzogene Schreibrechte, null Git-Write-Zugriff, strikte Scope-Locks).
+            </p>
+          </div>
+        </div>
+        <div class="prompt-deck-body">
+
+          <!-- Prompt Item 01: Code Reviewer -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">01</span>
+              <div>
+                <h4 class="prompt-item-title">Code-Reviewer-Vertrag: 12-Spezialisten-Swarm-Dispatcher ohne Schreibrechte</h4>
+                <p class="prompt-item-desc"><code>.agents/agents/code-reviewer/AGENT.md</code> (220-Zeilen-Produktionsvertrag) &bull; Koordiniert 12 atomare Domänen-Spezialisten parallel.</p>
+              </div>
+            </div>
+
+            <!-- Architecture Duality Panel: Power vs. Limitation -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; margin: 0.4rem 0 0.85rem;">
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--success); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+                <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--success); text-transform: uppercase; margin-bottom: 0.25rem;">⚡ Was er kann (Autonome Engine)</div>
+                <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+                  &bull; <strong>Parallele Spezialisten-Swarms:</strong> Startet bis zu 12 Domänen-Subagenten in einem Turn mit strikten JSON-Schemas.<br>
+                  &bull; <strong>Runden-Diffing:</strong> Trackt <code>✅ Confirmed Fixed</code>, <code>🟡 Partially Fixed</code> und <code>⚠️ New Regression</code> über Runden hinweg.<br>
+                  &bull; <strong>Systemische Pattern-Sweeps:</strong> Greppt sofort das ganze Repo, sobald ein Regex- oder O(n²)-Bug auftaucht.
+                </div>
+              </div>
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+                <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin-bottom: 0.25rem;">🛑 Wo er hart begrenzt ist (Guardrails)</div>
+                <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+                  &bull; <strong>Physisches Tool-Stripping:</strong> <code>write_to_file</code> und <code>replace_file_content</code> sind aus den erlaubten Tools gelöscht.<br>
+                  &bull; <strong>Read-Only-Shell:</strong> Destruktive Befehle sind geblockt; Shell-Zugriff bleibt auf Read-only-Audits beschränkt.<br>
+                  &bull; <strong>Null Delegations-Leak:</strong> Das <code>agent</code>-Recht ist exklusiv auf Spezialisten-Dispatch gesperrt – kein Weiterreichen des eigenen Reviews.
+                </div>
+              </div>
+            </div>
+
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  .agents/agents/code-reviewer/AGENT.md (Auszug Produktions-Direktiven)
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('codeReviewerAgent', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="codeReviewerAgent" class="terminal-body">---
+name: code-reviewer
+description: Unabhängiger Code-Review-Subagent — Korrektheit, Edge Cases, Sicherheit, Performance.
+model: inherit
+tools:
+  - view_file
+  - run_command
+  - invoke_subagent
+  # HINWEIS: write_to_file und replace_file_content sind PHYSISCH ENTFERNT
+---
+
+## Kaltes Review-Mandat &amp; Null Schönreden
+Du bist ein Staff-Level-Code-Reviewer beim Pre-Delivery-Review. Du weißt nichts darüber,
+was die umsetzende Session wollte oder begründet hat. Du prüfst den Code kalt, so wie er ist.
+Schwäche niemals Findings ab, weil der Code &bdquo;zu funktionieren scheint&ldquo; oder &bdquo;wohl passt&ldquo;.
+
+## Spezialisten-Dispatch (Standardmäßig aktiv — Paralleler Subagent-Swarm)
+Entscheide zusätzlich zu deinen 7 Review-Dimensionen, welche Checklisten in
+&lt;AGENT_DIR&gt;/resources/specialists/ relevant sind und starte JEDE als parallelen Subagenten:
+- security.md        — Auth-/Session-/Token-/Rollen-Änderungen oder Backend-Diff &gt; 100 Zeilen
+- performance.md     — Algorithmische Komplexität, Hot-Path-Allokationen, unindexierte Filter
+- red-team.md        — Feindliche Angriffsvektoren, stille Fehler, Trust-Boundary-Exploits
+- error-handling.md  — Verschluckte Exceptions, unbehandelte Promise-Rejections, Recovery-Ketten
+- api-contract.md    — API-/OpenAPI-/GraphQL-Breaking-Changes und Rückwärtskompatibilität
+- data-migration.md  — Schema-/Migrations-Änderungen, Zero-Downtime-Rollbacks
+
+Starte relevante Spezialisten in EINER einzigen Nachricht, damit sie parallel laufen.
+Jeder Spezialist liefert striktes JSON: {"severity":"CRITICAL|INFORMATIONAL","confidence":N,"path":"...","line":N,...}
+Führe die Ergebnisse in deinem 3-Tier-Output zusammen und dedupliziere über alle Quellen.
+
+## Systemischer Pattern-Sweep (Pflicht bei Defekt-Fund)
+Sobald du einen Regex- oder Algorithmus-Fehler (z. B. O(n²) oder schlechte Komplexität) meldest,
+greppe sofort den REST der Codebasis nach demselben Muster, bevor die Runde endet.
+Ein Fix in einer Datei heißt niemals, dass das Muster nicht noch woanders steckt.
+
+## Runden-Vergleichs-Engine
+Wenn ein Vorbericht vorliegt, tracke Statusübergänge explizit:
+- ✅ CONFIRMED FIXED — was falsch war und nachweislich behoben ist
+- 🟡 PARTIALLY FIXED  — was sich geändert hat, aber noch unvollständig ist
+- 🆕 NEW INDEPENDENT — Problem, das durch den erweiterten Scope neu sichtbar wurde
+- ⚠️ NEW REGRESSION  — Defekt, der direkt durch einen Fix der Vorrunde entstand</pre>
+            </div>
+          </div>
+
+          <!-- Prompt Item 02: Code Builder -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">02</span>
+              <div>
+                <h4 class="prompt-item-title">Code-Builder-Umsetzungsvertrag: Test-First-Engine mit absolutem Git-Lockdown</h4>
+                <p class="prompt-item-desc"><code>.agents/agents/code-builder/AGENT.md</code> (132-Zeilen-Produktionsvertrag) &bull; Conductor Task Executor</p>
+              </div>
+            </div>
+
+            <!-- Architecture Duality Panel: Power vs. Limitation -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; margin: 0.4rem 0 0.85rem;">
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+                <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 0.25rem;">⚡ Was er kann (Autonome Engine)</div>
+                <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+                  &bull; <strong>Live-Questimus-API-Abruf:</strong> Erster Schritt ist immer der Abruf des verbindlichen Tasks via <code>node questimus.js get &lt;id&gt;</code>.<br>
+                  &bull; <strong>Pflicht-Red-Before-Green-TDD:</strong> Muss erst einen fehlschlagenden Test schreiben, ausführen und echten Terminal-Output einfügen.<br>
+                  &bull; <strong>Striktes DoD-Gate:</strong> Typecheck, Lint und Tests müssen bestehen; jeder Linter-Fehler ist sofort ein Task-Fehlschlag.
+                </div>
+              </div>
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+                <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin-bottom: 0.25rem;">🛑 Wo er hart begrenzt ist (Guardrails)</div>
+                <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+                  &bull; <strong>Absoluter Git-Lockdown:</strong> Strikt verboten: <code>NEVER git add</code>, <code>NEVER git commit</code>, <code>NEVER push</code>. Änderungen bleiben unstaged.<br>
+                  &bull; <strong>Scope-Lock:</strong> Baut NUR gebriefte Dateien. Reichen diese nicht, muss er STOPPEN und melden – keine fremden Dateien anfassen.<br>
+                  &bull; <strong>Ephemere 1-Task-Lebensdauer:</strong> Frisches 0-Turn-Fenster pro Task; endet komplett mit Ausgabe des DEBUG REPORT.
+                </div>
+              </div>
+            </div>
+
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  .agents/agents/code-builder/AGENT.md (Auszug Produktions-Direktiven)
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('codeBuilderAgent', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="codeBuilderAgent" class="terminal-body">---
+name: code-builder
+description: Umsetzungs-Subagent für Conductor-Workflows — ein Task pro Spawn, immer frischer Kontext.
+model: inherit
+tools:
+  - view_file
+  - replace_file_content
+  - write_to_file
+  - run_command
+---
+
+## Autorität &amp; erster Schritt: Direkter Questimus-REST-Abruf
+Das Briefing enthält nicht den vollen Task-Text, sondern die Questimus-Sub-Issue-ID.
+Dein ERSTER SCHRITT vor jeder anderen Arbeit: Lies exakt dieses Sub-Issue über den
+questimus-Skill:
+  node &lt;path-to-questimus.js&gt; get &lt;id&gt;
+Was du direkt aus Questimus liest, ist verbindlich und vollständig.
+
+## Absoluter Branch- &amp; Git-Lockdown
+Arbeite auf dem im Briefing genannten Branch — erstelle, wechsle oder lösche niemals Branches.
+DU MACHST NIEMALS git add, NIEMALS git commit, NIEMALS push.
+Der Conductor prüft den Working Tree, staged und committet. Lass jede Änderung unstaged.
+
+## Scope-Lock &amp; Environment-Freeze
+Baue NUR die im Task deklarierten Dateien. Falls der Task in dieser Liste wirklich nicht
+lösbar ist, STOPPE und melde genau das — erweitere niemals eigenmächtig den Scope.
+Fixes bleiben minimal innerhalb der Dateiliste; fremde Bugs werden gemeldet, nie gefixt.
+Der Umgebungszustand des Conductors ist bindend: falls unmöglich, STOPPEN und melden.
+
+## Pflicht: Red-Before-Green-TDD
+Wenn der Task TDD vorschreibt: Schreibe zuerst den fehlschlagenden Test und zeige ihn ROT.
+Der rote Test-Output MUSS in deine Evidenz kopiert werden — ein Red-before-Green-Anspruch
+ohne einkopierten roten Output gilt als UNBEWIESEN und wird abgelehnt.
+
+## Unverhandelbarer Output: DEBUG REPORT Block
+Beende jeden Lauf exakt mit diesem strukturierten Block:
+  ## DEBUG REPORT — &lt;task id&gt;
+  **What was built**: &lt;Zusammenfassung&gt;
+  **Files touched**: &lt;Exakte Liste — muss mit deklarierten Dateien übereinstimmen&gt;
+  **Evidence**:
+  - &lt;command&gt; → &lt;echter einkopierter Output, nur bei Überlänge gekürzt, nie zusammengefasst&gt;
+  **Status**: verified | best-effort | reverted</pre>
+            </div>
+          </div>
+
+          <!-- Prompt Item 03: Atomic Specialist Swarm -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">03</span>
+              <div>
+                <h4 class="prompt-item-title">Atomarer Spezialisten-Swarm: 12 Domänen-Checklisten mit strikten JSON-Schemas</h4>
+                <p class="prompt-item-desc"><code>.agents/agents/code-reviewer/resources/specialists/*.md</code> &bull; Entkoppelte Single-Responsibility-Prüfprotokolle, parallel ausgeführt.</p>
+              </div>
+            </div>
+
+            <!-- Architecture Duality Panel: Power vs. Limitation -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; margin: 0.4rem 0 0.85rem;">
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--purple); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+                <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--purple); text-transform: uppercase; margin-bottom: 0.25rem;">⚡ Was er kann (12 tiefe Domänen-Engines)</div>
+                <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+                  &bull; <strong>12 atomare Checklisten:</strong> <code>security.md</code>, <code>red-team.md</code>, <code>performance.md</code>, <code>api-contract.md</code>, <code>data-migration.md</code>, <code>error-handling.md</code> usw.<br>
+                  &bull; <strong>Adversarial Red Teaming:</strong> Testet Happy-Path-Stress, verschluckte Fehler und Trust-Boundary-Exploits.<br>
+                  &bull; <strong>Maschinenlesbares JSON:</strong> Spezialisten liefern reine JSON-Zeilen mit Confidence-Scores (1–10) für automatische Deduplizierung.
+                </div>
+              </div>
+              <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+                <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin-bottom: 0.25rem;">🛑 Wo er hart begrenzt ist (Guardrails)</div>
+                <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+                  &bull; <strong>Strikter Domänen-Scope:</strong> Spezialisten dürfen nicht in fremde Bereiche abdriften; sie prüfen nur ihre eigene Checkliste.<br>
+                  &bull; <strong>Null Umgebungs-Mutation:</strong> Nur Lesezugriff auf gelieferte Snippets; kein Shell- oder Dateisystem-Zugriff.<br>
+                  &bull; <strong>Null Geschwafel:</strong> Output ist strikt auf gültige JSON-Findings oder <code>NO FINDINGS</code> begrenzt.
+                </div>
+              </div>
+            </div>
+
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  resources/specialists/security.md &amp; red-team.md (Auszug Produktions-Direktiven)
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('specialistSwarmDirectives', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="specialistSwarmDirectives" class="terminal-body"># Output-Vertrag für alle 12 Spezialisten (Strikte JSON-Zeilen):
+{"severity":"CRITICAL|INFORMATIONAL","confidence":N,"path":"file","line":N,"category":"security","summary":"...","fix":"..."}
+Falls keine Findings: gib exakt `NO FINDINGS` aus und nichts weiter. Kein Vorwort, kein Kommentar.
+
+---
+### Auszug: security.md (Input-Validierung &amp; Trust Boundaries)
+Scope: Wenn SCOPE_AUTH=true ODER (SCOPE_BACKEND=true UND Diff &gt; 100 Zeilen)
+- Input-Validierung: Query-Parameter direkt in Dateipfaden; unvalidierte Webhook-Payloads
+- Auth &amp; Autorisierung: Endpunkte ohne Auth-Middleware; Checks mit Default-Allow
+- Rollen-Eskalation: Nutzer kann eigene Rolle/Rechte ändern oder auf IDOR-Objekte zugreifen
+- Injection-Vektoren: Command Injection über Subprocess-Aufrufe; SSRF über nutzergesteuertes Fetch
+- Krypto-Fehler: Schwaches Hashing, nicht-zeitkonstante Vergleiche bei Secrets/Tokens
+- Secrets-Exposition: Zugangsdaten in URLs; PII im Klartext gespeichert
+
+---
+### Auszug: red-team.md (Adversarial Stress Testing)
+Das ist KEIN Checklisten-Review. Das ist feindliche Angriffsanalyse.
+Du hast Zugriff auf die Findings der anderen Spezialisten. Dein Job ist es zu finden, was sie ÜBERSEHEN haben.
+Denke gleichzeitig wie ein Angreifer, ein Chaos-Engineer und ein feindlicher QA-Tester:
+1. Happy Path angreifen: Was passiert bei 10x normaler Last? Zwei Requests treffen gleichzeitig dieselbe Ressource?
+2. Stille Fehler finden: Catch-all-Blöcke, die Exceptions verschlucken? Partielle Batch-Abstürze?
+3. Trust-Annahmen ausnutzen: Daten im Frontend validiert, aber im Backend blind vertraut?
+4. Nahtstellen prüfen: Übergänge zwischen zwei Systemen, wo Kategorien aufeinanderprallen.</pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 3: DETERMINISTIC SAFETY GATES -->
+    <!-- ========================================================================= -->
+    <section id="safety-gates" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // Betriebssystem-Verteidigung</span>
+        <h2 class="section-title-modern">Nicht umgehbare OS-Hooks: Desaster stoppen, bevor die Shell startet</h2>
+        <p class="section-desc-modern">
+          Sprachliche Guardrails (z. B. <em>&bdquo;Du bist ein hilfreicher Assistent. Führe keine destruktiven Befehle aus&ldquo;</em>) sind Wunschdenken. In komplexen Codebasen umgehen rekursive Fehlerschleifen, Prompt-Injections und Halluzinationen jede Textregel. Unsere Regel ist simpel: <strong>Vertraue niemals darauf, dass eine KI sich selbst kontrolliert. Deterministischer Code muss probabilistische Modelle steuern&mdash;setze ein echtes Skript vor das Modell, das die Tür hart zuschlägt.</strong>
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- PreToolUse Interception Flow Rail (Visual Color Progression: Blue -> Yellow -> Orange -> Red) -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 2rem 0 1rem;">
+        PreToolUse-Interception-Architektur (JSON-IPC-Hook)
+      </h3>
+      <div class="pipeline-rail" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 01</span>
+          <h4 class="node-title">Tool-Call-Anfrage</h4>
+          <p class="node-desc">Autonomer Agent fordert Shell-Ausführung an (z. B. <code>run_command("rm -rf ./build")</code>).</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+          <span class="badge badge-warning" style="align-self: flex-start;">Stufe 02</span>
+          <h4 class="node-title">Payload-Interception</h4>
+          <p class="node-desc">Harness fängt die Anfrage Out-of-Band ab und leitet das JSON-Payload per STDIN in <code>security-gate.ps1</code>.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid #ea580c;">
+          <span class="badge" style="background: rgba(234, 88, 12, 0.12); color: #ea580c; border: 1px solid rgba(234, 88, 12, 0.3); align-self: flex-start;">Stufe 03</span>
+          <h4 class="node-title">Deterministisches Regex-Audit</h4>
+          <p class="node-desc">Hook prüft den Befehlsstring gegen 19 destruktive Regex-Signaturen (Force-Push, Disk-Wipes, Hard Resets).</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Stufe 04</span>
+          <h4 class="node-title">Exit-Code-2-Hard-Block</h4>
+          <p class="node-desc">Destruktives Muster erkannt: Hook sendet Exit Code 2 an Stderr. Die OS-Shell startet gar nicht erst. Null Schaden möglich.</p>
+        </div>
+      </div>
+
+      <!-- Blocked Command Signatures Table -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Aktiv geblockte Signaturen in Produktion (Exit Code 2 Hard Blocks)
+      </h3>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 22%;">Bedrohungskategorie</th>
+              <th style="width: 28%;">Ziel-Signatur (Regex-Muster)</th>
+              <th style="width: 32%;">Abgewehrtes operatives Risiko</th>
+              <th style="width: 18%; text-align: center;">Hook-Aktion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: var(--danger);">Dateisystem-Löschung</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">rm -rf, rm -fr, sudo rm</td>
+              <td style="color: var(--ink); line-height: 1.5;">Unwiderrufliches Löschen von Build-Assets oder Quellcode-Bäumen</td>
+              <td style="text-align: center;"><span class="badge badge-danger">Exit Code 2</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--danger);">Git-History-Zerstörung</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">git push --force, git push -f, git reset --hard</td>
+              <td style="color: var(--ink); line-height: 1.5;">Überschreiben der Remote-Commit-History oder ungesicherter Arbeit</td>
+              <td style="text-align: center;"><span class="badge badge-danger">Exit Code 2</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--danger);">Branch-Verlust</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">git branch -D</td>
+              <td style="color: var(--ink); line-height: 1.5;">Erzwungenes Löschen von Branches mit ungemergtem Produktiv-Code</td>
+              <td style="text-align: center;"><span class="badge badge-danger">Exit Code 2</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--danger);">Working-Tree-Reset</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">git checkout \., git restore \., git clean -f</td>
+              <td style="color: var(--ink); line-height: 1.5;">Stilles Verwerfen lokaler, uncommitteter Entwickler-Arbeit</td>
+              <td style="text-align: center;"><span class="badge badge-danger">Exit Code 2</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--danger);">Datenbank-Zerstörung</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">DROP TABLE, DROP DATABASE, TRUNCATE TABLE</td>
+              <td style="color: var(--ink); line-height: 1.5;">Katastrophales Löschen relationaler Tabellen in lokalen oder Container-DBs</td>
+              <td style="text-align: center;"><span class="badge badge-danger">Exit Code 2</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--danger);">Host-Schäden &amp; Fork-Bombs</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">mkfs, dd if=, chmod -R 777, :\(\)\{:\|:&amp;\};:</td>
+              <td style="color: var(--ink); line-height: 1.5;">Dateisystem-Korruption, Rechte-Entzug und Fork-Bombs</td>
+              <td style="text-align: center;"><span class="badge badge-danger">Exit Code 2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Real Verified Production Hook Code Block -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Produktive PreToolUse-Hook-Implementierung (Verifiziertes PowerShell-Skript)
+      </h3>
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <span class="terminal-filename">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            .agents/hooks/security-gate/security-gate.ps1
+          </span>
+          <button class="btn-copy-icon" onclick="copySnippet('codeSecurityGate', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+            <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+        </div>
+        <pre id="codeSecurityGate" class="terminal-body"># security-gate.ps1 — PreToolUse hook, blocks destructive Bash / run_command commands
+# Hook event: PreToolUse -> bash | run_command
+# Exit 2 = hard block (Claude Code/DSH); Exit 0 with decision: "deny" (Antigravity)
+
+$ErrorActionPreference = 'Stop'
+$InputJson = [Console]::In.ReadToEnd()
+
+$cmd = ''
+$isAntigravity = $false
+try {
+    $data = $InputJson | ConvertFrom-Json
+    if ($null -ne $data.tool_input -and $null -ne $data.tool_input.command) {
+        $cmd = [string]$data.tool_input.command
+    } elseif ($null -ne $data.toolCall -and $null -ne $data.toolCall.args -and $null -ne $data.toolCall.args.CommandLine) {
+        $cmd = [string]$data.toolCall.args.CommandLine
+        $isAntigravity = $true
+    }
+} catch {
+    $cmd = ''
+}
+
+# 19 Patterns that are hard-blocked regardless of context (case-insensitive)
+$patterns = @(
+    'rm -rf', 'rm -fr', 'git push --force', 'git push -f ', 'git push -f$',
+    'git reset --hard', 'git clean -fd', 'git clean -f', 'git branch -D',
+    'git checkout \.', 'git restore \.', 'DROP TABLE', 'DROP DATABASE',
+    'TRUNCATE TABLE', 'DELETE FROM .* WHERE 1=1', 'mkfs', 'dd if=',
+    'chmod -R 777', 'sudo rm', ':\(\)\{:\|:&\};:'
+)
+
+foreach ($pat in $patterns) {
+    if ($cmd -match "(?i)$pat") {
+        $msg = "BLOCKED by security-gate: destructive pattern detected ($pat)."
+        [Console]::Error.WriteLine($msg)
+        [Console]::Error.WriteLine("   Pattern: $pat")
+        [Console]::Error.WriteLine("   Command: $cmd")
+        [Console]::Error.WriteLine("   If this is intentional, run it manually in your terminal.")
+
+        if (-not $isAntigravity) {
+            exit 2 # Claude Code & DSH: Exit 2 halts execution immediately
+        }
+        @{ decision = "deny"; reason = "$msg Command: $cmd" } | ConvertTo-Json -Compress
+        exit 0
+    }
+}
+
+if ($isAntigravity) { @{ decision = "allow" } | ConvertTo-Json -Compress }
+exit 0 # Verified clean: tool allowed</pre>
+      </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 4: TOKEN ECONOMICS (-76.8%) -->
+    <!-- ========================================================================= -->
+    <section id="token-economics" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // FinOps &amp; Kontext-Modellierung</span>
+        <h2 class="section-title-modern">76,8 % weniger API-Verschwendung: Dynamic Injection vs. Prompt-Stuffing</h2>
+        <p class="section-desc-modern">
+          Ich habe inzwischen über 1.000 autonome Agenten-Sessions gefahren. Die ersten paar hundert waren noch holprige Gehversuche&mdash;viel Trial-and-Error, kaputte Builds, verrückte Setups und Lernen auf die harte Tour. Aber die letzten 700+ Sessions liefen komplett auf dieser ausgereiften Multi-Agent-Architektur. Unsere gesamte Engineering-Bibliothek umfasst 16 spezialisierte Skills mit 312 KB Instruktionen (~78.000 Tokens). Alles statisch in jeden Turn zu stopfen, verbrennt dein Budget in Minuten. Hier sind die echten Daten aus 700+ Produktiv-Sessions im Vergleich.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- 3-Column Bento FinOps Strips -->
+      <div class="tradeoff-grid tradeoff-grid-3col" style="margin-top: 1.5rem;">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Gesamtgröße Instruktionen</span>
+          <h3 class="tradeoff-title">Volle Skill-Bibliothek</h3>
+          <div style="font-family: var(--font-display); font-size: 1.75rem; font-weight: 800; color: var(--ink); margin: 0.5rem 0;">312,4 KB</div>
+          <p class="tradeoff-desc">~78.000 Tokens über 16 spezialisierte Handbücher (Code-Review, DB-Migrationen, Security-Audits, Git-Release).</p>
+        </div>
+
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Monolithisches Prompt-Stuffing</span>
+          <h3 class="tradeoff-title">Statischer God-Prompt-Baseline</h3>
+          <div style="font-family: var(--font-display); font-size: 1.75rem; font-weight: 800; color: var(--danger); margin: 0.5rem 0;">82.400 Tokens/Turn</div>
+          <p class="tradeoff-desc">6,85 Millionen Tokens pro 50-Turn-Session (34,25 $ API-Burn). Zähe 24,2 Sekunden Wartezeit pro Antwort.</p>
+        </div>
+
+        <div class="tradeoff-card" style="border-top: 4px solid var(--success);">
+          <span class="badge badge-success" style="align-self: flex-start;">Dynamic Skill Injection</span>
+          <h3 class="tradeoff-title">Karols Dynamic Engine</h3>
+          <div style="font-family: var(--font-display); font-size: 1.75rem; font-weight: 800; color: var(--success); margin: 0.5rem 0;">4.200 Tokens/Turn</div>
+          <p class="tradeoff-desc">1,59 Millionen Tokens pro 50-Turn-Session (7,95 $ API-Kosten). <strong>&minus;76,8 % Kosten</strong> und 4,8s Antwortzeit.</p>
+        </div>
+      </div>
+
+      <!-- Empirical 700+ Sessions Benchmark Study Table -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Empirische Benchmark-Studie: 700+ produktive Engineering-Sessions
+      </h3>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 32%;">Operative Metrik</th>
+              <th style="width: 20%; text-align: right;">Monolith-Baseline</th>
+              <th style="width: 20%; text-align: right;">Dynamic Subagent Mesh</th>
+              <th style="width: 14%; text-align: right;">Delta</th>
+              <th style="width: 14%; text-align: right;">Effekt</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 600;">Basis-Turn-Kontextgröße</td>
+              <td style="font-family: var(--font-mono); text-align: right;">82.400 Tokens</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">4.200 Tokens</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-78.200 Tokens</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-94,9 %</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">Gesamte Tokens pro 50-Turn-Session</td>
+              <td style="font-family: var(--font-mono); text-align: right;">6.850.000 Tokens</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">1.590.000 Tokens</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-5.260.000 Tokens</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-76,8 %</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">Durchschnittliche Turn-Antwort-Latenz</td>
+              <td style="font-family: var(--font-mono); text-align: right;">24,2 Sekunden</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">4,8 Sekunden</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-19,4 Sekunden</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-80,2 %</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">Aufmerksamkeits-Genauigkeit (Pass@1)</td>
+              <td style="font-family: var(--font-mono); text-align: right;">61,4 %</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">94,2 %</td>
+              <td style="font-family: var(--font-mono); text-align: right;">+32,8 %</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">+53,4 %</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">False-Positive-Tool-Aufrufe</td>
+              <td style="font-family: var(--font-mono); text-align: right;">14,2 %</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">0,4 %</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-13,8 %</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-97,2 %</td>
+            </tr>
+            <tr class="table-summary-row">
+              <td style="font-weight: 800; text-transform: uppercase;">Durchschnittliche Session-Kosten</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800;">34,25 $</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800; color: var(--accent);">7,95 $</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800; color: var(--success);">-26,30 $</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800; color: var(--success);">-76,8 %</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 5: EXTERNAL STATE MACHINE -->
+    <!-- ========================================================================= -->
+    <section id="state-machine" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // State-Persistenz &amp; Wiederaufnahme</span>
+        <h2 class="section-title-modern">Zustandslose LLMs, persistentes Gedächtnis: Kontext auf 0 Tokens leeren ohne Verlust</h2>
+        <p class="section-desc-modern">
+          Large Language Models sind zustandslose Rechenmaschinen, keine Datenbanken. Wenn du 50 Runden Chat-Verlauf im Speicher hältst, läuft das Kontextfenster mit Müll voll und das Modell driftet ab. In meiner Architektur können wir den Kontext des Agenten jederzeit komplett auf <strong>0 Tokens</strong> leeren, ohne eine Zeile Fortschritt zu verlieren. Jeder operative Zustand liegt extern in <strong>Questimus (unserem internen Projekt-, Ticket- und Tracking-Tool)</strong> per REST-API über ein sauberes Zweistufen-Modell.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- Two-Level State Continuity Hierarchy (Both Cards with Matching Callout Boxes) -->
+      <div class="tradeoff-grid tradeoff-grid-2col" style="margin-top: 1.5rem;">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Ebene 01: Makro-State</span>
+          <h3 class="tradeoff-title">Die Projekt-HANDOFF-Seite</h3>
+          <p class="tradeoff-desc" style="font-size: 0.88rem; line-height: 1.6;">
+            Speichert den übergeordneten Systemzustand, aktuelle Release-Version, aktiven Git-Branch, grüne Test-Suites und bekannte Fallstricke. Wird beim Session-Start automatisch gelesen und am Ende per REST festgeschrieben.
+          </p>
+          <div class="callout-box callout-info" style="margin-top: 0.85rem; background: var(--accent-subtle); border: 1px solid var(--border-highlight, rgba(2, 132, 199, 0.35)); color: var(--accent); border-radius: 12px; padding: 1rem 1.25rem;">
+            <div class="callout-text font-mono font-bold">node questimus.js handoff &bull; Stellt Session in &lt;200ms wieder her</div>
+          </div>
+        </div>
+
+        <div class="tradeoff-card" style="border-top: 4px solid var(--success);">
+          <span class="badge badge-success" style="align-self: flex-start;">Ebene 02: Mikro-State</span>
+          <h3 class="tradeoff-title">Atomare Ticket-Beschreibungs-Appends</h3>
+          <p class="tradeoff-desc" style="font-size: 0.88rem; line-height: 1.6;">
+            Zwischenstände, rote Test-Outputs und Fix-Evidenz werden direkt an die aktive Ticket-Beschreibung angehängt (sicheres Description-only-Editing; nie uneditierbare Kommentare). Jeder frische Agent kann mitten im Task nahtlos übernehmen.
+          </p>
+          <div class="callout-box callout-success" style="margin-top: 0.85rem; background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success); border-radius: 12px; padding: 1rem 1.25rem;">
+            <div class="callout-text font-mono font-bold">node questimus.js update &lt;id&gt; --desc-file .tmp/progress.md</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLI State Contracts -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        CLI-State-Protokoll (Questimus-REST-Wrapper)
+      </h3>
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <span class="terminal-filename">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            State-Serialisierungs-Befehle (PowerShell)
+          </span>
+          <button class="btn-copy-icon" onclick="copySnippet('codeStateCli', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+            <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+        </div>
+        <pre id="codeStateCli" class="terminal-body"># 1. Read macro session context at startup (restores state in &lt;200ms)
+node .agents/skills/questimus-arsenal/scripts/questimus.js handoff
+
+# 2. Append in-flight atomic progress to active ticket description
+node .agents/skills/questimus-arsenal/scripts/questimus.js update TASK-104 --desc-file .tmp/progress.md
+
+# 3. Serialize end-of-session run state to persistent database
+node .agents/skills/questimus-arsenal/scripts/questimus.js handoff --write-file .tmp/handoff-state.md</pre>
+      </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 6: VIDEO RUNBOOK & LIVE PROOF -->
+    <!-- ========================================================================= -->
+    <section id="video-walkthrough" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // Video-Walkthrough &amp; Live-Nachweis</span>
+        <h2 class="section-title-modern">Live-Screencast-Walkthrough: Multi-Agent-Systeme im Einsatz</h2>
+        <p class="section-desc-modern">
+          Ein kompakter 7-Minuten-Split-Screen-Walkthrough durch autonome Subagenten-Delegation, Live-PreToolUse-Security-Gate-Interception und Dynamic Skill Injection auf produktiven Codebasen.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- COMING SOON VIDEO CONTAINER -->
+      <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem 1.5rem; text-align: center; margin-top: 1.5rem; position: relative; overflow: hidden; box-shadow: var(--shadow-sm);">
+        <!-- Subtle Grid Backdrop Accent -->
+        <div style="position: absolute; inset: 0; opacity: 0.04; background-image: radial-gradient(var(--ink) 1px, transparent 1px); background-size: 16px 16px; pointer-events: none;"></div>
+
+        <!-- Video Frame Preview Box -->
+        <div style="max-width: 720px; margin: 0 auto; background: var(--surface-subtle); border: 1px solid var(--border-highlight, var(--border)); border-radius: 12px; padding: 3rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+          
+          <!-- Coming Soon Status Pill -->
+          <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(217, 119, 6, 0.12); color: var(--warning); border: 1px solid rgba(217, 119, 6, 0.25); padding: 0.35rem 0.85rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.25rem;">
+            <span class="pulse-dot" style="background: var(--warning);"></span>
+            Demnächst
+          </div>
+
+          <!-- Play Button Icon Representation -->
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+          </div>
+
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--ink); margin-bottom: 0.5rem;">
+            7-Minuten-Screencast: Multi-Agent-Systems-Architektur
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); max-width: 540px; line-height: 1.55; margin-bottom: 1rem;">
+            Mit Split-Screen-Terminal-Ausführung, Echtzeit-<code>PreToolUse</code>-Sicherheits-Intercepts, Live-Kontext-Token-Profiling und Zero-Context-Session-Wiederherstellung.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink-faint);">
+            Präsentator: Karol Jasztal &bull; Ziel-Länge: 6:45
+          </div>
+        </div>
+      </div>
+
+      <!-- 5-Beat Video Timestamp Index -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Regie-Skript &amp; 5-Beat-Zeitstempel-Index
+      </h3>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 18%;">Zeitstempel</th>
+              <th style="width: 32%;">Kapiteltitel</th>
+              <th style="width: 50%;">Kern-Demonstration &amp; wichtigste Erkenntnis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-family: var(--font-mono); font-weight: 700; color: var(--accent);">0:00 &ndash; 1:15</td>
+              <td style="font-weight: 700; color: var(--ink);">Die Monolith-Prompt-Falle</td>
+              <td style="color: var(--ink-muted); line-height: 1.5;">Warum 90 % der Enterprise-Agenten-Setups scheitern: Aufmerksamkeitsverlust („Lost in the Middle“) und explodierende API-Kosten.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); font-weight: 700; color: var(--accent);">1:15 &ndash; 3:15</td>
+              <td style="font-weight: 700; color: var(--ink);">Subagenten &amp; das Conductor-Pattern</td>
+              <td style="color: var(--ink-muted); line-height: 1.5;">Live-Demo von physischem Tool-Stripping: Auditor-Agenten arbeiten mit null Schreib- oder Shell-Tools.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); font-weight: 700; color: var(--accent);">3:15 &ndash; 4:45</td>
+              <td style="font-weight: 700; color: var(--ink);">Deterministische OS-Guardrails live</td>
+              <td style="color: var(--ink-muted); line-height: 1.5;">Simulation eines Agenten, der <code>rm -rf</code> anfordert; Out-of-Band-PowerShell-Hook stoppt den Befehl bei Exit Code 2.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); font-weight: 700; color: var(--accent);">4:45 &ndash; 6:15</td>
+              <td style="font-weight: 700; color: var(--ink);">Token-Ökonomie &amp; Session-Kontinuität</td>
+              <td style="color: var(--ink-muted); line-height: 1.5;">Dynamic Skill Injection senkt den Token-Burn um 76,8 %, kombiniert mit 0-Token-Kontext-Wipes über Questimus REST.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); font-weight: 700; color: var(--accent);">6:15 &ndash; 7:00</td>
+              <td style="font-weight: 700; color: var(--ink);">Strategisches Operations-Fazit</td>
+              <td style="color: var(--ink-muted); line-height: 1.5;">Executive-Takeaway: Weg von fragilen Prompt-Experimenten hin zu industriellen Softwaresystemen.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pre-Flight Live Demonstration Command Verification (All with Callout Boxes) -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Pre-Flight-Live-Demo-Befehle (Verifizierter echter Output)
+      </h3>
+      <div class="tradeoff-grid tradeoff-grid-3col">
+        <!-- Demo A -->
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Demo 01</span>
+          <h4 class="tradeoff-title">Tool-Grenzen-Audit</h4>
+          <p class="tradeoff-desc" style="font-size: 0.82rem;">
+            Prüft das <code>code-reviewer</code>-Manifest. Bestätigt, dass <code>write_to_file</code> und <code>replace_file_content</code> physisch entfernt sind.
+          </p>
+          <div class="callout-box callout-info" style="margin-top: 0.75rem; background: var(--accent-subtle); border: 1px solid var(--border-highlight, rgba(2, 132, 199, 0.35)); color: var(--accent); border-radius: 12px; padding: 0.85rem 1rem;">
+            <div class="callout-text font-mono" style="font-size: 0.76rem;">Get-Content .agents/agents/code-reviewer/AGENT.md -Head 25</div>
+          </div>
+        </div>
+
+        <!-- Demo B -->
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Demo 02</span>
+          <h4 class="tradeoff-title">Security-Gate-Intercept</h4>
+          <p class="tradeoff-desc" style="font-size: 0.82rem;">
+            Simuliert einen Agenten mit <code>rm -rf ./production_build</code>. Out-of-Band abgefangen: Shell startet nie, Exit Code 2.
+          </p>
+          <div class="callout-box callout-danger" style="margin-top: 0.75rem; background: var(--danger-bg); border: 1px solid var(--danger-border); color: var(--danger); border-radius: 12px; padding: 0.85rem 1rem;">
+            <div class="callout-text font-mono" style="font-size: 0.76rem;">&gt;&gt; HARD-BLOCKED (Exit Code 2) &bull; Shell NEVER spawned &lt;&lt;</div>
+          </div>
+        </div>
+
+        <!-- Demo C -->
+        <div class="tradeoff-card" style="border-top: 4px solid var(--success);">
+          <span class="badge badge-success" style="align-self: flex-start;">Demo 03</span>
+          <h4 class="tradeoff-title">Dynamic-Registry-Beweis</h4>
+          <p class="tradeoff-desc" style="font-size: 0.82rem;">
+            Misst 16 Produktions-Skills: 312,4 KB (~78.000 Tokens), aus statischen Prompts in schlanke On-Demand-Trigger entkoppelt.
+          </p>
+          <div class="callout-box callout-success" style="margin-top: 0.75rem; background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success); border-radius: 12px; padding: 0.85rem 1rem;">
+            <div class="callout-text font-mono" style="font-size: 0.76rem;">16 Skills | 312,4 KB entkoppelt | &lt;1,2k Tokens beim Start</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Executive Hiring Dossier -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Executive-Hiring-Dossier: Drei bewiesene operative Fähigkeiten
+      </h3>
+      <div class="tradeoff-grid tradeoff-grid-3col">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">01 // Systems Leadership</span>
+          <h4 class="tradeoff-title">Autonome Workflows bauen</h4>
+          <p class="tradeoff-desc">Riesige Engineering-Roadmaps in handliche Tasks zerlegen, die frische Subagenten bauen und über zwei saubere Reviews in Folge absichern.</p>
+        </div>
+
+        <div class="tradeoff-card" style="border-top: 4px solid var(--success);">
+          <span class="badge badge-success" style="align-self: flex-start;">02 // FinOps-Kontrolle</span>
+          <h4 class="tradeoff-title">Mathematisches Token-Modeling</h4>
+          <p class="tradeoff-desc">API-Kosten um 76,8 % senken, indem Modelle exakt das bekommen, was sie genau dann brauchen – ohne Memory-Bloat.</p>
+        </div>
+
+        <div class="tradeoff-card" style="border-top: 4px solid var(--purple, #7c3aed);">
+          <span class="badge badge-purple" style="align-self: flex-start; background: var(--purple-bg, #f5f3ff); color: var(--purple, #7c3aed); border: 1px solid var(--purple-border, #ddd6fe);">03 // Defense-in-Depth</span>
+          <h4 class="tradeoff-title">Nicht umgehbare OS-Sicherheit</h4>
+          <p class="tradeoff-desc">Unnötige Tools aus Subagenten entfernen und echte OS-Hooks vorschalten, damit eine KI niemals Produktion oder Festplatten zerstört.</p>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- Modern Site Footer (Contained inside .container, properly spaced) -->
+    <footer id="site-footer"></footer>
+
+  </div><!-- /.container -->
+
+</body>
+</html>
