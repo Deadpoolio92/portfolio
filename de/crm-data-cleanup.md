@@ -35,7 +35,7 @@ tags: [data-governance, crm-operations, pipedrive, six-sigma, dmaic, data-hygien
 
 ---
 
-## Executive Transformation Summary
+## Transformations-Übersicht (Executive Summary)
 
 - **Ausgangs-Engpass:** Ein Healthcare-Kunde importierte 750.000 externe Kontaktdatensätze in sein produktives Pipedrive-CRM. Über 500.000 davon waren bereits im System. Das Ergebnis war eine Fehlerquote von 67 %: doppelte Leads, widersprüchliche Telefonnummern, zerrissene Historien und abgerissene Firmen-Verknüpfungen. Da das Team des Kunden die neu importierten Daten bereits wochenlang bearbeitet hatte – Anrufe geloggt, Deals verschoben, Patiententermine gebucht –, war ein simples Datenbank-Rollback ausgeschlossen. Ein Rollback hätte Wochen echter Vertriebsarbeit vernichtet.
 - **Konstruierte Architektur:** Anwendung des Six-Sigma-DMAIC-Frameworks. Ein erster 50-Datensätze-Pilot-Audit deckte ein 87-%-Pareto-Muster auf: Schlichte Namensabweichungen und unverknüpfte Firmennamen waren der Hauptgrund, warum die automatische Deduplizierung scheiterte. Ich mobilisierte ein asynchrones, global verteiltes Sprint-Team über Zeitzonen hinweg – ausgestattet mit einem visuellen Entscheidungsbaum, einer narrensicheren SOP-Checkliste und Browser-Highlighting-Tools, um Dubletten chirurgisch und ohne Datenverlust zusammenzuführen.
@@ -178,7 +178,7 @@ Wir definierten einen strikten Datenvertrag für jeden sauberen, compliant gefü
 Bei 500.000 Datensätzen unter strengen Healthcare-Datenschutzregeln war Vollautomatisierung für Edge Cases zu riskant, reine Klickarbeit hätte aber ein ganzes Jahr gedauert. Also bauten wir ein hybrides **Human-in-the-Loop (HITL)-System**:
 
 1. **Async-First-Taktung:** Aufbau eines asynchronen Sprint-Teams aus geprüften Freelancern über 4 Kontinente und mehrere Zeitzonen hinweg. Keine täglichen Stand-ups. Alle Koordination lief über schriftliche ClickUp-Tasks und aufgezeichnete Loom-Video-Walkthroughs.
-2. **Pilot-gehärtete SOP-Checkliste:** Erstellung eines visuellen Entscheidungsbaums und einer nummerierten, narrensicheren Checkliste. Stieß ein Freelancer auf einen unklaren Datensatz, gab ihm das SOP einen exakten 3-Schritte-Entscheidungspfad vor. Lag die Sicherheit unter 100 %, wanderte der Fall in eine Eskalations-Queue.
+2. **Pilot-gehärtete SOP-Checkliste:** Erstellung eines visuellen Entscheidungsbaums und einer nummerierten, narrensicheren Checkliste. Stieß ein Freelancer auf einen unklaren Datensatz, gab ihm die SOP einen exakten 3-Schritte-Entscheidungspfad vor. Lag die Sicherheit unter 100 %, wanderte der Fall in eine Eskalations-Queue.
 3. **Double-Blind-QA-Stichproben:** 10 % aller bearbeiteten Datensätze wurden zufällig gezogen und von einem zweiten Reviewer unabhängig gegengeprüft, um menschlichen Drift auszuschließen.
 
 ---
@@ -259,11 +259,11 @@ Eine Bereinigung ohne Kontrollen ist nur kurzfristige Gartenarbeit. Damit die Da
 
 ---
 
-### 6.3 Senior Operator Retrospektive
+### 6.3 Senior-Operator-Retrospektive
 
 500.000 Datensätze in einem laufenden CRM zu bereinigen ist keine Glamour-Arbeit – es ist methodisches Systems Engineering.
 
-Als die Krise einschlug, war die erste Reaktion der Führung Panik: *„Können wir einfach auf Rückgängig drücken?“* Als das unmöglich war, kam der zweite Impuls: *„Können wir heute Nacht ein Skript schreiben, das alles automatisch merged?“*
+Als die Krise einschlug, war die erste Reaktion der Führung Panik: *„Können wir einfach auf Rückgängig drücken?“* Als das unmöglich war, kam der zweite Impuls: *„Können wir heute Nacht ein Skript schreiben, das alles automatisch zusammenführt?“*
 
 Beide Reflexe waren brandgefährlich. Rückgängig hätte aktiven Pipeline-Umsatz vernichtet. Ein blindes Auto-Merge-Skript hätte im Gesundheitswesen Datenschutzverstöße ausgelöst und fremde Patienten zusammengelegt.
 

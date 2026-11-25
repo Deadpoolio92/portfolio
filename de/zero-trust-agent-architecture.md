@@ -6,7 +6,7 @@ summary: "Die meisten Teams bitten KI-Agenten im System-Prompt freundlich darum,
 star:
   situation: "Unternehmen und Engineering-Leads stehen beim Einsatz autonomer Coding-Agenten vor massiven Sicherheitsrisiken: beliebige Shell-Ausführung (RCE), Exfiltration von Zugangsdaten und Tokens (.env, .ssh/id_rsa), indirekte Prompt-Injection sowie Supply-Chain-Poisoning durch fremde MCP-Server und Skills. Klassische Selbstkontrolle per System-Prompt (‚Bitte keine destruktiven Befehle ausführen‘) versagt unter Druck und bei vollem Kontext deterministisch."
   task: "Eine Enterprise-Zero-Trust-Governance-Control-Plane entwerfen, die Frontier-LLM-Agenten auf Betriebssystem-Ebene konsequent als nicht vertrauenswürdig behandelt – mit nicht umgehbaren Runtime-Intercepts, rollenbasierter Tool-Begrenzung und lückenloser Upstream-Supply-Chain-Prüfung über 3 autonome Agenten-Harnesses hinweg."
-  action: "Aufbau der 4 konzentrischen Verteidigungsringe von Arsenal: Ring 01 (automatisierte Ingestion-Pipeline mit AST-Linting, Frontmatter-Prüfung, Scan auf hartcodierte URLs/Beacons – fängt 41 % der Defekte ab – und Blockierung von dynamischem eval()); Ring 02 (Harness-neutrales kanonisches Packaging und Multi-Dialekt-PreToolUse-Runtime-Hooks inklusive Dual-OS-Regex-Denylist in security-gate.ps1, zweistufigem Credential-Schutz in secrets-guard.ps1 und smart-permission-filter.ps1 mit Out-of-Band-Abbruch bei Exit Code 2); Ring 03 (Least-Privilege-RBAC über 17 Subagenten, physischer Entzug von Write-/Shell-Tools für Auditoren und Isolation von Code-Buildern in ephemeren Git-Worktrees sowie Wegwerf-Postgres-Schemas); Ring 04 (Radar-v2-Drift-Engine zur Überwachung von 25+ Upstream-Repositories mit SHA-256-Baseline-Hashes, 3-Wege-AST-Delta-Briefs und verpflichtendem Human-in-the-Loop-Review vor jeder Übernahme). Über 11.000 Kandidaten-Dateien aus Open-Source-Ökosystemen geprüft und 5.363 Dateien (~49 %) mit forensischen Fehlerprotokollen in rejected/ dauerhaft abgelehnt."
+  action: "Aufbau der 4 konzentrischen Verteidigungsringe von Arsenal: Ring 01 (automatisierte Ingestion-Pipeline mit AST-Linting, Frontmatter-Prüfung, Scan auf hartcodierte URLs/Beacons – fängt 41 % der Defekte ab – und Blockierung von dynamischem eval()); Ring 02 (Harness-neutrales kanonisches Packaging und Multi-Dialekt-PreToolUse-Runtime-Hooks inklusive Dual-OS-Regex-Denylist in security-gate.ps1, zweistufigem Credential-Schutz in secrets-guard.ps1 und smart-permission-filter.ps1 mit Out-of-Band-Abbruch bei Exit Code 2); Ring 03 (Least-Privilege-RBAC über 17 Subagenten, physischer Entzug von Write-/Shell-Tools für Auditoren und Isolation von Code-Buildern in ephemeren Git-Worktrees sowie Wegwerf-Postgres-Schemas); Ring 04 (Radar-v2-Drift-Engine zur Überwachung von 25+ Upstream-Repositories mit SHA-256-Baseline-Hashes, 3-Wege-AST-Delta-Briefings und verpflichtendem Human-in-the-Loop-Review vor jeder Übernahme). Über 11.000 Kandidaten-Dateien aus Open-Source-Ökosystemen geprüft und 5.363 Dateien (~49 %) mit forensischen Fehlerprotokollen in rejected/ dauerhaft abgelehnt."
   result: "Kuratierte Control Plane mit 241 Produktions-Primitives (180 Produktions-Skills, 33.108 Zeilen orchestrierter Code, 33 MCP-Server, 17 Subagenten, 11 Runtime-Hooks) und 50.787 verwalteten Vault-Dateien in Git. In über 2 Jahren durchgängigem Produktivbetrieb über 3 Agenten-Harnesses (Claude Code, DeepSeek Harness, Google Antigravity): 0 Sicherheitsvorfälle, 0 Credential-Leaks, 0 destruktive Ausführungen, 100 % abgefangene Rogue-Befehle und 100 % Erkennungsrate bei Upstream-Drift."
   reflection: "Sicherheit bei autonomen KI-Systemen entsteht nur durch architektonische Isolation, niemals durch konversationelles Vertrauen. Echte Defense-in-Depth braucht deterministische Runtime-Hooks an der OS-Grenze und rigoroses Supply-Chain-Vetting, bevor Code oder Konfigurationen jemals eine Laufzeitumgebung berühren. Live-Fallstudie: https://deadpoolio92.github.io/portfolio/de/zero-trust-agent-architecture.html"
 metrics:
@@ -34,7 +34,7 @@ tags: [ai-security, zero-trust, runtime-hooks, pretooluse, supply-chain-security
 
 ---
 
-## Executive-Transformations-Übersicht
+## Transformations-Übersicht (Executive Summary)
 - **Ausgangs-Engpass:** Ungeprüfte Open-Source-Skills/MCP-Server und konversationelle Selbstkontrolle („Bitte keine destruktiven Befehle ausführen“) setzen autonome Agenten-Deployments RCE, `.env`-Credential-Leaks und Supply-Chain-Drift aus.
 - **Transformierte Architektur:** 4 konzentrische Verteidigungsringe in Arsenal: statisches AST-/Beacon-Ingestion-Vetting, Exit-Code-2-PreToolUse-OS-Firewall-Hooks (`security-gate.ps1`, `secrets-guard.ps1`), physischer RBAC-Tool-Entzug für Subagenten und Radar-v2-SHA-256-Upstream-Drift-Erkennung.
 - **Geprüfter ROI:** 11.000+ Kandidaten-Dateien geprüft (5.363 / ~49 % mit forensischen Logs abgelehnt), 241 Produktions-Primitives über 3 Harnesses hinweg abgesichert und 0 Sicherheitsvorfälle oder Credential-Leaks über 2+ Jahre.
@@ -116,7 +116,7 @@ flowchart TD
         M --> N["Produktions-Telemetrie & Audit-Logs"]
         O["Radar v2 Drift-Engine (scripts/radar.ps1)"] -->|Periodischer Upstream-Scan| P{"Upstream-Delta erkannt?"}
         P -->|Nein| Q["Zustand sauber & verifiziert"]
-        P -->|Ja| R["Snapshot in raw/radar/ materialisieren\n3-Wege-Delta-Brief erzeugen"]
+        P -->|Ja| R["Snapshot in raw/radar/ materialisieren\n3-Wege-Delta-Briefing erzeugen"]
         R --> S["Human-Directed Review (Decide -> Verify -> Absorb)"]
         S --> G
     end
@@ -143,7 +143,7 @@ Jeder externe Skill, jede Agenten-Definition und jeder Model-Context-Protocol-(M
 Kanonisches Item-Paket (library/skills/<item-name>/):
 ├── SKILL.md            ← Harness-neutrale Markdown-Direktiven & Metadaten
 ├── _arsenal.yml        ← Versionierung, Upstream-Provenance und Deploy-Targets
-├── changelog.md        ← Rückwärts-chronologisches Änderungsprotokoll
+├── changelog.md        ← Umgekehrt chronologisches Änderungsprotokoll
 └── references/         ← Offline-Schemas & Spezialisten-Checklisten
 ```
 
@@ -239,7 +239,7 @@ Fehlermodi:
 - **Modus 5: Ticket-Abholung & Umsetzung** — Persistente Tracker-Integration (Questimus/Jira), Akzeptanzkriterien-Parsing und Red-Green-Refactor-TDD-Zyklen.
 - **Modus 6: Pattern-Backlog-Audit** — Ticketübergreifendes Retrospektiven-Scanning, systemisches Defekt-Clustering und Pflege der Architektur-Pattern-Bibliothek.
 
-**Teil B: Ungekürzte 46-Datei-Subsystem-Hierarchie**
+**Teil B: Ungekürzte 46-Dateien-Subsystem-Hierarchie**
 
 Jede einzelne Datei in diesem Produktions-Subsystem erfüllt einen expliziten operativen Zweck über Ursachenanalyse, Sprach-Playbooks, reproduzierbare Test-Replays, automatisierte Lint-Skripte und 11 Domänen-Spezialisten-Checklisten hinweg:
 
@@ -370,7 +370,7 @@ Autonome Agenten durchsuchen häufig Projektverzeichnisse. Ohne harte Grenzen k�
 
 Karol entwickelte `secrets-guard.ps1` mit einem **zweistufigen Schutzmodell**:
 - **Tier 0:** Projektweite Berechtigungssperre (liest `.claude/settings.json`-Deny-Listen über alle Harnesses hinweg).
-- **Tier 1:** Bedingungsloser harter Block auf kritische Credential-Formate (`.env*`, `.ssh/`, `.aws/`, `.pem`, `.key`, `.pfx`, `.claude.json`).
+- **Tier 1:** Bedingungslose harte Blockade für kritische Credential-Formate (`.env*`, `.ssh/`, `.aws/`, `.pem`, `.key`, `.pfx`, `.claude.json`).
 - **Tier 2:** Interaktive Bestätigung bei heuristischen Keyword-Treffern (`credentials`, `secrets`).
 
 ```powershell
@@ -503,7 +503,7 @@ Um Supply-Chain-Poisoning zu verhindern, baute Karol **Radar v2 (`scripts/radar.
 
 ### 5.2 Radar-v2-Architektur & Verifikationsprotokoll
 
-Radar v2 prüft periodisch das exakte `(repo, upstream_path)`-Watch-Universe über alle externen Abhängigkeiten, legt unveränderliche Snapshots in `raw/radar/` ab und erzeugt menschenlesbare Delta-Briefs:
+Radar v2 prüft periodisch das exakte `(repo, upstream_path)`-Watch-Universe über alle externen Abhängigkeiten, legt unveränderliche Snapshots in `raw/radar/` ab und erzeugt menschenlesbare Delta-Briefings:
 
 ```mermaid
 sequenceDiagram
@@ -520,7 +520,7 @@ sequenceDiagram
         Engine->>Engine: Item als verifiziert markieren (clean)
     else Upstream-Drift erkannt
         Engine->>Staging: 2. Exakten Upstream-Snapshot materialisieren
-        Engine->>Staging: 3. brief (3-Wege-Delta-Brief erzeugen)
+        Engine->>Staging: 3. brief (3-Wege-Delta-Briefing erzeugen)
         Engine->>Human: 4. Entscheidung anfordern (decide -Verdict)
         Human->>Engine: Urteil abgeben: clean | absorb | skip | ticket
         alt Verdict == absorb
@@ -574,7 +574,7 @@ Die komplette Arsenal Control Plane (241 Primitives):
 │   ├── Design & Frontend UI:     28 Skills (Tailwind, Radix UI, WCAG 2.2, Design-Systeme)
 │   └── MOps & Performance Ops:   18 Skills (Google Ads API, GA4-Telemetrie, HubSpot-Zustandsautomaten)
 ├── 33 kuratierte MCP-Server:     Filesystem, PostgreSQL, Git, Puppeteer, Memory
-├── 17 autonome Subagenten:       Least-Privilege-RBAC-rollenbegrenzte Worker
+├── 17 autonome Subagenten:       Rollenbegrenzte Worker (Least-Privilege-RBAC)
 └── 11 Runtime-Lifecycle-Hooks:   PreToolUse-Guards, secrets-guard, security-gate, format-on-write
 ```
 
@@ -589,7 +589,7 @@ Die komplette Arsenal Control Plane (241 Primitives):
 
 #### Fallstudie 2: Community-Web-Scraper-MCP-Server
 - **Quelle:** Open-Source-Web-Scraper-Server auf Puppeteer-Basis.
-- **Audit-Befund:** Startete unsandboxed Headless Chromium mit `--no-sandbox`-Flags, was beliebige lokale Datei-Lesezugriffe (`file://`-Protokoll-Injection) ermöglichte.
+- **Audit-Befund:** Startete Headless Chromium ohne Sandbox mit `--no-sandbox`-Flags, was beliebige lokale Datei-Lesezugriffe (`file://`-Protokoll-Injection) ermöglichte.
 - **Urteil:** **ABGELEHNT & BEHOBEN.** Mit eigener Konfiguration gepatcht, die lokale Datei-Protokolle sperrt, Hintergrund-Daemons deaktiviert und Loopback-Proxy-Isolation erzwingt.
 
 ---

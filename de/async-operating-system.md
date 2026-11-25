@@ -33,7 +33,7 @@ tags: [async-operations, team-management, distributed-teams, sop-architecture, c
 
 ---
 
-## Executive Transformation Summary
+## Transformations-Übersicht (Executive Summary)
 
 - **Ausgangs-Engpass:** 15 verteilte Freelancer über 10+ Länder (12+ Stunden Zeitzonendifferenz) und Kunden in 6 Ländern bedeuteten 2 bis 3 Stunden täglich in Zoom-/Google-Meet-Statuscalls, WhatsApp-/Telegram-Ping-Pong und der Jagd nach halbfertigen Entwürfen.
 - **Konstruierte Architektur:** Ein tool-agnostisches Async-Betriebssystem: ein 3-Stufen-Meeting-Entscheidungsbaum, wöchentliche 1–3-minütige Loom-Kundenupdates samt Google-Looker-Studio-Dashboards, fest codierte `P1: 1h / P2: 12h / P3: 24h` Reaktionsfenster und ein „Show, Don't Send“-Übergabeprotokoll.
@@ -54,7 +54,7 @@ Bevor wir das System umgebaut haben, verloren wir **jeden einzelnen Tag 2 bis 3 
 ### Unverhandelbare operative Leitplanken
 1. **Leitplanke 01 (Null Headcount / Null PM-Schicht):** Kein Budget für einen eigenen Project Manager oder Scrum Master. Das 15-köpfige Team musste über Self-Serve-Regeln laufen.
 2. **Leitplanke 02 (12+ Stunden Zeitzonenabstand):** Bei < 2 Stunden Überlappung über 10+ Länder waren tägliche Live-Standups physisch unmöglich, ohne Leute auszubrennen.
-3. **Leitplanke 03 (Kunden-Tempo & Null liegengebliebene Bälle):** Agentur- und Telehealth-Deliverables durften nicht langsamer werden; Kunden in 6 Ländern erwarteten weiter schnelle, planbare Updates.
+3. **Leitplanke 03 (Kunden-Tempo & Null Liegenbleiber):** Agentur- und Telehealth-Deliverables durften nicht langsamer werden; Kunden in 6 Ländern erwarteten weiter schnelle, planbare Updates.
 4. **Leitplanke 04 (Tool-Wildwuchs-Realität):** Freelancer und Kunden lebten in verschiedenen Apps (WhatsApp, Telegram, E-Mail vs. Slack, Asana, Linear, ClickUp, Notion) – das Protokoll musste tool-übergreifend funktionieren.
 
 ### Zeit-Bewegungs-Studie: Alter Call-Ballast vs. Async-First-OS
@@ -146,7 +146,7 @@ Bitte nicht kalt durchklicken — erst das 2-Min.-Loom ansehen: [Loom-Link]
 [HANDOFF] [Projekt / Sprint] — [Dein Name] -> [Nächster Zeitzonen-Owner]
 
 1. Heute erledigt: [Link zu gemergtem Pull Request (PR) / freigegebenem Figma / Drive-Ordner]
-2. Blockiert / Braucht Blick: [Exakter Blocker + was du schon versucht hast]
+2. Blockiert / Braucht Review: [Exakter Blocker + was du schon versucht hast]
 3. Nächste einzelne Aktion für deine Schicht: [1 klarer Schritt, damit niemand 30 Min. rätseln muss]
 4. Prioritätsstufe: [P1: 1h | P2: 12h | P3: 24h]
 ```
@@ -173,4 +173,4 @@ Bevor jemand 15 Minuten in einen Kalender einstellt, muss die Anfrage durch drei
 ## § 06. Retrospektive & Operator-Learnings
 
 - **Was funktioniert hat:** **Google-Looker-Studio**-Live-Dashboards mit **1–3-minütigen wöchentlichen Looms** zu paaren killte die Status-Nervosität der Kunden komplett – Kunden fragten nicht mehr nach wöchentlichen Zooms, weil sie freitags in 3 Minuten die Zahlen sahen und den Plan hörten.
-- **Was ich noch früher verankern würde:** Die **Question-to-SOP-Regel** und das **No-Brief-No-Call-Gate** ab Woche 1 durchziehen. Jedes Mal, wenn du eine wiederkehrende Frage per Direct Message (DM) beantwortest, ohne ein verlinkbares SOP daraus zu machen, beantwortest du sie nächsten Monat noch dreimal.
+- **Was ich noch früher verankern würde:** Die **Question-to-SOP-Regel** und das **Kein-Briefing-kein-Call-Gate** ab Woche 1 durchziehen. Jedes Mal, wenn du eine wiederkehrende Frage per Direct Message (DM) beantwortest, ohne eine verlinkbare SOP daraus zu machen, beantwortest du sie nächsten Monat noch dreimal.

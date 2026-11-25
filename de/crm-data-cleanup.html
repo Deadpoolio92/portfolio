@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Von 500.000 kaputten Datensätzen auf 99,8 % Genauigkeit: Wie ich eine CRM-Krise mit Six Sigma DMAIC bereinigt habe | Karol Jasztal</title>
+  <title>Von 500.000 kaputten Datensätzen auf 99,8&nbsp;% Genauigkeit: Wie ich eine CRM-Krise mit Six Sigma DMAIC bereinigt habe | Karol Jasztal</title>
   <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +38,7 @@
           <svg class="check-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polyline points="20 6 9 17 4 12"/></svg>
           MD
         </button>
-        <button type="button" class="nav-action-btn lang-toggle-btn" onclick="switchLanguage(this)" title="Switch to English" aria-label="Auf Englisch wechseln">EN</button>
+        <button type="button" class="nav-action-btn lang-toggle-btn" onclick="switchLanguage(this)" title="Zu English wechseln" aria-label="Auf Englisch wechseln">EN</button>
         <button id="themeToggle" class="theme-toggle-btn" title="Hell-/Dunkel-Modus umschalten" aria-label="Hell-/Dunkel-Modus umschalten">
           <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
         </button>
@@ -160,8 +160,8 @@
             </div>
             <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
               <span class="badge badge-accent" style="align-self: flex-start;">Leitplanke 03</span>
-              <h4 class="node-title">100 % asynchrone globale Ausführung</h4>
-              <p class="node-desc">Das Bereinigungs-Team saß über 4 Kontinente und 12 Stunden Zeitverschiebung verteilt. Keine synchronen War-Rooms; 100 % schriftliche SOPs.</p>
+              <h4 class="node-title">100&nbsp;% asynchrone globale Ausführung</h4>
+              <p class="node-desc">Das Bereinigungs-Team saß über 4 Kontinente und 12 Stunden Zeitverschiebung verteilt. Keine synchronen War-Rooms; 100&nbsp;% schriftliche SOPs.</p>
             </div>
           </div>
         </div>
@@ -216,7 +216,7 @@
         <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--purple); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
           <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Die 87-%-Pareto-Entdeckung</h3>
           <p style="font-size: 0.9rem; color: var(--ink-muted); line-height: 1.55;">
-            Der 50-Datensätze-Pilot zahlte sich sofort aus: <strong>Rund 87 % aller Deduplizierungs-Fehler hatten exakt dieselbe Ursache.</strong> Pipedrives automatischer Abgleich scheiterte an minimalen Schreibvarianten zwischen Import-Kontakten und Bestandseinträgen:
+            Der 50-Datensätze-Pilot zahlte sich sofort aus: <strong>Rund 87&nbsp;% aller Deduplizierungs-Fehler hatten exakt dieselbe Ursache.</strong> Pipedrives automatischer Abgleich scheiterte an minimalen Schreibvarianten zwischen Import-Kontakten und Bestandseinträgen:
           </p>
           <div style="font-family: var(--mono); font-size: 0.82rem; background: var(--surface-subtle); padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; line-height: 1.6; color: var(--ink);">
             &bull; Verdrehte Namen: „Miller, Robert“ vs. „Robert Miller“<br>
@@ -248,42 +248,42 @@
               <tr>
                 <td style="font-family: var(--mono);">01</td>
                 <td><span class="badge badge-danger">Namenszusätze &amp; Titel</span></td>
-                <td style="font-weight: 700; color: var(--danger);">32,4 %</td>
+                <td style="font-weight: 700; color: var(--danger);">32,4&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">„Dr. Robert J. Miller, MD“</td>
                 <td style="font-size: 0.85rem;">Medizinische Titel sauber in das eigene Taxonomie-Feld <code>title_tag</code> auslagern.</td>
               </tr>
               <tr>
                 <td style="font-family: var(--mono);">02</td>
                 <td><span class="badge badge-danger">Verdrehte Vor-/Nachnamen</span></td>
-                <td style="font-weight: 700; color: var(--danger);">19,8 %</td>
+                <td style="font-weight: 700; color: var(--danger);">19,8&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">„Smith, Alice“ vs „Alice Smith“</td>
                 <td style="font-size: 0.85rem;">Regex-Transpositions-Linter trennt kommagetrennte Strings sauber in Vor-/Nachname.</td>
               </tr>
               <tr>
                 <td style="font-family: var(--mono);">03</td>
                 <td><span class="badge badge-warning">Unverknüpfte Organisationen</span></td>
-                <td style="font-weight: 700; color: var(--warning);">21,2 %</td>
+                <td style="font-weight: 700; color: var(--warning);">21,2&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">Rohtext-String „Charité Berlin“</td>
                 <td style="font-size: 0.85rem;">Fuzzy-Levenshtein-Matching verknüpft Kontakt mit verifiziertem Master-Org-Datensatz.</td>
               </tr>
               <tr>
                 <td style="font-family: var(--mono);">04</td>
                 <td><span class="badge badge-warning">Rechtsform-Abweichungen</span></td>
-                <td style="font-weight: 700; color: var(--warning);">13,6 %</td>
+                <td style="font-weight: 700; color: var(--warning);">13,6&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">„HealthCorp GmbH“ vs „HealthCorp“</td>
                 <td style="font-size: 0.85rem;">Regex entfernt Rechtsformen (GmbH, AG, LLC, Inc., UG) vor dem Lookup.</td>
               </tr>
               <tr>
                 <td style="font-family: var(--mono);">05</td>
                 <td><span class="badge badge-accent">Telefon-Formatierungs-Chaos</span></td>
-                <td style="font-weight: 700; color: var(--accent);">7,1 %</td>
+                <td style="font-weight: 700; color: var(--accent);">7,1&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">„030 / 123 456“ vs „+49 30 123456“</td>
                 <td style="font-size: 0.85rem;">E.164-Standardisierungsskript wandelt lokale Nummern in internationale Keys um.</td>
               </tr>
               <tr>
                 <td style="font-family: var(--mono);">06</td>
                 <td><span class="badge badge-accent">Fehlende Healthcare-Felder</span></td>
-                <td style="font-weight: 700; color: var(--accent);">3,2 %</td>
+                <td style="font-weight: 700; color: var(--accent);">3,2&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">Leere Fachrichtung / Klinik-Typ</td>
                 <td style="font-size: 0.85rem;">Asynchrones Team reichert Felder aus öffentlichen Medizinregistern manuell an.</td>
               </tr>
@@ -292,42 +292,42 @@
               <tr class="table-row-hidden">
                 <td style="font-family: var(--mono);">07</td>
                 <td><span class="badge badge-neutral">Tippfehler in E-Mail-Domains</span></td>
-                <td style="font-weight: 700; color: var(--ink-faint);">1,1 %</td>
+                <td style="font-weight: 700; color: var(--ink-faint);">1,1&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">„user@gmx..de“, „dr@klinik.con“</td>
                 <td style="font-size: 0.85rem;">RFC-5322-Regex-Prüfung fängt Doppelpunkte und typische TLD-Tippfehler ab.</td>
               </tr>
               <tr class="table-row-hidden">
                 <td style="font-family: var(--mono);">08</td>
                 <td><span class="badge badge-neutral">Groß-/Kleinschreibung</span></td>
-                <td style="font-weight: 700; color: var(--ink-faint);">0,8 %</td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0,8&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">„DR. HANS SCHMIDT“</td>
                 <td style="font-size: 0.85rem;">Automatisches Title-Case-Skript normalisiert ALL-CAPS-Strings sauber.</td>
               </tr>
               <tr class="table-row-hidden">
                 <td style="font-family: var(--mono);">09</td>
                 <td><span class="badge badge-neutral">Leerzeichen &amp; Umbrüche</span></td>
-                <td style="font-weight: 700; color: var(--ink-faint);">0,3 %</td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0,3&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">Nachgestellte Tabs in Telefon-Strings</td>
                 <td style="font-size: 0.85rem;">Automatisches String-Trimming entfernt unsichtbare Steuerzeichen.</td>
               </tr>
               <tr class="table-row-hidden">
                 <td style="font-family: var(--mono);">10</td>
                 <td><span class="badge badge-neutral">Doppelte Pipeline-Deals</span></td>
-                <td style="font-weight: 700; color: var(--ink-faint);">0,2 %</td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0,2&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">Zwei offene Deals für eine Beratung</td>
                 <td style="font-size: 0.85rem;">Deal-Konsolidierungsskript führt Timeline-Notizen zusammen und löscht Duplikat.</td>
               </tr>
               <tr class="table-row-hidden">
                 <td style="font-family: var(--mono);">11</td>
                 <td><span class="badge badge-neutral">Verwaiste Aktivitäts-Tasks</span></td>
-                <td style="font-weight: 700; color: var(--ink-faint);">0,1 %</td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0,1&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">Follow-up-Task am gelöschten Duplikat</td>
                 <td style="font-size: 0.85rem;">Pipedrive-API hängt alle geplanten Aktivitäten an den Master-Datensatz um.</td>
               </tr>
               <tr class="table-row-hidden">
                 <td style="font-family: var(--mono);">12</td>
                 <td><span class="badge badge-neutral">Fehlender Consent</span></td>
-                <td style="font-weight: 700; color: var(--ink-faint);">0,1 %</td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0,1&nbsp;%</td>
                 <td style="font-family: var(--mono); font-size: 0.82rem;">Fehlender HIPAA-/DSGVO-Zeitstempel</td>
                 <td style="font-size: 0.85rem;">Verknüpft ursprüngliche Import-Batch-ID mit verifiziertem Partner-Consent-Nachweis.</td>
               </tr>
@@ -346,8 +346,8 @@
               <tr class="table-summary-row">
                 <td colspan="2" style="font-weight: 800; text-transform: uppercase;">Datensatz-Gesamt</td>
                 <td style="font-weight: 700; color: var(--danger);">500.000 Datensätze</td>
-                <td style="font-family: var(--mono); color: var(--accent); font-weight: 700;">87 % Abweichungen</td>
-                <td style="color: var(--success); font-weight: 700;">100 % unter DMAIC-Framework gelöst</td>
+                <td style="font-family: var(--mono); color: var(--accent); font-weight: 700;">87&nbsp;% Abweichungen</td>
+                <td style="color: var(--success); font-weight: 700;">100&nbsp;% unter DMAIC-Framework gelöst</td>
               </tr>
             </tbody>
           </table>
@@ -491,7 +491,7 @@
           <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--accent);">
             <span class="badge badge-accent" style="align-self: flex-start;">Sprint-Tooling 01</span>
             <h4 class="node-title">Browser-Highlighting-Extensions</h4>
-            <p class="node-desc">Maßgeschneidert konfigurierte Chrome-Extensions hoben übereinstimmende Telefonnummern, E-Mail-Domains und Teilnamen über offene Tabs hinweg hervor – 80 % weniger visuelle Ermüdung.</p>
+            <p class="node-desc">Maßgeschneidert konfigurierte Chrome-Extensions hoben übereinstimmende Telefonnummern, E-Mail-Domains und Teilnamen über offene Tabs hinweg hervor – 80&nbsp;% weniger visuelle Ermüdung.</p>
           </div>
           <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--purple);">
             <span class="badge badge-purple" style="align-self: flex-start;">Sprint-Tooling 02</span>
@@ -513,7 +513,7 @@
           </div>
           <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.5rem 0; color: var(--ink);">Chirurgische Zero-Loss-Deduplizierungs-SOP-Checkliste</h3>
           <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1.25rem;">
-            <strong>Ausführungsstandard:</strong> Zu 100 % asynchrones Double-Blind-Prüfprotokoll über globale Zeitzonen hinweg – stellt null verlorene Notizen und null falsche Patienten-Merges unter HIPAA/DSGVO sicher.
+            <strong>Ausführungsstandard:</strong> Zu 100&nbsp;% asynchrones Double-Blind-Prüfprotokoll über globale Zeitzonen hinweg – stellt null verlorene Notizen und null falsche Patienten-Merges unter HIPAA/DSGVO sicher.
           </p>
 
           <div style="background: var(--surface-subtle); border-left: 3px solid var(--success); border-radius: 4px; padding: 0.65rem 0.9rem; margin-bottom: 1.15rem; font-size: 0.82rem;">
@@ -524,7 +524,7 @@
           <div style="display: flex; flex-direction: column; gap: 0.75rem;">
             <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
               <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">01</span>
-              <div style="line-height: 1.5;"><strong>Cluster-Aufnahme &amp; Feld-Highlighting:</strong> Zugewiesenes Kandidaten-Batch in Chrome mit aktiven Highlighting-Extensions öffnen; übereinstimmende Rufnummernwurzeln (+49...), E-Mail-Domains und Master-Org-IDs visuell prüfen.</div>
+              <div style="line-height: 1.5;"><strong>Cluster-Aufnahme &amp; Feld-Highlighting:</strong> Zugewiesenes Kandidaten-Batch in Chrome mit aktiven Highlighting-Extensions öffnen; übereinstimmende Rufnummern-Präfixe (+49...), E-Mail-Domains und Master-Org-IDs visuell prüfen.</div>
             </div>
             <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
               <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">02</span>
@@ -536,11 +536,11 @@
             </div>
             <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
               <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">04</span>
-              <div style="line-height: 1.5;"><strong>Eskalations-Gate bei unklarer Identität:</strong> Liegt die Sicherheit unter 100 % (z. B. häufige Nachnamen wie „Schmidt“ mit abweichenden Adressen): NICHT MERGEN. Datensatz mit <code>[ESCALATION_L2]</code> für Lead-Reviewer markieren. Im Healthcare-Bereich schlägt Trennung jede falsche Kollision.</div>
+              <div style="line-height: 1.5;"><strong>Eskalations-Gate bei unklarer Identität:</strong> Liegt die Sicherheit unter 100&nbsp;% (z. B. häufige Nachnamen wie „Schmidt“ mit abweichenden Adressen): NICHT MERGEN. Datensatz mit <code>[ESCALATION_L2]</code> für Lead-Reviewer markieren. Im Healthcare-Bereich schlägt Trennung jede falsche Kollision.</div>
             </div>
             <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
               <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">05</span>
-              <div style="line-height: 1.5;"><strong>Double-Blind-QA-Stichprobe:</strong> 10 % aller bearbeiteten Datensätze gehen automatisch an einen zweiten unabhängigen Reviewer, um Notiz-Vollständigkeit und Title-Case-Formatierung vor dem Audit-Stempel zu verifizieren.</div>
+              <div style="line-height: 1.5;"><strong>Double-Blind-QA-Stichprobe:</strong> 10&nbsp;% aller bearbeiteten Datensätze gehen automatisch an einen zweiten unabhängigen Reviewer, um Notiz-Vollständigkeit und Title-Case-Formatierung vor dem Audit-Stempel zu verifizieren.</div>
             </div>
           </div>
         </div>
@@ -591,7 +591,7 @@
           <ul style="font-size: 0.88rem; color: var(--ink-muted); padding-left: 1.25rem; line-height: 1.55;">
             <li><strong>Automatische Deal-Property-Kaskadierung:</strong> Wird die Hauptadresse, Fachrichtung oder Telefonnummer einer Klinik aktualisiert, ziehen alle verknüpften Kontakte und offenen Deals sofort mit.</li>
             <li><strong>Automatische Next-Step-Tasks:</strong> Ein Phasenwechsel im Deal erzeugt automatisch zugewiesene Anruf- und E-Mail-Aufgaben für den Owner mit 24h-Erinnerungs-Trigger.</li>
-            <li><strong>Proaktiv zurückgewonnene Kapazität:</strong> Sparte <strong>zusätzliche 10 Stunden pro Woche im gesamten Team</strong> (~520 Stunden/Jahr), sodass sich die Healthcare-Berater zu 100 % auf Patientengespräche konzentrieren können.</li>
+            <li><strong>Proaktiv zurückgewonnene Kapazität:</strong> Sparte <strong>zusätzliche 10 Stunden pro Woche im gesamten Team</strong> (~520 Stunden/Jahr), sodass sich die Healthcare-Berater zu 100&nbsp;% auf Patientengespräche konzentrieren können.</li>
           </ul>
         </div>
 
@@ -646,7 +646,7 @@
             <h4 class="tradeoff-title">Komplettes Datenbank-Rollback</h4>
             <p class="tradeoff-desc">
               <strong>Verworfener Weg:</strong> Pipedrive auf den Snapshot vor dem Import zurücksetzen.<br>
-              <strong>Warum verworfen:</strong> Hätte 3+ Wochen Live-Anrufe, aktive Patiententermine und qualifizierte Deals vernichtet. Chirurgische Deduplizierung erhielt 100 % der Pipeline.
+              <strong>Warum verworfen:</strong> Hätte 3+ Wochen Live-Anrufe, aktive Patiententermine und qualifizierte Deals vernichtet. Chirurgische Deduplizierung erhielt 100&nbsp;% der Pipeline.
             </p>
           </div>
 
@@ -666,7 +666,7 @@
             <h4 class="tradeoff-title">Synchrone War-Rooms</h4>
             <p class="tradeoff-desc">
               <strong>Verworfener Weg:</strong> Tägliche 3-Stunden-Zoom-Calls zur Koordination weltweit verteilter Teams.<br>
-              <strong>Warum verworfen:</strong> Das Team spannte über 12 Stunden Zeitverschiebung. 100 % asynchrone SOP-Checklisten und Loom-Videos hielten das Tempo ohne Meeting-Müdigkeit hoch.
+              <strong>Warum verworfen:</strong> Das Team spannte über 12 Stunden Zeitverschiebung. 100&nbsp;% asynchrone SOP-Checklisten und Loom-Videos hielten das Tempo ohne Meeting-Müdigkeit hoch.
             </p>
           </div>
 
@@ -703,13 +703,13 @@
 
         <!-- Senior Operator Retrospective -->
         <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem 1.75rem;">
-          <div style="font-family: var(--mono); font-size: 0.75rem; color: var(--accent); text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem;">Senior Operator Retrospektive</div>
+          <div style="font-family: var(--mono); font-size: 0.75rem; color: var(--accent); text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem;">Senior-Operator-Retrospektive</div>
           <h3 style="font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 0.85rem; color: var(--ink);">Warum Six Sigma DMAIC das Unternehmen gerettet hat</h3>
           <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1rem;">
             Wenn eine Datenbank mit 500.000 korrupten Datensätzen brennt, führt menschliche Panik zu schlechten Entscheidungen. Man will entweder auf „Rückgängig“ drücken oder über Nacht ein Zauber-Skript schreiben. Beides wäre hier gescheitert: Rückgängig hätte aktive Umsatz-Deals gelöscht, und ein blindes Skript hätte HIPAA-Datenschutzverstöße ausgelöst.
           </p>
           <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1rem;">
-            Die Six-Sigma-DMAIC-Disziplin hat uns geerdet. Sich eine Stunde Zeit für einen simplen <strong>50-Datensätze-Pilot-Audit</strong> zu nehmen, deckte auf, dass 87 % des Chaos reine Namensabweichungen waren – das sparte hunderte Stunden Over-Engineering. Ein asynchrones Team mit Chrome-Extensions und narrensicheren Checklisten zu organisieren bewies, dass man keine Meetings braucht, um Berge zu versetzen.
+            Die Six-Sigma-DMAIC-Disziplin hat uns geerdet. Sich eine Stunde Zeit für einen simplen <strong>50-Datensätze-Pilot-Audit</strong> zu nehmen, deckte auf, dass 87&nbsp;% des Chaos reine Namensabweichungen waren – das sparte hunderte Stunden Over-Engineering. Ein asynchrones Team mit Chrome-Extensions und narrensicheren Checklisten zu organisieren bewies, dass man keine Meetings braucht, um Berge zu versetzen.
           </p>
           <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6;">
             Am wichtigsten: Durch den Fokus auf die <strong>Control-Phase</strong> haben wir die Vordertür so abgeschlossen, dass das Chaos nie zurückkehren kann – und als zusätzlicher Mehrwert-Service außerhalb des ursprünglichen Scopes automatisierten wir die laufenden Admin-Workflows, was dem Team jede Woche weitere 10 Stunden einspart.

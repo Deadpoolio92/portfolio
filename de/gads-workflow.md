@@ -32,7 +32,7 @@ tags: [marketing-ops, paid-search, google-ads, human-in-the-loop, prompt-enginee
 
 ---
 
-## Executive-Transformations-Übersicht
+## Transformations-Übersicht (Executive Summary)
 - **Ausgangs-Engpass:** 40,0 Stunden manuelle Recherche, Foren-Scraping, RSA-Texten, Landingpage-Entwurf und GTM-/GA4-Tracking pro Kampagne, bei 8,4 % manueller Fehlerquote am Launch-Tag und linearem Personalbedarf (140k $/Jahr pro 2 Junior-Koordinatoren).
 - **Transformierte Architektur:** 5-stufige deterministische AI-HITL-Pipeline aus 50-Felder-Intake-Schema, modularer Prompt-Bank, programmatischen $\le 30$/$\le 90$-Zeichen-Lintern, einem 15-Minuten-Human-QA-Gate (5 Checks) und einer 15-Schritte-GTM-/GA4-Telemetrie-SOP.
 - **Geprüfter ROI:** 7,0 Stunden End-to-End-Durchlaufzeit (-82,5 % / 33,0 Stunden gespart pro Kampagne), 5,7x Durchsatz, 1.320 Stunden (+118k $ gesparte Lohnkosten) pro Jahr freigeschaltet und 100,0 % Ad-Policy-Compliance über 14 Live-Launches.
@@ -69,7 +69,7 @@ Repetitive Strukturarbeit und Zeichenlimits werden programmatisch automatisiert 
 
 ### 1.2 Quantitative Task-by-Task-Zeitstudie (Empirische Daten)
 
-| Workflow-Aufgabe | Manueller Baseline | AI-HITL-Pipeline | Gesparte Zeit | Effizienz-Delta |
+| Workflow-Aufgabe | Manuelle Baseline | AI-HITL-Pipeline | Gesparte Zeit | Effizienz-Delta |
 |---|---|---|---|---|
 | **1. Kunden-Intake & Schema-Normalisierung** | 5,0 Std. | 0,5 Std. | -4,5 Std. | **-90,0 %** |
 | **2. Marktrecherche & Foren-Mining (≥150 Zitate)** | 8,0 Std. | 1,0 Std. | -7,0 Std. | **-87,5 %** |
@@ -101,7 +101,7 @@ flowchart TD
         D1 & D2 & D3 --> E{"Programmatischer Validator"}
         E -->|Längenfehler >30/90 Z.| D2
         E -->|Verbotene Tokens / Regex| D1
-        E -->|Syntax / Schema OK| F["Gestageter Kampagnen-Entwurf"]
+        E -->|Syntax / Schema OK| F["Vorbereiteter Kampagnen-Entwurf"]
     end
 
     subgraph S4["STUFE 4: Verpflichtendes Human-in-the-Loop QA-Gate"]
@@ -221,7 +221,7 @@ Spezialisierte Web-Synthese-Prompts, die nacheinander ausgeführt werden, um ech
 
 Titel dürfen maximal 30 Zeichen lang sein, Beschreibungen maximal 90 Zeichen; Ausrufezeichen sind strikt verboten:
 * **Das KISS-Keyword-Prinzip:** Mit den naheliegendsten Standard-Suchanfragen starten, bevor man exotische Long-Tail-Varianten testet.
-* **Wettbewerbs-Analyse-Protokoll:** Bewährte Anzeigenstrukturen aus hart umkämpften Märkten ethisch benchmarken und rückwärts analysieren.
+* **Wettbewerbs-Analyse-Protokoll:** Bewährte Anzeigenstrukturen aus hart umkämpften Märkten ethisch benchmarken und per Reverse Engineering analysieren.
 * **RSA-Copywriting-Matrix:** Generiert 20 Titel (≤30 Zeichen), 7–10 Beschreibungen (≤90 Zeichen) und 15 Callouts (≤25 Zeichen), aufgeteilt in konservative und emotionale Direct-Response-Hooks.
 
 ---
@@ -240,7 +240,7 @@ Ein 17-teiliger sequenzieller Landingpage-Blueprint nach den Frameworks von Agor
 3. **Google-Kontovertrauen & stille Auslieferungsstopps:** Plötzlicher Lieferstopp ohne Warnung: Werbetreibenden-Verifizierung, Zahlungsstatus, fehlendes SSL-Zertifikat oder fehlerhafte Datenschutz-Links prüfen. Sofort Google-Support kontaktieren.
 4. **Niedrige CTR (<4 %):** Suchbegriffe weichen vom Anzeigentext ab. Suchbegriffsbericht prüfen, RSA-Titel an Nutzer-Intent anpassen, Single Keyword Ad Groups (SKAGs) testen und CTA-Hooks tauschen.
 5. **Niedrige Conversion-Rate (<15 %):** Message-Mismatch zwischen Anzeigenversprechen und Landingpage-Hero. Mobile Ladezeit prüfen (<2s), unnötige Formularfelder streichen und Microsoft-Clarity-Aufnahmen analysieren.
-6. **Tägliche Taktung (5–15 Minuten):** Ausreißer prüfen: null Impressionen, Ausgabenspitzen, Zahlungswarnungen, abgelehnte Anzeigen. Schnelles Suchbegriff-Triage für offensichtliche Negatives.
+6. **Tägliche Taktung (5–15 Minuten):** Ausreißer prüfen: null Impressionen, Ausgabenspitzen, Zahlungswarnungen, abgelehnte Anzeigen. Schnelle Suchbegriff-Triage für offensichtliche Negatives.
 7. **Wöchentliche Taktung (30 Minuten):** Suchbegriffsbericht nach High-Intent-Keywords durchforsten, Negatives in gemeinsame Listen bündeln, Auktionsdaten prüfen, Erweiterungen mit CTR <4 % pausieren, kurzes Loom-Video-Update an den Kunden senden.
 8. **Monatliche Taktung (30–60 Minuten):** Vollständiges Quality-Score-Audit (Anzeigenrelevanz, erwartete CTR, Landingpage-Nutzererfahrung). Anzeigen mit Quality Score <5/10 pausieren. Gebotsanpassungen nach Alter, Geschlecht, Einkommen, Gerät, Wochentag und Standort prüfen. Performance-Max-Reife bewerten.
 
@@ -259,16 +259,16 @@ Ein 17-teiliger sequenzieller Landingpage-Blueprint nach den Frameworks von Agor
 ### Direktvergleich: Roher LLM-Output vs. Human-Gated-Realität
 
 * **Google Ads Titel #1 (Max. 30 Zeichen):**
-  * *Rohes LLM:* `"Transform Your Home With The Best Premium Renovation Services"` (64 Zeichen — **ABGELEHNT**, 34 Zeichen zu lang, generische Buzzwords).
+  * *Roher LLM-Output:* `"Transform Your Home With The Best Premium Renovation Services"` (64 Zeichen — **ABGELEHNT**, 34 Zeichen zu lang, generische Buzzwords).
   * *Human-Gated:* `"Dallas Home Remodeling Pros"` (27 Zeichen — **FREIGEGEBEN**, innerhalb des 30-Zeichen-Limits, klarer Ortsbezug, hoher Kauf-Intent).
 * **Landingpage Hero-Eyebrow:**
-  * *Rohes LLM:* `"Welcome To Our Outstanding Medical Practice"` (**ABGELEHNT**, fällt durch den WIIFM-Test, selbstbezogene Begrüßung).
+  * *Roher LLM-Output:* `"Welcome To Our Outstanding Medical Practice"` (**ABGELEHNT**, fällt durch den WIIFM-Test, selbstbezogene Begrüßung).
   * *Human-Gated:* `"ARE YOU IN DENIAL ABOUT YOUR THINNING HAIR?"` (**FREIGEGEBEN**, direkter Problem-Hook, der den realen Schmerzpunkt trifft).
 * **Landingpage Subheadline:**
-  * *Rohes LLM:* `"We Leverage Synergistic AI Systems To Help You Maximize Results"` (**ABGELEHNT**, KI-Einheitsbrei, fällt durch CUB und SO WHAT?).
+  * *Roher LLM-Output:* `"We Leverage Synergistic AI Systems To Help You Maximize Results"` (**ABGELEHNT**, KI-Einheitsbrei, fällt durch CUB und SO WHAT?).
   * *Human-Gated:* `"Save Up To $4,873 In Taxes With Automated ATO Logbooks"` (**FREIGEGEBEN**, exakter Geldvorteil, konkretes Compliance-Ergebnis).
 * **Callout-Erweiterung (Max. 25 Zeichen):**
-  * *Rohes LLM:* `"Fastest Response Time In The Whole Industry Guaranteed"` (55 Zeichen — **ABGELEHNT**, 30 Zeichen zu lang, Policy-Risiko).
+  * *Roher LLM-Output:* `"Fastest Response Time In The Whole Industry Guaranteed"` (55 Zeichen — **ABGELEHNT**, 30 Zeichen zu lang, Policy-Risiko).
   * *Human-Gated:* `"24-Hour Approval"` (16 Zeichen — **FREIGEGEBEN**, greifbar, operativ belegbar).
 
 ---

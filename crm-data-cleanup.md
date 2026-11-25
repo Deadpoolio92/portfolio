@@ -113,15 +113,22 @@ Because standard CRM matching relies on exact string equality on name or email, 
 
 ### 2.2 Primary Defect Distribution Matrix
 
-From the pilot insights, we mapped and measured the error patterns across the entire 500,000-record pool:
+From the pilot insights, we mapped and measured the error patterns across the entire 500,000-record pool (broken down into 12 subcategories):
 
-| # | Defect Category | Impact Share | Concrete Error Example | Root Cause Mechanism |
+| # | Defect Category | Impact Share | Concrete Error Example | Remediation Mechanism |
 |---|---|---|---|---|
-| 01 | **Contact Name Formatting Discrepancies** | **52%** | *"Dr. J. Doe"* vs *"John Doe, PhD"* | Inconsistent intake fields, missing first/last name separation |
-| 02 | **Unlinked / Duplicate Organizations** | **21%** | *"St. Jude Clinic"* vs *"St Jude Clinic LLC"* | Missing company normalization; separate accounts created |
-| 03 | **Phone & Country Code Syntax Errors** | **14%** | *"+49 171 1234567"* vs *"0171/1234567"* | Lack of E.164 phone number formatting at import |
-| 04 | **Missing Mandatory Healthcare Fields** | **9%** | Empty intake stage, missing medical specialty | Intake form lacked required field validation rules |
-| 05 | **Stale / Malformed Email Addresses** | **4%** | *"name@domain..com"*, typoed domains | Absence of regex syntax checking on CSV intake |
+| 01 | **Contact Name Titles & Suffixes** | **32.4%** | *"Dr. Robert J. Miller, MD"* | Regex extraction moves medical credentials to dedicated `title_tag` taxonomy field. |
+| 02 | **Inverted First/Last Ordering** | **19.8%** | *"Smith, Alice"* vs *"Alice Smith"* | Regex transposition linter splits comma-delimited strings cleanly into First/Last. |
+| 03 | **Unlinked Organizations** | **21.2%** | Raw text string *"St. Jude Clinic"* | Fuzzy Levenshtein matching links contact to verified Master Org record. |
+| 04 | **Corporate Suffix Variations** | **13.6%** | *"HealthCorp LLC"* vs *"HealthCorp"* | Regex strips legal suffixes (LLC, Inc., Ltd., Corp., GmbH, UG) before lookup. |
+| 05 | **Phone Formatting Entropy** | **7.1%** | *"0171 / 123 456"* vs *"+49 171 123456"* | E.164 standardization script converts local formats into international phone numbers. |
+| 06 | **Missing Mandatory Healthcare Fields** | **3.2%** | Blank specialty / clinic type | Async team manually enriches fields from public medical registries. |
+| 07 | **Email Domain Typos** | **1.1%** | *"user@gmail..com"*, *"dr@clinic.con"* | RFC-5322 regex validation catches double-dots and common TLD typos. |
+| 08 | **Case Sensitivity Mismatches** | **0.8%** | *"DR. JOHN DOE"* | Automated title-case normalization script standardizes ALL-CAPS strings. |
+| 09 | **Whitespace & Linebreaks** | **0.3%** | Trailing tabs in phone fields | Automated string trimming removes invisible control characters. |
+| 10 | **Duplicate Pipeline Deals** | **0.2%** | Two open deals for same consultation | Deal consolidation script merges timeline notes and deletes duplicate. |
+| 11 | **Orphaned Activity Tasks** | **0.1%** | Follow-up task attached to deleted dupe | Pipedrive API re-parents scheduled activities to the surviving Master record. |
+| 12 | **Missing Privacy Consent** | **0.1%** | Missing HIPAA/GDPR consent timestamp | Cross-references original import batch ID with verified partner consent logs. |
 
 ---
 

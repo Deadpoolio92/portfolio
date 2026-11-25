@@ -33,7 +33,7 @@ tags: [multi-agent-systems, agent-orchestration, token-optimization, finops, dyn
 
 ---
 
-## Executive-Transformations-Übersicht
+## Transformations-Übersicht (Executive Summary)
 - **Ausgangs-Engpass:** Monolithische 80k–120k-Token-„God-Prompts“, die bei jedem Turn neu gesendet werden (34,25 $ pro 50-Turn-Session, 24,2s Latenz, 61,4 % Pass@1-Genauigkeit und rein sprachliche, unzuverlässige Sicherheit).
 - **Transformierte Architektur:** Entkoppeltes Conductor-Subagent-Mesh mit physisch entzogenen Subagenten-Tools, On-Demand-Dynamic-Skill-Injection (<1,2k-Token-Manifeste), externer Questimus-State-Kontinuität und Exit-Code-2-PreToolUse-OS-Hooks.
 - **Geprüfter ROI:** -76,8 % Token-Verbrauch pro Session (6,85M $\rightarrow$ 1,59M Tokens), -94,9 % Kontext-Kompression (82,4k $\rightarrow$ 4,2k), -80,2 % Turn-Latenz (24,2s $\rightarrow$ 4,8s) und 0 außer Kontrolle geratene Befehle über 700+ produktive Sessions.
@@ -286,9 +286,9 @@ Gesamte 50-Turn-Engineering-Session: ~240.000 Tokens (1,20 $ API-Kosten pro Sess
 
 ### 4.3 Empirische Benchmark-Zeit- & Token-Studie
 
-Die Tabelle zeigt empirische Messwerte über 50 standardisierte Software-Engineering-Sessions im Vergleich zwischen monolithischem Prompt-Baseline und unserer Multi-Agent-Dynamic-Injection-Architektur:
+Die Tabelle zeigt empirische Messwerte über 50 standardisierte Software-Engineering-Sessions im Vergleich zwischen monolithischer Prompt-Baseline und unserer Multi-Agent-Dynamic-Injection-Architektur:
 
-| Operative Metrik | Monolithischer Baseline | Multi-Agent Dynamic Harness | Delta | Verbesserung |
+| Operative Metrik | Monolithische Baseline | Multi-Agent Dynamic Harness | Delta | Verbesserung |
 |---|---|---|---|:---:|
 | **Basis-Turn-Kontextgröße** | 82.400 Tokens | 4.200 Tokens | -78.200 Tokens | **-94,9 %** |
 | **Gesamte Tokens pro 50-Turn-Session** | 6.850.000 Tokens | 1.590.000 Tokens | -5.260.000 Tokens | **-76,8 %** |
@@ -303,7 +303,7 @@ Die Tabelle zeigt empirische Messwerte über 50 standardisierte Software-Enginee
 
 ### 5.1 Zero-Context-Konversations-Wipes durch externe Persistenz
 
-Large Language Models müssen als **zustandslose Compute-Engines behandelt werden, nicht als Datenbanken**. Wer 50 Turns Chat-Verlauf im Kontextfenster mitschleppt, bekommt zwangsläufig Context-Truncation und Gedächtnis-Drift.
+Large Language Models müssen als **zustandslose Compute-Engines behandelt werden, nicht als Datenbanken**. Wer 50 Turns Chat-Verlauf im Kontextfenster mitschleppt, bekommt zwangsläufig Kontext-Kürzung (Context-Truncation) und Gedächtnis-Drift.
 
 In unserer Architektur kann der Gesprächskontext jederzeit auf **0 Tokens** geleert werden, ohne dass eine einzige Zeile Fortschritt verloren geht. Jeder operative Zustand wird über REST-API in **Questimus** (einer persistenten PostgreSQL-gestützten Projekt-Tracking-Engine auf Loopback-Port 7000) externalisiert.
 
@@ -359,7 +359,7 @@ Diese Architektur ist mit einem kompakten 7-Minuten-Screencast-Walkthrough gekop
 
 ```
 VIDEO-ZEITSTEMPEL:
-0:00 – 1:15  | Die Monolith-Prompt-Falle: Warum 90 % der Enterprise-Agenten-Projekte steckenbleiben
+0:00 – 1:15  | Die Monolith-Prompt-Falle: Warum 90 % der Enterprise-Agenten-Projekte stecken bleiben
 1:15 – 3:15  | Subagenten-Delegation, Rollen-Scoping & das Conductor-Pattern
 3:15 – 4:45  | Deterministische Guardrails & Zero-Trust-Tool-Interception live
 4:45 – 6:15  | Token-Ökonomie, Dynamic Skill Injection & Session-Kontinuität

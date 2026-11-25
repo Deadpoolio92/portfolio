@@ -1,7 +1,7 @@
 ---
 slug: hubspot-revenue-engine
 target_profiles: [ops]
-title: "Verlorene Deals & Kalender-Chaos gestoppt: HubSpot & Calendly neu gebaut — 500+ Std. für 50 Makler gespart"
+title: "Verlorene Deals & Kalender-Chaos gestoppt: HubSpot & Calendly neu gebaut — 500+ Std. für ein 50-köpfiges Maklerhaus gespart"
 summary: "Ein unübersichtliches, monolithisches HubSpot-CRM für ein 50-köpfiges Immobilienmakler-Team entwirrt: Kalte Lead-Anfragen vom aktiven Verkauf in zwei dedizierte Pipelines getrennt, automatisierte 3-Strike-Anrufkadenzen, dynamische Onboarding-Mails und Multi-Kalender-Routing über Calendly für interne Makler und einen externen Finanzierungspartner verdrahtet – über 500 Stunden pro Jahr im Kernteam gespart, bei null verlorenen Leads. Live-Fallstudie: https://deadpoolio92.github.io/portfolio/de/hubspot-revenue-engine.html"
 star:
   situation: "Ein regionales Immobilienmakler-Unternehmen und Wohnungsbau-Partner mit ~50 Mitarbeitenden verlor lukrative Immobilien-Deals durch CRM- und Kalender-Chaos. In ihrer monolithischen HubSpot-Pipeline landeten kalte Portal-Leads, aktive Besichtigungen, Finanzierungsprüfungen und Notartermine in einem einzigen unübersichtlichen Topf mit wirren Phasenbezeichnungen. Eingehende Leads von Portalen wie Prospective brachen in Zapier regelmäßig ab, manuelle Follow-up-Mails wurden vergessen und die Terminabstimmung zwischen 6 internen Maklern und einem unabhängigen externen Finanzierungsberater führte zu ständigen Kalenderkonflikten – was pro Makler 1–2 Stunden manuellen Routinekram pro Woche verbrannte (288–576 Stunden/Jahr im Team)."
@@ -23,7 +23,7 @@ metrics:
 tags: [revops-architecture, hubspot, crm-architecture, calendly, process-automation, real-estate-ops, pipeline-design, lead-qualification, zapier, lean-operations]
 ---
 
-# Verlorene Deals & Kalender-Chaos gestoppt: HubSpot & Calendly neu gebaut — 500+ Std. für 50 Makler gespart
+# Verlorene Deals & Kalender-Chaos gestoppt: HubSpot & Calendly neu gebaut — 500+ Std. für ein 50-köpfiges Maklerhaus gespart
 ## Entkopplung von Inbound-Lead-Qualifizierung und aktivem Immobilienverkauf mit automatisierten Zustandsautomaten & Multi-Kalender-Sync
 
 **Autor:** Karol Jasztal — Head of Operations & Systems Leader  
@@ -33,17 +33,17 @@ tags: [revops-architecture, hubspot, crm-architecture, calendly, process-automat
 
 ---
 
-## Executive Transformation Summary
+## Transformations-Übersicht (Executive Summary)
 
-- **Ausgangs-Engpass:** Ein 50-köpfiges Immobilienmakler-Haus arbeitete mit einer einzigen, monolithischen HubSpot-Pipeline, in der kalte Web-Leads, aktive Preisverhandlungen, Finanzierungsrechnungen und Notartermine in einem Topf landeten. Verwirrende Phasen-Namen, manuelle Follow-up-Mails, abbrechende Zapier-Lead-Imports und chaotische Terminabstimmung zwischen 6 internen Maklern und einem externen Finanzierungspartner verbrannten 1–2 Stunden pro Makler und Woche und ließen lukrative Immobilien-Deals durch die Lappen gehen.
-- **Transformierte Architektur:** Eine in Figma entworfene Zwei-Track-CRM-Engine, die **Pipeline A (Leads: 11 Phasen)** sauber von **Pipeline B (Sales: 12 Phasen)** trennt. Dazu ein automatisiertes Qualifizierungs-Graduation-Gate, eine automatisierte 3-Strike-Anrufkadenz mit Delay-Timern, dynamische Du- vs. Sie-Sequenzen für die Käufer-Selbstauskunft sowie automatisches Calendly-Routing für interne Makler und den externen Finanzierungspartner.
-- **Geprüfter ROI:** 288–576 Stunden manueller Routinekram pro Jahr im 6-köpfigen Kernteam eliminiert (~500+ Stunden zurückgewonnen). Speed-to-Lead von Tagen auf automatisierte Minuten gesenkt, fehlerhafte Lead-Imports ins CRM gestoppt und unnötige Notarkosten verhindert, indem vor der Kaufvertrags-Erstellung ein verbindliches Finanzierungs-Gate greift.
+- **Ausgangs-Engpass:** Ein 50-köpfiges Immobilienmakler-Haus arbeitete mit einer einzigen, monolithischen HubSpot-Pipeline, in der kalte Web-Leads, aktive Preisverhandlungen, Finanzierungsberechnungen und Notartermine in einem Topf landeten. Verwirrende Phasen-Namen, manuelle Follow-up-Mails, abbrechende Zapier-Lead-Imports und chaotische Terminabstimmung zwischen 6 internen Maklern und einem externen Finanzierungspartner verbrannten 1–2 Stunden pro Makler und Woche und ließen lukrative Immobilien-Deals durch die Lappen gehen.
+- **Transformierte Architektur:** Eine in Figma entworfene Zwei-Track-CRM-Engine, die **Pipeline A (Leads: 11 Phasen)** sauber von **Pipeline B (Sales: 12 Phasen)** trennt. Dazu ein automatisiertes Qualifizierungs-Übergabe-Gate, eine automatisierte 3-Strike-Anrufkadenz mit Delay-Timern, dynamische Du- vs. Sie-Sequenzen für die Käufer-Selbstauskunft sowie automatisches Calendly-Routing für interne Makler und den externen Finanzierungspartner.
+- **Geprüfter ROI:** 288–576 Stunden manueller Routinekram pro Jahr im 6-köpfigen Kernteam eliminiert (~500+ Stunden zurückgewonnen). Speed-to-Lead von Tagen auf wenige automatisierte Minuten gesenkt, fehlerhafte Lead-Imports ins CRM gestoppt und unnötige Notarkosten verhindert, indem vor der Kaufvertrags-Erstellung ein verbindliches Finanzierungs-Gate greift.
 
 ---
 
 ## § 01. Architektur, Pipeline-Blueprint & Zeitstudie
 
-### 1.1 Executive Summary & die operative Krise
+### 1.1 Ausgangslage & operative Krise
 
 Im hochpreisigen Immobilienvertrieb entscheiden Timing und klare Pipeline-Struktur direkt über den Umsatz. Wenn ein Interessent ein Exposé anfragt, kostet jede Stunde Verzögerung Abschlusswahrscheinlichkeit.
 
@@ -80,7 +80,7 @@ Die Kern-Vertriebseinheit bestand aus **6 Vollzeit-Maklern**. Durch die Automati
 | **01. Inbound-Lead-Triage & Willkommen** | Manuelle Portal-Prüfung & Copy-Paste-Mail | Sofortige Zapier-Validierung & Auto-Mail | 1,5 – 3,0 Std./Wo. | **72 – 144 Std./Jahr** |
 | **02. Nachfass-Kadenz bei verpasstem Anruf** | Manuelle Kalender-Erinnerungen / vergessene Leads | 3-Strike-Anrufkadenz mit 48h-Delay-Timern | 2,0 – 4,0 Std./Wo. | **96 – 192 Std./Jahr** |
 | **03. Terminbestätigungen & Vorbereitung** | Manuelles Schreiben mit Zoom-/Adress-Links | Automatische Bestätigungs-Mail & 08:00-Morgen-Task | 1,0 – 2,0 Std./Wo. | **48 – 96 Std./Jahr** |
-| **04. Versand Käufer-Selbstauskunft** | Makler prüfte Tonalität & hing PDF manuell an | Dynamischer Du/Sie-Branch-Versand per Property | 1,0 – 1,5 Std./Wo. | **48 – 72 Std./Jahr** |
+| **04. Versand Käufer-Selbstauskunft** | Makler prüfte Tonalität & hängte PDF manuell an | Dynamischer Du/Sie-Branch-Versand per Property | 1,0 – 1,5 Std./Wo. | **48 – 72 Std./Jahr** |
 | **05. Koordination externer Finanzierungspartner** | E-Mail-Ping-Pong mit externem Berater | Dedizierter Partner-Calendly + Checklisten-Gate | 0,5 – 1,5 Std./Wo. | **24 – 72 Std./Jahr** |
 | **GESAMTE ZURÜCKGEWONNENE KAPAZITÄT** | **Manueller Admin-Routinekram** | **Automatisierter Zustandsautomat** | **6,0 – 12,0 Std./Wo.** | **288 – 576 Std./Jahr (~500+ Std.)** |
 
@@ -88,7 +88,7 @@ Die Kern-Vertriebseinheit bestand aus **6 Vollzeit-Maklern**. Durch die Automati
 
 ### 1.3 Das Zwei-Pipeline-Architektur-Blueprint
 
-Der Durchbruch war die saubere Aufteilung des Vertriebsprozesses in zwei getrennte Pipelines, verbunden durch ein einziges Graduation-Gate:
+Der Durchbruch war die saubere Aufteilung des Vertriebsprozesses in zwei getrennte Pipelines, verbunden durch ein einziges Übergabe-Gate:
 
 ```mermaid
 flowchart TD
@@ -105,7 +105,7 @@ flowchart TD
         L4 -->|Wahrgenommen| L5["04. Termin wahrgenommen"]
     end
 
-    L5 -->|⚡ AUTOMATISCHES GRADUATION-GATE| S1
+    L5 -->|⚡ AUTOMATISCHES ÜBERGABE-GATE| S1
 
     subgraph P2["PIPELINE B: SALES (Aktiver Verkauf & Abschluss)"]
         S1["01. Erstberatung"] --> S2["02. Selbstauskunft offen"]
@@ -140,7 +140,7 @@ Um Datenmüll zu verhindern und sicherzustellen, dass Automatisierungen nie fehl
 |---|---|---|---|---|
 | **Lead-Quelle Intake** | `leadtrans` | Single Dropdown | Leads | Erfasst Eingangs-Herkunft (Prospective-Portal, Web-Formular) für Round-Robin-Zuweisung |
 | **Anrufkadenz-Status (Lead)** | `lead_phone_status` | Single Dropdown | Leads | Steuert die 3-Strike-Wiederholung: `Attempt 1: Unreached` $\rightarrow$ `Attempt 2: Unreached` $\rightarrow$ `Attempt 3: Unreached` |
-| **Termin-Status** | `lead_meeting_status` | Single Dropdown | Leads & Sales | Primäres Graduation-Gate: `Meeting Attended` triggert Deal-Erstellung in Pipeline Sales |
+| **Termin-Status** | `lead_meeting_status` | Single Dropdown | Leads & Sales | Primäres Übergabe-Gate: `Meeting Attended` triggert Deal-Erstellung in Pipeline Sales |
 | **Anrede-Tonalität (Kunde)** | `salutation_tone` | Radio (Du / Sie) | Sales | Bestimmt, ob automatische Mails informell (Vorname/Du) oder formell (Herr/Frau/Sie) formuliert werden |
 | **Status Selbstauskunft** | `sa_status` | Single Dropdown | Sales | Trackt Status der Käufer-Selbstauskunft: `Self-Disclosure in Progress` $\rightarrow$ `Self-Disclosure Completed` |
 | **Finanzierungs-Machbarkeit** | `financing_clearance` | Single Dropdown | Sales | Hartes Gate: blockiert Kaufvertragsentwurf, bis Finanzierungspartner auf `Financing Approved` stellt |
@@ -171,7 +171,7 @@ Die Automatisierungs-Engine läuft über eine Reihe modularer HubSpot-Workflows.
 ├─────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────┤
 │ • Sofortige Willkommens-Mail bei Portal-Eingang         │ • Qualifizierungs-Entscheidung: Prüfen, ob Kaufabsicht  │
 │ • 3-Strike-Anrufkadenz mit 2-Tage-Delay-Timern          │   echt ist, bevor das Erstgespräch terminiert wird      │
-│ • Automatische Pipeline-Graduation von Leads nach Sales │ • Deal-Bewertungs-Anpassung anhand des Kaufangebots     │
+│ • Automatische Pipeline-Übergabe von Leads nach Sales   │ • Deal-Bewertungs-Anpassung anhand des Kaufangebots     │
 │ • Dynamische Wahl von Du- vs. Sie-E-Mail-Templates      │ • Prüfung auf Vollständigkeit der Finanzierungsunterlagen│
 │ • Termin-Erinnerungen punktgenau um 08:00 CET am Termintag│ • Finale Vertragsfreigabe vor rechtlicher Notarbuchung │
 │ • Archivierung alter Leads in den Langzeit-Nurture-Pool │ • Deal-Loss-Markierung mit Pflicht-Verlustgrund         │
@@ -218,7 +218,7 @@ Logic_Branches:
       Notify Broker: "Lead moved to Long-Term Nurture Pool"
 ```
 
-#### WORKFLOW 03: Terminbestätigung & Lead-to-Sales-Graduation
+#### WORKFLOW 03: Terminbestätigung & Lead-to-Sales-Übergabe
 ```yaml
 Workflow_ID: WF-03-LEAD-GRADUATION
 Trigger: Calendly Event Booked OR Broker sets Status to 'Meeting Scheduled'
