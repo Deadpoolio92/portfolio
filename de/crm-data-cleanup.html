@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Von 500.000 kaputten Datensätzen auf 99,8 % Genauigkeit: Wie ich eine CRM-Krise mit Six Sigma DMAIC bereinigt habe | Karol Jasztal</title>
+  <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css" />
+  <script src="../shared.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Header (Normal Flow / Not Sticky) -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio-Übersicht
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Data Governance &amp; CRM-Architektur</span>
+      </div>
+      <div class="nav-actions">
+        <a href="crm-data-cleanup.pdf" download class="nav-action-btn" title="PDF herunterladen" aria-label="PDF herunterladen">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          PDF
+        </a>
+        <a href="crm-data-cleanup.md" download class="nav-action-btn" title="Markdown herunterladen" aria-label="Markdown herunterladen">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          MD
+        </a>
+        <button type="button" class="nav-action-btn" onclick="copyMarkdown('crm-data-cleanup.md', this)" title="Markdown in Zwischenablage kopieren" aria-label="Markdown in Zwischenablage kopieren">
+          <svg class="copy-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <svg class="check-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polyline points="20 6 9 17 4 12"/></svg>
+          MD
+        </button>
+        <button type="button" class="nav-action-btn lang-toggle-btn" onclick="switchLanguage(this)" title="Switch to English" aria-label="Auf Englisch wechseln">EN</button>
+        <button id="themeToggle" class="theme-toggle-btn" title="Hell-/Dunkel-Modus umschalten" aria-label="Hell-/Dunkel-Modus umschalten">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Sticky Chapter Anchor Bar (Option 2B Decoupled Sticky Navigation) -->
+  <nav class="sticky-nav-bar" id="sticky-nav" aria-label="Fallstudien-Kapitel">
+    <div class="nav-grid-track">
+      <a href="#define" class="nav-tag-pill active">01. Krise &amp; Grenzen (Define)</a>
+      <a href="#measure" class="nav-tag-pill">02. 50er-Pilot-Audit (Measure)</a>
+      <a href="#analyze" class="nav-tag-pill">03. Ursachen-Diagnose (Analyze)</a>
+      <a href="#improve" class="nav-tag-pill">04. Verteilter Async-Sprint (Improve)</a>
+      <a href="#control" class="nav-tag-pill">05. Pipedrive-Kontrollen (Control)</a>
+      <a href="#tradeoffs" class="nav-tag-pill">06. Trade-offs &amp; Retrospektive</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO SECTION -->
+    <header class="hero-banner hero-centered">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Data-Operations-Fallstudie &bull; Karol Jasztal
+      </div>
+      <h1 class="hero-title">
+        Von 500.000 kaputten Datensätzen auf 99,8&nbsp;% Genauigkeit:
+        <span class="headline-accent">Wie ich eine CRM-Krise mit Six Sigma DMAIC bereinigt habe</span>
+      </h1>
+      <p class="hero-subtitle">
+        Konfrontiert mit 500.000 fehlerhaften Datensätzen und null Chance auf ein Rollback nutzte ich ein 50-Datensätze-Pilot-Audit, um das 87-%-Ursachenmuster hinter den Dubletten freizulegen. Unser Async-Sprint-Team bereinigte das Chaos mit 99,8&nbsp;% Genauigkeit, und permanente Pipedrive-Automatisierungen sparten zusätzlich 10 Stunden Routinekram pro Woche.
+      </p>
+
+      <!-- Option 03C • Centered Connected HUD Telemetry Bar (Zero Progress Bar) -->
+      <div class="hud-telemetry-bar" id="bento-metrics">
+        <!-- Cell 1: Records Resolved -->
+        <div class="hud-cell">
+          <div class="hud-label">Bereinigt</div>
+          <div class="hud-num" style="color: var(--accent);">500.000</div>
+          <span class="hud-delta delta-danger">67&nbsp;% &rarr; &lt; 0,2&nbsp;%</span>
+          <div class="hud-sub">Kein Rollback &bull; Kein Verlust</div>
+        </div>
+
+        <!-- Cell 2: Dedupe Accuracy -->
+        <div class="hud-cell">
+          <div class="hud-label">Genauigkeit</div>
+          <div class="hud-num" style="color: var(--success);">99,8&nbsp;%</div>
+          <span class="hud-delta delta-success">0 Fehl-Merges</span>
+          <div class="hud-sub">Tool-gestützte Human-Gates</div>
+        </div>
+
+        <!-- Cell 3: Weekly Time Saved -->
+        <div class="hud-cell">
+          <div class="hud-label">Zeitersparnis</div>
+          <div class="hud-num" style="color: var(--success);">10 Std./Wo.</div>
+          <span class="hud-delta delta-success">+520 Std. / Jahr</span>
+          <div class="hud-sub">Automatisierte Pipeline-Tasks</div>
+        </div>
+
+        <!-- Cell 4: Healthcare Privacy -->
+        <div class="hud-cell">
+          <div class="hud-label">Datenschutz</div>
+          <div class="hud-num" style="color: var(--accent);">100&nbsp;% Sicher</div>
+          <span class="hud-delta delta-success">HIPAA &amp; DSGVO</span>
+          <div class="hud-sub">Zeitgestempelte Audit-Logs</div>
+        </div>
+
+        <!-- Cell 5: Defect Recurrence -->
+        <div class="hud-cell">
+          <div class="hud-label">Rückfallquote</div>
+          <div class="hud-num" style="color: var(--success);">0,0&nbsp;%</div>
+          <span class="hud-delta delta-success">Permanente Gates</span>
+          <div class="hud-sub">Schutzplanken am Eingang</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 01: DEFINE — THE 500k CRISIS & HEALTHCARE BOUNDS -->
+    <!-- ========================================================================= -->
+    <section id="define" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // DEFINE: DIE 500.000-DATENSÄTZE-KRISE</span>
+        <h2 class="section-title-modern">Der ungeplante GAU: Wenn „Import rückgängig machen“ vom Tisch ist</h2>
+        <p class="section-desc-modern">
+          Als eine externe Liste mit 750.000 Kontakten ohne vorherige Dublettenprüfung per Massenimport in das laufende Healthcare-Pipedrive geschoben wurde, kollidierten rund 500.000 Dubletten mit aktiven Accounts. Zwei von drei Einträgen wurden doppelt, widersprüchlich oder unvollständig – ein direktes Umsatz- und Compliance-Risiko für Vertriebs-Pipelines und Patienten-Warteschlangen.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <!-- Crisis Breakdown Card -->
+        <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--danger); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+          <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Warum wir nicht einfach auf „Rückgängig“ klicken konnten</h3>
+          <p style="font-size: 0.9rem; color: var(--ink-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+            Bei normalen Software-Unfällen spielt man das letzte Backup ein. Hier war das völlig ausgeschlossen:
+          </p>
+          <ul style="font-size: 0.88rem; color: var(--ink-muted); padding-left: 1.25rem; line-height: 1.55;">
+            <li><strong>Wochenlange Live-Nutzung:</strong> Vertrieb und Care-Koordinatoren des Kunden hatten bereits mehrere Wochen aktiv auf den importierten Daten gearbeitet, bevor die Führung Alarm schlug.</li>
+            <li><strong>Kritische Live-Notizen:</strong> Mitarbeitende hatten hunderte Telefonate geführt, Patiententermine gebucht, Deal-Phasen verschoben und vertrauliche medizinische Notizen direkt auf die neuen Dubletten geschrieben.</li>
+            <li><strong>Katastrophales Umsatzrisiko:</strong> Ein blindes Datenbank-Rollback hätte Wochen echter Akquise ausgelöscht, gebuchte Termine gelöscht und die aktive Pipeline zerstört. Wir mussten am offenen Herzen operieren, während der Patient einen Marathon lief.</li>
+          </ul>
+        </div>
+
+        <!-- 3 Non-Negotiable Constraints -->
+        <div style="margin-bottom: 2.25rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">Drei unverhandelbare operative Leitplanken</h3>
+          <div class="pipeline-rail">
+            <div class="pipeline-node" style="border-top: 4px solid var(--danger);">
+              <span class="badge badge-danger" style="align-self: flex-start;">Leitplanke 01</span>
+              <h4 class="node-title">Healthcare-Datenschutz &amp; HIPAA/DSGVO</h4>
+              <p class="node-desc">Null Toleranz für versehentliche Patienten-Merges. Zwei verschiedene Personen mit ähnlichem Namen zusammenzulegen würde gegen Patientenschutzgesetze verstoßen.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+              <span class="badge badge-warning" style="align-self: flex-start;">Leitplanke 02</span>
+              <h4 class="node-title">Null Verlust von Live-Daten</h4>
+              <p class="node-desc">Jedes einzelne Anruf-Log, jede Beratungsnotiz und jeder Phasenwechsel der letzten Wochen musste sauber in den Master-Datensatz gerettet werden.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+              <span class="badge badge-accent" style="align-self: flex-start;">Leitplanke 03</span>
+              <h4 class="node-title">100 % asynchrone globale Ausführung</h4>
+              <p class="node-desc">Das Bereinigungs-Team saß über 4 Kontinente und 12 Stunden Zeitverschiebung verteilt. Keine synchronen War-Rooms; 100 % schriftliche SOPs.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Six Sigma DMAIC Pipeline Rail -->
+        <div>
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">Das Six-Sigma-DMAIC-Ausführungsrückgrat</h3>
+          <div class="pipeline-rail" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+              <span class="badge badge-accent" style="align-self: flex-start;">Phase 01: Define</span>
+              <h4 class="node-title">Krisen-Grenzen</h4>
+              <p class="node-desc">500k-Dubletten-Explosion kartiert und verbindliche Healthcare-Compliance-Grenzen definiert.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--purple);">
+              <span class="badge badge-purple" style="align-self: flex-start;">Phase 02: Measure</span>
+              <h4 class="node-title">50-Datensätze-Pilot</h4>
+              <p class="node-desc">Gründlicher 50-Datensätze-Pilot-Audit deckte das 87-%-Pareto-Muster bei Namensabweichungen auf.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--warning);">
+              <span class="badge badge-warning" style="align-self: flex-start;">Phase 03: Analyze</span>
+              <h4 class="node-title">5-Whys-Diagnostik</h4>
+              <p class="node-desc">Ursachen diagnostiziert: fehlende Eingangsvalidierung, kein Daten-Dictionary und unstrukturierte CSVs.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--success);">
+              <span class="badge badge-success" style="align-self: flex-start;">Phase 04: Improve</span>
+              <h4 class="node-title">Async-Sprint</h4>
+              <p class="node-desc">Globales Async-Team mit visuellen Checklisten, Chrome-Highlighting-Extensions und Matching-Skripten geführt.</p>
+            </div>
+            <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+              <span class="badge badge-accent" style="align-self: flex-start;">Phase 05: Control</span>
+              <h4 class="node-title">Permanente Kontrollen</h4>
+              <p class="node-desc">Permanente Pipedrive-Validierungs-Trigger gebaut plus Mehrwert-Automatisierung für 10 Std./Woche Ersparnis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 02: MEASURE — THE 50-RECORD PILOT AUDIT -->
+    <!-- ========================================================================= -->
+    <section id="measure" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // MEASURE: FEHLERMUSTER QUANTIFIZIEREN</span>
+        <h2 class="section-title-modern">Der 50-Datensätze-Pilot: Das 87-%-Kernmuster finden, bevor eine Zeile angefasst wird</h2>
+        <p class="section-desc-modern">
+          Vor 500.000 kaputten Datensätzen verfallen unerfahrene Manager in Panik – sie heuern dutzende Datentipper an oder schreiben rücksichtslose Python-Skripte, die blind zusammenführen. In Six Sigma rät man nie, sondern misst. Ich isolierte eine repräsentative Pilot-Stichprobe von 50 Datensätzen und prüfte jedes Zeichen von Hand.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--purple); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+          <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Die 87-%-Pareto-Entdeckung</h3>
+          <p style="font-size: 0.9rem; color: var(--ink-muted); line-height: 1.55;">
+            Der 50-Datensätze-Pilot zahlte sich sofort aus: <strong>Rund 87 % aller Deduplizierungs-Fehler hatten exakt dieselbe Ursache.</strong> Pipedrives automatischer Abgleich scheiterte an minimalen Schreibvarianten zwischen Import-Kontakten und Bestandseinträgen:
+          </p>
+          <div style="font-family: var(--mono); font-size: 0.82rem; background: var(--surface-subtle); padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--border); margin-top: 0.75rem; line-height: 1.6; color: var(--ink);">
+            &bull; Verdrehte Namen: „Miller, Robert“ vs. „Robert Miller“<br>
+            &bull; Akademische &amp; medizinische Titel: „Dr. Jane Doe, MD“ vs. „Jane Doe“<br>
+            &bull; Rechtsform-Rauschen: „St. Jude Health LLC“ vs. „St Jude Health“<br>
+            &bull; Unverknüpfte Organisationen: Firmenname im Rohtext-Feld statt verknüpft mit dem Master-Organisations-Account.
+          </div>
+        </div>
+
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.75rem;">Fehlermuster- &amp; Verteilungsmatrix (aufklappbar)</h3>
+        <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+          Auf Basis des Pilots kategorisierten wir alle Defekte im 500.000-Datensätze-Pool. Unten die Top-6-Fehlermuster in der Vorschau (ausklappen für alle 12 geprüften Kategorien):
+        </p>
+
+        <!-- Collapsible Progressive Disclosure Table -->
+        <div class="table-frame">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 5%;">#</th>
+                <th style="width: 22%;">Fehlerkategorie</th>
+                <th style="width: 12%;">Anteil</th>
+                <th style="width: 25%;">Beobachtetes Beispiel</th>
+                <th style="width: 36%;">Lösungsmechanismus</th>
+              </tr>
+            </thead>
+            <tbody id="defect-tbody">
+              <!-- Visible Preview Rows (1 to 6) -->
+              <tr>
+                <td style="font-family: var(--mono);">01</td>
+                <td><span class="badge badge-danger">Namenszusätze &amp; Titel</span></td>
+                <td style="font-weight: 700; color: var(--danger);">32,4 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">„Dr. Robert J. Miller, MD“</td>
+                <td style="font-size: 0.85rem;">Medizinische Titel sauber in das eigene Taxonomie-Feld <code>title_tag</code> auslagern.</td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono);">02</td>
+                <td><span class="badge badge-danger">Verdrehte Vor-/Nachnamen</span></td>
+                <td style="font-weight: 700; color: var(--danger);">19,8 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">„Smith, Alice“ vs „Alice Smith“</td>
+                <td style="font-size: 0.85rem;">Regex-Transpositions-Linter trennt kommagetrennte Strings sauber in Vor-/Nachname.</td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono);">03</td>
+                <td><span class="badge badge-warning">Unverknüpfte Organisationen</span></td>
+                <td style="font-weight: 700; color: var(--warning);">21,2 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Rohtext-String „Charité Berlin“</td>
+                <td style="font-size: 0.85rem;">Fuzzy-Levenshtein-Matching verknüpft Kontakt mit verifiziertem Master-Org-Datensatz.</td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono);">04</td>
+                <td><span class="badge badge-warning">Rechtsform-Abweichungen</span></td>
+                <td style="font-weight: 700; color: var(--warning);">13,6 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">„HealthCorp GmbH“ vs „HealthCorp“</td>
+                <td style="font-size: 0.85rem;">Regex entfernt Rechtsformen (GmbH, AG, LLC, Inc., UG) vor dem Lookup.</td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono);">05</td>
+                <td><span class="badge badge-accent">Telefon-Formatierungs-Chaos</span></td>
+                <td style="font-weight: 700; color: var(--accent);">7,1 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">„030 / 123 456“ vs „+49 30 123456“</td>
+                <td style="font-size: 0.85rem;">E.164-Standardisierungsskript wandelt lokale Nummern in internationale Keys um.</td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono);">06</td>
+                <td><span class="badge badge-accent">Fehlende Healthcare-Felder</span></td>
+                <td style="font-weight: 700; color: var(--accent);">3,2 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Leere Fachrichtung / Klinik-Typ</td>
+                <td style="font-size: 0.85rem;">Asynchrones Team reichert Felder aus öffentlichen Medizinregistern manuell an.</td>
+              </tr>
+
+              <!-- Hidden Rows (7 to 12) -->
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">07</td>
+                <td><span class="badge badge-neutral">Tippfehler in E-Mail-Domains</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">1,1 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">„user@gmx..de“, „dr@klinik.con“</td>
+                <td style="font-size: 0.85rem;">RFC-5322-Regex-Prüfung fängt Doppelpunkte und typische TLD-Tippfehler ab.</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">08</td>
+                <td><span class="badge badge-neutral">Groß-/Kleinschreibung</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0,8 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">„DR. HANS SCHMIDT“</td>
+                <td style="font-size: 0.85rem;">Automatisches Title-Case-Skript normalisiert ALL-CAPS-Strings sauber.</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">09</td>
+                <td><span class="badge badge-neutral">Leerzeichen &amp; Umbrüche</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0,3 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Nachgestellte Tabs in Telefon-Strings</td>
+                <td style="font-size: 0.85rem;">Automatisches String-Trimming entfernt unsichtbare Steuerzeichen.</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">10</td>
+                <td><span class="badge badge-neutral">Doppelte Pipeline-Deals</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0,2 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Zwei offene Deals für eine Beratung</td>
+                <td style="font-size: 0.85rem;">Deal-Konsolidierungsskript führt Timeline-Notizen zusammen und löscht Duplikat.</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">11</td>
+                <td><span class="badge badge-neutral">Verwaiste Aktivitäts-Tasks</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0,1 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Follow-up-Task am gelöschten Duplikat</td>
+                <td style="font-size: 0.85rem;">Pipedrive-API hängt alle geplanten Aktivitäten an den Master-Datensatz um.</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td style="font-family: var(--mono);">12</td>
+                <td><span class="badge badge-neutral">Fehlender Consent</span></td>
+                <td style="font-weight: 700; color: var(--ink-faint);">0,1 %</td>
+                <td style="font-family: var(--mono); font-size: 0.82rem;">Fehlender HIPAA-/DSGVO-Zeitstempel</td>
+                <td style="font-size: 0.85rem;">Verknüpft ursprüngliche Import-Batch-ID mit verifiziertem Partner-Consent-Nachweis.</td>
+              </tr>
+
+              <!-- Expand Row Button -->
+              <tr class="table-expand-row">
+                <td colspan="5">
+                  <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'defect-tbody', 'Fehlerkategorien', 12, 6)">
+                    <span class="btn-table-text">Alle 12 Fehlerkategorien anzeigen (6 weitere)</span>
+                    <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Summary Row -->
+              <tr class="table-summary-row">
+                <td colspan="2" style="font-weight: 800; text-transform: uppercase;">Datensatz-Gesamt</td>
+                <td style="font-weight: 700; color: var(--danger);">500.000 Datensätze</td>
+                <td style="font-family: var(--mono); color: var(--accent); font-weight: 700;">87 % Abweichungen</td>
+                <td style="color: var(--success); font-weight: 700;">100 % unter DMAIC-Framework gelöst</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 03: ANALYZE — ROOT CAUSE DIAGNOSTICS -->
+    <!-- ========================================================================= -->
+    <section id="analyze" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // ANALYZE: URSACHEN-DIAGNOSTIK</span>
+        <h2 class="section-title-modern">Die 5-Whys-Diagnosekette &amp; der Clean-Data-Vertrag</h2>
+        <p class="section-desc-modern">
+          Wer im Betrieb nur dreckige Daten putzt, ohne den Eingang abzudichten, programmiert schon die nächste Krise vor. Mit einer gründlichen 5-Whys-Ursachenanalyse deckten wir auf, warum eine halbe Million Dubletten durch Pipedrive schlüpfen konnten – und definierten einen strikten Datenvertrag für jeden künftigen Import.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <!-- 5-Whys Structured Diagnostic Card (HubSpot Workflow Card Style) -->
+        <div class="workflow-card print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--warning); border-radius: 10px; padding: 1.5rem; box-shadow: var(--shadow-sm); margin-bottom: 2rem;">
+          <div class="workflow-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge badge-warning">5-Whys-Ursachenkette</span>
+            <span style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint);">Six Sigma Diagnostik</span>
+          </div>
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.5rem 0; color: var(--ink);">Ursachen-Analyse: Warum 500.000 Dubletten kollidierten</h3>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+            <strong>Diagnose-Scope:</strong> Anwendung der Six-Sigma-5-Whys-Analyse, um hinter Oberflächensymptome auf die strukturelle Schwachstelle zu bohren, die 500k Dubletten in den laufenden Healthcare-Betrieb ließ.
+          </p>
+
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--warning); border-radius: 4px; padding: 0.65rem 0.9rem; margin-bottom: 1.15rem; font-size: 0.82rem;">
+            <strong style="color: var(--warning); font-family: var(--mono); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem;">⚡ Krisen-Auslöser</strong>
+            <span style="color: var(--ink);">Externer Marketing-Partner lieferte 750.000 Roh-Leads, die ohne Staging oder Eingangs-Prüf-Gates direkt in die Produktion importiert wurden.</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--warning); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">01</span>
+              <div style="line-height: 1.5;"><strong>Warum überfluteten 500k Dubletten das CRM?</strong> Eine externe Liste mit 750k Leads wurde ohne Vorab-Dublettenprüfung direkt in die Produktion importiert.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--warning); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">02</span>
+              <div style="line-height: 1.5;"><strong>Warum versagte die Standard-Deduplizierung?</strong> Pipedrives nativer Import-Matcher prüfte nur auf exakte 1:1-String-Gleichheit bei Kontaktnamen und E-Mails.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--warning); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">03</span>
+              <div style="line-height: 1.5;"><strong>Warum schlug die String-Gleichheit fehl?</strong> Partner formatierten Namen mit Titeln und Suffixen („Dr. John Smith, MD“ vs „John Smith“; „Charité Berlin“ vs „Klinikum Charite GmbH“).</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--warning); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">04</span>
+              <div style="line-height: 1.5;"><strong>Warum gelangten unstandardisierte Daten in die Produktion?</strong> Es fehlten eine Pre-Import-Staging-Sandbox, Validierungs-Linter und ein zentrales Daten-Dictionary.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--danger); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">05</span>
+              <div style="line-height: 1.5;"><strong>Kernursache:</strong> Das CRM wurde wie ein passives Adressbuch betrieben statt wie ein deterministischer Zustandsautomat mit strikten Eingangsverträgen.</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.75rem;">Der Clean-Data-Vertrag (Ziel-Schema)</h3>
+        <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+          Um schmutzige Daten dauerhaft zu stoppen, definierten wir einen strikten Datenvertrag für jeden Kontakt, jeden Deal und jede Organisation in Pipedrive:
+        </p>
+
+        <div class="table-frame print-avoid-break">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 20%;">Feldname</th>
+                <th style="width: 20%;">Pipedrive-API-Key</th>
+                <th style="width: 15%;">Datentyp</th>
+                <th style="width: 25%;">Validierungsregel</th>
+                <th style="width: 20%;">Compliance-Rolle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight: 700;">Clean First Name</td>
+                <td style="font-family: var(--mono); color: var(--accent);">first_name</td>
+                <td>String</td>
+                <td>Title Case; sämtliche Titel (Dr./MD) automatisch abgestreift.</td>
+                <td>Personalisierung</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700;">Clean Last Name</td>
+                <td style="font-family: var(--mono); color: var(--accent);">last_name</td>
+                <td>String</td>
+                <td>Title Case; zwingend einzelner Nachname zur Indexierung.</td>
+                <td>Deduplizierungs-Index</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700;">Linked Organization</td>
+                <td style="font-family: var(--mono); color: var(--accent);">org_id</td>
+                <td>Foreign Key (ID)</td>
+                <td>Zwingende Verknüpfung zur Master-Org; keine Rohtext-Strings.</td>
+                <td>Account-Hierarchie</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700;">Standardized Phone</td>
+                <td style="font-family: var(--mono); color: var(--accent);">phone_e164</td>
+                <td>E.164 String</td>
+                <td>Striktes Länderpräfix (+49...); Leerzeichen entfernt.</td>
+                <td>Dialer-Integration</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700;">Normalized Email</td>
+                <td style="font-family: var(--mono); color: var(--accent);">email_val</td>
+                <td>RFC 5322 String</td>
+                <td>Normalisiert in Kleinschreibung; Domain-MX-Syntax geprüft.</td>
+                <td>Primärer Unique Key</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700;">Healthcare Consent</td>
+                <td style="font-family: var(--mono); color: var(--accent);">hipaa_gdpr_ok</td>
+                <td>Boolean Flag</td>
+                <td>True/False mit unveränderlichem Zeitstempel &amp; Batch-ID.</td>
+                <td>HIPAA-/DSGVO-Gate</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 04: IMPROVE — ASYNC SPRINT & TOOL-ASSISTED MERGING -->
+    <!-- ========================================================================= -->
+    <section id="improve" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // IMPROVE: ASYNC-SPRINT &amp; TOOL-GESTÜTZTES MERGING</span>
+        <h2 class="section-title-modern">Verteilte Ausführung: Narrensichere Checklisten, Chrome-Extensions &amp; Hilfsskripte</h2>
+        <p class="section-desc-modern">
+          Blinde algorithmische Deduplizierung riskierte das Zusammenführen verschiedener Patienten unter Healthcare-Datenschutzregeln; reines manuelles Klicken hätte über ein Jahr gedauert. Um 500.000 Datensätze sicher zu bereinigen, bauten wir eine Tool-gestützte Human-in-the-Loop (HITL)-Async-Fertigungsstraße – mit visuellen Entscheidungs-Checklisten, Browser-Highlighting-Tools und Candidate-Matching-Skripten.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <!-- 3 Pillars of the Sprint Engine -->
+        <div class="pipeline-rail" style="margin-bottom: 2rem;">
+          <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--accent);">
+            <span class="badge badge-accent" style="align-self: flex-start;">Sprint-Tooling 01</span>
+            <h4 class="node-title">Browser-Highlighting-Extensions</h4>
+            <p class="node-desc">Maßgeschneidert konfigurierte Chrome-Extensions hoben übereinstimmende Telefonnummern, E-Mail-Domains und Teilnamen über offene Tabs hinweg hervor – 80 % weniger visuelle Ermüdung.</p>
+          </div>
+          <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--purple);">
+            <span class="badge badge-purple" style="align-self: flex-start;">Sprint-Tooling 02</span>
+            <h4 class="node-title">Candidate-Matching-Hilfsskripte</h4>
+            <p class="node-desc">Leichtgewichtige Phonetik- (Soundex) und Levenshtein-Distanz-Algorithmen gruppierten ähnlich klingende Kliniknamen („Charité Berlin“ vs „Klinikum Charite“) zur schnellen Sichtung.</p>
+          </div>
+          <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Sprint-Tooling 03</span>
+            <h4 class="node-title">Timeline-Concatenation-Skript</h4>
+            <p class="node-desc">Zog aktive Notizen, Beratungshistorien und Custom Fields aus Dubletten und hängte sie vor dem Merge automatisch in eine unveränderliche chronologische Timeline ein.</p>
+          </div>
+        </div>
+
+        <!-- Sprint SOP Checklist Structured Workflow Card (HubSpot Style) -->
+        <div class="workflow-card print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--success); border-radius: 10px; padding: 1.5rem; box-shadow: var(--shadow-sm); margin-bottom: 2rem;">
+          <div class="workflow-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge badge-success">SOP-Ausführungs-Spec</span>
+            <span style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint);">Double-Blind-QA-Protokoll</span>
+          </div>
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.5rem 0; color: var(--ink);">Chirurgische Zero-Loss-Deduplizierungs-SOP-Checkliste</h3>
+          <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+            <strong>Ausführungsstandard:</strong> Zu 100 % asynchrones Double-Blind-Prüfprotokoll über globale Zeitzonen hinweg – stellt null verlorene Notizen und null falsche Patienten-Merges unter HIPAA/DSGVO sicher.
+          </p>
+
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--success); border-radius: 4px; padding: 0.65rem 0.9rem; margin-bottom: 1.15rem; font-size: 0.82rem;">
+            <strong style="color: var(--success); font-family: var(--mono); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem;">⚡ Operatives Mandat</strong>
+            <span style="color: var(--ink);">Lösche niemals einen Datensatz, ohne die Historie zusammenzuführen; bei Zweifeln an der Patientenidentität immer an Level-2-Review eskalieren, statt einen Compliance-Verstoß zu riskieren.</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">01</span>
+              <div style="line-height: 1.5;"><strong>Cluster-Aufnahme &amp; Feld-Highlighting:</strong> Zugewiesenes Kandidaten-Batch in Chrome mit aktiven Highlighting-Extensions öffnen; übereinstimmende Rufnummernwurzeln (+49...), E-Mail-Domains und Master-Org-IDs visuell prüfen.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">02</span>
+              <div style="line-height: 1.5;"><strong>Erhalt von Notizen &amp; Deals (Kritisches Umsatz-Gate):</strong> Aktivitäts-Timelines beider Datensätze prüfen; Timeline-Concatenation-Skript starten, um Anruf-Logs, Deal-Phasen und Termindaten zu sichern, damit beim Merge null Historie verloren geht.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">03</span>
+              <div style="line-height: 1.5;"><strong>Chirurgischer Record-Merge:</strong> Datensatz A als primäre Master-Entität wählen (älteste Datenbank-UUID und Attributions-Historie bleiben erhalten); Datensatz B in A mergen und standardisiertes E.164-Telefon sowie Title-Case-Namen sichern.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">04</span>
+              <div style="line-height: 1.5;"><strong>Eskalations-Gate bei unklarer Identität:</strong> Liegt die Sicherheit unter 100 % (z. B. häufige Nachnamen wie „Schmidt“ mit abweichenden Adressen): NICHT MERGEN. Datensatz mit <code>[ESCALATION_L2]</code> für Lead-Reviewer markieren. Im Healthcare-Bereich schlägt Trennung jede falsche Kollision.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.85rem;">
+              <span style="background: var(--surface-subtle); border: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--success); width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">05</span>
+              <div style="line-height: 1.5;"><strong>Double-Blind-QA-Stichprobe:</strong> 10 % aller bearbeiteten Datensätze gehen automatisch an einen zweiten unabhängigen Reviewer, um Notiz-Vollständigkeit und Title-Case-Formatierung vor dem Audit-Stempel zu verifizieren.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 05: CONTROL — PERMANENT PIPEDRIVE CONTROLS -->
+    <!-- ========================================================================= -->
+    <section id="control" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // CONTROL: EINGANGS-PRÄVENTION &amp; AUTOMATISIERUNG</span>
+        <h2 class="section-title-modern">Die Vordertür abschließen: Permanente Pipedrive-Automatisierungen &amp; 10 Std./Woche gespart</h2>
+        <p class="section-desc-modern">
+          Der Unterschied zwischen einer einmaligen Putzaktion und Six Sigma DMAIC ist die Control-Phase. 500.000 Datensätze zu säubern bringt nichts, wenn im nächsten Quartal wieder eine ungeprüfte Tabelle ins CRM gekippt wird. Wir haben die Vordertür mit permanenten Validierungs-Triggern abgeschlossen und zusätzlich 10 Stunden manuellen Routinekram pro Woche wegautomatisiert.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <div style="margin-bottom: 2rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">Permanente Pipedrive-Validierungs-Automatisierungen</h3>
+          <div class="pipeline-rail">
+            <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--accent);">
+              <span class="badge badge-accent" style="align-self: flex-start;">Validierungs-Gate 01</span>
+              <h4 class="node-title">Warnungen bei ähnlichen Namen</h4>
+              <p class="node-desc">Automatisierte Dublettenerkennung in Pipedrive konfiguriert: Legt jemand einen Kontakt mit ähnlich klingendem Namen oder passender Domain an, warnt das CRM vor dem Speichern.</p>
+            </div>
+            <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--warning);">
+              <span class="badge badge-warning" style="align-self: flex-start;">Validierungs-Gate 02</span>
+              <h4 class="node-title">Pflicht-Verknüpfung zur Org</h4>
+              <p class="node-desc">Freitext-Firmennamen abgeschafft. Kontakte lassen sich nur noch speichern, wenn sie direkt mit einer verifizierten Mutterorganisation verknüpft sind.</p>
+            </div>
+            <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--success);">
+              <span class="badge badge-success" style="align-self: flex-start;">Validierungs-Gate 03</span>
+              <h4 class="node-title">Pflichtfelder auf Deal-Phasen</h4>
+              <p class="node-desc">Harte Validierungs-Gates auf Pipeline-Phasen: Ein Deal wechselt nur dann in <em>Consultation Booked</em>, wenn E.164-Telefonnummer und HIPAA-/DSGVO-Consent bestätigt sind.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10 Hours Per Week Automations (Additional Value-Add Service) -->
+        <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--success); padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+          <div class="badge badge-success" style="margin-bottom: 0.5rem; display: inline-block;">Proaktiver Mehrwert-Service</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Routinekram automatisiert: Zusätzliche 10 Stunden jede Woche gespart</h3>
+          <p style="font-size: 0.9rem; color: var(--ink-muted); line-height: 1.55; margin-bottom: 0.75rem;">
+            Über die eigentliche Dubletten-Bereinigung hinaus sahen wir, dass der Vertrieb täglich rund 2 Stunden damit verbrannte, Klinikadressen manuell in Deals zu kopieren, Follow-up-Tasks anzulegen und Status-Mails zu loggen. Als zusätzlichen, proaktiven Service außerhalb des ursprünglichen Projekt-Mandats bauten wir native Pipedrive-Workflows gegen diesen manuellen Routinekram:
+          </p>
+          <ul style="font-size: 0.88rem; color: var(--ink-muted); padding-left: 1.25rem; line-height: 1.55;">
+            <li><strong>Automatische Deal-Property-Kaskadierung:</strong> Wird die Hauptadresse, Fachrichtung oder Telefonnummer einer Klinik aktualisiert, ziehen alle verknüpften Kontakte und offenen Deals sofort mit.</li>
+            <li><strong>Automatische Next-Step-Tasks:</strong> Ein Phasenwechsel im Deal erzeugt automatisch zugewiesene Anruf- und E-Mail-Aufgaben für den Owner mit 24h-Erinnerungs-Trigger.</li>
+            <li><strong>Proaktiv zurückgewonnene Kapazität:</strong> Sparte <strong>zusätzliche 10 Stunden pro Woche im gesamten Team</strong> (~520 Stunden/Jahr), sodass sich die Healthcare-Berater zu 100 % auf Patientengespräche konzentrieren können.</li>
+          </ul>
+        </div>
+
+        <!-- Operational Duality Panel -->
+        <div class="print-avoid-break" style="margin-bottom: 2rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.75rem;">Operative Dualität: Automatisierungs-Engine vs. Harte Leitplanken</h3>
+          <p style="font-size: 0.88rem; color: var(--ink-faint); margin-bottom: 1rem;">
+            Das richtige Gleichgewicht zwischen automatisiertem Tempo und Healthcare-Datenschutz-Leitplanken:
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem;">
+            <div style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--success); padding: 0.75rem 1rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+              <div style="font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--success); text-transform: uppercase; margin-bottom: 0.25rem;">⚡ WAS VOLLAUTOMATISCH LÄUFT (ENGINE)</div>
+              <div style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5;">
+                &bull; <strong>Auto-Normalisierung:</strong> Streift Titel ab und wandelt ALL-CAPS automatisch in Title Case.<br>
+                &bull; <strong>Org-Kaskadierung:</strong> Synchronisiert Adressen und Telefonformate über alle offenen Deals.<br>
+                &bull; <strong>Dubletten-Vorprüfung:</strong> Prüft phonetische Ähnlichkeit vor der Neuanlage eines Datensatzes.
+              </div>
+            </div>
+            <div style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--danger); padding: 0.75rem 1rem; border-radius: 6px; box-shadow: var(--shadow-sm);">
+              <div style="font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin-bottom: 0.25rem;">🛑 WO BEWUSSTE GRENZEN GREIFEN (GUARDRAILS)</div>
+              <div style="font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5;">
+                &bull; <strong>Null blinde Merges:</strong> Automatisierte Skripte löschen oder mergen nie ohne menschliche Freigabe.<br>
+                &bull; <strong>HIPAA-Feld-Sperren:</strong> Sensible medizinische Felder sind strikt auf berechtigte Rollen begrenzt.<br>
+                &bull; <strong>Bulk-Import-Stopp:</strong> Rechte für CSV-Massenimports bei regulären Vertriebs-Accounts entzogen.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 06: TRADE-OFFS & RETROSPECTIVE -->
+    <!-- ========================================================================= -->
+    <section id="tradeoffs" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // GEPRÜFTE ALTERNATIVEN &amp; RETROSPEKTIVE</span>
+        <h2 class="section-title-modern">Architektur-Trade-offs, Fehlermodi &amp; Operator-Retrospektive</h2>
+        <p class="section-desc-modern">
+          Jeder operative Durchbruch verlangt, scheinbar bequeme Abkürzungen abzulehnen. Hier ist die Diagnose aller geprüften Wege, der entschärften Fehlermodi und der wichtigsten Leadership-Learnings aus der Bereinigung von 500.000 Datensätzen.
+        </p>
+      </div>
+
+      <div class="section-body">
+        <h3 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">Strategische Entscheidungs- &amp; Fehlermodus-Matrix</h3>
+        
+        <!-- Strict 3-Column Diagnostic Matrix (2x3 Cadence) -->
+        <div class="tradeoff-grid tradeoff-grid-3col" style="margin-bottom: 2.5rem;">
+          <!-- Card 01 -->
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Trade-off 01</span>
+            <h4 class="tradeoff-title">Komplettes Datenbank-Rollback</h4>
+            <p class="tradeoff-desc">
+              <strong>Verworfener Weg:</strong> Pipedrive auf den Snapshot vor dem Import zurücksetzen.<br>
+              <strong>Warum verworfen:</strong> Hätte 3+ Wochen Live-Anrufe, aktive Patiententermine und qualifizierte Deals vernichtet. Chirurgische Deduplizierung erhielt 100 % der Pipeline.
+            </p>
+          </div>
+
+          <!-- Card 02 -->
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Trade-off 02</span>
+            <h4 class="tradeoff-title">Blinder Algorithmus-Merge</h4>
+            <p class="tradeoff-desc">
+              <strong>Verworfener Weg:</strong> Unbeaufsichtigtes Python-Skript, das alle Namens-Treffer automatisch zusammenlegt.<br>
+              <strong>Warum verworfen:</strong> Im Gesundheitswesen verletzen Falsch-Positive den Datenschutz (HIPAA/DSGVO). Tool-gestütztes HITL garantierte null Fehl-Merges.
+            </p>
+          </div>
+
+          <!-- Card 03 -->
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--accent);">
+            <span class="badge badge-accent" style="align-self: flex-start;">Trade-off 03</span>
+            <h4 class="tradeoff-title">Synchrone War-Rooms</h4>
+            <p class="tradeoff-desc">
+              <strong>Verworfener Weg:</strong> Tägliche 3-Stunden-Zoom-Calls zur Koordination weltweit verteilter Teams.<br>
+              <strong>Warum verworfen:</strong> Das Team spannte über 12 Stunden Zeitverschiebung. 100 % asynchrone SOP-Checklisten und Loom-Videos hielten das Tempo ohne Meeting-Müdigkeit hoch.
+            </p>
+          </div>
+
+          <!-- Card 04 -->
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Fehlermodus 01</span>
+            <h4 class="tradeoff-title">Namens-Suffix-Kollisionen</h4>
+            <p class="tradeoff-desc">
+              <strong>Das Risiko:</strong> Automatisierte Skripte legen „John Smith Jr.“ mit „John Smith Sr.“ zusammen oder scheitern an Titeln.<br>
+              <strong>Defensive Kontrolle:</strong> Titel vor dem Abgleich in eigene Taxonomie-Felder ausgelagert und bei Generations-Suffixen manuelle Prüfung erzwungen.
+            </p>
+          </div>
+
+          <!-- Card 05 -->
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Fehlermodus 02</span>
+            <h4 class="tradeoff-title">Überschriebene Notizen</h4>
+            <p class="tradeoff-desc">
+              <strong>Das Risiko:</strong> CRM-Merge überschreibt historische Aktivitäten auf älteren Datensätzen.<br>
+              <strong>Defensive Kontrolle:</strong> Timeline-Concatenation-Skript bündelte sämtliche Historie vor jedem Merge in einen unveränderlichen Master-Feed.
+            </p>
+          </div>
+
+          <!-- Card 06 -->
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Fehlermodus 03</span>
+            <h4 class="tradeoff-title">Wieder-Verschmutzung nach Go-Live</h4>
+            <p class="tradeoff-desc">
+              <strong>Das Risiko:</strong> Nachlässige manuelle Eingaben und erneute fehlerhafte CSV-Imports.<br>
+              <strong>Defensive Kontrolle:</strong> Pflichtfeld-Gates am Eingang, entzogene Bulk-CSV-Rechte und geplante vierteljährliche Drift-Audits.
+            </p>
+          </div>
+        </div>
+
+        <!-- Senior Operator Retrospective -->
+        <div class="print-avoid-break" style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem 1.75rem;">
+          <div style="font-family: var(--mono); font-size: 0.75rem; color: var(--accent); text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem;">Senior Operator Retrospektive</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 0.85rem; color: var(--ink);">Warum Six Sigma DMAIC das Unternehmen gerettet hat</h3>
+          <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1rem;">
+            Wenn eine Datenbank mit 500.000 korrupten Datensätzen brennt, führt menschliche Panik zu schlechten Entscheidungen. Man will entweder auf „Rückgängig“ drücken oder über Nacht ein Zauber-Skript schreiben. Beides wäre hier gescheitert: Rückgängig hätte aktive Umsatz-Deals gelöscht, und ein blindes Skript hätte HIPAA-Datenschutzverstöße ausgelöst.
+          </p>
+          <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1rem;">
+            Die Six-Sigma-DMAIC-Disziplin hat uns geerdet. Sich eine Stunde Zeit für einen simplen <strong>50-Datensätze-Pilot-Audit</strong> zu nehmen, deckte auf, dass 87 % des Chaos reine Namensabweichungen waren – das sparte hunderte Stunden Over-Engineering. Ein asynchrones Team mit Chrome-Extensions und narrensicheren Checklisten zu organisieren bewies, dass man keine Meetings braucht, um Berge zu versetzen.
+          </p>
+          <p style="font-size: 0.92rem; color: var(--ink-muted); line-height: 1.6;">
+            Am wichtigsten: Durch den Fokus auf die <strong>Control-Phase</strong> haben wir die Vordertür so abgeschlossen, dass das Chaos nie zurückkehren kann – und als zusätzlicher Mehrwert-Service außerhalb des ursprünglichen Scopes automatisierten wir die laufenden Admin-Workflows, was dem Team jede Woche weitere 10 Stunden einspart.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CENTRALIZED SITE FOOTER (Dynamic via shared.js) -->
+    <footer id="site-footer"></footer>
+
+  </div>
+
+</body>
+</html>

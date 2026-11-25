@@ -99,3 +99,6 @@ These terms are standard in German senior tech/ops teams and stay English (with 
 | Mortgage Consultant | Finanzierungspartner / externer Finanzierungsberater | External financing handoff |
 | Statutory Review Buffer | gesetzliche Prüffrist / 17-Tage-Prüffrist | Notary contract review window |
 | Modal Fatigue | Modal-Hopping / Tab- und Modal-Hopping | CRM UI friction |
+| Audit Trail Traceability | Audit-Trail-Nachvollziehbarkeit | Compliance & QA |
+| Defect Recurrence | Rückfallquote | Compact HUD label |
+| Data Dictionary | Daten-Dictionary | Data governance |
