@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Warum &bdquo;Sei vorsichtig&ldquo; bei KI scheitert: Wie ich 11.000+ Dateien geprüft und echte OS-Firewalls für autonome Agenten gebaut habe | Karol Jasztal</title>
+  <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css" />
+  <script src="../shared.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Header (Normal Flow / Not Sticky) -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio-Übersicht
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Zero-Trust-Architektur für autonome Agenten</span>
+      </div>
+      <div class="nav-actions">
+        <a href="zero-trust-agent-architecture.pdf" download class="nav-action-btn" title="PDF herunterladen" aria-label="PDF herunterladen">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          PDF
+        </a>
+        <a href="zero-trust-agent-architecture.md" download class="nav-action-btn" title="Markdown herunterladen" aria-label="Markdown herunterladen">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          MD
+        </a>
+        <button type="button" class="nav-action-btn" onclick="copyMarkdown('zero-trust-agent-architecture.md', this)" title="Markdown in Zwischenablage kopieren" aria-label="Markdown in Zwischenablage kopieren">
+          <svg class="copy-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <svg class="check-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polyline points="20 6 9 17 4 12"/></svg>
+          MD
+        </button>
+        <button type="button" class="nav-action-btn lang-toggle-btn" onclick="switchLanguage(this)" title="Switch to English" aria-label="Auf Englisch wechseln">EN</button>
+        <button id="themeToggle" class="theme-toggle-btn" title="Hell-/Dunkel-Modus umschalten" aria-label="Hell-/Dunkel-Modus umschalten">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Sticky Chapter Anchor Bar (Only this bar sticks to top!) -->
+  <nav class="sticky-nav-bar" id="sticky-nav">
+    <div class="nav-grid-track">
+      <a href="#threat-blueprint" class="nav-tag-pill active">1. Bedrohungs-Blueprint</a>
+      <a href="#ingestion-gate" class="nav-tag-pill">2. Ingestion &amp; Statischer Linter</a>
+      <a href="#runtime-hooks" class="nav-tag-pill">3. Runtime PreToolUse Hooks</a>
+      <a href="#subagent-isolation" class="nav-tag-pill">4. Subagenten-Grenzmatrix</a>
+      <a href="#provenance-radar" class="nav-tag-pill">5. Supply-Chain-Radar v2</a>
+      <a href="#vetting-dossier" class="nav-tag-pill">6. Vetting-Register &amp; ROI</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO SECTION (Direct Flow: Eyebrow -> Title -> Subtitle -> Bento Telemetry) -->
+    <header class="hero-banner hero-centered">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Sicherheitsarchitektur &bull; Karol Jasztal
+      </div>
+      <h1 class="hero-title">
+        Warum &bdquo;Sei vorsichtig&ldquo; bei KI scheitert:
+        <span class="headline-accent">Wie ich 11.000+ Dateien geprüft und echte OS-Firewalls für autonome Agenten gebaut habe</span>
+      </h1>
+      <p class="hero-subtitle">
+        Ein einziger falscher KI-Befehl oder eine Prompt-Injection kann in Sekunden ein Dateisystem löschen oder API-Keys leaken. Ich habe 11.000+ Community-Skills geprüft, die 49 % gefährlicher Fallen aussortiert und harte OS-Firewalls direkt in drei Agenten-Harnesses eingebaut&mdash;mit null Vorfällen über 241 produktive Tools hinweg.
+      </p>
+
+            <!-- Option 03C • Centered Connected HUD Telemetry Bar (Zero Progress Bar) -->
+      <div class="hud-telemetry-bar" id="bento-metrics">
+        <!-- Cell 1: Audit Scope -->
+        <div class="hud-cell">
+          <div class="hud-label">Kandidaten-Dateien</div>
+          <div class="hud-num">11.000+</div>
+          <span class="hud-delta delta-danger">5.363 / 49 % geblockt</span>
+          <div class="hud-sub">Schädliche Fallen geblockt</div>
+        </div>
+
+        <!-- Cell 2: Control Plane -->
+        <div class="hud-cell">
+          <div class="hud-label">Control Plane</div>
+          <div class="hud-num">241 Primitives</div>
+          <span class="hud-delta delta-neutral">180 Skills &bull; 33 MCP</span>
+          <div class="hud-sub">50k+ Vault-Dateien</div>
+        </div>
+
+        <!-- Cell 3: Runtime Firewall -->
+        <div class="hud-cell">
+          <div class="hud-label">Runtime-Firewall</div>
+          <div class="hud-num" style="color: var(--success);">0 Vorfälle</div>
+          <span class="hud-delta delta-success">Null Leaks</span>
+          <div class="hud-sub">Harte OS-Firewalls</div>
+        </div>
+
+        <!-- Cell 4: Harness Parity -->
+        <div class="hud-cell">
+          <div class="hud-label">Harness-Parität</div>
+          <div class="hud-num">3 Harnesses</div>
+          <span class="hud-delta delta-success">100 % gemeinsame Config</span>
+          <div class="hud-sub">Claude &bull; DSH &bull; Antigravity</div>
+        </div>
+
+        <!-- Cell 5: Upstream Drift -->
+        <div class="hud-cell">
+          <div class="hud-label">Upstream-Drift</div>
+          <div class="hud-num" style="color: var(--accent);">100 % Catch</div>
+          <span class="hud-delta delta-success">Radar v2 Engine</span>
+          <div class="hud-sub">3-Wege-Security-Diffing</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 1: THREAT BLUEPRINT -->
+    <section id="threat-blueprint" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // Bedrohungslage &amp; Angriffsvektoren</span>
+        <h2 class="section-title-modern">Das Dilemma autonomer Enterprise-Agenten: Warum nett bitten scheitert</h2>
+        <p class="section-desc-modern">
+          Autonomen LLMs ohne Leitplanken rohen Terminal-Zugriff und API-Keys zu geben, ist ein Rezept fürs Desaster. Der Branchenstandard der &bdquo;Modell-Selbstkontrolle&ldquo;&mdash;also &bdquo;Bitte lösche keine Dateien&ldquo; in den System-Prompt zu schreiben&mdash;ist ein Witz. Versteckte Prompt-Injections auf Webseiten, Tracking-URLs in Open-Source-Tools und Modell-Halluzinationen umgehen Prompt-Regeln mühelos. Echte Sicherheit braucht deterministische Out-of-Band-Firewalls, die gefährliche Befehle stoppen, bevor sie das Betriebssystem erreichen.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- 4 Threat Vectors in Diagnostic Cards -->
+      <div class="tradeoff-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Bedrohungsvektor 01</span>
+          <h3 class="tradeoff-title">Remote Code Execution &amp; Festplatten-Löschung</h3>
+          <p class="tradeoff-desc">Halluzinierende oder gekaperte Modelle führen destruktive Shell-Befehle wie <code>rm -rf /</code>, <code>del /s /q</code>, <code>git push --force</code> oder ungesicherte Datenbank-Drops aus. Ein einziger falscher Befehl vernichtet ungesicherte Arbeit oder zerschießt Remote-Repositories.</p>
+        </div>
+
+        <div class="tradeoff-card" style="border-top: 4px solid var(--warning);">
+          <span class="badge badge-warning" style="align-self: flex-start;">Bedrohungsvektor 02</span>
+          <h3 class="tradeoff-title">Credential- &amp; Secret-Exfiltration</h3>
+          <p class="tradeoff-desc">Agenten, die Projektordner durchsuchen, saugen <code>.env</code>-Dateien, <code>id_rsa</code>-SSH-Keys und Cloud-Tokens ein und leaken private Zugangsdaten in externe LLM-Inferenz-Logs oder ausgehende HTTP-Endpunkte.</p>
+        </div>
+
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Bedrohungsvektor 03</span>
+          <h3 class="tradeoff-title">Indirekte Prompt-Injection</h3>
+          <p class="tradeoff-desc">Bösartige Anweisungen in abgerufenen Webseiten, HTML-Kommentaren oder Dependency-READMEs kapern die Denkschleife des Agenten und bringen das Modell dazu, unerlaubte Aktionen mit Entwicklerrechten auszuführen.</p>
+        </div>
+
+        <div class="tradeoff-card" style="border-top: 4px solid var(--purple, #a855f7);">
+          <span class="badge" style="background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.3); align-self: flex-start;">Bedrohungsvektor 04</span>
+          <h3 class="tradeoff-title">Supply-Chain-Poisoning &amp; MCP-Tool-Drift</h3>
+          <p class="tradeoff-desc">Externe Model-Context-Protocol-(MCP-)Server und GitHub-Repos schieben stille Upstream-Updates nach und schleusen unautorisierte Hintergrund-Daemons, Krypto-Miner oder Telemetrie-Beacons in zuvor vertrauenswürdige Tools ein.</p>
+        </div>
+      </div>
+
+      <!-- Symmetrical Security Comparison Table -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--ink);">
+        Probabilistische System-Prompts vs. Karols deterministische Zero-Trust-Architektur
+      </h3>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 24%;">Sicherheitsdimension</th>
+              <th style="width: 38%; color: var(--danger);">Klassische &bdquo;Prompt-geschützte&ldquo; Agenten</th>
+              <th style="width: 38%; color: var(--success);">Karols Zero-Trust-Architektur</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Durchsetzungsebene</td>
+              <td style="color: var(--ink-muted);">System-Prompt-Bitten (<em>&bdquo;Bitte lösche keine Dateien&ldquo;</em>)</td>
+              <td style="font-weight: 600; color: var(--success);">Out-of-Band-PreToolUse-Hooks direkt in nativer PowerShell / OS</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Ausfallmodus</td>
+              <td style="color: var(--danger); font-weight: 600;">Probabilistisch; scheitert bei Jailbreaks, langem Kontext oder Rollenspielen</td>
+              <td style="font-weight: 600; color: var(--success);">Deterministisch; harter Block mit Exit Code 2 vor Shell-Ausführung</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Secret-Schutz</td>
+              <td style="color: var(--ink-muted);">Agent wird höflich gebeten, Secrets zu ignorieren; Dateien bleiben lesbar</td>
+              <td style="font-weight: 600; color: var(--success);">Dateisystem-Regex-Interceptor blockt hart jeden Zugriff auf <code>.env*</code>, <code>~/.ssh/</code></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Subagenten-Tool-Scoping</td>
+              <td style="color: var(--ink-muted);">Monolithischer Kontext, in dem jeder Subagent vollen Bash-/Write-Zugriff hat</td>
+              <td style="font-weight: 600; color: var(--success);">Striktes Role-Based Access Control (RBAC); Research-Agenten haben null Shell-Tools</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Supply-Chain-Updates</td>
+              <td style="color: var(--ink-muted);">Blindes Auto-Pulling und ungeprüfte Git-Submodule aus externen Repos</td>
+              <td style="font-weight: 600; color: var(--success);">Radar v2: Automatisierte AST-Delta-Briefs, unveränderliches Staging &amp; Human-Freigabe</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 4 Concentric Defense Rings -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--ink);">
+        Vier konzentrische Verteidigungsringe: End-to-End-Produktionspipeline
+      </h3>
+      <div class="tradeoff-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Ring 01: Ingestion-Gate</span>
+          <h4 class="tradeoff-title">Statisches AST- &amp; Encoding-Gate</h4>
+          <p class="tradeoff-desc">Pre-Commit-Token-Checks, Mojibake-Audits, Scanner für hartcodierte URLs und Frontmatter-Schema-Linter. Ungeprüfte Tools betreten die Bibliothek niemals.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Ring 02: Kanonischer Vault</span>
+          <h4 class="tradeoff-title">Harness-neutrales Packaging</h4>
+          <p class="tradeoff-desc">Null Vendor Lock-in. Eine Single Source of Truth (<code>SKILL.md</code> + <code>_arsenal.yml</code> Sidecar), deterministisch für Claude Code, DSH und Antigravity gerendert.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Ring 03: Runtime-Firewall</span>
+          <h4 class="tradeoff-title">PreToolUse-Intercept-Hooks</h4>
+          <p class="tradeoff-desc">Native OS-Hooks fangen Tool-Aufrufe Out-of-Band ab: <code>security-gate.ps1</code> stoppt destruktive Shell-Befehle; <code>secrets-guard.ps1</code> schützt Keys.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Ring 04: Provenance-Radar</span>
+          <h4 class="tradeoff-title">Radar-v2-Upstream-Drift</h4>
+          <p class="tradeoff-desc">Überwacht 25+ Upstream-GitHub-Repos, meldet unautorisierte Änderungen über AST-Delta-Briefs und verhindert, dass ungeprüfter Code in die Produktion gelangt.</p>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: INGESTION GATE & REJECTION TAXONOMY -->
+    <section id="ingestion-gate" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // Ingestion &amp; Statisches Linter-Gate</span>
+        <h2 class="section-title-modern">Audit von 11.000+ Dateien: Statische Linter &amp; die Ablehnungs-Taxonomie</h2>
+        <p class="section-desc-modern">
+          Bevor ein Skill, Agent oder MCP-Server in die Produktions-Bibliothek darf, muss er eine mehrstufige statische Analyse bestehen. Wir scannen nach ungepinnten Abhängigkeiten, verdächtigen dynamischen <code>eval()</code>-Aufrufen, hartcodierten URLs und kaputtem Mojibake-Encoding. Von über 11.000 geprüften Kandidaten-Dateien wurden 5.363 dauerhaft abgelehnt. Hier ist die automatisierte Taxonomie dahinter.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- Rejection Taxonomy Table -->
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 22%;">Bedrohungsklasse</th>
+              <th style="width: 14%;">Ablehnungsanteil</th>
+              <th style="width: 32%;">Automatisierte Trigger-Bedingung</th>
+              <th style="width: 32%;">Fehler-Begründung &amp; Exploit-Vektor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: var(--danger);">Hartcodierte Runtime-URLs</td>
+              <td style="font-family: var(--font-mono); font-weight: 700; color: var(--danger);">41 % (2.198 Dateien)</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">WebFetch, curl, wget, Invoke-WebRequest auf hartcodierte Domains</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Verzögerter Angriffsvektor: Externe Domain-Inhaber können Endpunkte nachträglich umleiten, um Firmendaten abzugreifen oder fremde Befehle einzuschleusen.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--danger);">Beliebige dynamische Ausführung</td>
+              <td style="font-family: var(--font-mono); font-weight: 700; color: var(--danger);">28 % (1.501 Dateien)</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">eval(), Invoke-Expression, $(...), Backtick-Kommando-Interpolation</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Remote Code Execution: Baut und startet zur Laufzeit beliebige Shell-Befehle aus unvalidierten Modell-Strings.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--danger);">Secret- &amp; Credential-Probing</td>
+              <td style="font-family: var(--font-mono); font-weight: 700; color: var(--danger);">16 % (858 Dateien)</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">Explizite Regex-Treffer für .env, ~/.ssh/, ~/.aws/, ~/.claude.json</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Credential Harvesting: Liest Infrastruktur-Secrets ein und überträgt sie über den Prompt-Kontext oder ausgehende Webhooks.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--warning);">Token-Bloat &amp; Spielzeug-Prompts</td>
+              <td style="font-family: var(--font-mono); font-weight: 700; color: var(--warning);">11 % (590 Dateien)</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">Unstrukturierter Text &gt;4000 Tokens, Geplauder, null Tests</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Operative Degradation: Verwässert das Kontextfenster, provoziert Halluzinationen und verbrennt Inferenz-Tokens ohne automatisierte Tests.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--warning);">Mojibake &amp; Encoding-Defekte</td>
+              <td style="font-family: var(--font-mono); font-weight: 700; color: var(--warning);">4 % (216 Dateien)</td>
+              <td style="font-family: var(--font-mono); font-size: 0.82rem;">Kaputte UTF-8-Bytes, doppelt kodierte cp1252-Bytefolgen</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Syntax-Korruption: Zerschossene Anführungszeichen und Bindestriche verfälschen Shell-Argumente und Parse-Trees unbemerkt zur Laufzeit.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Static Linter Code Block in Prompt Deck Container -->
+      <div class="prompt-deck-container" style="margin-top: 2.5rem;">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Statisches Linter-Gate</span>
+            <h3 class="prompt-deck-title">Deterministischer Harness-Neutralitäts- &amp; Mojibake-Scanner</h3>
+            <p class="prompt-deck-desc">
+              Produktiver PowerShell-Linter, der vor jedem Staging eines Kandidaten-Skills oder Agenten in den Vault läuft. Bricht bei Encoding-Korruption oder Harness-spezifischen Leaks hart ab.
+            </p>
+          </div>
+        </div>
+        <div class="prompt-deck-body">
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">01</span>
+              <div>
+                <h4 class="prompt-item-title">Deterministisches AST- &amp; Mojibake-Ingestion-Gate</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Scannt Kandidaten-Pakete auf Harness-spezifische Token-Leaks und doppelt kodierte cp1252-Mojibake-Artefakte. Stoppt die Ingestion-Pipeline bei Fehlern sofort mit Exit Code 1.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  scripts/audit-arsenal.ps1 (Harness-Neutrality &amp; Mojibake Gate)
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('codeAuditArsenal', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="codeAuditArsenal" class="terminal-body"># Extract from scripts/audit-arsenal.ps1 (Universal Harness-Neutrality Gate &amp; Mojibake Check)
+$Script:CcTokens = @('Read','Edit','NotebookEdit','Write','Glob','Grep','Bash','Agent','Task','WebSearch','WebFetch','AskUser')
+$Script:AgTokens = @('read_file','edit_file','write_file','run_command','execute_script','search_web','ask_question','fetch_web_page')
+
+# 1. Harness Neutrality Linter: Artifacts must never leak vendor-specific tokens
+function Test-HarnessNeutrality {
+    param([string]$FilePath, [string]$Content)
+    foreach ($token in ($Script:CcTokens + $Script:AgTokens)) {
+        if ($Content -match "\b$token\b" -and $FilePath -notmatch "(_arsenal\.yml|references/)") {
+            Write-Error "VIOLATION: Vendor token '$token' leaked into canonical artifact: $FilePath"
+            return $false
+        }
+    }
+    return $true
+}
+
+# 2. Mojibake Gate: Catches double-encoded cp1252 byte corruption before commit
+function Test-MojibakePurity {
+    param([string]$FilePath, [string]$Content)
+    # Detects common cp1252 byte misinterpretations (â€™, â€œ, â€, Ã©)
+    $mojibakePattern = "[\xC2-\xDF][\x80-\xBF]|Ã¢â‚¬|ÃƒÂ"
+    if ($Content -match $mojibakePattern) {
+        Write-Error "ENCODING DEFECT: Mojibake byte artifacts detected in $FilePath"
+        return $false
+    }
+    return $true
+}
+
+# Gate mode enforces exit 1 on any frontmatter error or encoding defect
+if (-not (Test-HarnessNeutrality $TargetFile $FileContent) -or -not (Test-MojibakePurity $TargetFile $FileContent)) {
+    exit 1
+}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Subsystem Contrast: Toy Prompt vs Production Subsystem Tree -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin: 3rem 0 1rem; color: var(--ink);">
+        Branchen-Spielzeug-Prompts vs. Karols autonome Multi-Mode-Subsysteme
+      </h3>
+      <p style="font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 1.5rem; line-height: 1.6;">
+        Der sichtbare Unterschied zwischen naiven Branchen-Prompts und echtem Production Engineering: ein fragiler 20-Zeilen-Prompt in einer Einzeldatei gegen einen ungekürzten 46-Datei-Zustandsautomaten mit automatisierten Lintern, Sprach-Playbooks und 11 Spezialisten-Checklisten.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1.5rem;" class="subsystem-battle-stack">
+        <!-- Legacy / Naive Toy Prompt -->
+        <div class="battlecard legacy" style="display: flex; flex-direction: column; justify-content: flex-start; border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Naiver Branchenstandard (Spielzeug-Prompt)</span>
+          <h3 style="margin-top: 0.5rem;">Einzelner 20-Zeilen-Markdown-Prompt</h3>
+          <div class="callout-box callout-danger" style="margin: 0.75rem 0;">
+            <div class="callout-text font-mono font-bold">prompts/code-reviewer.md (Unstrukturiert, Fragil)</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin-bottom: 0.75rem;">
+            <strong>Wie die meisten Teams arbeiten:</strong> Eine einzelne lose 20-Zeilen-Markdown-Datei in einen Prompt-Ordner werfen. Dem LLM vollen Terminal-Zugriff geben und es freundlich bitten: <em>&bdquo;Prüfe den Code und fixe alle Bugs.&ldquo;</em>
+          </p>
+          <div class="terminal-card" style="margin-top: 0.5rem;">
+            <div class="terminal-header">
+              <span class="terminal-filename">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                prompts/code-reviewer.md (20 Zeilen)
+              </span>
+            </div>
+            <pre class="terminal-body" style="font-size: 0.78rem; line-height: 1.45; max-height: 380px;"># Generischer Spielzeug-Skill (Einzeldatei: prompts/code-reviewer.md)
+Rolle: Du bist ein erfahrener Code-Reviewer.
+Anweisungen:
+- Lies alle Dateien im aktuellen Repository.
+- Identifiziere alle Sicherheitslücken, Performance-Probleme
+  und Bugs.
+- Behebe alle Probleme direkt mit deinen Tools.
+- Stelle sicher, dass alle Tests bestehen.
+- Committe und pushe deine Änderungen, wenn du fertig bist.
+- Falls etwas fehlschlägt, probiere es weiter, bis es klappt.
+
+# Warum das in Produktion scheitert:
+# 1. Null State-Tracking; Modelle drehen bei Syntaxfehlern Endlosschleifen.
+# 2. Keine Regressionstests; Fixes zerschießen unbemerkt andere Module.
+# 3. Modell-Selbstkontrolle; leicht durch bösartige Kommentare zu täuschen.
+# 4. Unbegrenzte Bash-Schreibrechte löschen ungesicherte Entwickler-Dateien.</pre>
+          </div>
+          <ul class="feature-list" style="margin-top: 1.25rem; gap: 0.75rem;">
+            <li class="feature-row bad" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--danger); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;">Null automatisierte Regressionstests oder Syntax-Validierung</span>
+            </li>
+            <li class="feature-row bad" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--danger); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;">Keine Fehlerbehandlungsschleife; stille Halluzinationen bei Syntaxfehlern</span>
+            </li>
+            <li class="feature-row bad" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--danger); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;">Kein persistenter Audit-Trail; Änderungen sind flüchtig und nicht nachvollziehbar</span>
+            </li>
+            <li class="feature-row bad" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--danger); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;">Modell-Selbstkontrolle; leicht durch feindliche Prompt-Injection auszuhebeln</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Transformed / Karol's Production Subsystem -->
+        <div class="battlecard transformed" style="display: flex; flex-direction: column; border-top: 4px solid var(--success);">
+          <span class="badge badge-success" style="align-self: flex-start;">Karols Produktions-Standard (Konstruiertes Subsystem)</span>
+          <h3 style="margin-top: 0.5rem;">Multi-Mode-Subsystem-Engine (46 Dateien &bull; 13-Stufen-Zustandsautomat)</h3>
+          <div class="callout-box callout-success" style="margin: 0.75rem 0;">
+            <div class="callout-text font-mono font-bold">review-fix-technical-code/ (Ungekürzte 46-Datei-Produktionshierarchie)</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55; margin-bottom: 0.75rem;">
+            <strong>Wie Karol es baut:</strong> Eine ungekürzte, 46 Dateien starke orchestrierte Engine, die einen 13-stufigen deterministischen Zustandsautomaten mit isolierten Subagenten, Test-Suites und Audit-Logs verbindet. Jede Datei hat einen klaren operativen Zweck über Ursachenanalyse, Sprach-Playbooks, Test-Replays und 11 Domänen-Spezialisten-Checklisten.
+          </p>
+          <div class="terminal-card" style="margin-top: 0.5rem;">
+            <div class="terminal-header">
+              <span class="terminal-filename">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                review-fix-technical-code/ (46-Datei-Produktionsbaum)
+              </span>
+              <button class="btn-copy-icon" onclick="copySnippet('codeSubsystemTree', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </button>
+            </div>
+            <pre id="codeSubsystemTree" class="terminal-body terminal-scroll-20" style="font-size: 0.76rem; line-height: 1.4; max-height: 480px;">review-fix-technical-code/ (Unabridged 46-File Production Subsystem Tree)
+├── SKILL.md                              # 634-line core engine: 6 operational modes & state machine orchestrator
+├── _arsenal.yml                          # Package metadata, semver, provenance & multi-harness target mappings
+├── changelog.md                          # Immutable audit ledger of subsystem modifications across releases
+├── hitl-loop.template.ps1                # Human-in-the-loop checkpoint runner (PowerShell / Windows environment)
+├── hitl-loop.template.sh                 # Human-in-the-loop checkpoint runner (POSIX Bash / Unix fallback)
+├── analysis/                             # Deterministic Diagnostics & Fault Isolation Engines (2 files):
+│   ├── root-cause.md                     # 5-Whys systematic failure hypothesis builder and diagnostic matrix
+│   └── stack-trace.md                    # Exception frame demangling & source line correlation analyzer
+├── patterns/                             # Technology-Specific Audit & Fix Playbooks (9 files):
+│   ├── database.md                       # Connection pooling, transaction boundaries & query deadlock recovery
+│   ├── docker.md                         # Multi-stage cache invalidation, signal traps (SIGTERM) & hygiene
+│   ├── git.md                            # Merge conflicts, rebase branch drift & detached HEAD state recovery
+│   ├── go.md                             # Goroutine leaks, channel deadlocks & memory profiling playbooks
+│   ├── network.md                        # DNS resolution timeouts, TLS handshake drops & socket exhaustion
+│   ├── nodejs.md                         # Event-loop lag, unhandled promise rejections & stream backpressure
+│   ├── python.md                         # GIL bottlenecks, async event-loop blocking & type drift mitigations
+│   ├── react.md                          # Hook dependency cycles, hydration mismatches & re-render churn
+│   └── rust.md                           # Lifetime bounds, borrow checker conflicts & unsafe block audits
+├── replay/                               # Regression Prevention & Solution Harvesting (2 files):
+│   ├── README.md                         # Replay engine contract & fixture reproduction execution guide
+│   └── solution-template.yaml            # Declarative failure replay & regression test specification fixture
+├── scripts/                              # Automated Verification & Static Metric Tooling (2 files):
+│   ├── lint_runner.py                    # Multi-linter execution pipeline with unified exit code aggregation
+│   └── type_coverage.py                  # Strict TypeScript / MyPy type coverage metric enforcement gate
+├── sections/                             # Modular Operational Procedures & Triage Gates (14 files):
+│   ├── app-qa.md                         # Full-stack manual & automated verification runbooks
+│   ├── checklist.md                      # Universal pre-fix diagnostic and post-fix validation gate
+│   ├── ci-failure-playbook.md            # Deterministic CI runner log triage & failure isolation procedure
+│   ├── cold-recheck-prompts.md           # Zero-context adversarial prompts for cold audit reviewer agents
+│   ├── design-checklist.md               # UI visual regression, WCAG accessibility & token fidelity checks
+│   ├── detect-base-branch.md             # Git branch topology detection & merge-base identification
+│   ├── diff-analysis.md                  # AST-aware diff inspection for unintended side effects
+│   ├── greptile-triage.md                # External AI code-review comment parsing & normalization
+│   ├── live-bug.md                       # Emergency production defect stabilization & hotfix protocol
+│   ├── pre-merge-gate.md                 # 4-stage blocking gate before branch merge authorization
+│   ├── qa-health-score.md                # Quantitative code health & risk scoring algorithm
+│   ├── regression-test-procedure.md      # Regression suite execution & boundary assertion runbook
+│   ├── test-bootstrap.md                 # Test harness environment initialization & container orchestration
+│   └── ticket-format.md                  # Standardized durable issue schema for issue trackers
+├── sections/specialists/                 # Deep Technical Domain Audit Checklists (11 files):
+│   ├── api-contract.md                   # OpenAPI schema drift, backward compatibility & breaking change guard
+│   ├── comments.md                       # Documentation integrity, stale docstrings & comment drift
+│   ├── data-migration.md                 # Zero-downtime database migrations, rollbacks & lock safety
+│   ├── error-handling.md                 # Exhaustive error propagation, typed errors & fault isolation
+│   ├── maintainability.md                # Cyclomatic complexity, code duplication & modular separation
+│   ├── performance.md                    # N+1 query detection, memory allocation & hot-path optimization
+│   ├── red-team.md                       # Adversarial injection, privilege escalation & attack vectors
+│   ├── security.md                       # Secret leaks, OWASP Top 10, CORS & input sanitization
+│   ├── test-coverage.md                  # Strict branch & condition coverage verification
+│   ├── testing.md                        # Flaky test mitigation, mock boundaries & assertion quality
+│   └── type-design.md                    # Sound typing, discriminated unions & any/unknown defense
+└── templates/                            # Audit Documentation & Evidence Output Schemas (1 file):
+    └── qa-report-template.md             # Formal cryptographic evidence & sign-off audit report</pre>
+          </div>
+          <ul class="feature-list" style="margin-top: 1.25rem; gap: 0.75rem;">
+            <li class="feature-row good" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;">13-stufiger deterministischer Zustandsautomat erzwingt zweistufige unabhängige Fix-Verifikation</span>
+            </li>
+            <li class="feature-row good" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;">AST-fähige Linter und statische Analyse-Gates prüfen Code-Integrität vor dem Git-Staging</span>
+            </li>
+            <li class="feature-row good" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;">Out-of-Band-PreToolUse-Hooks verhindern versehentliches Branch-Löschen oder Force-Pushes</span>
+            </li>
+            <li class="feature-row good" style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="color: var(--ink); line-height: 1.5;">Persistente <code style="font-family: var(--font-mono); font-size: 0.82rem; background: var(--surface-subtle); padding: 0.15rem 0.35rem; border-radius: 4px;">evidence.md</code> und unveränderliche Test-Logs belegen jeden einzelnen Code-Fix</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: RUNTIME PRETOOLUSE HOOKS -->
+    <section id="runtime-hooks" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // Runtime-Ausführungs-Firewall</span>
+        <h2 class="section-title-modern">PreToolUse-Lifecycle-Interception: Gefährliche Befehle Out-of-Band stoppen</h2>
+        <p class="section-desc-modern">
+          Die wichtigste Schicht der Zero-Trust-Architektur greift zur Laufzeit. Wann immer ein Agent einen Shell-Befehl ausführen, eine Datei lesen oder einen Subagenten starten will, feuert der Harness einen PreToolUse-Hook. Dieser läuft Out-of-Band direkt in der OS-Shell. Liefert der Hook Exit Code 2 oder ein Deny zurück, wird die Ausführung sofort abgebrochen, bevor die Shell das Dateisystem überhaupt berührt.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- Hook 1: Write-Decision Multi-Dialect Adapter -->
+      <div class="prompt-deck-container">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Runtime-Hook 01 // Cross-Harness-Interception</span>
+            <h3 class="prompt-deck-title">Multi-Dialekt-Decision-Adapter (Universelles Harness-Protokoll)</h3>
+            <p class="prompt-deck-desc">
+              Gibt strukturierte Entscheidungs-Payloads aus, die gleichzeitig zu Google Antigravity, Claude Code und DeepSeek Harness kompatibel sind.
+            </p>
+          </div>
+        </div>
+        <div class="prompt-deck-body">
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">01</span>
+              <div>
+                <h4 class="prompt-item-title">Multi-Dialekt-Output-Adapter</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Formatiert Intercept-Entscheidungen parallel in alle drei großen Hersteller-Schemas. So steuert ein einziges PowerShell-Skript Claude Code, Antigravity und DeepSeek Harness ohne Code-Duplizierung.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  library/hooks/secrets-guard/secrets-guard.ps1 (Write-Decision Function)
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('codeHookAdapter', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="codeHookAdapter" class="terminal-body"># Multi-Dialect Hook Output Adapter Function (Production Code: library/hooks/secrets-guard/secrets-guard.ps1)
+function Write-Decision {
+    param([string]$Decision, [string]$Reason)
+    $hookEventName = if ($payload.hook_event_name) { $payload.hook_event_name } else { "PreToolUse" }
+    @{
+        # Dialect 1: Google Antigravity Format
+        decision = $Decision
+        reason = $Reason
+        # Dialect 2: Claude Code Standard Format
+        permissionDecision = $Decision
+        permissionDecisionReason = $Reason
+        # Dialect 3: DeepSeek Harness &amp; Claude Code Nested Spec
+        hookSpecificOutput = @{
+            hookEventName = $hookEventName
+            permissionDecision = $Decision
+            permissionDecisionReason = $Reason
+        }
+    } | ConvertTo-Json -Compress
+}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hook 2: security-gate.ps1 (Dual-OS Denylist) -->
+      <div class="prompt-deck-container" style="margin-top: 2rem;">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Runtime-Hook 02 // Destructive-Execution-Firewall</span>
+            <h3 class="prompt-deck-title">Das Execution-Gate (Dual-OS-Regex-Denylist)</h3>
+            <p class="prompt-deck-desc">
+              Prüft Shell-Kommandos vor der Ausführung. Blockt destruktive Dateisystem-Befehle, ungesicherte Datenbank-Drops und erzwungene Git-Branch-Überschreibungen hart ab.
+            </p>
+          </div>
+        </div>
+        <div class="prompt-deck-body">
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">02</span>
+              <div>
+                <h4 class="prompt-item-title">Dual-OS-Interceptor für destruktive Befehle</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Gleicht vorgeschlagene Shell-Strings gegen eine harte plattformübergreifende Regex-Denylist ab. Sendet ein hartes Deny und bricht bei Treffern mit Exit Code 2 ab.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  library/hooks/security-gate/security-gate.ps1 (Dual-OS Regex Denylist)
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('codeSecurityGate', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="codeSecurityGate" class="terminal-body"># Production Code: library/hooks/security-gate/security-gate.ps1 (Dual-OS Denylist)
+$patterns = @(
+    # Unix &amp; Cross-Platform Destructive Patterns
+    'rm -rf', 'rm -fr', 'sudo rm', 'chmod -R 777', 'mkfs', 'dd if=', ':\(\)\{:\|:&\};:',
+    
+    # Windows PowerShell Destructive Patterns
+    'Remove-Item\s+(-Recurse|-Force)', 'ri\s+.*(-r|-fo)', 'rd\s+/s\s+/q', 'del\s+/s\s+/q',
+    'Clear-Disk', 'Format-Volume',
+    
+    # Git Destructive History &amp; Branch Overwrites
+    'git push .*(\+|--force|-f\b|--force-with-lease)',
+    'git reset --hard', 'git clean -fd', 'git clean -f', 'git branch -D',
+    'git checkout \.', 'git restore \.',
+    
+    # Database Unconstrained Deletion Patterns
+    'DROP TABLE', 'DROP DATABASE', 'TRUNCATE TABLE', 'DELETE FROM .* WHERE 1=1'
+)
+
+foreach ($pat in $patterns) {
+    if ($cmd -match "(?i)$pat") {
+        $msg = "BLOCKED by security-gate: destructive pattern detected ($pat)."
+        [Console]::Error.WriteLine($msg)
+        [Console]::Error.WriteLine("   If this is intentional, run it manually in your terminal.")
+
+        Write-Decision -Decision "deny" -Reason "$msg Command: $cmd"
+
+        if (-not $isAntigravity) { exit 2 }
+        exit 0
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hook 3: secrets-guard.ps1 (Credential Boundary) -->
+      <div class="prompt-deck-container" style="margin-top: 2rem;">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Runtime-Hook 03 // Credential-Grenze</span>
+            <h3 class="prompt-deck-title">Die Secret-Firewall (Abgestufter Credential-Schutz)</h3>
+            <p class="prompt-deck-desc">
+              Verhindert, dass autonome Agenten Umgebungsdateien, SSH-Keys, Cloud-Provider-Tokens oder Harness-Konfigurationsdatenbanken lesen oder ändern.
+            </p>
+          </div>
+        </div>
+        <div class="prompt-deck-body">
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">03</span>
+              <div>
+                <h4 class="prompt-item-title">Dateisystem-Credential-Interceptor</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Fängt Datei-Lese- und Schreiboperationen ab. Erlaubt harmlose Dokumentations-Templates (.env.example), blockt aber alle produktiven Credential-Pfade hart ab.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  library/hooks/secrets-guard/secrets-guard.ps1 (Tier 1 Enforcements)
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('codeSecretsGuard', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="codeSecretsGuard" class="terminal-body"># Production Code: library/hooks/secrets-guard/secrets-guard.ps1
+$envExclusions = @(".env.example", ".env.sample", ".env.template")
+
+# Safe template files are permitted for developer onboarding
+if (-not ($envExclusions -contains $basenameFull)) {
+    # Tier 1 Hard Blocks: Live credentials and cloud secrets
+    if ($basenameFull -match '^\.env(\..+)?$' -or
+        $filePath -match '(\.ssh[/\]|\.aws[/\]|\.claude\.json$|id_rsa|id_ed25519)') {
+        
+        $msg = "BLOCKED by secrets-guard: Sensitive credential path detected ($filePath)."
+        [Console]::Error.WriteLine($msg)
+        [Console]::Error.WriteLine("   Never expose infrastructure secrets to LLM context.")
+
+        Write-Decision -Decision "deny" -Reason "$msg Path: $filePath"
+        
+        if (-not $isAntigravity) { exit 2 }
+        exit 0
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hook 4: smart-permission-filter.ps1 -->
+      <div class="prompt-deck-container" style="margin-top: 2rem;">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Runtime-Hook 04 // Least-Privilege-Filter</span>
+            <h3 class="prompt-deck-title">Smart Permission Filter (Sichere Reads automatisch freigeben)</h3>
+            <p class="prompt-deck-desc">
+              Klassifiziert Tool-Aufrufe in Read-only-Befehle (sofort freigegeben für maximales Tempo) und Schreib-Befehle (über menschliche Bestätigung gegatet).
+            </p>
+          </div>
+        </div>
+        <div class="prompt-deck-body">
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">04</span>
+              <div>
+                <h4 class="prompt-item-title">Read/Write-Tool-Klassifizierer</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Genehmigt sichere Lese-Tools über alle Harnesses hinweg automatisch und verhindert ungeprüfte Hintergrund-Mutationen an Dateien.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  library/hooks/smart-permission-filter/smart-permission-filter.ps1
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('codePermissionFilter', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="codePermissionFilter" class="terminal-body"># Production Code: library/hooks/smart-permission-filter/smart-permission-filter.ps1
+$readonlyTools = @('Read', 'Glob', 'Grep', 'LS', 'read_file', 'list_dir', 'search_files', 'view_file', 'search_web')
+
+# Safe read-only operations receive instantaneous out-of-band approval
+if ($readonlyTools -contains $toolName) {
+    Write-Decision -Decision "allow" -Reason "Read-only exploration tool pre-approved"
+    exit 0
+}
+
+# Any tool attempting disk mutations falls back to human oversight gate
+Write-Decision -Decision "ask" -Reason "Write/Execution operation requires human confirmation"
+exit 0</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: SUBAGENT BOUNDARY ISOLATION -->
+    <section id="subagent-isolation" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // Subagenten-Grenzmatrix</span>
+        <h2 class="section-title-modern">Prinzip der minimalen Rechte: Autonome Subagenten eingrenzen</h2>
+        <p class="section-desc-modern">
+          In einem Multi-Agent-System ist es ein architektonisches Anti-Pattern, jedem Agenten das komplette Toolkit zu geben. Ein Codebase-Researcher hat auf der Festplatte oder in der Shell nichts zu suchen. Ein Umsetzungs-Subagent gehört auf seinen zugewiesenen Branch und darf weder Code pushen noch deployen. Wir erzwingen eine strikte Role-Based-Access-Control-(RBAC-)Matrix, die exakt festlegt, welche Tools jeder Agent anfassen darf.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- Subagent Tool Boundary Matrix Table -->
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 18%;">Subagenten-Rolle</th>
+              <th style="width: 16%;">Erlaubte Tool-Domäne</th>
+              <th style="width: 32%;">Hart entzogene / verbotene Tools</th>
+              <th style="width: 34%;">Workspace-Grenze &amp; Isolationsstandard</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">researcher</td>
+              <td><span class="tag-pill">Read-Only</span></td>
+              <td style="color: var(--danger); font-family: var(--font-mono); font-size: 0.82rem;">write_file, edit_file, run_command, Bash</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Triage-Sandbox in <code>research/</code>; bewertet externe Kandidaten-Repos ohne Schreibrechte auf die produktive <code>library/</code>.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">librarian</td>
+              <td><span class="tag-pill">Vault-Ops</span></td>
+              <td style="color: var(--danger); font-family: var(--font-mono); font-size: 0.82rem;">WebSearch, WebFetch, externe Netzwerk-Endpunkte</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Strikte lokale Vault-Operationen (<code>library/</code>, <code>index.md</code>, <code>log.md</code>); physisch von ausgehenden HTTP-Calls getrennt.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">code-builder</td>
+              <td><span class="tag-pill">Task-Scoped Write</span></td>
+              <td style="color: var(--danger); font-family: var(--font-mono); font-size: 0.82rem;">git push, git commit, git merge, Deploy-Skripte</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Auf deklarierte Task-Dateien in einem isolierten Git-Branch begrenzt; darf nicht stagen, committen oder zum Remote pushen.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">code-reviewer</td>
+              <td><span class="tag-pill">Read-Only QA</span></td>
+              <td style="color: var(--danger); font-family: var(--font-mono); font-size: 0.82rem;">write_file, edit_file, sed, In-Place-Dateimutationen</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Kalter Second-Opinion-Reviewer; prüft Git-Diffs und liefert strukturierte Findings ohne Befugnis, Quellcode anzufassen.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">security-gate</td>
+              <td><span class="tag-pill">Runtime-Hook</span></td>
+              <td style="color: var(--danger); font-family: var(--font-mono); font-size: 0.82rem;">Selbstmutation, Umgehung des Exit-Code-2-Vertrags</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Out-of-Band-OS-Ausführungs-Interceptor; prüft Shell-String-Syntax, bevor überhaupt ein Prozess gestartet wird.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: SUPPLY-CHAIN PROVENANCE & RADAR V2 -->
+    <section id="provenance-radar" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // Supply-Chain-Provenance &amp; Upstream-Radar</span>
+        <h2 class="section-title-modern">Radar v2: Automatisierte Upstream-Drift-Erkennung &amp; 3-Wege-Merge-Reviews</h2>
+        <p class="section-desc-modern">
+          Open-Source-KI-Tools entwickeln sich rasend schnell. Wenn ein Upstream-Autor ein Repository ändert, auf das du dich verlässt, holst du dir mit blindem Pulling schnell Backdoors und Prompt-Injections in die Produktion. Karol baute Radar v2&mdash;eine automatisierte Drift-Monitoring-Engine, die 25+ Upstream-GitHub-Repos überwacht, strukturierte AST-Delta-Briefs erzeugt und ein explizites menschliches Sicherheits-Urteil verlangt, bevor Code überhaupt gestaged werden darf.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- Radar v2 Workflow Cards -->
+      <div class="tradeoff-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 01: Drift-Scan</span>
+          <h4 class="tradeoff-title">Watch-Universe-Delta-Erkennung</h4>
+          <p class="tradeoff-desc">Ein nächtlicher Cron-Job führt <code>radar.ps1 scan</code> über alle überwachten Upstream-Repos aus und vergleicht kryptografische SHA-256-Hashes gegen gespeicherte Baselines.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 02: Delta-Brief</span>
+          <h4 class="tradeoff-title">Librarian-AST-Inspektion</h4>
+          <p class="tradeoff-desc">Erzeugt menschenlesbare Delta-Briefs, die Upstream-Änderungen in neue Fähigkeiten, Verhaltensänderungen oder potenzielle Angriffsflächen kategorisieren.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 03: Human-Gate</span>
+          <h4 class="tradeoff-title">Striktes Prüf-Urteil</h4>
+          <p class="tradeoff-desc">Der Operator prüft den Brief und vergibt ein dauerhaft protokolliertes Urteil: <code>clean</code>, <code>skip</code>, <code>absorb</code> oder <code>ticket</code>.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 04: Atomarer Swap</span>
+          <h4 class="tradeoff-title">Staging &amp; Rollback-Verifikation</h4>
+          <p class="tradeoff-desc">Übernahmen stagen Updates in isolierten temporären Verzeichnissen. Komplette Linter-Suites laufen durch, bevor die Produktions-Bibliothek atomar aktualisiert wird.</p>
+        </div>
+      </div>
+
+      <!-- Radar v2 CLI Contract Code Box in Prompt Deck Container -->
+      <div class="prompt-deck-container" style="margin-top: 2.5rem;">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Supply-Chain-Engine-CLI</span>
+            <h3 class="prompt-deck-title">Radar-v2-Befehls- &amp; Verifikationsprotokoll</h3>
+            <p class="prompt-deck-desc">
+              Produktive CLI-Befehle zum Scannen von Upstream-Drift, Prüfen von Delta-Briefs, Protokollieren von Sicherheitsurteilen und Ausführen absturzsicherer atomarer Übernahmen.
+            </p>
+          </div>
+        </div>
+        <div class="prompt-deck-body">
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">01</span>
+              <div>
+                <h4 class="prompt-item-title">Radar-v2-Upstream-Drift-Prüfvertrag</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> CLI-Workflow zum Erkennen, Prüfen und Übernehmen von Upstream-Repository-Änderungen mit lückenloser kryptografischer Verifikation und Rollback-Sicherheit.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  scripts/radar.ps1 (Radar v2 Operational Contract)
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('codeRadarCli', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="codeRadarCli" class="terminal-body"># 1. Scan monitored upstream repository watch-universe for drift
+.\scripts\radar.ps1 scan -Repo "https://github.com/DietrichGebert/ponytail"
+
+# 2. View generated delta brief and AST changes for a modified skill
+.\scripts\radar.ps1 diff -Item "ponytail-review" -Verbose
+
+# 3. Record human verdict following security review (clean | skip | absorb | ticket)
+.\scripts\radar.ps1 verdict -Item "ponytail-review" -Action "absorb" -Rationale "Reviewed AST diff; no hardcoded URLs"
+
+# 4. Verify staged content against static linters and test suites
+.\scripts\radar.ps1 verify -Item "ponytail-review"
+
+# 5. Finalize promotion, update changelog.md, and bump semver in _arsenal.yml
+.\scripts\radar.ps1 promote -Item "ponytail-review"</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: VETTING REGISTRY & ROI SCORECARD -->
+    <section id="vetting-dossier" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // Empirisches Vetting-Register &amp; ROI</span>
+        <h2 class="section-title-modern">Forensische Fallstudien &amp; Executive-Risikoreduktions-Scorecard</h2>
+        <p class="section-desc-modern">
+          Sicherheit ist keine Theorie; sie beweist sich im Alltag. Über Monate hinweg haben unsere statischen Linter und PreToolUse-Hooks echte Sicherheitslücken in beliebten Open-Source-Paketen abgefangen, bevor sie unsere Entwickler-Umgebungen berühren konnten.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- Real-World Forensic Case Studies in Battlecards -->
+      <div class="battlecard-grid">
+        <div class="battlecard legacy" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">In Ingestion gestoppt // Telemetrie-Exfiltration</span>
+          <h3>Anthropic Common-Room-Plugin</h3>
+          <div class="callout-box callout-danger" style="margin: 0.75rem 0;">
+            <div class="callout-text font-mono font-bold">Hartcodierter ausgehender Tracking-Beacon</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Erkannter Defekt:</strong> Externes Plugin enthielt ungeprüfte Hintergrund-Webhooks, die bei jedem Modell-Aufruf nach Hause telefonierten und Nutzer-Abfrage-Metadaten an unautorisierte Telemetrie-Server sendeten.
+          </p>
+          <p style="font-size: 0.88rem; color: var(--success); font-weight: 700; margin-top: 0.5rem;">
+            <strong>Zero-Trust-Maßnahme:</strong> Am Static-Linter-Gate (Ring 01) hart geblockt. Telemetrie-Code wurde dauerhaft entfernt, bevor das Tool freigegeben wurde.
+          </p>
+        </div>
+
+        <div class="battlecard legacy" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">In Ingestion gestoppt // Remote Code Execution</span>
+          <h3>Community-Web-Scraper-MCP-Server</h3>
+          <div class="callout-box callout-danger" style="margin: 0.75rem 0;">
+            <div class="callout-text font-mono font-bold">Ungefiltertes eval() auf gescraptem HTML</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Erkannter Defekt:</strong> Drittanbieter-Scraper parste Webseiten-Skripte über <code>eval()</code> – ein direkter Vektor für indirekte Prompt-Injection, mit dem manipulierte Webseiten beliebige lokale Shell-Befehle ausführen konnten.
+          </p>
+          <p style="font-size: 0.88rem; color: var(--success); font-weight: 700; margin-top: 0.5rem;">
+            <strong>Zero-Trust-Maßnahme:</strong> Dauerhaft in <code>rejected/</code> mit forensischer Begründung abgelehnt.
+          </p>
+        </div>
+      </div>
+
+      <!-- Executive Risk Reduction Scorecard Table -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin: 3rem 0 1rem; color: var(--ink);">
+        Executive-ROI- &amp; Enterprise-Risikoreduktions-Scorecard
+      </h3>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Operative Risikokategorie</th>
+              <th style="width: 37%; color: var(--danger);">Ungeschützte Agenten-Installation</th>
+              <th style="width: 38%; color: var(--success);">Karols Zero-Trust Control Plane</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Engineering-Daten &amp; Secrets</td>
+              <td style="color: var(--danger); font-weight: 600;">Hohes Risiko (Ungeprüfter Zugriff auf <code>.env</code> &amp; SSH-Keys)</td>
+              <td style="color: var(--success); font-weight: 700;">Null Exposition (Regex-Denylists blocken jeden Zugriff hart)</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">System-Integrität</td>
+              <td style="color: var(--danger); font-weight: 600;">Kritisches Risiko (Unbeschränkte destruktive Shell-Befehle)</td>
+              <td style="color: var(--success); font-weight: 700;">100 % geschützt (Dual-OS-Denylists stoppen destruktive Syntax)</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Supply-Chain-Upgrades</td>
+              <td style="color: var(--danger); font-weight: 600;">Unüberwacht (Stille Hintergrund-Updates schleusen Lücken ein)</td>
+              <td style="color: var(--success); font-weight: 700;">Kryptografisch geprüft (Radar-v2-AST-Delta-Briefs &amp; Human-Gate)</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--ink);">Audit-Trail &amp; Compliance</td>
+              <td style="color: var(--danger); font-weight: 600;">Keiner (Flüchtige Chat-Sessions)</td>
+              <td style="color: var(--success); font-weight: 700;">Unveränderlich (50.787 Vault-Dateien in Git mit Changelogs versioniert)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Retrospective: 3 Hard-Learned Rules -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin: 3rem 0 1rem; color: var(--ink);">
+        Die Sicherheits-Retrospektive: 3 Regeln, die wir hart gelernt haben
+      </h3>
+      <div class="tradeoff-grid tradeoff-grid-3col">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Regel 01</span>
+          <h4 class="tradeoff-title">Lass ein Modell niemals sich selbst überwachen</h4>
+          <p class="tradeoff-desc">System-Prompts sind unverbindliche Bitten; Betriebssystem-Hooks sind Pflicht. Vertraue niemals darauf, dass ein LLM „Sicherheitsregeln“ befolgt, wenn eine Zeile Out-of-Band-PowerShell-Regex Compliance deterministisch erzwingen kann.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Regel 02</span>
+          <h4 class="tradeoff-title">Tools auf das absolute Minimum kürzen</h4>
+          <p class="tradeoff-desc">Wenn ein Agent Code recherchieren oder Doku lesen soll, gib ihm keine Bash-Tools. Wenn ein Agent Dateien editieren soll, gib ihm keine Rechte zum Pushen in die Produktion. Least Privilege verhindert 99 % aller Unfälle.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Regel 03</span>
+          <h4 class="tradeoff-title">Vertraue keinem Upstream ohne Diff</h4>
+          <p class="tradeoff-desc">Open-Source-KI-Pakete ändern sich über Nacht. Blindes <code>git pull</code> auf fremden Agenten-Repos ist eine offene Einladung für Supply-Chain-Angriffe. Prüfe immer zuerst die AST-Delta-Briefs, bevor Code übernommen wird.</p>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="site-footer"></footer>
+
+  </div>
+
+</body>
+</html>

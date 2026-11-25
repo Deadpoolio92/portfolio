@@ -57,6 +57,11 @@ These terms are standard in German senior tech/ops teams and stay English (with 
 - **ROI**
 - **Negative Keywords** *(DACH SEA standard)*
 - **Responsive Search Ads (RSAs)** *(DACH SEA standard)*
+- **Harness / Harnesses** *(e.g., Agenten-Harnesses)*
+- **Exit Code** *(e.g., Exit Code 2)*
+- **Denylist**
+- **Primitives / Produktions-Primitives**
+- **Upstream-Drift**
 
 ---
 
