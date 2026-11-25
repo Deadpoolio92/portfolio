@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>15 Freelancer, 10 Länder, null Daily Standups: Wie ich 15 Stunden Meeting-Ballast pro Woche gestrichen habe | Karol Jasztal</title>
+  <link rel="stylesheet" href="../shared.css" />
+  <script src="../shared.js"></script>
+  <style>
+    .decision-tree-shell {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--accent);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.25rem 0 1.75rem;
+    }
+    .decision-tree-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .decision-step-pill {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background: var(--accent-subtle);
+      padding: 0.28rem 0.65rem;
+      border-radius: 9999px;
+    }
+    .decision-question {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 0.45rem;
+    }
+    .decision-hint {
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      margin: 0 0 1.15rem;
+      line-height: 1.5;
+    }
+    .decision-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .decision-btn {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface-subtle);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.65rem 1.1rem;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+    }
+    .decision-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .decision-btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+    .decision-btn-primary:hover {
+      opacity: 0.92;
+      color: #ffffff;
+    }
+    .decision-outcome {
+      display: none;
+      border-radius: 10px;
+      padding: 1.15rem 1.25rem;
+      background: var(--surface-subtle);
+      border-left: 4px solid var(--success);
+    }
+    .decision-outcome.is-visible {
+      display: block;
+    }
+    .decision-outcome-title {
+      font-family: var(--font-display);
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: var(--ink);
+      margin: 0 0 0.35rem;
+    }
+    .decision-outcome-copy {
+      font-size: 0.88rem;
+      color: var(--ink-muted);
+      line-height: 1.55;
+      margin: 0;
+    }
+    .decision-print-map {
+      display: none;
+    }
+    @media print {
+      .decision-tree-interactive {
+        display: none !important;
+      }
+      .decision-print-map {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.85rem !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Top Navigation Header -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio-Übersicht
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Async-First-Betriebssystem</span>
+      </div>
+      <div class="nav-actions">
+        <a href="async-operating-system.pdf" download class="nav-action-btn" title="PDF herunterladen" aria-label="PDF herunterladen">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          PDF
+        </a>
+        <a href="async-operating-system.md" download class="nav-action-btn" title="Markdown herunterladen" aria-label="Markdown herunterladen">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          MD
+        </a>
+        <button type="button" class="nav-action-btn" onclick="copyMarkdown('async-operating-system.md', this)" title="Markdown in Zwischenablage kopieren" aria-label="Markdown in Zwischenablage kopieren">
+          <svg class="copy-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <svg class="check-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polyline points="20 6 9 17 4 12"/></svg>
+          MD
+        </button>
+        <button type="button" class="nav-action-btn lang-toggle-btn" onclick="switchLanguage(this)" title="Switch to English" aria-label="Auf Englisch wechseln">EN</button>
+        <button id="themeToggle" class="theme-toggle-btn" title="Hell-/Dunkel-Modus umschalten" aria-label="Hell-/Dunkel-Modus umschalten">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 2. Sticky Chapter Anchor Bar (Option 2B) -->
+  <nav class="sticky-nav-bar" id="sticky-nav" aria-label="Fallstudien-Kapitel">
+    <div class="nav-grid-track">
+      <a href="#section-1" class="nav-tag-pill active">01. Architektur &amp; Zeitstudie</a>
+      <a href="#section-2" class="nav-tag-pill">02. Zeitzonen-SLA-Matrix</a>
+      <a href="#section-3" class="nav-tag-pill">03. Anti-Ping-Pong-Kit</a>
+      <a href="#section-4" class="nav-tag-pill">04. Meeting-Entscheidungsbaum</a>
+      <a href="#section-5" class="nav-tag-pill">05. Trade-off-Matrix</a>
+      <a href="#section-6" class="nav-tag-pill">06. Retrospektive</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO SECTION (Option 03C) -->
+    <header class="hero-banner hero-centered">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        Operating Playbook &bull; Karol Jasztal
+      </div>
+      <h1 class="hero-title" style="max-width: 1140px; margin-left: auto; margin-right: auto;">15 Freelancer, 10 Länder, null Daily Standups: <span class="headline-accent">Wie ich 15 Stunden Meeting-Ballast pro Woche gestrichen habe</span></h1>
+      <p class="hero-subtitle">
+        15 Freelancer über 10 Länder zu steuern bedeutete täglich 2 bis 3 Stunden Zoom-Calls, WhatsApp-Ping-Pong und immer gleiche Statusfragen. Ich habe ein Async-First-Betriebssystem mit harten Reaktionsfenstern und kontextklaren Übergaben gebaut, das 15 Stunden Meetings pro Woche strich – bei vollem Liefertempo für unsere Kunden.
+      </p>
+
+      <!-- Option 03C Connected HUD Telemetry Bar -->
+      <div class="hud-telemetry-bar" style="margin-top: 2.25rem;">
+        <div class="hud-cell">
+          <div class="hud-label">Meetings</div>
+          <div class="hud-num" style="color: var(--accent);">-15h/Wo.</div>
+          <span class="hud-delta delta-success">-90&nbsp;% Live-Calls</span>
+          <div class="hud-sub">2–3h/Tag Ausgangslage</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Team-Größe</div>
+          <div class="hud-num">15 Leute</div>
+          <span class="hud-delta delta-neutral">10+ Länder</span>
+          <div class="hud-sub">12h+ Zeitzonenabstand</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Kunden-Updates</div>
+          <div class="hud-num" style="color: var(--success);">1–3 Min.</div>
+          <span class="hud-delta delta-success">Async-Loom</span>
+          <div class="hud-sub">Null Status-Calls</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Reaktions-SLAs</div>
+          <div class="hud-num">1h / 12h / 24h</div>
+          <span class="hud-delta delta-neutral">P1 / P2 / P3</span>
+          <div class="hud-sub">Klare Übergabefenster</div>
+        </div>
+
+        <div class="hud-cell">
+          <div class="hud-label">Async-Taktung</div>
+          <div class="hud-num" style="color: var(--success);">~90&nbsp;%</div>
+          <span class="hud-delta delta-success">100&nbsp;% Dokumentiert</span>
+          <div class="hud-sub">Schrift + Video</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Section 01: Architecture & Time Study -->
+    <section id="section-1" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // Architektur &amp; Empirische Zeitstudie</span>
+        <h2 class="section-title-modern">Wie aus 2–3 Stunden täglichem Call-Ballast 90 Minuten pro Woche wurden</h2>
+        <p class="section-desc-modern">Mit Video-Editoren in Vietnam, Entwicklern in Indien und Rumänien, Designern in Brasilien und Neuseeland sowie Kunden in 6 Ländern hatten wir unter 2 Stunden gemeinsames Tageslicht. Wir verloren täglich 2 bis 3 Stunden in Zoom-Calls, WhatsApp-Ping-Pong und der Jagd nach halbfertigen Entwürfen – also baute ich ein Self-Serve-Async-System, das den Lärm abstellte.</p>
+      </div>
+
+      <div class="section-body">
+        <!-- 4 Non-Negotiable Constraints (Clean 2x2 Grid) -->
+        <div class="pipeline-rail" style="grid-template-columns: repeat(2, 1fr); margin: 0 0 1.5rem;">
+          <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--accent);">
+            <span class="badge badge-accent" style="align-self: flex-start;">Leitplanke 01</span>
+            <h3 class="node-title">Null Headcount / Null PM-Schicht</h3>
+            <p class="node-desc">Kein Budget für einen eigenen Koordinator oder Scrum Master. Das 15-köpfige Team musste über Self-Serve-Regeln laufen, nicht über zusätzliche Manager.</p>
+          </div>
+          <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Leitplanke 02</span>
+            <h3 class="node-title">12+ Stunden Zeitzonenabstand</h3>
+            <p class="node-desc">Bei unter 2 Stunden Überlappung über 10+ Länder waren tägliche Live-Standups unmöglich, ohne Leute um Mitternacht oder 6 Uhr morgens auszubrennen.</p>
+          </div>
+          <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Leitplanke 03</span>
+            <h3 class="node-title">Kunden-Tempo &amp; null Liegenbleiber</h3>
+            <p class="node-desc">Agentur- und Telehealth-Deliverables über 6 Kundenländer durften nicht stocken – Kunden erwarteten weiter schnelle Durchlaufzeiten und klaren Status.</p>
+          </div>
+          <div class="pipeline-node print-avoid-break" style="border-top: 4px solid var(--purple);">
+            <span class="badge badge-purple" style="align-self: flex-start;">Leitplanke 04</span>
+            <h3 class="node-title">Tool-Wildwuchs-Realität</h3>
+            <p class="node-desc">Kunden und Freelancer nutzten verschiedene Apps (WhatsApp, Telegram, E-Mail vs. Slack, Asana, Linear, Loom) – die Regeln mussten tool-übergreifend greifen.</p>
+          </div>
+        </div>
+
+        <!-- Time Study Comparison Table -->
+        <div class="table-frame table-scroll-lg print-avoid-break">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 28%;">Kommunikationskategorie</th>
+                <th style="width: 24%;">Alter Call-lastiger Weg</th>
+                <th style="width: 24%;">Async-First-OS</th>
+                <th style="width: 24%;">Zeitersparnis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">Interne Team-Standups &amp; Syncs</td>
+                <td>5,0 Std. / Woche</td>
+                <td>0,0 Std. / Woche (gestrichen)</td>
+                <td class="text-success font-bold">-100,0&nbsp;%</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Wöchentliche Kunden-Statuscalls</td>
+                <td>4,5 Std. / Woche</td>
+                <td>0,5 Std. / Woche (1–3-Min.-Looms)</td>
+                <td class="text-success font-bold">-88,9&nbsp;%</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Ad-hoc-Rückfragen &amp; Status-Jagd</td>
+                <td>4,0 Std. / Woche</td>
+                <td>0,5 Std. / Woche (Standard Operating Procedure (SOP)-Regel)</td>
+                <td class="text-success font-bold">-87,5&nbsp;%</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Work-in-Progress (WIP)-Entwurfs-Ping-Pong</td>
+                <td>3,0 Std. / Woche</td>
+                <td>0,5 Std. / Woche (Show, Don't Send)</td>
+                <td class="text-success font-bold">-83,3&nbsp;%</td>
+              </tr>
+              <tr class="table-row-total">
+                <td>Gesamter Meeting- &amp; Chat-Ballast / Woche</td>
+                <td>16,5 Std. / Woche</td>
+                <td>1,5 Std. / Woche</td>
+                <td class="text-success">-15,0 Std. / Woche (-90,9&nbsp;%)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 02: Cross-Time-Zone SLA Matrix -->
+    <section id="section-2" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // Zeitzonen-SLA-Matrix</span>
+        <h2 class="section-title-modern">Harte Reaktions-Uhren über 12 Stunden Zeitzonendifferenz</h2>
+        <p class="section-desc-modern">Async scheitert, sobald es „antworte irgendwann“ bedeutet. Über 10+ Länder macht eine 5-Minuten-Frage ohne Uhr aus einem kleinen Thema einen 3-Tage-Stillstand – also trägt jeder Ping ein hartes Service-Level-Agreement (SLA)-Fenster: P1 (1h), P2 (12h) oder P3 (24h).</p>
+      </div>
+
+      <div class="section-body">
+        <div class="table-frame table-scroll-lg">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 6%;">#</th>
+                <th style="width: 20%;">Stufe / Regel</th>
+                <th style="width: 24%;">Kanal &amp; Kontext</th>
+                <th style="width: 16%;">Reaktions-SLA</th>
+                <th style="width: 34%;">Übergabe- &amp; Eskalationsregel</th>
+              </tr>
+            </thead>
+            <tbody id="sla-tbody">
+              <tr>
+                <td class="font-mono">01</td>
+                <td><span class="badge badge-danger">P1 — Live-Blocker</span></td>
+                <td>Werbekonto gesperrt, Checkout kaputt, Live-Site down</td>
+                <td class="font-bold text-danger">1 Stunde</td>
+                <td>Direkter Ping in WhatsApp/Slack + 15-Min.-Huddle nur, wenn &gt; 2 Leute nötig sind</td>
+              </tr>
+              <tr>
+                <td class="font-mono">02</td>
+                <td><span class="badge badge-warning">P2 — Aktiver Sprint</span></td>
+                <td>Blockierende Frage zur heutigen Arbeit oder QA-Revision</td>
+                <td class="font-bold">12 Stunden</td>
+                <td>Kommentiertes Ticket + Loom-Link; wird sauber in der nächsten Schicht übernommen</td>
+              </tr>
+              <tr>
+                <td class="font-mono">03</td>
+                <td><span class="badge badge-accent">P3 — Routine-Async</span></td>
+                <td>Neues Briefing, Request for Comments (RFC), SOP-Update</td>
+                <td class="font-bold">24 Stunden</td>
+                <td>Schriftliches Briefing in Asana/Linear/ClickUp; stille Freigabe ohne Einspruch</td>
+              </tr>
+              <tr>
+                <td class="font-mono">04</td>
+                <td><span class="tag-pill">Kunden-Wochenupdate</span></td>
+                <td>Kunden-Key-Performance-Indicator (KPI) &amp; Sprint-Status</td>
+                <td class="font-bold text-success">Wöchentlich (Fr)</td>
+                <td>1–3 Min. Loom + Google-Looker-Studio-Link; null Live-Statuscall</td>
+              </tr>
+              <tr>
+                <td class="font-mono">05</td>
+                <td><span class="tag-pill">Lieferpuffer</span></td>
+                <td>Kunden-Deadline-Zusage</td>
+                <td class="font-bold">+2 Tage Puffer</td>
+                <td>5-Tage-Schätzung intern wird als 7-Tage-Liefertermin kommuniziert</td>
+              </tr>
+              <tr>
+                <td class="font-mono">06</td>
+                <td><span class="tag-pill">Agentur-Comms</span></td>
+                <td>Freelancer-Ops (Editoren, Texter, Designer, Devs)</td>
+                <td class="font-bold">Gemäß P1/P2/P3</td>
+                <td>WhatsApp (reibungslose Mobile-Nutzung) + Loom + ClickUp/Notion</td>
+              </tr>
+              <tr>
+                <td class="font-mono">07</td>
+                <td><span class="tag-pill">Telehealth-Comms</span></td>
+                <td>Cross-funktionaler Creative-, Dev- &amp; Media-Buyer-Sync</td>
+                <td class="font-bold">Gemäß P1/P2/P3</td>
+                <td>10 dedizierte Slack-Kanäle + Notion + Asana/Linear</td>
+              </tr>
+
+              <!-- Hidden Rows (08 to 10) unrolled on click or in print -->
+              <tr class="table-row-hidden">
+                <td class="font-mono">08</td>
+                <td><span class="tag-pill">Zeit-Telemetrie</span></td>
+                <td>Freelancer-Stunden &amp; Kapazitäts-Audits</td>
+                <td class="font-bold">Echtzeit</td>
+                <td>Clockify Play/Pause-Tracking pro Task für saubere Abrechnung</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td class="font-mono">09</td>
+                <td><span class="tag-pill">Zugriffssicherheit</span></td>
+                <td>Kunden- &amp; Ad-Account-Zugangsdaten</td>
+                <td class="font-bold">Least-Privilege</td>
+                <td>Rollenbasiertes LastPass-Sharing; null Klartext-Passwörter im Chat</td>
+              </tr>
+              <tr class="table-row-hidden">
+                <td class="font-mono">10</td>
+                <td><span class="tag-pill">Question-to-SOP</span></td>
+                <td>Jede Team-Frage, die zweimal gestellt wird</td>
+                <td class="font-bold">Am selben Tag</td>
+                <td>Antwort in dauerhafte SOP-Lektion umwandeln und verlinken</td>
+              </tr>
+
+              <tr class="table-expand-row" id="sla-toggle-row">
+                <td colspan="5">
+                  <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'sla-tbody', 'SLA- &amp; Kanal-Regeln', 10, 7)">
+                    <span class="btn-table-text">Alle 10 SLA- &amp; Kanal-Regeln anzeigen (3 weitere)</span>
+                    <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  </button>
+                </td>
+              </tr>
+
+              <tr class="table-summary-row">
+                <td colspan="2" style="font-weight: 800; text-transform: uppercase;">SLA-Vertrag</td>
+                <td style="font-weight: 700;">10 codierte Regeln</td>
+                <td class="font-mono text-accent" style="font-weight: 700;">1h / 12h / 24h</td>
+                <td style="color: var(--success); font-weight: 700;">~90&nbsp;% Async-Taktung über 10+ Länder</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 03: Anti-Ping-Pong Kit -->
+    <section id="section-3" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // Anti-Ping-Pong-Kit &amp; „Show, Don't Send“-Protokoll</span>
+        <h2 class="section-title-modern">Copy-Paste-Templates, die Statuscalls und Entwurfs-Verwirrung killen</h2>
+        <p class="section-desc-modern">Die meisten Async-Threads explodieren, wenn jemand einen nackten Google-Doc- oder Figma-Link mit „Meinungen?“ in den Chat wirft. Unsere „Show, Don't Send“-Regel verbietet nackte Links – jede Übergabe geht mit einem dieser Copy-Paste-Wrapper raus.</p>
+      </div>
+
+      <div class="section-body">
+        <!-- Operational Duality Panel -->
+        <div class="print-avoid-break" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; margin: 0 0 1.25rem;">
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--accent); padding: 0.65rem 0.85rem; border-radius: 6px;">
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 0.25rem;">⚡ Wie stark es wirkt (Async-Engine)</div>
+            <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+              &bull; <strong>Zero-Call-Kundenupdates:</strong> Looker Studio + 1–3 Min. Loom ersetzt 1h/Wo. Statuscall pro Kunde.<br>
+              &bull; <strong>Silent-Approval-RFCs:</strong> Arbeit läuft pünktlich weiter, selbst wenn das halbe Team 12 Stunden entfernt schläft.
+            </div>
+          </div>
+          <div style="background: var(--surface-subtle); border-left: 3px solid var(--danger); padding: 0.65rem 0.85rem; border-radius: 6px;">
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--danger); text-transform: uppercase; margin-bottom: 0.25rem;">🛑 Wo bewusste Grenzen greifen (Guardrails)</div>
+            <div style="font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45;">
+              &bull; <strong>Keine nackten WIP-Dumps:</strong> Unkommentierte Entwürfe gehen nie per Mail oder Chat an Kunden raus.<br>
+              &bull; <strong>P1-Eskalations-Override:</strong> Live-Ausfälle (&lt; 1h SLA) oder angespannte Verhandlungen bekommen trotzdem einen 15-Min.-Call.
+            </div>
+          </div>
+        </div>
+
+        <!-- Copyable Template Deck -->
+        <div class="prompt-deck-container">
+          <div class="prompt-deck-body">
+
+            <!-- Template 01 -->
+            <div class="prompt-deck-item print-avoid-break">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">01</span>
+                <div>
+                  <h4 class="prompt-item-title">3-Minuten-Wochenupdate für Kunden (Loom + Looker Studio)</h4>
+                  <p class="prompt-item-desc"><strong>Ausführungs-Regel:</strong> Geht jeden Freitag mit Live-Looker-Studio-Link und 1–3-minütigem Loom-Walkthrough raus. Streicht den wöchentlichen 45-Minuten-Statuscall.</p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">TEMPLATE_01_WEEKLY_CLIENT_UPDATE.txt</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('tpl-01-code', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre class="terminal-body" id="tpl-01-code">Betreff: Wochenupdate — [Kunde / Projekt] ([Datum])
+
+1. Dashboard &amp; Zahlen (30 Sek.):
+   Live-Metriken: [Looker-Studio-Link]
+   - Wichtigster Erfolg diese Woche: [1 Kennzahl + klares Fazit]
+   - Fokus-Punkt: [1 Engpass + was wir dagegen tun]
+
+2. Diese Woche geliefert (60 Sek.):
+   - [Deliverable 01] — [Link / Loom-Vorschau]
+   - [Deliverable 02] — [Link / Loom-Vorschau]
+
+3. Plan nächste Woche &amp; Was wir von dir brauchen (60 Sek.):
+   - Priorität 01: [Aufgabe + Zieldatum]
+   - Priorität 02: [Aufgabe + Zieldatum]
+   - Entscheidung nötig bis [Tag, Uhrzeit]: [Ja/Nein-Frage — ohne Rückmeldung bis SLA shippen wir Option A]
+
+3-Min.-Loom-Walkthrough: [Loom-Link]</pre>
+              </div>
+            </div>
+
+            <!-- Template 02 -->
+            <div class="prompt-deck-item print-avoid-break">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">02</span>
+                <div>
+                  <h4 class="prompt-item-title">Async-Entscheidungs-Briefing / RFC (Silent-Approval-Format)</h4>
+                  <p class="prompt-item-desc"><strong>Ausführungs-Regel:</strong> Kommt zum Einsatz, wenn eine Entscheidung zeitzonenübergreifend abgenickt werden muss. Nennt die Standard-Aktion vorab, damit nichts liegen bleibt.</p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">TEMPLATE_02_ASYNC_RFC_DECISION.txt</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('tpl-02-code', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre class="terminal-body" id="tpl-02-code">[ENTSCHEIDUNG NÖTIG] [Kurztitel] — Rückmeldung bis [Tag, HH:MM Zeitzone]
+
+Kontext (max. 2 Sätze):
+- [Warum das Thema hochkommt und was passiert, wenn wir nichts tun.]
+
+Geprüfte Optionen:
+- Option A (Empfohlen): [Was es ist] — Vorteile: [X] | Nachteile: [Y]
+- Option B: [Was es ist] — Vorteile: [X] | Nachteile: [Y]
+
+Standard-Aktion (Silent Approval):
+Geht vor [Tag, HH:MM Zeitzone] kein P2-Einspruch ein, shippen wir Option A.</pre>
+              </div>
+            </div>
+
+            <!-- Template 03 -->
+            <div class="prompt-deck-item print-avoid-break">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">03</span>
+                <div>
+                  <h4 class="prompt-item-title">„Show, Don't Send“ Karte 01 — Creative- &amp; Landingpage-Loom-Wrapper</h4>
+                  <p class="prompt-item-desc"><strong>Ausführungs-Regel:</strong> Pflicht-Wrapper für jedes Figma-Mockup, jeden Video-Cut und jede Landingpage im Review. Verhindert Panik über Platzhalter-Texte.</p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">TEMPLATE_03_SHOW_DONT_SEND_LOOM.txt</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('tpl-03-code', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre class="terminal-body" id="tpl-03-code">Bereit für Review: [Asset / Seitenname] (2-Min.-Walkthrough)
+
+Erst das 2-Min.-Loom ansehen, bevor du dich durchklickst: [Loom-Link]
+- Was sich geändert hat: [1–2 Bulletpoints]
+- Noch Platzhalter / WIP: [Unfertige Teile explizit markieren]
+- Genaues benötigtes Feedback: [Copy freigeben / Mobile-Ansicht prüfen / Hook A vs. B wählen]
+- Antwortfenster: P2 (12h) — zeitgestempelte Notizen in Loom oder [Ticket-Link].</pre>
+              </div>
+            </div>
+
+            <!-- Template 04 -->
+            <div class="prompt-deck-item print-avoid-break">
+              <div class="prompt-item-header">
+                <span class="prompt-item-num">04</span>
+                <div>
+                  <h4 class="prompt-item-title">„Show, Don't Send“ Karte 02 — Schichtübergabe über Zeitzonen</h4>
+                  <p class="prompt-item-desc"><strong>Ausführungs-Regel:</strong> Wird am Schichtende gepostet, damit die nächste Zeitzone in 2 Minuten produktiv startet, statt 30 Minuten nach Links zu suchen.</p>
+                </div>
+              </div>
+              <div class="terminal-card">
+                <div class="terminal-header">
+                  <span class="terminal-filename">TEMPLATE_04_TIMEZONE_BATON_PASS.txt</span>
+                  <button class="btn-copy-icon" onclick="copySnippet('tpl-04-code', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                    <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
+                <pre class="terminal-body" id="tpl-04-code">[HANDOFF] [Projekt / Sprint] — [Dein Name] -&gt; [Nächster Zeitzonen-Owner]
+
+1. Heute erledigt: [Link zu gemergtem Pull Request (PR) / freigegebenem Figma / Drive-Ordner]
+2. Blockiert / Braucht Blick: [Exakter Blocker + was du schon versucht hast]
+3. Nächste einzelne Aktion für deine Schicht: [1 klarer Schritt]
+4. Prioritätsstufe: [P1: 1h | P2: 12h | P3: 24h]</pre>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 04: Interactive Meeting Elimination Decision Tree -->
+    <section id="section-4" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // Meeting-Eliminierungs-Entscheidungsbaum</span>
+        <h2 class="section-title-modern">Muss das wirklich ein Meeting sein? Teste jede Anfrage in 3 Klicks</h2>
+        <p class="section-desc-modern">Niemand durfte standardmäßig einen 30-Minuten-Zoom in den Kalender werfen. Jede Call-Anfrage musste zuerst durch dieses 3-Stufen-Gate – 90 % davon landeten in Tickets, RFCs oder 3-Minuten-Looms.</p>
+      </div>
+
+      <div class="section-body">
+        <!-- Interactive Widget (Screen) -->
+        <div class="decision-tree-shell decision-tree-interactive" id="decision-tree-widget">
+          <div class="decision-tree-top">
+            <span class="decision-step-pill" id="dt-step-label">Gate 01 von 03</span>
+            <button type="button" class="decision-btn" onclick="resetDecisionTree()" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;">Gate zurücksetzen</button>
+          </div>
+
+          <div id="dt-question-wrap">
+            <h3 class="decision-question" id="dt-question-text">Ist das ein P1-Live-Ausfall (Werbekonto gesperrt, Checkout kaputt, Live-Site down)?</h3>
+            <p class="decision-hint" id="dt-question-hint">P1 bedeutet: Umsatz oder Compliance bluten gerade akut und brauchen einen Fix in &lt; 1 Stunde.</p>
+            <div class="decision-actions">
+              <button type="button" class="decision-btn decision-btn-primary" onclick="answerDecisionTree(true)">Ja</button>
+              <button type="button" class="decision-btn" onclick="answerDecisionTree(false)">Nein</button>
+            </div>
+          </div>
+
+          <div class="decision-outcome" id="dt-outcome-box">
+            <h3 class="decision-outcome-title" id="dt-outcome-title"></h3>
+            <p class="decision-outcome-copy" id="dt-outcome-copy"></p>
+          </div>
+        </div>
+
+        <!-- Print-Only Unrolled Decision Map -->
+        <div class="decision-print-map" style="margin: 0 0 1.5rem;">
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Gate 01 &rarr; P1-Ausfall</span>
+            <h3 class="tradeoff-title">15-Min.-Notfall-Huddle</h3>
+            <p class="tradeoff-desc">Nur bei akuten P1-Blockern (&lt; 1h SLA), wenn &gt; 2 Personen live koordinieren müssen. Ursache direkt danach ins Ticket posten.</p>
+          </div>
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--warning);">
+            <span class="badge badge-warning" style="align-self: flex-start;">Gate 02 &rarr; Verhandlung</span>
+            <h3 class="tradeoff-title">15-Min.-Sync (Briefing zuerst)</h3>
+            <p class="tradeoff-desc">Erlaubt für Live-Verhandlung oder heikle Abstimmung – aber erst nach einem schriftlichen 5-Zeilen-Briefing. Kein Briefing, kein Call.</p>
+          </div>
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Gate 03 &rarr; Call streichen</span>
+            <h3 class="tradeoff-title">3-Min.-Loom oder Ticket</h3>
+            <p class="tradeoff-desc">Visuelle Walkthroughs bekommen ein 1–3-Min.-Loom; alles andere wird ein kommentiertes Ticket oder Silent-Approval-RFC (12h–24h SLA).</p>
+          </div>
+        </div>
+
+        <!-- 4 Meeting-Killer Gates -->
+        <div class="metrics-grid print-avoid-break">
+          <div class="metric-card">
+            <div class="metric-label">Gate 01</div>
+            <div class="metric-val">Kein Briefing, kein Call</div>
+            <div class="metric-desc">Jeder Sync braucht vorab eine 5-Zeilen-Agenda</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Gate 02</div>
+            <div class="metric-val">3-Min.-Loom-Limit</div>
+            <div class="metric-desc">Videoupdates bleiben knapp und mit Zeitstempeln</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Gate 03</div>
+            <div class="metric-val">Silent-Approval-RFC</div>
+            <div class="metric-desc">Standard-Option wird ohne P2-Einspruch umgesetzt</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Gate 04</div>
+            <div class="metric-val">Question-to-SOP</div>
+            <div class="metric-desc">Jede Frage, die zweimal kommt, wird ein Dokument</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 05: Evaluated Alternatives & Decision Matrix -->
+    <section id="section-5" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // Evaluierte Alternativen &amp; Trade-off-Matrix</span>
+        <h2 class="section-title-modern">Warum wir Daily Standups und Single-Tool-Zwang gekippt haben</h2>
+        <p class="section-desc-modern">Die meisten Remote-Teams scheitern an Async, weil sie entweder Live-Standups zu unmöglichen Uhrzeiten erzwingen oder Monate damit verschwenden, alle in eine einzige Bezahl-App zu drücken. Was wir verworfen haben – und was gehalten hat.</p>
+      </div>
+
+      <div class="section-body">
+        <div class="tradeoff-grid tradeoff-grid-3col">
+          <!-- Row 1: 3 Alternatives (Approved on Right Side) -->
+          <div class="tradeoff-card rejected print-avoid-break" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Alternative 01: Verworfen</span>
+            <h3 class="tradeoff-title">Tägliche Pflicht-Standups über Zeitzonen</h3>
+            <p class="tradeoff-desc">15 Freelancer in Asien, Neuseeland, Europa und den USA täglich in einen 30-Minuten-Videocall zwingen.</p>
+            <div class="tradeoff-reason"><strong>Warum verworfen:</strong> Brannte Offshore-Talente um Mitternacht/6 Uhr morgens aus und verbrannte 5+ Stunden/Woche mit Status-Theater, bei dem 80 % stumm warteten.</div>
+          </div>
+
+          <div class="tradeoff-card rejected print-avoid-break" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Alternative 02: Verworfen</span>
+            <h3 class="tradeoff-title">Alle in eine einzige Bezahl-App zwingen</h3>
+            <p class="tradeoff-desc">Alle externen Kunden und Freelancer zwingen, WhatsApp und E-Mail für eine einzige Enterprise-Suite aufzugeben.</p>
+            <div class="tradeoff-reason"><strong>Warum verworfen:</strong> Wir testeten Slack, Telegram und ClickUp für Agentur-Freelancer – WhatsApp gewann durch null Reibung auf dem Smartphone. Bestehende Tools mit klaren SLAs einzurahmen lief ab Tag 1.</div>
+          </div>
+
+          <div class="tradeoff-card accepted print-avoid-break" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Gewählte Architektur: Freigegeben</span>
+            <h3 class="tradeoff-title">Async-First-OS + 1h/12h/24h-SLAs + Loom</h3>
+            <p class="tradeoff-desc">Tool-agnostische Async-Regeln aus schriftlichen RFCs, 1–3-Min.-Loom-Updates und Looker-Studio-Dashboards.</p>
+            <div class="tradeoff-reason"><strong>Ergebnis:</strong> 15 Stunden/Woche Meeting-Ballast gestrichen (-90 % Live-Calls) und 15 Freelancer über 10+ Länder hinweg ohne zusätzliche PMs auf Kurs gehalten.</div>
+          </div>
+
+          <!-- Row 2: 3 Failure Modes -->
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Fehlermodus 01</span>
+            <h3 class="tradeoff-title">Unkommentierte WIP-Dumps</h3>
+            <p class="tradeoff-desc">Rohe, unfertige Landingpages oder Ad-Cuts ohne Kontext an Kunden schicken und Panik über Platzhalter-Texte auslösen.</p>
+            <div class="tradeoff-reason"><strong>Schutz-Gate:</strong> „Show, Don't Send“-Protokoll verankert – jeder Entwurf geht mit 2-Min.-Loom oder explizitem WIP-Hinweis raus.</div>
+          </div>
+
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--danger);">
+            <span class="badge badge-danger" style="align-self: flex-start;">Fehlermodus 02</span>
+            <h3 class="tradeoff-title">Stiller Zeitzonen-Stillstand</h3>
+            <p class="tradeoff-desc">Ein Entwickler in Indien oder Vietnam wartet 24+ Stunden auf eine simple Ja/Nein-Entscheidung aus Europa oder den USA.</p>
+            <div class="tradeoff-reason"><strong>Schutz-Gate:</strong> Silent-Approval-RFCs + P2 (12h)-Reaktionsfenster lassen die nächste Schicht automatisch weiterarbeiten.</div>
+          </div>
+
+          <div class="tradeoff-card print-avoid-break" style="border-top: 4px solid var(--success);">
+            <span class="badge badge-success" style="align-self: flex-start;">Fehlermodus 03: Gelöst</span>
+            <h3 class="tradeoff-title">Status-Nervosität ohne Calls</h3>
+            <p class="tradeoff-desc">Kunden verlangen wöchentliche Zoom-Calls, weil sie zwischen den Lieferungen keinen Fortschritt sehen.</p>
+            <div class="tradeoff-reason"><strong>Schutz-Gate:</strong> Live-Google-Looker-Studio-Dashboards + Freitags-1–3-Min.-Looms + 5-auf-7-Tage-Lieferpuffer killten Status-Nervosität.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 06: Retrospective & Learnings (3-Card Grid) -->
+    <section id="section-6" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // Retrospektive &amp; Ungeschminkte Learnings</span>
+        <h2 class="section-title-modern">Was in der Praxis gehalten hat – und was ich früher festzurren würde</h2>
+        <p class="section-desc-modern">Drei hart erarbeitete Lektionen aus dem Betrieb einer zu ~90 % asynchronen Maschine über 10+ Länder bei null zusätzlichem PM-Headcount.</p>
+      </div>
+
+      <div class="section-body">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+
+          <div class="workflow-card print-avoid-break" style="border-top: 4px solid var(--accent);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-accent">Lektion 01</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Live-Dashboards + 3-Min.-Looms killen Kunden-Statuscalls</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              Kunden fragen nur dann nach wöchentlichen Zooms, wenn sie im Blindflug sind. Ein Live-Google-Looker-Studio-Dashboard gepaart mit einem knappen 1–3-Minuten-Loom am Freitag gab ihnen volle Sichtbarkeit und sparte rund eine Stunde pro Woche und Kunde ohne Vertrauensverlust.
+            </p>
+          </div>
+
+          <div class="workflow-card print-avoid-break" style="border-top: 4px solid var(--purple);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-purple">Lektion 02</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Async ohne Uhren wird nur zu langsamerem Ping-Pong</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              „Wir arbeiten async“ scheitert, sobald jeder antwortet, wann er will. Harte Reaktionsfenster für P1 (1h), P2 (12h) und P3 (24h) plus Silent-Approval-RFCs hielten die Arbeit über Nacht durch 12 Stunden Zeitzonenabstand in Bewegung.
+            </p>
+          </div>
+
+          <div class="workflow-card print-avoid-break" style="border-top: 4px solid var(--success);">
+            <div class="card-top" style="margin-bottom: 0.65rem;">
+              <span class="badge badge-success">Lektion 03</span>
+            </div>
+            <h4 style="font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--ink);">Jede Direct-Message-(DM)-Frage sofort in ein Dokument gießen</h4>
+            <p style="font-size: 0.88rem; color: var(--ink-muted); line-height: 1.55; margin: 0;">
+              Ich würde die Question-to-SOP-Regel und das No-Brief-No-Call-Gate ab Tag 1 festzurren. Jedes Mal, wenn du eine Routinefrage per Direct Message (DM) beantwortest, ohne ein verlinkbares SOP daraus zu machen, garantierst du, dass du sie nächsten Monat noch dreimal beantwortest.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Centralized Footer Component -->
+    <footer id="site-footer"></footer>
+
+  </div>
+
+  <script>
+    const dtSteps = [
+      {
+        label: 'Gate 01 von 03',
+        question: 'Ist das ein P1-Live-Ausfall (Werbekonto gesperrt, Checkout kaputt, Live-Site down)?',
+        hint: 'P1 bedeutet: Umsatz oder Compliance bluten gerade akut und brauchen einen Fix in < 1 Stunde.',
+        yesOutcome: {
+          title: '15-Minuten-Notfall-Huddle buchen (P1 — 1h SLA)',
+          copy: 'Springe nur dann kurz in einen Call, wenn > 2 Leute sofort zusammenarbeiten müssen. Sonst @here in Slack/WhatsApp pingen, fixen und die Ursache direkt danach ins Ticket schreiben.',
+          color: 'var(--danger)'
+        }
+      },
+      {
+        label: 'Gate 02 von 03',
+        question: 'Braucht das Thema Echtzeit-Verhandlung oder heikle Stakeholder-Abstimmung?',
+        hint: 'Beispiele: Scope-Change-Diskussion, sensibles Kundenfeedback oder komplexe Team-Trade-offs.',
+        yesOutcome: {
+          title: '15-Minuten-Sync buchen — schriftliches Briefing vorab Pflicht',
+          copy: 'Calls sind für Live-Verhandlungen erlaubt, aber erst nachdem ein 5-Zeilen-Briefing gepostet wurde. Kein Briefing, kein Call. Die finale Entscheidung danach im Ticket festhalten.',
+          color: 'var(--warning)'
+        }
+      },
+      {
+        label: 'Gate 03 von 03',
+        question: 'Ist es ein visueller Walkthrough, Creative-Review oder wöchentlicher Kundenstatus?',
+        hint: 'Beispiele: Landingpage-QA, Video-Ad-Review, Figma-Walkthrough oder Freitags-KPI-Update.',
+        yesOutcome: {
+          title: 'Meeting streichen: 1–3-Minuten-Loom + Dashboard-Link schicken',
+          copy: 'Verpacke das Deliverable mit einem kurzen Loom: Was sich geändert hat, was noch WIP ist und welches Feedback unter P2 (12h) gebraucht wird.',
+          color: 'var(--success)'
+        },
+        noOutcome: {
+          title: 'Meeting streichen: Kommentiertes Ticket oder Silent-Approval-RFC schreiben',
+          copy: 'Packe Kontext, Optionen und Standard-Aktion mit P2- (12h) oder P3-Uhr (24h) in Asana/Linear/ClickUp. Kommt bis zur Frist kein Einspruch, wird Option A umgesetzt.',
+          color: 'var(--accent)'
+        }
+      }
+    ];
+
+    let dtCurrentIndex = 0;
+
+    function renderDecisionStep() {
+      const step = dtSteps[dtCurrentIndex];
+      document.getElementById('dt-step-label').textContent = step.label;
+      document.getElementById('dt-question-text').textContent = step.question;
+      document.getElementById('dt-question-hint').textContent = step.hint;
+      document.getElementById('dt-question-wrap').style.display = 'block';
+      document.getElementById('dt-outcome-box').classList.remove('is-visible');
+    }
+
+    function showDecisionOutcome(outcome) {
+      document.getElementById('dt-question-wrap').style.display = 'none';
+      const box = document.getElementById('dt-outcome-box');
+      box.style.borderLeftColor = outcome.color;
+      document.getElementById('dt-outcome-title').textContent = outcome.title;
+      document.getElementById('dt-outcome-copy').textContent = outcome.copy;
+      document.getElementById('dt-step-label').textContent = 'Entscheidung geroutet';
+      box.classList.add('is-visible');
+    }
+
+    function answerDecisionTree(isYes) {
+      const step = dtSteps[dtCurrentIndex];
+      if (isYes) {
+        showDecisionOutcome(step.yesOutcome);
+        return;
+      }
+      if (dtCurrentIndex < dtSteps.length - 1) {
+        dtCurrentIndex += 1;
+        renderDecisionStep();
+      } else {
+        showDecisionOutcome(step.noOutcome);
+      }
+    }
+
+    function resetDecisionTree() {
+      dtCurrentIndex = 0;
+      renderDecisionStep();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      if (typeof initScrollSpy === 'function') {
+        initScrollSpy();
+      }
+    });
+  </script>
+</body>
+</html>

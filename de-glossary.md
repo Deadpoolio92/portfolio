@@ -102,3 +102,9 @@ These terms are standard in German senior tech/ops teams and stay English (with 
 | Audit Trail Traceability | Audit-Trail-Nachvollziehbarkeit | Compliance & QA |
 | Defect Recurrence | Rückfallquote | Compact HUD label |
 | Data Dictionary | Daten-Dictionary | Data governance |
+| Meeting Drag | Meeting-Ballast | Async ops |
+| Timezone Spread | Zeitzonenabstand / Zeitzonendifferenz | Distributed teams |
+| Async Cadence | Async-Taktung | Distributed teams |
+| Silent Approval | Silent Approval / stille Freigabe | Async RFCs |
+| Handoff / Baton Pass | Übergabe / Schichtübergabe | Cross-timezone handoffs |
+| Brief / Decision Brief | Briefing / Entscheidungs-Briefing | Avoid *"Brief"* (= postal letter) |
