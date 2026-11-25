@@ -93,3 +93,9 @@ These terms are standard in German senior tech/ops teams and stay English (with 
 | Payroll | Lohnkosten *(Prose)* / Payroll *(compact HUD)* | |
 | Landing Page | Landingpage | One word in German |
 | Compounded (Drugs) | individuell hergestellte (compounded) Präparate / Compounded Drugs | Healthcare Compliance context |
+| Speed-to-Lead | Speed-to-Lead / Reaktionszeit auf Leads | Keep `Speed-to-Lead` in DACH RevOps/Sales context |
+| Call Cadence | Anrufkadenz | Avoid unadapted *"Cadences"* |
+| Self-Disclosure (Real Estate) | Selbstauskunft / Käufer-Selbstauskunft | Real estate qualification |
+| Mortgage Consultant | Finanzierungspartner / externer Finanzierungsberater | External financing handoff |
+| Statutory Review Buffer | gesetzliche Prüffrist / 17-Tage-Prüffrist | Notary contract review window |
+| Modal Fatigue | Modal-Hopping / Tab- und Modal-Hopping | CRM UI friction |
