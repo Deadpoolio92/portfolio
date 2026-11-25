@@ -17,7 +17,15 @@
   }
 })();
 
-// 2. Safe Storage Access Helpers
+// 2. Safe Storage & Language Helpers
+function isGermanPage() {
+  return document.documentElement.lang === 'de' || /\/de(\/|$)/.test(window.location.pathname);
+}
+
+function uiText(en, de) {
+  return isGermanPage() ? de : en;
+}
+
 function getStoredTheme() {
   try {
     return localStorage.getItem('theme');
@@ -77,7 +85,11 @@ function renderSiteFooter() {
   const footer = document.getElementById('site-footer') || document.querySelector('footer');
   if (footer) {
     const year = new Date().getFullYear();
-    footer.innerHTML = `<p>&copy; ${year} Karol Jasztal &bull; Hosted on GitHub Pages &bull; All Rights Reserved</p>`;
+    const text = uiText(
+      `&copy; ${year} Karol Jasztal &bull; Hosted on GitHub Pages &bull; All Rights Reserved`,
+      `&copy; ${year} Karol Jasztal &bull; Gehostet auf GitHub Pages &bull; Alle Rechte vorbehalten`
+    );
+    footer.innerHTML = `<p>${text}</p>`;
   }
 }
 
@@ -95,16 +107,16 @@ function copySnippet(id, btn) {
     if (copySvg && checkSvg) {
       copySvg.style.display = 'none';
       checkSvg.style.display = 'inline-block';
-      btn.setAttribute('title', 'Copied!');
+      btn.setAttribute('title', uiText('Copied!', 'Kopiert!'));
     } else {
-      btn.innerText = 'Copied!';
+      btn.innerText = uiText('Copied!', 'Kopiert!');
     }
     setTimeout(() => {
       btn.classList.remove('copied');
       if (copySvg && checkSvg) {
         copySvg.style.display = 'inline-block';
         checkSvg.style.display = 'none';
-        btn.setAttribute('title', 'Copy to clipboard');
+        btn.setAttribute('title', uiText('Copy to clipboard', 'In Zwischenablage kopieren'));
       } else {
         btn.innerHTML = origHtml;
       }
@@ -113,7 +125,7 @@ function copySnippet(id, btn) {
 
   function onCopyFailure() {
     btn.classList.add('copy-failed');
-    if (!copySvg) btn.innerText = 'Copy Failed';
+    if (!copySvg) btn.innerText = uiText('Copy Failed', 'Kopieren fehlgeschlagen');
     setTimeout(() => {
       btn.classList.remove('copy-failed');
       btn.innerHTML = origHtml;
@@ -351,7 +363,7 @@ function copyMarkdown(mdPath, btn) {
       copySvg.style.display = 'none';
       checkSvg.style.display = 'inline-block';
     }
-    showNavTooltip(btn, 'Copied!');
+    showNavTooltip(btn, uiText('Copied!', 'Kopiert!'));
     clearTimeout(btn._copyTimer);
     btn._copyTimer = setTimeout(() => {
       btn.classList.remove('copied');
@@ -364,7 +376,7 @@ function copyMarkdown(mdPath, btn) {
 
   function onCopyFailure(msg) {
     btn.classList.add('copy-failed');
-    showNavTooltip(btn, msg || 'Copy failed');
+    showNavTooltip(btn, msg || uiText('Copy failed', 'Kopieren fehlgeschlagen'));
     clearTimeout(btn._copyTimer);
     btn._copyTimer = setTimeout(() => {
       btn.classList.remove('copy-failed');
@@ -384,17 +396,17 @@ function copyMarkdown(mdPath, btn) {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         return navigator.clipboard.writeText(text)
           .then(onCopySuccess)
-          .catch(() => tryFallbackCopy(text, onCopySuccess, () => onCopyFailure('Copy failed')));
+          .catch(() => tryFallbackCopy(text, onCopySuccess, () => onCopyFailure(uiText('Copy failed', 'Kopieren fehlgeschlagen'))));
       }
-      tryFallbackCopy(text, onCopySuccess, () => onCopyFailure('Copy failed'));
+      tryFallbackCopy(text, onCopySuccess, () => onCopyFailure(uiText('Copy failed', 'Kopieren fehlgeschlagen')));
     })
     .catch((err) => {
       if (window.location.protocol === 'file:') {
-        onCopyFailure('Use live site to copy');
+        onCopyFailure(uiText('Use live site to copy', 'Zum Kopieren Live-Seite nutzen'));
       } else if (err && err.status === 404) {
-        onCopyFailure('Markdown unavailable');
+        onCopyFailure(uiText('Markdown unavailable', 'Markdown nicht verfügbar'));
       } else {
-        onCopyFailure('Copy failed');
+        onCopyFailure(uiText('Copy failed', 'Kopieren fehlgeschlagen'));
       }
     });
 }
@@ -402,7 +414,7 @@ function copyMarkdown(mdPath, btn) {
 // 13. Language Switcher (EN <-> DE using /de/ subfolder)
 function getLanguageTargetUrl() {
   const path = window.location.pathname;
-  const isGerman = document.documentElement.lang === 'de' || /\/de(\/|$)/.test(path);
+  const isGerman = isGermanPage();
 
   if (isGerman) {
     return path.replace(/\/de(\/|$)/, '$1') || './';
@@ -419,7 +431,7 @@ function getLanguageTargetUrl() {
 
 function switchLanguage(btn) {
   const targetUrl = getLanguageTargetUrl();
-  const isGerman = document.documentElement.lang === 'de' || /\/de(\/|$)/.test(window.location.pathname);
+  const isGerman = isGermanPage();
 
   if (isGerman) {
     window.location.href = targetUrl;
@@ -432,11 +444,11 @@ function switchLanguage(btn) {
       if (res.ok) {
         window.location.href = targetUrl;
       } else {
-        showNavTooltip(btn, 'Coming soon');
+        showNavTooltip(btn, uiText('Coming soon', 'Bald verfügbar'));
       }
     })
     .catch(() => {
-      showNavTooltip(btn, 'Coming soon');
+      showNavTooltip(btn, uiText('Coming soon', 'Bald verfügbar'));
     });
 }
 
@@ -471,7 +483,7 @@ function initDirectDownloads() {
         })
         .catch((err) => {
           if (err && err.status === 404) {
-            showNavTooltip(link, 'File unavailable');
+            showNavTooltip(link, uiText('File unavailable', 'Datei nicht verfügbar'));
           } else {
             window.location.href = href;
           }
