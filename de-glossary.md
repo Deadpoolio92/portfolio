@@ -108,3 +108,7 @@ These terms are standard in German senior tech/ops teams and stay English (with 
 | Silent Approval | Silent Approval / stille Freigabe | Async RFCs |
 | Handoff / Baton Pass | Übergabe / Schichtübergabe | Cross-timezone handoffs |
 | Brief / Decision Brief | Briefing / Entscheidungs-Briefing | Avoid *"Brief"* (= postal letter) |
+| Role Inheritance | Rollen-Vererbung | Onboarding / GoHighLevel |
+| Self-Serve | Self-Serve | Keep in English; hyphenated in compounds (`Self-Serve-Hub`) |
+| Early Washouts | Früh-Abbrüche | Mode 1 Klartext |
+| Question-to-SOP Loop | Kaizen-Question-to-SOP-Schleife | Onboarding / Kaizen |
