@@ -55,6 +55,8 @@ These terms are standard in German senior tech/ops teams and stay English (with 
 - **Workflow**
 - **Compliance**
 - **ROI**
+- **Negative Keywords** *(DACH SEA standard)*
+- **Responsive Search Ads (RSAs)** *(DACH SEA standard)*
 
 ---
 
@@ -78,3 +80,5 @@ These terms are standard in German senior tech/ops teams and stay English (with 
 | Throughput | Durchsatz | KPI label |
 | Capacity Saved | Kapazität | KPI label |
 | Latency | Latenz | KPI label |
+| Single-Intent Ad Groups | Single-Intent-Anzeigengruppen | Paid search structure |
+| Payroll | Lohnkosten *(Prose)* / Payroll *(compact HUD)* | |

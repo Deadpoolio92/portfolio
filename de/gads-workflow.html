@@ -1,0 +1,1539 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Von 40 Stunden Tabellen-Chaos zur 7-Stunden-Maschine: Wie ich 82 % der Google-Ads-Fleißarbeit gestrichen habe | Karol Jasztal</title>
+  <!-- Google Fonts: Plus Jakarta Sans for Headlines & JetBrains Mono for Systems/Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css" />
+  <script src="../shared.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Header (Normal Flow / Not Sticky) -->
+  <header class="site-header">
+    <nav class="top-nav">
+      <div class="nav-breadcrumbs">
+        <a href="./" class="nav-back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Portfolio-Übersicht
+        </a>
+        <span class="nav-divider">/</span>
+        <span class="nav-context">Google Ads 82-%-Effizienz-Pipeline</span>
+      </div>
+      <div class="nav-actions">
+        <a href="gads-workflow.pdf" download class="nav-action-btn" title="PDF herunterladen" aria-label="PDF herunterladen">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          PDF
+        </a>
+        <a href="gads-workflow.md" download class="nav-action-btn" title="Markdown herunterladen" aria-label="Markdown herunterladen">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          MD
+        </a>
+        <button type="button" class="nav-action-btn" onclick="copyMarkdown('gads-workflow.md', this)" title="Markdown in Zwischenablage kopieren" aria-label="Markdown in Zwischenablage kopieren">
+          <svg class="copy-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <svg class="check-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polyline points="20 6 9 17 4 12"/></svg>
+          MD
+        </button>
+        <button type="button" class="nav-action-btn lang-toggle-btn" onclick="switchLanguage(this)" title="Switch to English" aria-label="Auf Englisch wechseln">EN</button>
+        <button id="themeToggle" class="theme-toggle-btn" title="Hell-/Dunkel-Modus umschalten" aria-label="Hell-/Dunkel-Modus umschalten">
+          <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Sticky Chapter Anchor Bar (Only this bar sticks to top!) -->
+  <nav class="sticky-nav-bar" id="sticky-nav">
+    <div class="nav-grid-track">
+      <a href="#architecture" class="nav-tag-pill active">1. Architektur &amp; Zeitstudie</a>
+      <a href="#intake" class="nav-tag-pill">2. 50-Felder-Intake-Schema</a>
+      <a href="#setup" class="nav-tag-pill">3. Setup- &amp; Tracking-SOP</a>
+      <a href="#prompts" class="nav-tag-pill">4. Intent-Mining-Prompts</a>
+      <a href="#ads" class="nav-tag-pill">5. Keywords &amp; RSAs</a>
+      <a href="#landing-page" class="nav-tag-pill">6. Landingpage-Engine</a>
+      <a href="#diagnostics" class="nav-tag-pill">7. Diagnostik &amp; 2 Krokodile</a>
+      <a href="#quality-gate" class="nav-tag-pill">8. 5 Heuristische Linter</a>
+      <a href="#tradeoffs" class="nav-tag-pill">9. Architektur-Trade-offs</a>
+      <a href="#retrospective" class="nav-tag-pill">10. Retrospektive &amp; Prinzipien</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO SECTION (Direct Flow: Eyebrow -> Title -> Subtitle -> Bento Telemetry) -->
+    <header class="hero-banner hero-centered">
+      <div class="status-eyebrow">
+        <span class="pulse-dot"></span>
+        AI-Workflow-Blueprint &bull; Karol Jasztal
+      </div>
+      <h1 class="hero-title">Von 40 Stunden Tabellen-Chaos zur 7-Stunden-Maschine: <span class="headline-accent">Wie ich 82 % der Google-Ads-Fleißarbeit gestrichen habe</span></h1>
+      <p class="hero-subtitle">
+        Wie ich aus einem chaotischen 40-Stunden-Setup für Google Ads und Landingpages ein schlankes 7-Stunden-System gebaut habe. Wir haben 33 Stunden Copy-Paste-Fleißarbeit pro Kampagne gestrichen&mdash;und bei 14 Live-Launches in Folge hat Google keine einzige Anzeige beanstandet oder abgelehnt.
+      </p>
+
+            <!-- Option 03C • Centered Connected HUD Telemetry Bar (Zero Progress Bar) -->
+      <div class="hud-telemetry-bar" id="bento-metrics">
+        <!-- Cell 1: Cycle Time -->
+        <div class="hud-cell">
+          <div class="hud-label">Durchlaufzeit</div>
+          <div class="hud-num" style="color: var(--accent);">40h &rarr; 7h</div>
+          <span class="hud-delta delta-success">&minus;82,5 %</span>
+          <div class="hud-sub">Geprüfte Durchlaufzeit</div>
+        </div>
+
+        <!-- Cell 2: Compliance -->
+        <div class="hud-cell">
+          <div class="hud-label">Compliance</div>
+          <div class="hud-num" style="color: var(--success);">100,0 %</div>
+          <span class="hud-delta delta-success">0 Verstöße</span>
+          <div class="hud-sub">14 saubere Launches</div>
+        </div>
+
+        <!-- Cell 3: Throughput -->
+        <div class="hud-cell">
+          <div class="hud-label">Durchsatz</div>
+          <div class="hud-num">5,7x</div>
+          <span class="hud-delta delta-success">+470 % Tempo</span>
+          <div class="hud-sub">Null Mehrpersonal</div>
+        </div>
+
+        <!-- Cell 4: Annual ROI -->
+        <div class="hud-cell">
+          <div class="hud-label">Jahres-ROI</div>
+          <div class="hud-num">1.320h</div>
+          <span class="hud-delta delta-success">+118k $ Payroll</span>
+          <div class="hud-sub">Stunden gespart</div>
+        </div>
+
+        <!-- Cell 5: Intake Schema -->
+        <div class="hud-cell">
+          <div class="hud-label">Intake-Schema</div>
+          <div class="hud-num">50 Felder</div>
+          <span class="hud-delta delta-neutral">Normalisiert</span>
+          <div class="hud-sub">Null Rätselraten</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 1: ARCHITECTURE, BLUEPRINT & TIME STUDY -->
+    <section id="architecture" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">01 // Operative Transformation</span>
+        <h2 class="section-title-modern">33 Stunden Fleißarbeit gestrichen: Die echten Zahlen</h2>
+        <p class="section-desc-modern">
+          40 Stunden für das Setup einer einzigen Ad-Kampagne waren ein Albtraum. Unser Team verbrachte über die Hälfte der Woche damit, Texte zwischen unübersichtlichen Tabellen hin- und herzukopieren. Es passierten dumme Tippfehler, Headlines waren zu lang und Google lehnte am Launch-Tag reihenweise Anzeigen ab. So habe ich 33 Stunden reine Fleißarbeit gestrichen und das komplette Setup auf saubere 7 Stunden gedrückt.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- Symmetrical Battlecard Comparison Matrix (Flat & Clean, Zero Glow Shadow) -->
+      <div class="battlecard-grid">
+        <!-- Legacy Card -->
+        <div class="battlecard legacy">
+          <span class="badge badge-danger" style="align-self: flex-start;">Der alte Engpass (40 Stunden)</span>
+          <h3>Manuelles Tabellen-Chaos</h3>
+          <ul class="feature-list">
+            <li class="feature-row bad">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span class="feature-col-label">Manuelle Fleißarbeit:</span>
+              <span class="feature-col-desc">65 % der Arbeitszeit gingen fürs Kopieren von Texten zwischen verstreuten Tabellen drauf.</span>
+            </li>
+            <li class="feature-row bad">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span class="feature-col-label">8,4 % Ablehnungsquote:</span>
+              <span class="feature-col-desc">Manuelle Tippfehler und Titel über 30 Zeichen führten am Launch-Tag zu Ablehnungen.</span>
+            </li>
+            <li class="feature-row bad">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+              <span class="feature-col-label">Linearer Personaldruck:</span>
+              <span class="feature-col-desc">Für saisonale Spitzen waren 140k $/Jahr pro 2 Junior-Koordinatoren nötig.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Transformed Card (Zero Shadow) -->
+        <div class="battlecard transformed">
+          <span class="badge badge-success" style="align-self: flex-start;">Karols gebaute Engine (7 Stunden)</span>
+          <h3>Schnelle KI-Pipeline + Human-Checks</h3>
+          <ul class="feature-list">
+            <li class="feature-row good">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="feature-col-label">15-Min-High-Signal-Review:</span>
+              <span class="feature-col-desc">Ein Stratege prüft in 15 Minuten alle Ad-Angles gegen bewährte Regeln, bevor irgendetwas live geht.</span>
+            </li>
+            <li class="feature-row good">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="feature-col-label">0,0 % Fehlerquote:</span>
+              <span class="feature-col-desc">Einfache Code-Checks fangen Längenfehler und verbotene Begriffe ab, bevor Google sie sieht.</span>
+            </li>
+            <li class="feature-row good">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span class="feature-col-label">Null Mehrpersonal:</span>
+              <span class="feature-col-desc">Bewältigt das 5,7-fache Volumen mit dem bestehenden Team bei besserer Textqualität.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Quantitative Time Study Table (Distinct Elevated Table Footer) -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Task-by-Task-Zeitstudie (Echte Daten aus 14 Kunden-Launches)
+      </h3>
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 40%;">Workflow-Aufgabe</th>
+              <th style="width: 15%; text-align: right;">Manueller Baseline</th>
+              <th style="width: 15%; text-align: right;">AI-HITL-Pipeline</th>
+              <th style="width: 15%; text-align: right;">Gesparte Zeit</th>
+              <th style="width: 15%; text-align: right;">Effizienz-Delta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 600;">1. Kunden-Intake &amp; Datenbereinigung</td>
+              <td style="font-family: var(--font-mono); text-align: right;">5,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">0,5 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-4,5 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-90 %</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">2. Marktrecherche &amp; Foren-Mining (&ge;150 Zitate)</td>
+              <td style="font-family: var(--font-mono); text-align: right;">8,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">1,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-7,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-87 %</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">3. Anzeigen-Matrix &amp; Negative-Liste (20 Titel, 10 Beschr.)</td>
+              <td style="font-family: var(--font-mono); text-align: right;">10,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">1,5 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-8,5 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-85 %</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">4. 17-Sektionen-Direct-Response-Landingpage-Copy</td>
+              <td style="font-family: var(--font-mono); text-align: right;">10,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">1,5 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-8,5 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-85 %</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">5. Human-QA-Check: Anzeigen- &amp; Policy-Stichprobe</td>
+              <td style="font-family: var(--font-mono); text-align: right;">2,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">1,5 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-0,5 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--warning); font-weight: 700;">-25 %</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">6. Google Tag Manager (GTM), GA4-Events &amp; Ad-Deployment</td>
+              <td style="font-family: var(--font-mono); text-align: right;">5,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--accent); font-weight: 700;">1,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right;">-4,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; color: var(--success); font-weight: 700;">-80 %</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="table-summary-row">
+              <td style="font-weight: 800; text-transform: uppercase;">Gesamte Durchlaufzeit</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800;">40,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800; color: var(--accent);">7,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800; color: var(--success);">-33,0 Std.</td>
+              <td style="font-family: var(--font-mono); text-align: right; font-weight: 800; color: var(--success);">-82,5 %</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- 5-Stage Human-in-the-Loop Sequence Rail -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Das 5-Stufen-System: Vom Intake bis zum Live-Launch
+      </h3>
+      <div class="pipeline-rail" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 01</span>
+          <h4 class="node-title">Intake &amp; Normalisierung</h4>
+          <p class="node-desc">50 Kundenfragen und Geschäftsdaten werden vorab geprüft, damit kein Launch-Fehler durchrutscht.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 02</span>
+          <h4 class="node-title">Recherche &amp; Intent-Mining</h4>
+          <p class="node-desc">Foren-Scraping in der Zielgruppe, Emotions-Extraktion und Eingrenzung nach Fahrzeit-Radius.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 03</span>
+          <h4 class="node-title">Asset-Generierung</h4>
+          <p class="node-desc">RSA-Headline-Matrix, Negative-Keyword-Listen und 17-teilige Landingpage-Copy.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 04</span>
+          <h4 class="node-title">Human-QA-Gate &amp; Linter</h4>
+          <p class="node-desc">Fünf schnelle Checks prüfen Anzeigenlänge, Google-Regeln und Angebotsstärke.</p>
+        </div>
+        <div class="pipeline-node" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Stufe 05</span>
+          <h4 class="node-title">Tracking &amp; Launch</h4>
+          <p class="node-desc">15-Schritte-SOP für GTM-Tags, GA4-Conversion-Events und Clarity-Heatmaps.</p>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: 50-FIELD INTAKE SCHEMA (Collapsible: Preview 7 Rows + Expand Button) -->
+    <section id="intake" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">02 // Datenvertrag &amp; Governance</span>
+        <h2 class="section-title-modern">Standardisiertes 50-Felder-Kunden-Intake-Schema</h2>
+        <p class="section-desc-modern">
+          Wenn du eine KI mit chaotischen Meeting-Notizen fütterst, spuckt sie nutzloses Marketing-Blabla aus und erfindet Fakten. Deshalb haben wir einen strikten 50-Fragen-Bogen gebaut. Wir füllen alles vorab aus&mdash;die größten Kundenprobleme, genaue Einzugsgebiete und verbotene Wörter&mdash;bevor die KI ein einziges Wort schreibt.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 6%;">#</th>
+              <th style="width: 22%;">Kategorie</th>
+              <th style="width: 26%;">Standardisiertes Intake-Feld</th>
+              <th style="width: 22%;">Interner Schema-Key</th>
+              <th style="width: 24%;">Zweck in der Pipeline</th>
+            </tr>
+          </thead>
+          <tbody id="schema-tbody">
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">01</td>
+              <td><span class="tag-pill">Unternehmensidentität</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Unternehmensname</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">business_name</td>
+              <td>Für Google-Ads-Kontonamen, Kampagnen-Taxonomie und rechtliche Pflichtangaben.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">02</td>
+              <td><span class="tag-pill">Unternehmensidentität</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Branche / Kategorie</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">industry_category</td>
+              <td>Definiert Basis-CPC-Benchmarks, erwartete Conversion-Raten und regulatorische Risiken.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">03</td>
+              <td><span class="tag-pill">Standort &amp; Zeiten</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Physische Adresse</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">address</td>
+              <td>Ermöglicht Google-Unternehmensprofil-Sync und Umkreis-Targeting-Berechnungen.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">04</td>
+              <td><span class="tag-pill">Vertrauen &amp; Recht</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Lizenzen &amp; Registernummern</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">licenses_numbers</td>
+              <td>Unverzichtbar für die Google-Werbetreibenden-Verifizierung und Trust-Badges above-the-fold.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">05</td>
+              <td><span class="tag-pill">Standort &amp; Zeiten</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Öffnungszeiten</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">operating_hours</td>
+              <td>Steuert den automatischen Werbezeitplaner (Dayparting), damit außerhalb der Zeiten kein Geld verbrennt.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">06</td>
+              <td><span class="tag-pill">Standort &amp; Zeiten</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Feiertage &amp; Sonderzeiten</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">special_hours</td>
+              <td>Automatisiert saisonale Gebotspausen bei Betriebsferien, um Streuverluste zu vermeiden.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">07</td>
+              <td><span class="tag-pill">Kontaktkanäle</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Primäres Telefon (für Ads)</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">phone_primary</td>
+              <td>Direkter Input für Google-Ads-Anruferweiterungen und mobile Click-to-Call-Anzeigen.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">08</td>
+              <td><span class="tag-pill">Kontaktkanäle</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Sekundäres Telefon (Backup)</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">phone_secondary</td>
+              <td>Backup-Rufnummer für Multi-Agent- oder Überlauf-Routing.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">09</td>
+              <td><span class="tag-pill">Kontaktkanäle</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Primäre Benachrichtigungs-E-Mail</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">email_primary</td>
+              <td>Konfiguriert sofortige E-Mail-Webhook-Alerts bei Formular-Einsendungen.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">10</td>
+              <td><span class="tag-pill">Kontaktkanäle</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Sekundäre Benachrichtigungs-E-Mail</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">email_secondary</td>
+              <td>Backup-Empfänger für CRM-Verteilung und Lead-Tracking.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">11</td>
+              <td><span class="tag-pill">Social &amp; Digital-Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Facebook-Seiten-URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_facebook</td>
+              <td>Retargeting-Asset-Referenz und Social-Verification-Nachweis.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">12</td>
+              <td><span class="tag-pill">Social &amp; Digital-Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Instagram-Profil-URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_instagram</td>
+              <td>Visuelle Asset-Referenz und plattformübergreifende Retargeting-Verknüpfung.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">13</td>
+              <td><span class="tag-pill">Social &amp; Digital-Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">LinkedIn-Profil-URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_linkedin</td>
+              <td>B2B-Autoritätsnachweis und Verifizierung des Führungsteams.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">14</td>
+              <td><span class="tag-pill">Social &amp; Digital-Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">TikTok-Profil-URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_tiktok</td>
+              <td>Kurzvideo-Referenz für Top-of-Funnel-Creatives.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">15</td>
+              <td><span class="tag-pill">Social &amp; Digital-Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">X-(Twitter-)Profil-URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_x_twitter</td>
+              <td>Öffentlicher Social-Verification-Link.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">16</td>
+              <td><span class="tag-pill">Social &amp; Digital-Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">YouTube-Kanal-URL</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_youtube</td>
+              <td>Längere Erklärvideos zum direkten Einbetten auf der Landingpage.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">17</td>
+              <td><span class="tag-pill">Social &amp; Digital-Assets</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Weitere Social-Media-Links</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">url_additional_social</td>
+              <td>Vollständige Prüfung der digitalen Präsenz.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">18</td>
+              <td><span class="tag-pill">Technische Infrastruktur</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Hosting-Anbieter</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">hosting_provider</td>
+              <td>Bestimmt Caching-Konfiguration, Server-Antwortzeiten und SSL-Zertifikate.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">19</td>
+              <td><span class="tag-pill">Technische Infrastruktur</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Domain-Registrar</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">domain_registrar</td>
+              <td>Konfiguriert DNS-Einträge für dedizierte Ad-Subdomains und Tracking-TXT-Verifizierung.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">20</td>
+              <td><span class="tag-pill">Technische Infrastruktur</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Primäre Website</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">primary_website</td>
+              <td>Geprüft auf Message Match, Basis-Design und Marken-Farbpalette.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">21</td>
+              <td><span class="tag-pill">Technische Infrastruktur</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Relevante Logins &amp; Zugriffe</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">system_logins</td>
+              <td>Gewährt Zugriff auf Google Ads, Google Tag Manager (GTM), GA4, Search Console und Microsoft Clarity.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">22</td>
+              <td><span class="tag-pill">Kunden-Psychografie</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Primäre Zielgruppe</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">target_audience</td>
+              <td>Speist den demografischen Kontextblock im System-Prompt des FastFlow Marketing Copy Bots.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">23</td>
+              <td><span class="tag-pill">Kunden-Psychografie</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Ziel-Altersgruppe</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">age_bracket</td>
+              <td>Steuert demografische Gebotsanpassungen in Google Ads (-100 % oder positive Multiplikatoren).</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">24</td>
+              <td><span class="tag-pill">Kunden-Psychografie</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Geschlechterverteilung</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">gender_ratio</td>
+              <td>Formt Tonalität, Bildsprache und konkretes Problem-Framing.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">25</td>
+              <td><span class="tag-pill">Kunden-Psychografie</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Geografisches Zielgebiet</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">geo_target_area</td>
+              <td>Fließt in den Bulk-Postleitzahlen-Prompt mit 60-Minuten-Fahrzeit-Grenze ein.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">26</td>
+              <td><span class="tag-pill">Kunden-Psychografie</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Dringendste Bedürfnisse &amp; Schmerzpunkte</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">urgent_pain_points</td>
+              <td>Direkt übersetzt in Google-Ads-RSA-Titel und Landingpage-Lead-Agitation.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">27</td>
+              <td><span class="tag-pill">Kunden-Psychografie</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Bildungsstand</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">education_level</td>
+              <td>Passt die Wortwahl an die Zielgruppe an, damit Texte natürlich und nicht akademisch klingen.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">28</td>
+              <td><span class="tag-pill">Kunden-Psychografie</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Beruf / Jobrollen</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">job_roles</td>
+              <td>Liefert B2B-Keyword-Intent-Modifier und steuert Negative-Keyword-Ausschlüsse.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">29</td>
+              <td><span class="tag-pill">Kunden-Psychografie</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Monatliches Einkommen</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">income_level</td>
+              <td>Basis für Google-Ads-Household-Income-(HHI-)Stufen und Preis-Framing.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">30</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Der beschissene &#39;Vorher-Zustand&#39;</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">before_state_unfiltered</td>
+              <td>Der emotionale Kern: treibt den PAS-(Problem-Agitate-Solve-)Hero-Hook und den Eyebrow.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">31</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Wunschergebnis (Was wir wirklich verkaufen)</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">dream_outcome</td>
+              <td>Verankert Titel #1 und die Hero-Headline (&#39;Verkaufe das Ziel, nicht das Flugticket&#39;).</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">32</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">5 Fragen zur Kaufentscheidung</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">decision_questions_5</td>
+              <td>Direkt in die Vergleichstabelle und FAQ-Einwandbehandlung übernommen.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">33</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Was sie schon erfolglos probiert haben</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">previous_failed_attempts</td>
+              <td>Speist die Sektion &#39;Warum wir anders sind&#39;, indem gescheiterte Alternativen entkräftet werden.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">34</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Top 5 Schmerzpunkte</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">top_pain_points_5</td>
+              <td>Aufgeteilt in dedizierte Anzeigengruppen und die 3-spaltige Lead-Agitation-Sektion.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">35</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Top 5 Hürden &amp; Einwände</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">top_objections_5</td>
+              <td>Entkräftet durch Friction Eliminators unter CTA-Buttons und klare Garantien.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">36</td>
+              <td><span class="tag-pill">Core Direct Response</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Exakte Phrasen &amp; Kundenslang</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">customer_slang_phrases</td>
+              <td>Wortwörtlich in Phrase-Match- und Exact-Match-Varianten injiziert für besseren Quality Score.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">37</td>
+              <td><span class="tag-pill">Angebot &amp; Produkt</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Zielangebot / Kernleistung</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">target_core_offer</td>
+              <td>Fokussiert auf exakt eine Kernleistung, damit wir keine Klicks an unpassende Sucher verschwenden.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">38</td>
+              <td><span class="tag-pill">Angebot &amp; Produkt</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Top 3 Kernvorteile</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">top_benefits_3</td>
+              <td>Übertragen in RSA-Callout-Erweiterungen und die 3 Bullets above-the-fold.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">39</td>
+              <td><span class="tag-pill">Angebot &amp; Produkt</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Haupt-Alleinstellungsmerkmal</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">primary_differentiator</td>
+              <td>Basis für den &#39;Differentiator&#39;- und den &#39;8 Gründe für uns&#39;-Block.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">40</td>
+              <td><span class="tag-pill">Angebot &amp; Produkt</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Beliebte Leistungsmerkmale</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">popular_features</td>
+              <td>Direkt unter der Hero-Sektion als sekundäre Bestätigungssignale platziert.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">41</td>
+              <td><span class="tag-pill">Marke &amp; Ton</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Brand Voice in 3 Worten</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">brand_voice_3_words</td>
+              <td>Harte Leitplanke im FastFlow Marketing Copy Bot gegen generische KI-Floskeln.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">42</td>
+              <td><span class="tag-pill">Marke &amp; Ton</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Bevorzugte Tonalität</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">preferred_copy_tone</td>
+              <td>Steuert den Stil (autoritativ, direkt, empathisch, mutig) über alle Assets hinweg.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">43</td>
+              <td><span class="tag-pill">Angebot &amp; Produkt</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Sonderangebote &amp; Aktionen</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">promotions_bonuses</td>
+              <td>Strukturiert im Golden-Hippo-Angebot mit dynamischen Monatsboni.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">44</td>
+              <td><span class="tag-pill">Vertrauen &amp; Social Proof</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Referenzen, Garantien, Trust-Proof</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">proof_testimonials</td>
+              <td>Eingebettet in Friction Remover, Testimonial-Überschriften und Risiko-Umkehr-Microcopy.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">45</td>
+              <td><span class="tag-pill">Historische Performance</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Historisch erfolgreiche Keywords</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">historical_winning_keywords</td>
+              <td>Als prioritäre Exact-Match-Keywords mit eigenen manuellen Gebots-Caps gesichert.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">46</td>
+              <td><span class="tag-pill">Leitplanken &amp; Negatives</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Negative Keywords &amp; Tabu-Themen</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">negative_themes_excluded</td>
+              <td>Ausschlussregeln in unseren Sicherheits-Checks, um die Markenreputation sauber zu halten.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">47</td>
+              <td><span class="tag-pill">Wettbewerbsumfeld</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Top 3 direkte Wettbewerber</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">direct_competitors_3</td>
+              <td>Für Wettbewerbs-Anzeigenanalyse (isearchfrom.com) und negatives Wettbewerber-Routing.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">48</td>
+              <td><span class="tag-pill">Wettbewerbsumfeld</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Unbesetzte Marktlücke</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">market_whitespace_gap</td>
+              <td>Verankert die Big Idea und den zentralen Hook der Direct-Response-Landingpage.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">49</td>
+              <td><span class="tag-pill">Operative Hinweise</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Zusätzlicher operativer Kontext</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">operational_edge_notes</td>
+              <td>Sonderfälle, Saisonalität oder regulatorische Vorgaben für das Human-QA-Gate.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">50</td>
+              <td><span class="tag-pill">Operative Hinweise</span></td>
+              <td style="font-weight: 700; color: var(--ink);">Zeitstempel &amp; Formular-Validierung</td>
+              <td style="font-family: var(--font-mono); color: var(--accent);">timestamp_verification</td>
+              <td>Friert den Briefing-Snapshot ein; spätere Änderungen erfordern dokumentierte Change Orders.</td>
+            </tr>
+            <tr class="table-expand-row">
+              <td colspan="5">
+                <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'schema-tbody', 'Intake-Felder', 50, 7)">
+                  <span class="btn-table-text">Alle 50 Intake-Felder anzeigen (43 weitere)</span>
+                  <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+              </td>
+            </tr>
+            <tr class="table-summary-row">
+              <td colspan="2" style="font-weight: 800; text-transform: uppercase;">Schema-Gesamt</td>
+              <td style="font-weight: 700;">50 geprüfte Felder</td>
+              <td style="font-family: var(--font-mono); color: var(--accent); font-weight: 700;">100 % deterministisch</td>
+              <td style="color: var(--success); font-weight: 700;">Null Datenlücken vor dem ersten Prompt</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: SETUP & TRACKING SOP (Collapsible: Preview 6 Rows + Expand Button) -->
+    <section id="setup" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">03 // Setup-Checkliste</span>
+        <h2 class="section-title-modern">15-Schritte-Tracking-Checkliste: Schluss mit Blindflug-Budget</h2>
+        <p class="section-desc-modern">
+          Ads ohne Tracking zu schalten ist wie Geld in ein schwarzes Loch zu werfen. Du hast keine Ahnung, was funktioniert. Wir nutzen eine strikte 15-Schritte-Checkliste für Google Tag Manager und Analytics, damit wir jeden einzelnen Klick, Anruf und Lead messen, bevor der erste Cent ausgegeben wird.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 6%;">#</th>
+              <th style="width: 22%;">System / Plattform</th>
+              <th style="width: 28%;">Standardisierte Aufgabe</th>
+              <th style="width: 44%;">Operative Umsetzungsspezifikation</th>
+            </tr>
+          </thead>
+          <tbody id="sop-tbody">
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">01</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Google Drive</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Ordnerstruktur &amp; Template-Setup</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Kundenordner unter KUNDEN anlegen mit Unterordnern: Logo, Collateral (Kunden-Schreibzugriff) und SEA (Search Engine Advertising / Google Ads). Kunden-Template-Sheet duplizieren.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">02</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">FastFlow Marketing Account</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Automatischer Onboarding-Webhook</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Custom Fields &#39;Ads Questionnaire URL&#39; und &#39;Collateral Drive URL&#39; konfigurieren. Onboarding-E-Mail geht automatisch raus, sobald die Felder befüllt sind.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">03</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Kunden-Discovery-Meeting</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Erwartungen &amp; Metrik-Taktung</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Kickoff-Alignment (Agreement, Reality, Communication - ARC). Metrik-Hierarchie klären: Klicks &amp; CTR (Click-Through-Rate) zuerst, dann Conversions, CVR (Conversion-Rate), Cost Per Conversion und ROAS (Return on Ad Spend). Tägliche/wöchentliche/monatliche SLAs festlegen.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">04</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Google-Ads-Konto</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Konto-Governance &amp; Verifizierung</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Kontoname, Währung, primäre + Backup-Zahlungsdaten, Datenschutzkontakte, Werbetreibenden-Verifizierung und Domain-Beschränkungen einrichten.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">05</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Looker Studio</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Kunden-Reporting-Dashboard</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Dedizierte Datenquelle nach Konvention &#39;Google Ads | Customer&#39; anlegen. Standardisiertes Agentur-Report-Template duplizieren.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">06</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Google Tag Manager (GTM)</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Tag-ID-Variable &amp; Basis-Config</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Konstante Variable für Google Tag ID (AW-XXXXXXXXXXX) anlegen. Basis-Google-Tag auf All Pages (Initialization) ausspielen.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">07</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">GTM Custom Events</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Click-to-Call-Link-Tracking</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Trigger: Klick - Nur Links | Click URL enthält &#39;tel:&#39;. Entspricht exakt dem GA4-Key-Event &#39;click_link_phone&#39;.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">08</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">GTM Custom Events</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Click-to-Email-Link-Tracking</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Trigger: Klick - Nur Links | Click URL enthält &#39;mailto:&#39;. Event-Name: &#39;click_link_mail&#39;.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">09</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">GTM Custom Events</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Formular-Absende-Tracking</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Trigger: Seitenaufruf | Page URL enthält &#39;/ty-submit-form&#39; (oder Danke-Seiten-Marker). Event-Name: &#39;form_submit&#39;.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">10</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">GTM Custom Events</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Terminbuchungs-Tracking</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Trigger: Seitenaufruf | Page URL enthält &#39;/ty-meeting-booked&#39;. Event-Name: &#39;meeting_booked&#39;.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">11</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">GTM Conversion Linker</span></td>
+              <td style="font-weight: 600; color: var(--ink);">First-Party-Attributions-Tag</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Conversion Linker auf All Pages ausspielen, damit Google Click Identifiers (GCLID) bei Domain-Weiterleitungen erhalten bleiben.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">12</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Google Analytics 4</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Key-Event-Normalisierung &amp; Verknüpfung</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Verwaltung / Property / Ereignisse. Events anlegen und als Key Events markieren. Google Ads und Search Console verknüpfen.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">13</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Retargeting-Infrastruktur</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Google Signals &amp; Zielgruppen</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Google Signals aktivieren. Zielgruppe anlegen: &#39;Alle Besucher&#39; ohne &#39;is_conversion_event&#39;.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">14</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Microsoft Clarity</span></td>
+              <td style="font-weight: 600; color: var(--ink);">Session-Recording &amp; Heatmap-Setup</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Clarity-Tracking-Script über Google Tag Manager (GTM) einbinden. Google Analytics 4 (GA4) und Google Ads für visuelles Session-Audit der Abbruchpunkte verknüpfen.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">15</td>
+              <td style="font-weight: 700; color: var(--ink);"><span class="tag-pill">Google-Ads-Conversions</span></td>
+              <td style="font-weight: 600; color: var(--ink);">GA4-Import &amp; Anruf-Conversions</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">GA4-Key-Events importieren. Separate Conversion-Aktionen für &#39;Call Extension&#39; vs. &#39;Call Only Ads&#39; (1 Sek. Dauer, datengetrieben) manuell konfigurieren.</td>
+            </tr>
+            <tr class="table-expand-row">
+              <td colspan="4">
+                <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'sop-tbody', 'Infrastruktur-Schritte', 15, 6)">
+                  <span class="btn-table-text">Alle 15 Infrastruktur-Schritte anzeigen (9 weitere)</span>
+                  <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+              </td>
+            </tr>
+            <tr class="table-summary-row">
+              <td colspan="2" style="font-weight: 800; text-transform: uppercase;">Infrastruktur-Gesamt</td>
+              <td style="font-weight: 700;">15 standardisierte Schritte</td>
+              <td style="color: var(--success); font-weight: 700;">100 % vor Launch geprüft &bull; Kein einziger Lead geht verloren</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: RESEARCH & INTENT MINING PROMPTS (Unified Framed Artifact Deck) -->
+    <section id="prompts" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">04 // Intent-Mining &amp; Synthese</span>
+        <h2 class="section-title-modern">Zielgruppen-Recherche &amp; Intent-Mining-Prompts</h2>
+        <p class="section-desc-modern">
+          Gute Anzeigen entstehen nicht durch Raten im Konferenzraum. Sie entstehen, indem man echten Menschen beim Meckern zuhört. Wir durchforsten Reddit-Threads, echte Kundenbewertungen und sogar Stand-up-Comedy, um genau die Worte zu finden, die Leute benutzen, wenn sie wegen ihres Problems genervt sind.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- Framed Multi-Prompt Container Card -->
+      <div class="prompt-deck-container">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Produktions-Prompt-Vault</span>
+            <h3 class="prompt-deck-title">Vier praxiserprobte Recherche-Prompts</h3>
+            <p class="prompt-deck-desc" style="font-size: 0.85rem; color: var(--ink-muted); margin-top: 0.25rem;">
+              Prompts, die wir in Gemini Pro und Claude ausführen, um echten Kundenslang, rohe Beschwerden und exakte Einzugsgebiete zu gewinnen.
+            </p>
+          </div>
+          
+        </div>
+
+        <div class="prompt-deck-body">
+          <!-- Prompt 01 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">01</span>
+              <div>
+                <h4 class="prompt-item-title">Kunden-Schmerzpunkte &amp; Emotions-Mining</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Fragt nach Unternehmensname, Angebot und gelöstem Kernproblem. Generiert automatisch eine konversionsstarke 3-Fragen-Umfrage im direkten Du- und formellen Sie-Format, um ungeschönte Schmerzpunkte und Einwände aus Foren und Bewertungen zu sammeln.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_01_CUSTOMER_PAIN_POINTS_MINER.txt
+                </span>
+          <button class="btn-copy-icon" onclick="copySnippet('prompt-pain-points', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+            <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+              </div>
+              <pre id="prompt-pain-points" class="terminal-body">Rolle: Du bist mein &bdquo;Customer Survey Assistant&ldquo;. Erstelle eine kurze, wirkungsvolle Umfrage für meinen Kunden.
+Workflow:
+1. Stelle mir nacheinander folgende Fragen:
+   a) Wie lautet der Name des Unternehmens?
+   b) Welches konkrete Produkt oder welche Dienstleistung bietet das Unternehmen an?
+   c) Welches Kernproblem löst dieses Angebot bzw. welchen Hauptnutzen liefert es?
+2. Sobald alle Antworten vorliegen, erstelle die Umfrage sowohl im direkten Du-Format als auch im formellen Sie-Format:
+• Frage 1 – Ängste &amp; Sorgen: &bdquo;Was waren deine/Ihre 3 größten Bedenken oder Sorgen, bevor du dich/Sie sich für &lt;Angebot&gt; entschieden hast/haben?&ldquo;
+• Frage 2 – Ziele: &bdquo;Was war dein/Ihr wichtigstes Ziel oder Wunschergebnis bei der Entscheidung für &lt;Angebot&gt;?&ldquo;
+• Frage 3 – Kaufhemmnisse: &bdquo;Denke/Denken Sie an die Entscheidungsphase zurück: Welche offenen Fragen oder Zweifel gab es kurz vor der Zusage?&ldquo;</pre>
+            </div>
+          </div>
+
+          <!-- Prompt 02 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">02</span>
+              <div>
+                <h4 class="prompt-item-title">Social-Media-Hook-Transkripte Mining</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Sammelt &ge;150 echte Kundenzitate aus 10&ndash;20 Foren, Bewertungsportalen und Stand-up-Comedy-Programmen, um rohen Slang, typische Frustrationen und treffende Hooks zu finden.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_02_SOCIAL_HOOKS_CULTURE_MINER.txt
+                </span>
+          <button class="btn-copy-icon" onclick="copySnippet('prompt-social-hooks', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+            <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+              </div>
+              <pre id="prompt-social-hooks" class="terminal-body">Rolle: Du bist ein erfahrener Marktforschungs- &amp; Growth-/CRO-(Conversion-Rate-Optimization-)Stratege mit Live-Websuche und Daten-Synthese.
+Workflow:
+1. Input: Produktname, primäre Zielgruppen-Demografie, Haupt-Conversion-Ziel.
+2. Quellenauswahl: Identifiziere 10-20 Online-Quellen (Foren, Bewertungsportale, Nischen-Communities) mit öffentlichen Kommentaren &lt;= 24 Monate alt.
+3. Comedy-Insights: Suche auf Google/YouTube nach &bdquo;[Branche | Problem | Wunschergebnis] Stand up Comedy&ldquo;, um echte Pointen als qualitative emotionale Wahrheiten zu extrahieren.
+4. Data Mining: Sammle &gt;= 150 Datenpunkte insgesamt (&gt;= 30 pro Hauptkanal).
+5. Output: Markdown-Tabelle mit 2 Spalten: Kategorie | Insights.
+   Kategorien:
+   • Schmerzpunkte &amp; Probleme (Häufigkeit %)
+   • Wunschergebnisse / Vorteile
+   • Einwände &amp; wahrgenommene Risiken
+   • Exakte Kundensprache (wörtliche Zitate + Quellenangabe)
+   • Copy- &amp; Angle-Chancen
+   • Top 5 Messaging-Säulen + 3 Headline-Formeln</pre>
+            </div>
+          </div>
+
+          <!-- Prompt 03 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">03</span>
+              <div>
+                <h4 class="prompt-item-title">60-Minuten-Fahrzeit-Postleitzahlen-Generator</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Erstellt bulk-fertige Postleitzahlen-Listen innerhalb eines exakten 60-Minuten-Fahrtradius für lokales Umkreis-Targeting in Google Ads.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_03_DRIVE_TIME_POSTAL_CODE_ENGINE.txt
+                </span>
+          <button class="btn-copy-icon" onclick="copySnippet('prompt-postal-codes', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+            <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+              </div>
+              <pre id="prompt-postal-codes" class="terminal-body">Liste alle Postleitzahlen auf, die maximal 60 Fahrminuten von dieser Adresse entfernt liegen: &lt;address&gt;ADRESSE&lt;/address&gt;
+Schließe diese Städte/Landkreise aus: &lt;exclude_list&gt;STAEDTE_UND_KREISE&lt;/exclude_list&gt;
+Berücksichtige bekannte Referenzstädte wie: &lt;include_list&gt;STAEDTE&lt;/include_list&gt;
+Liefere eine saubere Liste im Format &bdquo;PLZ, Land&ldquo;, eine pro Zeile, direkt bereit für den Google-Ads-Bulk-Standortimport.</pre>
+            </div>
+          </div>
+
+          <!-- Prompt 04 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">04</span>
+              <div>
+                <h4 class="prompt-item-title">Negative-Suchbegriffe-Extraktionsfilter</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Nimmt rohe Google-Suchbegriffe, filtert unbrauchbare Anfragen heraus und zieht einzelne negative Keywords in Anführungszeichen, damit du kein Budget auf irrelevante Klicks verbrennst.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_04_NEGATIVE_SEARCH_TERMS_FILTER.txt
+                </span>
+          <button class="btn-copy-icon" onclick="copySnippet('prompt-neg-terms', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+            <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+              </div>
+              <pre id="prompt-neg-terms" class="terminal-body">Hier ist eine Liste von Google-Ads-Suchbegriffen: &lt;searchterms&gt;suchbegriff&lt;/searchterms&gt;
+Aufgaben:
+1. Frage mich: &bdquo;Beschreibe kurz das Hauptprodukt oder die Hauptdienstleistung, die du verkaufst.&ldquo;
+2. Leite Branche &amp; Nische ab. Bestätige: &bdquo;Deine Branche: [Branche] Deine Nische: [Nische] Richtig?&ldquo;
+3. Lösche jeden Begriff, der zu meiner Kernbranche oder Nische passt.
+4. Wähle aus jeder verbleibenden irrelevanten Phrase das aussagekräftigste Einzelwort.
+5. Gib diese Einzelwörter als Aufzählung aus, ein Wort pro Zeile, in Anführungszeichen (z. B. &bdquo;jobs&ldquo;, &bdquo;gehalt&ldquo;, &bdquo;kostenlos&ldquo;, &bdquo;selber machen&ldquo;), ohne Kommas, direkt bereit für die Negative-Keyword-Liste.</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: KEYWORDS & RSA COPY MATRIX -->
+    <section id="ads" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">05 // Suchmaschinenwerbung</span>
+        <h2 class="section-title-modern">Keywords, Match Types &amp; RSA-Copy-Matrix-Regeln</h2>
+        <p class="section-desc-modern">
+          Google Responsive Search Ads (RSAs) erzwingen starre Zeichengrenzen: Titel dürfen niemals 30 Zeichen überschreiten, Beschreibungen niemals 90 Zeichen, und Ausrufezeichen führen sofort zur Ablehnung. Die Prompt-Engine zerlegt die Generierung in isolierte, zeichenbegrenzte Asset-Module für 100 % Compliance beim Bulk-Upload.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <div class="tradeoff-grid">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">KISS-Keyword-Prinzip</span>
+          <h3 class="tradeoff-title">Pragmatisches Search-Bucketing</h3>
+          <p class="tradeoff-desc">Suchende tippen das absolute Minimum ein, um ihr akutes Problem zu lösen. Zu schlaue Keywords verbrennen Budget; bündele Leistungen in Single-Intent-Anzeigengruppen auf Basisebene (z. B. &#39;Notdienst Klempner&#39; vs. &#39;Industrie-Klempner&#39;) mit strikten Phrase-Negative-Listen gegen Kannibalisierung.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Wettbewerbs-Analyse</span>
+          <h3 class="tradeoff-title">isearchfrom.com-Protokoll</h3>
+          <p class="tradeoff-desc">Analysiere Anzeigentexte ethisch in hart umkämpften, teuren Großstadtmärkten (Dallas, Sydney, London), in denen Wettbewerber viel Geld in die Optimierung ihrer Angles stecken. Extrahiere funktionierende Headline-Strukturen und Risiko-Umkehr-Hooks&mdash;kopiere niemals blind Claims.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Headline-Blueprint</span>
+          <h3 class="tradeoff-title">3-Teile-Headline-Formel</h3>
+          <p class="tradeoff-desc">Aufbau: [Dauer / Konkretheit] + [Messbarer Nutzen] + [Action-Trigger] (z. B. &#39;Fahrtenbuch in 1 Wisch&#39;). Wichtige Regel: Anzeigentitel müssen exakt zum Hero-Text der Landingpage passen, um Quality Score und Conversion-Rate zu schützen.</p>
+        </div>
+      </div>
+
+      <!-- Keywords & RSA Prompt Deck Container -->
+      <div class="prompt-deck-container">
+        <div class="prompt-deck-header">
+          <div class="prompt-deck-title-group">
+            <span class="prompt-deck-kicker">Search- &amp; RSA-Prompt-Vault</span>
+            <h3 class="prompt-deck-title">Direktiven für Keywords &amp; Anzeigentexte</h3>
+            <p class="prompt-deck-desc">
+              Zwei Produktions-Prompts, um rohe Suchanfragen in Single-Intent-Anzeigengruppen zu clustern und zeichenbegrenzte RSA-Titel sowie Beschreibungen zu generieren.
+            </p>
+          </div>
+        </div>
+
+        <div class="prompt-deck-body">
+          <!-- Prompt 05 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">05</span>
+              <div>
+                <h4 class="prompt-item-title">Keyword-Intent-Clustering &amp; Match-Type-Formatierer</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Nimmt rohe Seed-Keywords und clustert sie in Single-Intent-Anzeigengruppen. Formatiert automatisch Exact-[Klammer]- und Phrase-"Anführungszeichen"-Syntax und baut strikte Negative-Listen gegen Streuverluste.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="4 17 10 11 4 5"></polyline>
+                    <line x1="12" y1="19" x2="20" y2="19"></line>
+                  </svg>
+                  PROMPT_05_KEYWORD_INTENT_CLUSTERING.txt
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('prompt-keyword-clustering', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </button>
+              </div>
+              <pre id="prompt-keyword-clustering" class="terminal-body">Handle als erfahrener Google-Ads-Search-Stratege &amp; Keyword-Researcher.
+
+Workflow-Direktiven:
+1. Pragmatische Seed-Anfragen:
+   • Starte mit der absolut kürzesten Phrase, die Kunden bei akuter Suche nach der Kernleistung eintippen (z. B. 'Notdienst Klempner', 'Gewerbe Architekt').
+   • Erweitere in logische Long-Tail-Problemanfragen nach Dringlichkeit, Ort und Kosten.
+2. Intent-Kategorisierung &amp; Strukturierung:
+   • Gib für jedes Keyword aus: Keyword | Match Type | Such-Intent | Negative-Kandidaten.
+   • Isoliere strikt in Single-Intent-Anzeigengruppen (z. B. 'Notdienst Klempner' vs. 'Gewerbe Klempner' vs. 'Abfluss verstopft') – mische niemals verschiedene Service-Intents in einer Gruppe.
+3. Syntax-Formatierung für Bulk-Import:
+   • Liefere 5 zentrale Keyword-Cluster in Google-Ads-Klammer-Syntax:
+     - [Exact Match] für High-Intent-Suchanfragen mit höchster Kaufabsicht.
+     - "Phrase Match" für kontrollierte Varianten ohne Themen-Drift.</pre>
+            </div>
+          </div>
+
+          <!-- Prompt 06 -->
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">06</span>
+              <div>
+                <h4 class="prompt-item-title">Responsive Search Ads (RSA) Copy-Matrix-Generator</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Generiert 15 Titel (&le;30 Zeichen) und 4 Beschreibungen (&le;90 Zeichen) in strikt zeichenbegrenzten Blöcken. Erzwingt null Ausrufezeichen, bindet Ortsnamen ein und passt exakt zur Hero-Copy der Landingpage.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_06_GOOGLE_ADS_RSA_GENERATION_MATRIX.txt
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('prompt-rsa-matrix', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="prompt-rsa-matrix" class="terminal-body">Handle als professioneller Direct-Response-Texter mit Fokus auf konversionsstarke Google Ads Responsive Search Ads (RSAs).
+
+Workflow-Direktiven:
+1. Input &amp; Markt-Benchmarking:
+   • Warte auf meinen Input: Wettbewerber-Titel, Wettbewerber-Beschreibungen und Wettbewerber-Callouts aus hart umkämpften Märkten (via isearchfrom.com).
+   • Gleiche alles mit den Parametern aus dem 50-Felder-Kunden-Intake-Schema ab.
+2. Diagnose-Fragebogen:
+   • Stelle mir Schritt für Schritt Diagnosefragen zu: Zielgruppen-Demografie, dringendsten Schmerzpunkten und Risiko-Umkehr-Angeboten.
+   • Zerlege die Wettbewerber-Positionierung, um Messaging-Lücken zu finden.
+3. Generierung der Anzeigen-Asset-Matrix (nach meinem &#39;Go&#39;-Signal):
+   Erstelle Texte unter strikter Einhaltung der Google-Ads-Zeichenlimits und Policy-Regeln:
+   • 20 Titel (EXAKT ≤30 Zeichen pro Titel):
+     - Keine Ausrufezeichen, keine Punkte am Ende, keine unbelegten Superlative (&#39;#1&#39;, &#39;Beste&#39;).
+     - Nutze die 3-Teile-Formel: [Dauer / Konkretheit] + [Messbarer Nutzen] + [Action-Trigger].
+   • 7-10 Beschreibungen (EXAKT ≤90 Zeichen pro Beschreibung):
+     - Klares Nutzenversprechen, deutlicher Unterschied zur Konkurrenz und reibungsfreier Call-to-Action.
+   • 15 Callout-Assets (EXAKT ≤25 Zeichen pro Callout):
+     - Konkrete Trust-Signale, Lieferzeit-Garantien und Friction Eliminators.
+   • 10 Sitelink-Assets:
+     - Direct-Response-Deep-Link-Titel (≤25 Zeichen) und Beschreibungen (≤35 Zeichen), passend zu den Landingpage-Ankern.
+4. Liefere zwei kalibrierte Angle-Varianten:
+   • Version A (Direkt &amp; Seriös): Klar, autoritativ, null Clickbait oder Klischees.
+   • Version B (Emotionales Direct Response): Starke Schmerz- und Empathie-Hooks für maximale Click-Through-Rate (CTR).</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: LANDING PAGE COPY BOT & 17 SECTIONS (Collapsible: Preview 6 Rows + Expand Button) -->
+    <section id="landing-page" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">06 // Conversion-Architektur</span>
+        <h2 class="section-title-modern">Landingpage-Engine &amp; FastFlow Direct-Response Copy Bot</h2>
+        <p class="section-desc-modern">
+          Qualifizierte Klicks auf eine generische Firmen-Startseite zu schicken vernichtet die Akquise-Marge. Der FastFlow Marketing Copy Bot kombiniert erprobte Direct-Response-Architekturen (Agora Direct Response, Gary Halbert, Dan Kennedy, Todd Brown) über 17 aufeinander aufbauende Module&mdash;und baut eine psychologische Brücke von der Suchanfrage direkt zum &#39;Golden Hippo&#39;-Angebot.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <div class="table-frame">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 6%;">#</th>
+              <th style="width: 26%;">Landingpage-Komponente</th>
+              <th style="width: 68%;">Direct-Response-Architektur &amp; Prompt-Regel</th>
+            </tr>
+          </thead>
+          <tbody id="lp-tbody">
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">00</td>
+              <td style="font-weight: 700; color: var(--ink);">Wettbewerber-Audit</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Wettbewerber-Landingpage logisch prüfen: Greifen Eyebrow, Headline, Bullets und CTA sauber ineinander? Besteht die Seite den &#39;Na und? Wen interessierts? Was habe ich davon?&#39;-Test?</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">01</td>
+              <td style="font-weight: 700; color: var(--ink);">FastFlow Marketing Copy Bot</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Persona: Direct-Response-Experte auf Basis von Dan Kennedy, Gary Halbert, Todd Brown und Agora Direct Response. Ton: Selbstbewusst, ohne Bullshit, nutzenorientiert. Antworten mit Präfix [FASTFLOW MARKETING COPY BOT].</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">02</td>
+              <td style="font-weight: 700; color: var(--ink);">Eyebrow-Erstellung</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">20 Varianten, die Zielgruppe, akutes Problem oder Wunschergebnis direkt ansprechen (z. B. &#39;Für [Zielgruppe], die endlich [Ergebnis] wollen&#39;). Top 5 gerankt.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">03</td>
+              <td style="font-weight: 700; color: var(--ink);">Headline-Erstellung</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">20 Above-the-Fold-Headlines (je 15-20 Wörter). Mutig, emotional packend, mit konkreten Zahlen (%, €, Anzahl, Zeitraum).</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">04</td>
+              <td style="font-weight: 700; color: var(--ink);">Bullet Points (USPs)</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">20 Nutzen-Bullets (je 5-8 Wörter). Müssen messbare Ergebnisse nennen, keine Features. Fokus auf gesparte Zeit, gesunkene Kosten oder mehr Umsatz.</td>
+            </tr>
+            <tr>
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">05</td>
+              <td style="font-weight: 700; color: var(--ink);">CTAs &amp; Friction Remover</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">20 handlungsorientierte CTAs inklusive Angebotsname. Kombiniert mit Friction Eliminators unter dem Button (z. B. &#39;4,9 Sterne | 34 Bewertungen | 100 % kostenloses Erstgespräch&#39;).</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">06</td>
+              <td style="font-weight: 700; color: var(--ink);">Lead-Sektion (Kurz/Lang)</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Empathie-Hook, der den frustrierenden Vorher-Zustand des Besuchers anerkennt. 3 Spalten mit programmatisch erzeugten Inline-SVG-Icons.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">07</td>
+              <td style="font-weight: 700; color: var(--ink);">Testimonials &amp; Social Proof</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">10 starke Sektions-Headlines (&#39;Warum 100+ Hausbesitzer uns vertrauen&#39;). 20 konkrete Kundenbewertungen mit Vorher-/Nachher-Ergebnis.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">08</td>
+              <td style="font-weight: 700; color: var(--ink);">Was Kunden wirklich wollen</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Sektions-Headline &lt;=10 Wörter; 20 Bullets (Titel &lt;=7 Wörter, Subtext &lt;=15 Wörter) mit passenden Inline-SVG-Vektor-Icons.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">09</td>
+              <td style="font-weight: 700; color: var(--ink);">Der Differentiator</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Format: Feature: Nutzen. Greift auf, was Wettbewerber schlecht lösen, und erklärt, warum unsere Service-Architektur anders funktioniert.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">10</td>
+              <td style="font-weight: 700; color: var(--ink);">8 Gründe für uns</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Headline-Format: &#39;X Gründe warum...&#39;. Bullets: Titel max. 7 Wörter; Beschreibung max. 20 Wörter. Stärkt Sicherheit und Vertrauen.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">11</td>
+              <td style="font-weight: 700; color: var(--ink);">So funktioniert&#39;s (3 Schritte)</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Macht den Ablauf mühelos. Schritt-Titel &lt;=7 Wörter; Beschreibung &lt;=17 Wörter. Baut gefühlte Hürden vor der Anfrage ab.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">12</td>
+              <td style="font-weight: 700; color: var(--ink);">Offer Call Out (Golden Hippo)</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Angebots-Titel + Premium-Bonus (dynamischer Monat) + klarer Zeitplan. Zeigt exakt, wie wenig Aufwand nötig ist.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">13</td>
+              <td style="font-weight: 700; color: var(--ink);">Vergleichstabelle</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">5-7 Vergleichskriterien zwischen unserem Angebot, alten Methoden und Wettbewerbern. Erkennt 1-2 Stärken der Konkurrenz fair an für maximale Glaubwürdigkeit.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">14</td>
+              <td style="font-weight: 700; color: var(--ink);">Für wen wir arbeiten</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Sagt klar, wem wir helfen UND wem nicht. Sortiert unpassende Leads aus, bevor sie das Formular absenden.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">15</td>
+              <td style="font-weight: 700; color: var(--ink);">FAQ &amp; Page Full Stop</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">5-15 starke Einwand-Antwort-Paare. Schließt mit Page Full Stop: 20 Abschluss-Headlines, 5 Recap-Bullets, CTA-Button und Garantie.</td>
+            </tr>
+            <tr class="table-row-hidden">
+              <td style="font-family: var(--font-mono); color: var(--ink-faint);">16</td>
+              <td style="font-weight: 700; color: var(--ink);">Copy-Tests &amp; CRO-Matrix</td>
+              <td style="color: var(--ink-muted); line-height: 1.55;">Jede Sektion geprüft gegen ELF/HALF, KLT, WIIFM, CUB und SO WHAT? auf einer 0-10-Skala für Überzeugungskraft, Klarheit, UX und SEO.</td>
+            </tr>
+            <tr class="table-expand-row">
+              <td colspan="3">
+                <button type="button" class="btn-table-toggle" onclick="toggleTableRows(this, 'lp-tbody', 'Landingpage-Module', 17, 6)">
+                  <span class="btn-table-text">Alle 17 Direct-Response-Module anzeigen (11 weitere)</span>
+                  <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+              </td>
+            </tr>
+            <tr class="table-summary-row">
+              <td colspan="2" style="font-weight: 800; text-transform: uppercase;">Sequenz-Gesamt</td>
+              <td style="color: var(--success); font-weight: 700;">17 Direct-Response-Module &bull; Erprobte Dan-Kennedy- &amp; Agora-Frameworks</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FastFlow Copy Bot Prompt Deck Container -->
+      <div class="prompt-deck-container">
+        <div class="prompt-deck-body">
+          <div class="prompt-deck-item">
+            <div class="prompt-item-header">
+              <span class="prompt-item-num">07</span>
+              <div>
+                <h4 class="prompt-item-title">FastFlow Direct-Response Copy Bot</h4>
+                <p class="prompt-item-desc"><strong>Ausführungs-Direktive:</strong> Generiert Texte für alle 17 Landingpage-Bausteine. Aktiviert Anti-Einheitsbrei-Filter, drei Hook-Varianten (Neugier, Schmerz, geprüfter Beweis) und führt direkt zum risikofreien Angebot.</p>
+              </div>
+            </div>
+            <div class="terminal-card">
+              <div class="terminal-header">
+                <span class="terminal-filename">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                  PROMPT_07_FASTFLOW_LANDING_PAGE_COPY_BOT.txt
+                </span>
+                <button class="btn-copy-icon" onclick="copySnippet('prompt-fastflow-bot', this)" title="In Zwischenablage kopieren" aria-label="In Zwischenablage kopieren">
+                  <svg class="copy-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="check-icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none; color: var(--success);"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              </div>
+              <pre id="prompt-fastflow-bot" class="terminal-body">Handle als erstklassiger Direct-Response-Texter und Marketing-Operations-Architekt auf Basis der Frameworks von Gary Halbert, Dan Kennedy, Todd Brown und Agora Direct Response.
+Persona-Direktiven:
+• Stimme: Selbstbewusst, klar, direkt auf den Punkt, null Konzern-Buzzwords. Jede Aussage besteht den Test: &#39;Na und? Wen interessierts? Was habe ich davon?&#39;
+• Struktur: Erstelle Texte strikt entlang der 17-teiligen FastFlow-Landingpage-Sequenz.
+• Ton-Leitplanken: Starte jede Antwort mit [FASTFLOW MARKETING COPY BOT]. Liefere für Textblöcke immer 3 verschiedene Angle-Varianten (Neugier, Schmerz-Agitation, geprüfter Beweis).
+• Anti-Slop-Filter: Benutze niemals leere Superlative (&#39;führend&#39;, &#39;bahnbrechend&#39;, &#39;innovativ&#39;). Ersetze alle Adjektive durch geprüfte Zahlen, konkrete Zeiträume und echte Euro-/Dollar-Ergebnisse.</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: DIAGNOSTIC & FAILURE MODE MATRIX (Strict 3-Column Grid) -->
+    <section id="diagnostics" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">07 // Operative Heuristiken</span>
+        <h2 class="section-title-modern">Diagnostik &amp; das 2-Krokodile-Modell</h2>
+        <p class="section-desc-modern">
+          Wenn eine Kampagne schlecht läuft, geraten unerfahrene Operatoren in Panik und schrauben gleichzeitig an Geboten, Anzeigentexten und Landingpage&mdash;womit sie die eigentliche Ursache komplett verschleiern. Das &#39;2-Krokodile-Modell&#39; erzwingt eine saubere Trennung: Click-Through-Rate (Anzeigenrelevanz) und Conversion-Rate (Reibung auf der Seite) werden getrennt entstört, um Fehler in unter 15 Minuten einzugrenzen.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <div class="tradeoff-grid tradeoff-grid-3col">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--warning);">
+          <span class="badge badge-warning" style="align-self: flex-start;">Risiko-Prinzip</span>
+          <h3 class="tradeoff-title">Das 2-Krokodile-Modell</h3>
+          <p class="tradeoff-desc">NIEMALS CTR und Conversion-Rate gleichzeitig optimieren. Anzeigen mit hoher CTR ziehen teils schwächere Klicks an; Textänderungen auf der Landingpage beeinflussen den Quality Score. Immer zuerst die CTR fixen (keine Klicks = keine Daten), dann die Conversion-Rate stabilisieren.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Fehlermodus 01</span>
+          <h3 class="tradeoff-title">Diagnose: Wenig Impressionen</h3>
+          <p class="tradeoff-desc">Prüfe auf: Keywords mit zu wenig Suchvolumen, Gebotsdruck durch Wettbewerber, schwachen Quality Score, zu breite Negative Keywords, Kannibalisierung zwischen Gruppen oder zu niedrige CPA-/CPC-Limits. Regel: Max. 15 % Gebots-/Budget-Erhöhung pro Monat mit 2 Wochen Beobachtungspuffer.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Fehlermodus 02</span>
+          <h3 class="tradeoff-title">Kontovertrauen &amp; Lieferstopps</h3>
+          <p class="tradeoff-desc">Plötzlicher Stopp ohne Warnung: Werbetreibenden-Verifizierung, Zahlungsstatus, fehlendes SSL-Zertifikat oder fehlerhafte Datenschutz-Links prüfen. Sofort Google-Support mit dokumentiertem Audit-Protokoll kontaktieren.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Fehlermodus 03</span>
+          <h3 class="tradeoff-title">Diagnose: Niedrige CTR (&lt;4 %)</h3>
+          <p class="tradeoff-desc">Zeigt an, dass Suchanfragen nicht zum Anzeigentext passen. Suchbegriffsbericht prüfen, RSA-Titel an Nutzer-Intent anpassen, Single Keyword Ad Groups (SKAGs) testen und CTA-Hooks tauschen.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--danger);">
+          <span class="badge badge-danger" style="align-self: flex-start;">Fehlermodus 04</span>
+          <h3 class="tradeoff-title">Niedrige Conversion-Rate (&lt;15 %)</h3>
+          <p class="tradeoff-desc">Zeigt einen Bruch zwischen Anzeigenversprechen und Landingpage-Hero. Mobile Ladezeit prüfen (&lt;2s), unnötige Formularfelder streichen und Microsoft-Clarity-Aufnahmen auswerten.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Operative Taktung</span>
+          <h3 class="tradeoff-title">Tages-, Wochen- &amp; Monats-SOP</h3>
+          <p class="tradeoff-desc" style="font-size: 0.82rem; line-height: 1.55;">
+            <strong>Täglich (5&ndash;15 Min.):</strong> Ausgabenspitzen, null Impressionen, Zahlungswarnungen, abgelehnte Anzeigen. Schnelles Negative-Keyword-Triage. <em>Niemals Strukturänderungen auf Basis von 1-Tages-Daten.</em><br>
+            <strong>Wöchentlich (30 Min.):</strong> Suchbegriffe in Negatives überführen; Auktionsdaten prüfen; Erweiterungen mit CTR &lt;4 % pausieren; Async-Loom-Video an den Kunden senden.<br>
+            <strong>Monatlich (30&ndash;60 Min.):</strong> Komplettes Quality-Score-Audit (Anzeigen mit QS &lt;5/10 pausieren); Gebotsanpassungen (Alter, Geschlecht, Einkommen, Gerät, Standort) prüfen; Performance-Max-Reife bewerten (&ge;30 stabile Conversions/Monat).
+          </p>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: 5 HEURISTIC LINTERS & QA GATE (Standard Black Text, Flat Cards, Zero Heavy Top Border) -->
+    <section id="quality-gate" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">08 // Quality-Assurance-Gate</span>
+        <h2 class="section-title-modern">Das Human-QA-Gate: 5 einfache Sicherheits-Checks</h2>
+        <p class="section-desc-modern">
+          Du verschwendest keine Zeit mehr vor einem leeren Blatt. Stattdessen bist du der Bullshit-Detektor und prüfst die KI-Entwürfe gegen 5 klare Regeln, bevor irgendetwas live geht.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <!-- Symmetrical Battlecards: Raw LLM Output vs. Human Gated (Zero Thick Top Border, Flat & Calm) -->
+      <div class="battlecard-grid">
+        <div class="battlecard legacy">
+          <span class="badge badge-danger" style="align-self: flex-start;">Roher LLM-Output (Abgelehnt)</span>
+          <h3>Google Ads Titel #1 (&le;30 Zeichen)</h3>
+          <div class="callout-box callout-danger" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Transform Your Home With The Best Premium Renovation Services"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Erkannter Fehler:</strong> Überschreitet 30 Zeichen (64 Zeichen); vage Konzern-Buzzwords (&#39;Best Premium Renovation&#39;); null Ortsbezug; führt beim Bulk-Upload sofort zur API-Ablehnung.
+          </p>
+        </div>
+
+        <div class="battlecard transformed">
+          <span class="badge badge-success" style="align-self: flex-start;">Human-Gated-Output (Freigegeben)</span>
+          <h3>Google Ads Titel #1 (&le;30 Zeichen)</h3>
+          <div class="callout-box callout-success" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Dallas Home Remodeling Pros"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Kalibrierter Fix:</strong> Exakt 27 Zeichen (besteht Googles 30-Zeichen-Grenze); enthält das exakte Zielgebiet (&#39;Dallas&#39;); glasklarer Direct-Response-Intent.
+          </p>
+        </div>
+      </div>
+
+      <div class="battlecard-grid" style="margin-top: 1.5rem;">
+        <div class="battlecard legacy">
+          <span class="badge badge-danger" style="align-self: flex-start;">Roher LLM-Output (Abgelehnt)</span>
+          <h3>Landingpage Hero-Eyebrow</h3>
+          <div class="callout-box callout-danger" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Welcome To Our Outstanding Medical Practice"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Erkannter Fehler:</strong> Fällt durch den WIIFM-Test; selbstbezogene Begrüßung; null emotionaler Hook; gibt dem Besucher keinen Grund weiterzulesen.
+          </p>
+        </div>
+
+        <div class="battlecard transformed">
+          <span class="badge badge-success" style="align-self: flex-start;">Human-Gated-Output (Freigegeben)</span>
+          <h3>Landingpage Hero-Eyebrow</h3>
+          <div class="callout-box callout-success" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"ARE YOU IN DENIAL ABOUT YOUR THINNING HAIR?"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Kalibrierter Fix:</strong> Trifft den Kunden genau da, wo es wehtut, indem der echte Frust in klaren Worten angesprochen wird; besteht den CUB-Test.
+          </p>
+        </div>
+      </div>
+
+      <div class="battlecard-grid" style="margin-top: 1.5rem;">
+        <div class="battlecard legacy">
+          <span class="badge badge-danger" style="align-self: flex-start;">Roher LLM-Output (Abgelehnt)</span>
+          <h3>Landingpage Subheadline</h3>
+          <div class="callout-box callout-danger" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"We Leverage Synergistic AI Systems To Help You Maximize Results"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Erkannter Fehler:</strong> KI-Einheitsbrei in Reinform. Verwirrend, unglaubwürdig und langweilig (CUB). Fällt sofort durch den &#39;Na und?&#39;-Test.
+          </p>
+        </div>
+
+        <div class="battlecard transformed">
+          <span class="badge badge-success" style="align-self: flex-start;">Human-Gated-Output (Freigegeben)</span>
+          <h3>Landingpage Subheadline</h3>
+          <div class="callout-box callout-success" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Save Up To $4,873 In Taxes With Automated ATO Logbooks"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Kalibrierter Fix:</strong> Besteht den &#39;Na und?&#39;-Test mit exaktem Geldwert ($4,873) und konkretem Compliance-Nutzen (ATO-Fahrtenbücher).
+          </p>
+        </div>
+      </div>
+
+      <div class="battlecard-grid" style="margin-top: 1.5rem;">
+        <div class="battlecard legacy">
+          <span class="badge badge-danger" style="align-self: flex-start;">Roher LLM-Output (Abgelehnt)</span>
+          <h3>Callout-Erweiterung (&le;25 Zeichen)</h3>
+          <div class="callout-box callout-danger" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"Fastest Response Time In The Whole Industry Guaranteed"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Erkannter Fehler:</strong> 55 Zeichen (Google lehnt &gt;25 Zeichen ab); unbelegter Superlativ-Claim, der Werberichtlinien-Warnungen auslöst.
+          </p>
+        </div>
+
+        <div class="battlecard transformed">
+          <span class="badge badge-success" style="align-self: flex-start;">Human-Gated-Output (Freigegeben)</span>
+          <h3>Callout-Erweiterung (&le;25 Zeichen)</h3>
+          <div class="callout-box callout-success" style="margin: 0.5rem 0;">
+            <div class="callout-text font-mono font-bold">"24-Hour Approval"</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--ink); line-height: 1.55;">
+            <strong>Kalibrierter Fix:</strong> 16 Zeichen (locker unter der 25-Zeichen-Grenze); konkret, greifbar und operativ belegbar.
+          </p>
+        </div>
+      </div>
+
+      <!-- The 5 Heuristic Linters Grid (Top Borders Restored) -->
+      <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 3rem 0 1rem;">
+        Die fünf deterministischen heuristischen Linter
+      </h3>
+      <div class="linters-grid">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 01</span>
+          <h3 class="tradeoff-title">ELF vs. HALF</h3>
+          <p class="tradeoff-desc"><strong>Kerntest:</strong> Ist die operative und Nutzererfahrung Easy, Lucrative &amp; Fun oder Hard, Annoying, Lame &amp; Frustrating?</p>
+          <div class="tradeoff-reason"><strong>Verhinderter Fehler:</strong> Klobige Mehrstufen-Formulare, doppelte Felder und unklare Buchungsabläufe mit hohen Abbruchraten.</div>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 02</span>
+          <h3 class="tradeoff-title">KLT-Faktoren (Know, Like, Trust)</h3>
+          <p class="tradeoff-desc"><strong>Kerntest:</strong> Sind Know-, Like- und Trust-Signale in jeder Scroll-Tiefe der Landingpage sichtbar?</p>
+          <div class="tradeoff-reason"><strong>Verhinderter Fehler:</strong> Gesichtslose Claims ohne Vertrauens-Badges, Lizenznummern oder echte Kundenbewertungen.</div>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 03</span>
+          <h3 class="tradeoff-title">WIIFM (What's In It For Me?)</h3>
+          <p class="tradeoff-desc"><strong>Kerntest:</strong> Beantwortet jede Headline sofort: &#39;Was habe ich davon?&#39;</p>
+          <div class="tradeoff-reason"><strong>Was er abfängt:</strong> Selbstbeweihräucherung über Firmen-Features statt Lösung für das Kundenproblem.</div>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 04</span>
+          <h3 class="tradeoff-title">CUB-Filter</h3>
+          <p class="tradeoff-desc"><strong>Kerntest:</strong> Klingt irgendeine Formulierung Confusing, Unbelievable oder Boring?</p>
+          <div class="tradeoff-reason"><strong>Verhinderter Fehler:</strong> Übertriebene Claims, sperriger Fachjargon und generische KI-Buzzwords, die Glaubwürdigkeit zerstören.</div>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Linter 05</span>
+          <h3 class="tradeoff-title">SO WHAT? (Die ROI-Brücke)</h3>
+          <p class="tradeoff-desc"><strong>Kerntest:</strong> Fördert die Frage &#39;Na und?&#39; bei jeder technischen Aussage einen greifbaren wirtschaftlichen Nutzen zutage?</p>
+          <div class="tradeoff-reason"><strong>Verhinderter Fehler:</strong> Nutzlose technische Details ohne Verknüpfung zu Umsatz oder Zeitersparnis.</div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 9: EVALUATED ALTERNATIVES & DECISION MATRIX (Zero Glow Shadow) -->
+    <section id="tradeoffs" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">09 // Strategische Entscheidung</span>
+        <h2 class="section-title-modern">Was wir getestet und wieder verworfen haben</h2>
+        <p class="section-desc-modern">
+          Gute Systeme zeigen sich nicht nur darin, was du baust&mdash;sondern auch darin, wozu du konsequent Nein sagst. Vor dieser Pipeline haben wir drei Ansätze getestet und zwei davon direkt wieder aussortiert.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <div class="tradeoff-grid">
+        <!-- Rejected 1 -->
+        <div class="tradeoff-card rejected">
+          <span class="badge badge-danger" style="align-self: flex-start;">Alternative A: Verworfen</span>
+          <h3 class="tradeoff-title">Unkontrollierte autonome Agenten</h3>
+          <p class="tradeoff-desc">Autonome LLMs Kampagnen direkt per API konfigurieren und veröffentlichen lassen – ohne menschliches Validierungs-Gate dazwischen.</p>
+          <div class="tradeoff-reason">
+            <strong>Begründung:</strong> LLMs halluzinieren regelmäßig richtlinienwidrige Superlative (&#39;#1&#39;, &#39;Garantiert&#39;). Direkte API-Veröffentlichung erzeugt ein inakzeptables 23-%-Risiko für Google-Ads-Kontosperren.
+          </div>
+        </div>
+
+        <!-- Rejected 2 -->
+        <div class="tradeoff-card rejected">
+          <span class="badge badge-danger" style="align-self: flex-start;">Alternative B: Verworfen</span>
+          <h3 class="tradeoff-title">Standard-SaaS-Wrapper</h3>
+          <p class="tradeoff-desc">Kommerzielle KI-Marketing-Tools (z. B. Jasper, Copy.ai) für die Kampagnen-Erstellung lizenzieren.</p>
+          <div class="tradeoff-reason">
+            <strong>Begründung:</strong> Generischen Prompt-Wrappern fehlen deterministische Zeichen-Linter und branchenspezifische Negative-Listen – bei 450 $/Seat/Monat und hoher Fehlerquote.
+          </div>
+        </div>
+
+        <!-- Accepted Engine -->
+        <div class="tradeoff-card accepted">
+          <span class="badge badge-success" style="align-self: flex-start;">Gebaute Lösung: Gewählt</span>
+          <h3 class="tradeoff-title">Deterministische HITL-Pipeline</h3>
+          <p class="tradeoff-desc">Human-in-the-Loop-Orchestrierung, die harte Regex-Linter mit verketteten LLM-Modulen und einem 15-Minuten-QA-Gate verbindet.</p>
+          <div class="tradeoff-reason">
+            <strong>Begründung:</strong> Null abgelehnte Anzeigen über 14 Deployments, 82,5 % kürzere Durchlaufzeit und null laufende Drittanbieter-SaaS-Gebühren.
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- SECTION 10: RETROSPECTIVE & OPERATIONAL PRINCIPLES -->
+    <section id="retrospective" class="doc-section">
+      <div class="section-header-modern">
+        <span class="section-eyebrow">10 // Executive-Synthese</span>
+        <h2 class="section-title-modern">Retrospektive: 3 Regeln, die wir hart gelernt haben</h2>
+        <p class="section-desc-modern">
+          KI im echten Marketing-Betrieb heißt nicht, clevere Prompts zu sammeln&mdash;es heißt, kugelsichere Systeme zu bauen. Nach diesen drei Regeln fahren wir jedes Projekt.
+        </p>
+      </div>
+
+      <div class="section-body">
+      <div class="tradeoff-grid">
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Prinzip 01</span>
+          <h3 class="tradeoff-title">Garbage In, Slop Out</h3>
+          <p class="tradeoff-desc">KI kann keine Gedanken lesen. Wenn du sie mit Müll fütterst, bekommst du KI-Einheitsbrei zurück. Wenn im Intake-Bogen Details fehlen, werden deine Anzeigen schwach. Gute Daten rein, starke Anzeigen raus. So einfach ist die Regel.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Prinzip 02</span>
+          <h3 class="tradeoff-title">Generierung automatisieren, Urteilskraft gaten</h3>
+          <p class="tradeoff-desc">Lass Experten niemals mechanische Rohtexte tippen – und lass Modelle niemals unkontrolliert über Compliance entscheiden. Der größte Hebel entsteht, wenn Menschen konsequent als Chief Quality Officers agieren.</p>
+        </div>
+        <div class="tradeoff-card" style="border-top: 4px solid var(--accent);">
+          <span class="badge badge-accent" style="align-self: flex-start;">Prinzip 03</span>
+          <h3 class="tradeoff-title">Heuristiken schlagen Black Boxes</h3>
+          <p class="tradeoff-desc">Deterministische Regex-Checks (&le;30 Zeichen, keine Ausrufezeichen, Pflicht-Ortsbezug) fangen 99 % aller Policy-Fehler vor dem Human-Review ab. Nutze niemals ein LLM für etwas, das eine Zeile Regex sicher beweisen kann.</p>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="site-footer"></footer>
+
+  </div>
+
+</body>
+</html>
